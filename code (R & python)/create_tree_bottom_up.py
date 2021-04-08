@@ -17,7 +17,7 @@ import pandas
 glottolog_data = Glottolog('data/glottolog_zenodo/glottolog-glottolog-1ff8114')
 top_node = glottolog_data.languoid('ocea1241') #This is where you specify which family we are pruning. This can either by a top-genetic languoid ("aust1307") or a sub-branch ("ocea1241").
 
-lg_list_fn = 'data/GB_wide.tsv' #This is the list of desired tips
+lg_list_fn = 'data/GB/GB_wide_binarised.tsv' #This is the list of desired tips
 
 lg_list = pandas.read_csv(lg_list_fn, sep='\t')
 lg_list = list(lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table

@@ -137,7 +137,7 @@ values_multi_only_binarized <- values_multi %>%
 
 stopifnot(all(!multistate_features %in% colnames(values_multi_only_binarized)))
 
-output_path <- file.path("data", "GB", "GB_wide_binraised.tsv")
+output_path <- file.path("data", "GB", "GB_wide_binarised.tsv")
 
 cat("Writing", output_path, "\n")
 
