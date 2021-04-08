@@ -27,4 +27,4 @@ tree.prune_by_names(lg_list, inverse=True) #pruning tree
 tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
 
 #print(tree.ascii_art()) #optional, makes ASII-art illustration of tree 
-newick.write(tree, "data/tree_newick.txt") #printing to file
+newick.write(tree, "data/trees/glottolog_4.3_tree_newick.txt") #printing to file
