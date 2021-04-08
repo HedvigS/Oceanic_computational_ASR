@@ -6,43 +6,42 @@ cat("checked pacman")
 
 pacman::p_load(
   tidyverse,
-  missForest,
   reshape2,
   modEvA,
-  rsq,
-  cluster,
+#  rsq,
+#  cluster,
   viridis,
-  rlang,
-  Amelia,
-  readODS,
   devtools,
-  matrixcalc,
-  forcats,
-  knitr, 
-  lazyeval,
-  gplots,
-  igraph,
-  geosphere,
-  diagram,
-  foreign, 
+  rlang,
+#  Amelia,
+  readODS,
+#  matrixcalc,
+#  forcats,
+#  knitr, 
+#  lazyeval,
+#  gplots,
+#  igraph,
+#  geosphere,
+ # diagram,
+#  foreign, 
   MASS, 
   colorspace,
   RColorBrewer,
-  wesanderson,
+#  wesanderson,
   randomcoloR,
   ggridges,
   ggplot2,
   ggthemes,
-  tidytree ,
-  sandwich, 
-  msm,
+#  tidytree ,
+ # sandwich, 
+ # msm,
   readxl,
   glue,
   broom, 
-  pscl,
+#  pscl,
   ggrepel,
   ggpubr,
-  cowplot,
+ # cowplot,
   fuzzyjoin,
   infotheo,
   rlist,
@@ -53,38 +52,36 @@ pacman::p_load(
   maps,
   mapproj,
   ggmap,
-  qgraph,
+#  qgraph,
   glue,
   stringi,
-  Rarity,
+#  Rarity,
   ape, 
   castor,
   naniar, 
   fields,
   adephylo,
   phytools,
-  diversitree,
-  phylobase, 
+#  diversitree,
+#  phylobase, 
   phangorn, 
-  treeman, 
-  devtools,
+#  treeman, 
   xtable,
   broom, 
-  sp, 
-  raster, 
+#  sp, 
+#  raster, 
   scales
 )
-cat("checked rest of packages")
 
+library(devtools)
+
+#installing pacakge corHMM from specific website
 if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
   install.packages("corHMM", repo = 'https://mac.R-project.org')
   library("corHMM")
   
 }
 library("corHMM")
-
-cat("checked corHMM")
-
 
 #quieting down tidyverse
 options(tidyverse.quiet = TRUE)
