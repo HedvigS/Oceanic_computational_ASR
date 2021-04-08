@@ -33,5 +33,6 @@ glottolog_tree:
 	python3 create_tree_bottom_up.py #will create a tree of Oceanic languages where the tips are languoids in grambank
 	@echo "Extracted Oceanic subgroup from glottolog tree and pruned so that all tips are languoids in Grambank."
 	
-gray_et_al_2009_tree
+gray_et_al_2009_tree:
+	Rscript get_gray_tree.R
 	
