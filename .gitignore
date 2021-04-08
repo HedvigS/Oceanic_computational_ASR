@@ -10,3 +10,6 @@
 *.png
 *.pdf
 
+#folders
+*glottolog_zenodo*
+*output/*
