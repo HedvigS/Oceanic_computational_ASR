@@ -14,7 +14,7 @@ from pyglottolog import Glottolog
 import newick
 import pandas
 
-glottolog_data = Glottolog('glottolog-glottolog-1ff8114')
+glottolog_data = Glottolog('data/glottolog_zenodo/glottolog-glottolog-1ff8114')
 top_node = glottolog_data.languoid('ocea1241') #This is where you specify which family we are pruning. This can either by a top-genetic languoid ("aust1307") or a sub-branch ("ocea1241").
 
 lg_list_fn = 'data/GB_wide.tsv' #This is the list of desired tips
@@ -22,11 +22,9 @@ lg_list_fn = 'data/GB_wide.tsv' #This is the list of desired tips
 lg_list = pandas.read_csv(lg_list_fn, sep='\t')
 lg_list = list(lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
 
-tree_leaf_names <- tree.get_leaf_names()
-
 tree = top_node.newick_node(template='{l.id}') #using the newick package to extract the entire tree
 tree.prune_by_names(lg_list, inverse=True) #pruning tree
 tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
 
 #print(tree.ascii_art()) #optional, makes ASII-art illustration of tree 
-newick.write(tree, "tree_newick.txt") #printing to file
+newick.write(tree, "data/tree_newick.txt") #printing to file
