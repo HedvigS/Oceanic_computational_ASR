@@ -11,7 +11,6 @@ pacman::p_load(
 #  rsq,
 #  cluster,
   viridis,
-  devtools,
   rlang,
 #  Amelia,
   readODS,
@@ -72,8 +71,6 @@ pacman::p_load(
 #  raster, 
   scales
 )
-
-library(devtools)
 
 #installing pacakge corHMM from specific website
 if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
