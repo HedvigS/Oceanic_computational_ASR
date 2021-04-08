@@ -4,6 +4,7 @@
 #r things
 *Rproj*
 *.rds*
+*Rhist*
 
 #plots
 *.png
