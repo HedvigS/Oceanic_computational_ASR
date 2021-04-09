@@ -13,18 +13,34 @@
 from pyglottolog import Glottolog 
 import newick
 import pandas
+import json
 
-glottolog_data = Glottolog('data/glottolog_zenodo/glottolog-glottolog-1ff8114')
-top_node = glottolog_data.languoid('ocea1241') #This is where you specify which family we are pruning. This can either by a top-genetic languoid ("aust1307") or a sub-branch ("ocea1241").
+def get_data():
+  with open("config.json", "r") as f:
+    config_dic = json.loads(f.read())
+    
+  glottolog_location = config_dic["data_sources"]["glottolog_tree"]["location"]
+  
+  glottolog_data = Glottolog(glottolog_location)
 
-lg_list_fn = 'data/GB/GB_wide_binarised.tsv' #This is the list of desired tips
+  return glottolog_data,config_dic["analysis_specs"]["top_node"]
 
-lg_list = pandas.read_csv(lg_list_fn, sep='\t')
-lg_list = list(lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
+def run():
+  glottolog_data, top_node_name = get_data()
+  
+  top_node = glottolog_data.languoid(top_node_name) 
 
-tree = top_node.newick_node(template='{l.id}') #using the newick package to extract the entire tree
-tree.prune_by_names(lg_list, inverse=True) #pruning tree
-tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
+  lg_list_fn = 'data/GB/GB_wide_binarised.tsv' #This is the list of desired tips
 
-#print(tree.ascii_art()) #optional, makes ASII-art illustration of tree 
-newick.write(tree, "data/trees/glottolog_4.3_tree_newick.txt") #printing to file
+  lg_list = pandas.read_csv(lg_list_fn, sep='\t')
+  lg_list = list(lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
+
+  tree = top_node.newick_node(template='{l.id}') #using the newick package to extract the entire tree
+  tree.prune_by_names(lg_list, inverse=True) #pruning tree
+  tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
+
+  #print(tree.ascii_art()) #optional, makes ASII-art illustration of tree 
+  newick.write(tree, "data/trees/glottolog_4.3_tree_newick.txt") #printing to file
+
+if __name__ =="__main__":
+  run()

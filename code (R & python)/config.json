@@ -1,0 +1,23 @@
+{"data_sources":{
+  "glottolog_cldf":{
+    "location":"data/zenodo/glottolog-glottolog-cldf-ac0d616",
+    "zenodo_url": "https://zenodo.org/record/4061165/files/glottolog/glottolog-cldf-v4.3.zip"
+  },
+  "glottolog_tree":{
+    "location": "data/zenodo/glottolog-glottolog-1ff8114",
+    "zenodo_url":"https://zenodo.org/record/4061162/files/glottolog/glottolog-v4.3.zip"
+  },
+  "grambank_cldf":{
+    "location":"../../grambank-cldf/cldf",
+    "zenodo_url":""
+  },
+  "d_place_gray_et_al_2009_tree":{
+    "location":"data/zenodo/D-PLACE-dplace-data-541f9f8",
+    "zenodo_url":"https://zenodo.org/record/4087918/files/D-PLACE/dplace-data-v2.2.0.zip"
+  }
+},
+"analysis_specs":{
+  "top_node":"ocea1241"
+}
+
+}

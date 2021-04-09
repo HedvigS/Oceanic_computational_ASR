@@ -13,7 +13,9 @@ pacman::p_load(
 
 #since grambank-cldf isn't public yet, I'm running things from the local machine clone in the meantime
 
-grambank_cldf_github_folder <- "../../grambank-cldf/cldf"
+config_json <- jsonlite::read_json("config.json")
+
+grambank_cldf_github_folder <- config_json$data_sources$grambank_cldf$location
 #grambank_cldf_github_folder <-"https://github.com/glottobank/grambank-cldf/tree/master/cldf"
 
 file_index_json <- list.files(grambank_cldf_github_folder) %>% grep(pattern = "json")
