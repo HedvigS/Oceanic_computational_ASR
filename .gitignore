@@ -5,6 +5,7 @@
 *Rproj*
 *.rds*
 *Rhist*
+*.Rdata*
 
 #plots
 *.png
@@ -16,3 +17,15 @@
 *to sort*
 *D-PLACE-dplace-data-541f9f*
 *glottolog-glottolog*
+*data*
+
+#latex
+*tex/*log
+*tex/*bbl
+*tex/*aux
+*tex/*blg
+*tex/*.out
+*tex/*gz
+
+
+
