@@ -57,7 +57,7 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
   dplyr::select(Glottocode, {{feature}}) %>% 
    tibble::deframe()
 
-cat("I've started running castor::asr_max_parsimony() on ", feature, ".\n")
+cat("I've started running castor::asr_max_parsimony() on ", feature, ".\n", sep = "")
 
 #running the ASR
 castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = gray_tree_pruned, Nstates = 2, transition_costs = "proportional")
@@ -93,7 +93,7 @@ fun_GB_ASR_Parsimony_all <- tibble(Feature_ID = GB_parameters,
                            content = purrr::map(GB_parameters,
                                                 fun_GB_ASR_Parsimony))
 
-saveRDS(fun_GB_ASR_Parsimony_all, "output/ASR/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
+saveRDS(fun_GB_ASR_Parsimony_all, "output/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
 
 ####PLOTTING TIME
 
@@ -103,7 +103,8 @@ colours <- c("#8856a7", "#ffffbf")
 
 ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
-  #  ACR_object <- fun_GB_ASR_Parsimony_all$content[[1]]
+  #If you want to step through this function chunkwise, uncomment these lines and run line by line
+#  ACR_object <- fun_GB_ASR_Parsimony_all$content[[1]]
 #   fsize = 0.35
 #    cex_tip = 0.13 
 #    cex_node = 0.2
@@ -115,7 +116,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  cat("I've started making the parsimony tree plot for ", feature, ". \n")
+  cat("I've started making the parsimony tree plot for ", feature, ". \n", sep = "")
   
   FN_ACR <- paste0("output/gray_et_al_2009/parsimony/tree_plots/parsimony_gray_tree_", feature, ".png")
   
@@ -137,4 +138,3 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 }
 
 lapply(X = fun_GB_ASR_Parsimony_all$content, ACR_plot)
-
