@@ -1,12 +1,21 @@
 source("requirements.R")
 
 #fetching the gray et al 2009 tree from dplace's github repos
-Gray_et_al_tree <- read.nexus("https://raw.githubusercontent.com/D-PLACE/dplace-data/master/phylogenies/gray_et_al2009/summary.trees")
-taxa <- read_csv("https://raw.githubusercontent.com/D-PLACE/dplace-data/master/phylogenies/gray_et_al2009/taxa.csv") %>% 
+
+config_json <- jsonlite::read_json("config.json")
+
+dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$location
+
+Gray_et_al_tree_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/summary.trees")
+Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
+
+
+Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
+taxa <- read_csv(Gray_et_al_tree_taxon_fn) %>% 
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere
 
 #reading in grambank data
-grambank_df <- read_tsv("data/GB/GB_wide_binraised.tsv") %>% 
+grambank_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>% 
   dplyr::select(Glottocode = Language_ID) %>% 
   mutate(in_GB = "Yes")
 
