@@ -1,11 +1,11 @@
 source("requirements.R")
 options(tidyverse.quiet = TRUE) 
 
-#This script reads in the gray et all tree, as prepped by get_gray_tree.R, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
+#This script reads in the gray et al 2009 tree, as prepped by get_gray_tree.R, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
 
-#reading in glottolog language table (to be used for aggregating to Language_level_ID)
+#reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
+  dplyr::select(Glottocode, level, classification, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was invidually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
 gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
@@ -60,7 +60,7 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
 cat("I've started running castor::asr_max_parsimony() on ", feature, ".\n", sep = "")
 
 #running the ASR
-castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = gray_tree_pruned, Nstates = 2, transition_costs = "proportional")
+castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = gray_tree_pruned, Nstates = 2, transition_costs = "all_equal")
 
 #setting up things for plotting later
 plot_title <- GB_df_desc %>% 

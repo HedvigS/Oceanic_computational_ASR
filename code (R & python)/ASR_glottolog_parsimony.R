@@ -58,7 +58,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   cat("I've started running castor::asr_max_parsimony() on ", feature, ".\n", sep = "")
   
   #running the ASR
-  castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = Glottolog_tree_full_pruned, Nstates = 2, transition_costs = "proportional")
+  castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = Glottolog_tree_full_pruned, Nstates = 2, transition_costs = "all_equal")
   
   #setting up things for plotting later
   plot_title <- GB_df_desc %>% 
