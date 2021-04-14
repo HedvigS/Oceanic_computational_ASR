@@ -20,12 +20,12 @@ requirements:
 		
 ## 2. import data
 
+get_glottolog_table: 
+	Rscript get_glottolog_language_table.R
+	
 get_grambank:
 	Rscript get_grambank_data.R 
 	@echo "Grambank cldf data made wide."
-
-get_glottolog_table: 
-	Rscript get_glottolog_table.R
 
 ## 3. prep trees
 	
@@ -35,4 +35,14 @@ glottolog_tree:
 	
 gray_et_al_2009_tree:
 	Rscript get_gray_tree.R
+	
+## 4 run ASR anlsysis
+# These scripts do the ASR and deposits the results in an Rdata file and makes a tree-plot for each feature and method and outputs a PNG file.
+max_parsimony:
+	Rscript ASR_glottolog_parsimony.R
+	Rscript ASR_gray_parsimony.R
+
+max_likelihood:
+
+
 	
