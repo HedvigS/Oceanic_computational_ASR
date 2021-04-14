@@ -1,13 +1,6 @@
 #This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
 
-if (!suppressPackageStartupMessages(require("pacman"))) { install.packages("pacman") } #if pacman isn't already installed, install it.
-
-pacman::p_load(
-  dplyr,#for data wrangling
-  jsonlite, #reading json files
-  stringr, #for string evaluation
-  readr #for reading in data files
-)
+source("requirements.R")
 
 #finding the filenames for the two tables we are interested in, the language and value tables. The specific filenames can vary, so instead of identifying them via the filename we should check which of the tables conform to particular CLDF-standards and then take the filenames for the tables that conform to those standards fromt the meta-datajson.
 
@@ -55,8 +48,7 @@ if (!dir.exists("data")) { dir.create("data") }
 values <- readr::read_csv(values_csv_fn, na = c("","<NA>"), col_types = cols()) %>% 
   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value") #making long data wide
 
-#binarising it 
-#GB contains a small set of multistate features. They can be binarised, but they need to be done so in a particular way. This code renders a appropriately binarised version of the dataset.
+
 
 #reading in the parameters table
 
@@ -77,6 +69,10 @@ codes_csv_fn <- file.path(grambank_cldf_github_folder, codes_fn_name ) #creating
 
 codes_df <- readr::read_csv(codes_csv_fn , na = c("","<NA>"), col_types = cols()) 
 
+
+#binarising it 
+#GB contains a small set of multistate features. They can be binarised, but they need to be done so in a particular way. This code renders a appropriately binarised version of the dataset.
+
 multistate_features <- codes_df  %>% 
   unite(col = possible_values_split, Name,  Description, sep = ": ") %>% 
   group_by(Parameter_ID) %>% 
@@ -90,6 +86,8 @@ multistate_features <- codes_df  %>%
 values_multi <- values %>% 
   column_to_rownames("Language_ID") %>% 
   dplyr::select(contains(multistate_features))
+
+
 
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
 if("GB024" %in% colnames(values_multi)){
@@ -140,13 +138,51 @@ stopifnot(all(!multistate_features %in% colnames(values_multi_only_binarized)))
 
 output_path <- file.path("data", "GB", "GB_wide_binarised.tsv")
 
-cat("Writing", output_path, "\n")
 
-values %>% 
+GB_wide <- values %>% 
   dplyr::select(-all_of(multistate_features)) %>% 
   full_join(values_multi_only_binarized) %>% 
-  dplyr::select(Language_ID, everything()) %>% # reordering columns for inspection convenience
+  dplyr::select(Language_ID, everything())  # reordering columns for inspection convenience
+
+##AGGREGATE dialects to langauge
+# In order for the rescaling of the branches to an ultrametric tree to make sense, we should aggregate all dialects to language level. Otherwise, we'd have dialects as tips alongside languages.
+
+#reading in glottolog language table (to be used for aggregating to Language_level_ID)
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+  dplyr::select(Language_ID= Glottocode, Language_level_ID, level)
+
+#One of the reasons this makes sense to do is because there are no dialect to dialect matches between the Grambank data and the gray et al 2009-tree. Let's just double check that though in case you added new coding. If there is a match, we should do things differently. The code flow to the next scripts will break if there is a match.
+config_json <- jsonlite::read_json("config.json")
+
+dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$location
+
+Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
+taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>% 
+  rename(Language_ID = glottocode) #to conform to what glottolog does elsewhere
+
+dialect_matches_gray_et_al_tree_grambank <- GB_wide %>% 
+  dplyr::select(Language_ID) %>% 
+  left_join(glottolog_df) %>% 
+  filter(level == "dialect") %>% 
+  inner_join(taxa) %>% nrow()
+
+if(dialect_matches_gray_et_al_tree_grambank == 0){
+  cat("There were no matches of dialect to dialect between the Gray et al 2009-tree and Grambank, therefore it makes sense to generally aggregate to language-level for both trees. \n")
+
+GB_wide %>% 
+  reshape2::melt(id.vars= "Language_ID") %>%
+  filter(value != "?") %>% #we want to pick a non-? value, so let's just remove the ? totally
+  left_join(glottolog_df) %>% 
+  group_by(Language_level_ID, variable) %>% 
+  sample_n(1) %>% #for rows where dialects of the same language are coded for the same feature, pick a value at random from the available one
+  reshape2::dcast(Language_level_ID ~ variable, value.var = "value") %>%
+  rename(Language_ID = Language_level_ID) %>% 
   write_tsv(output_path)
+
+cat("Wrote", output_path, "\n")
+
+################################
+
 
 #adapting the parameters file for the binarised features
 
@@ -227,3 +263,7 @@ Parameter_desc_binary %>%
   mutate(Binary_Multistate= ifelse(ID %in% multistate_features, "Multi", Binary_Multistate)) %>% 
   mutate(Binary_Multistate = ifelse(is.na(Binary_Multistate), "Binary", Binary_Multistate)) %>% 
   write_tsv(file.path("data", "GB", "parameters_binary.tsv"))
+
+cat("Wrote paramters_binar.tsv \n")
+
+} else{message("Stop the presses!!! There was a match of dialect to dialect between the Gray et al 2009-tree and Grambank! Let's have a rethink!")}
