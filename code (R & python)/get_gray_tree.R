@@ -9,8 +9,12 @@ dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$
 Gray_et_al_tree_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/summary.trees")
 Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
 
-
 Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
+
+if(!is.binary(Gray_et_al_tree) & !is.ultrametric(Gray_et_al_tree)){
+  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. The tree will be binarised during the analysis, but the branch lengths won't be modified (other than 0 branch lengths getting a tiny-tiny length).")
+}
+
 taxa <- read_csv(Gray_et_al_tree_taxon_fn) %>% 
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere
 
