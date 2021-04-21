@@ -1,5 +1,5 @@
 source("requirements.R")
-library(beepr)
+#library(beepr)
 
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
@@ -54,7 +54,7 @@ states <- feature_df[,2]  %>% table() %>% length()
 
 if(states == 1) {
   message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
-  beepr::beep(9)
+#  beepr::beep(9)
   
   results_df <- data.frame(
     Feature_ID = feature,
@@ -100,7 +100,7 @@ results_df <- data.frame(
 
 cat("Done with ASR ML on ", feature, ".\n", sep = "")
 
-beepr::beep(2)
+#beepr::beep(2)
 output <- list(corHMM_result_direct, results_df)
  output
 }
@@ -111,7 +111,7 @@ GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                                    content = purrr::map(GB_df_desc$ID,
                                                         fun_GB_ASR_ML ))
 
-beepr::beep(3)
+#beepr::beep(3)
 
 saveRDS(GB_ASR_ML_all, "output/gray_et_al_2009/ML/GB_ML_gray_tree.rds")
 
