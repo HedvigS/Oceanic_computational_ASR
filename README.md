@@ -5,9 +5,7 @@ This is a set of R scripts and one python scripts that take data on grammatical 
 # To note
 These scripts are set up to be run either from the command line or within Rstudio. The scripts are specifically fetching Grambank data as found in the clone of grambank/grambank-cldf.
 
-The 
-
-Necessary requirements beyond what is installed by scripts called here
+These scripts will install python and R packages for you. You can see which ones here ([python](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code%20(R%20%26%20python)/requirements.txt)) and here ([R](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code%20(R%20%26%20python)/requirements.R)).
 
 *  R should be installed. I haven't done testing, but it should most likely be at least R 3.0
 *  python3 should be installed
