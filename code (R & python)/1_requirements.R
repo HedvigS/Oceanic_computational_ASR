@@ -2,7 +2,6 @@
 # installed for running the rest of the scripts in this R project
 
 if (!suppressPackageStartupMessages(require("pacman"))) { install.packages("pacman") }
-cat("checked pacman")
 
 pacman::p_load(
   tidyverse,

@@ -1,4 +1,4 @@
-source("requirements.R")
+source("1_requirements.R")
 
 #fetching the gray et al 2009 tree from dplace's github repos
 
@@ -15,9 +15,10 @@ Gray_et_al_tree_taxon_fn <- "data/gray_et_al_2009_updated_taxa.csv"
 Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
 
 if(!is.binary(Gray_et_al_tree) & !is.ultrametric(Gray_et_al_tree)){
-  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. The tree will not be binraised or made ultrametric as this would distort the branch lengths in an inappropriate way.")
+  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. However, the tree will not be binraised or made ultrametric as this would distort the branch lengths in an inappropriate way.")
 }
 
+#reading in taxa data
 taxa <- read_csv(Gray_et_al_tree_taxon_fn) %>% 
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere 
 
@@ -30,9 +31,8 @@ grambank_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv")  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification) 
 
-
 ##remove duplicates manually
-# For each set of tips which have the same glottocode or are dialects of the same languagaes (and are in GB and in the Oceanic subbgranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed.
+# For each set of tips which have the same glottocode or are dialects of the same languagaes (and are in GB and in the Oceanic subbgranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed within the different dialect clusters.
 
 dup_to_remove <- c("Sisingga", 
                    "Carolinian",

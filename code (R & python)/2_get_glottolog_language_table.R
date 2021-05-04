@@ -49,8 +49,6 @@ for (table in glottolog_cldf_json$tables ) {
     if(table$`dc:conformsTo` == "http://cldf.clld.org/v1.0/terms.rdf#LanguageTable") {index_LangaugeTable <- index}
   }}
 
-
-
 #using the index we derived above, pulling out the filename for that table
 language_fn_name <- glottolog_cldf_json$tables[index_LangaugeTable][[1]]$url
 languages_csv_url <- paste0(glottolog_cldf_github_folder, language_fn_name) #creating the URL path

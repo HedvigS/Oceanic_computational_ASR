@@ -1,4 +1,4 @@
-source("requirements.R")
+source("1_requirements.R")
 options(tidyverse.quiet = TRUE)
 
 #This script reads in the glottolog 4.3 tree, as prepped by create_tree_bottom_up.py, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
@@ -31,13 +31,13 @@ fun_GB_ASR_Parsimony <- function(feature){
   #If you'd like to run this script chunk-wise on one feature to understand each step or to debug, you can assign GB020 to the argument "function" by running this line and then run the rest of the lines stepwise as you please.
   #feature <- "GB020" 
   
-  filter_criteria <- lazyeval::interp(~!is.na(x), .values = list(x = as.name(feature)))
+  filter_criteria <- paste0("!is.na(", feature, ")")
   
   to_keep <- Glottolog_tree_full$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 
-    left_join(GB_df_all) %>% 
-    filter_(filter_criteria) %>% #removing all tips that don't have data for the relevant feature
+    left_join(GB_df_all, by = "Glottocode") %>% 
+    filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     group_by(Glottocode) %>% 
     sample_n(1) %>% #removing all duplicate tips. This is done randomly for each iteration, i.e. everytime the function is run on each feature.
     dplyr::select(Glottocode, {{feature}})
@@ -51,11 +51,9 @@ fun_GB_ASR_Parsimony <- function(feature){
   feature_vec <-  Glottolog_tree_full_pruned$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 
-    left_join(GB_df_all) %>% 
+    left_join(GB_df_all, by = "Glottocode") %>% 
     dplyr::select(Glottocode, {{feature}}) %>% 
     tibble::deframe()
-  
-  cat("I've started running castor::asr_max_parsimony() on ", feature, ".\n", sep = "")
   
   #running the ASR
   castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = Glottolog_tree_full_pruned, Nstates = 2, transition_costs = "all_equal")
@@ -70,7 +68,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   Glottolog_tree_full_pruned_tip.labels_df <- Glottolog_tree_full_pruned$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 
-    left_join(glottolog_df) 
+    left_join(glottolog_df, by = "Glottocode") 
   
   Glottolog_tree_full_pruned$tip.label <- Glottolog_tree_full_pruned_tip.labels_df$Name
   
@@ -87,11 +85,11 @@ GB_parameters <- GB_df_desc  %>%
   as.matrix() %>% 
   as.vector()
 
-fun_GB_ASR_Parsimony_all <- tibble(Feature_ID = GB_parameters,
+GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
                                    content = purrr::map(GB_parameters,
                                                         fun_GB_ASR_Parsimony))
 
-saveRDS(fun_GB_ASR_Parsimony_all, "output/glottolog_tree_binary/parsimony/GB_parsimony_Glottolog_tree_full.rds")
+saveRDS(GB_ASR_Parsimony_all_df, "output/glottolog_tree_binary/parsimony/GB_parsimony_Glottolog_tree_full.rds")
 
 ####PLOTTING TIME
 
@@ -102,7 +100,7 @@ colours <- c("#8856a7", "#ffffbf")
 ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
   #If you want to step through this function chunkwise, uncomment these lines and run line by line
-  #  ACR_object <- fun_GB_ASR_Parsimony_all$content[[1]]
+  #  ACR_object <- GB_ASR_Parsimony_all_df$content[[1]]
   #   fsize = 0.35
   #    cex_tip = 0.13 
   #    cex_node = 0.2
@@ -113,8 +111,6 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   feature_tree <- ACR_object[[4]]
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
-  
-  cat("I've started making the parsimony tree plot for ", feature, ". \n")
   
   FN_ACR <- paste0("output/glottolog_tree_binary/parsimony/tree_plots/parsimony_glottolog_tree_", feature, ".png")
   
@@ -132,11 +128,28 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 
   dev.off()
   
-  cat("I've finished ", feature, ". \n", sep = "")
+  cat("I've finished the tree plot for ", feature, ". \n", sep = "")
   
 }
 
-lapply(X = fun_GB_ASR_Parsimony_all$content, ACR_plot)
+lapply(X = GB_ASR_Parsimony_all_df$content, ACR_plot)
+
+
+###Making a summary results table for easy comparison
+
+source("fun_custom_parsimony_results_table.R")
+
+df_parsimony_glottolog <- as.data.frame(do.call(rbind,(lapply(GB_ASR_Parsimony_all_df$Feature_ID, 
+                                                              fun_extract_tip_counts_parsimony_cost, ASR_tibble = GB_ASR_Parsimony_all_df))))
+
+
+df_parsimony_glottolog$ntips <- df_parsimony_glottolog$`1` + df_parsimony_glottolog$`2`
+
+df_parsimony_glottolog %>% 
+  rename(`0`= `1`) %>% 
+  rename(`1`= `2`) %>% 
+  write_csv("output/glottolog_tree_binary/parsimony/results.csv")
+
 
 
 

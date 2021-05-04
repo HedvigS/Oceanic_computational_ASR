@@ -1,9 +1,9 @@
-source("requirements.R")
+source("1_requirements.R")
 #library(beepr)
 
-#reading in glottolog language table (to be used for aggregating to Language_level_ID)
+#reading in glottolog language table (for names of tips)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
+  dplyr::select(Glottocode, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
 gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
@@ -12,13 +12,9 @@ gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newi
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
-  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
+  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_")) 
 
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
-
-
-
-
 
 ###ASR FUNCTION
 
@@ -28,13 +24,13 @@ fun_GB_ASR_ML <- function(feature) {
 #feature <- "GB109"
 cat("I've started ASR ML on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
   
-filter_criteria <- lazyeval::interp(~!is.na(x), .values = list(x = as.name(feature)))
-
+  filter_criteria <- paste0("!is.na(", feature, ")")
+  
 to_keep <- gray_tree$tip.label %>% 
   as.data.frame() %>% 
   rename(Language_ID = ".") %>% 
-  left_join(GB_df_all) %>% 
-  filter_(filter_criteria) %>% #removing all tips that don't have data for the relevant feature
+  left_join(GB_df_all, by = "Language_ID") %>% 
+  filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Language_ID, {{feature}})
 
 gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  
@@ -45,7 +41,7 @@ gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)
 feature_df <-  gray_tree_pruned$tip.label %>% 
   as.data.frame() %>% 
   rename(Language_ID = ".") %>% 
-  left_join(GB_df_all) %>% 
+  left_join(GB_df_all, by = "Language_ID") %>% 
   dplyr::select(Language_ID, {{feature}}) 
 
 states <- feature_df[,2]  %>% table() %>% length()
@@ -96,6 +92,18 @@ results_df <- data.frame(
   nTips_state_1 =  feature_df[,2]  %>% table() %>% as.matrix() %>% .[2,1] %>% as.vector()
 )
 
+corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
+                  use.edge.length = TRUE,
+                  piecolors=c("#8856a7", "#ffffbf"),
+                  title = sprintf(
+                    "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
+                    feature, corHMM_result_direct$loglik,
+                    corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
+                  ),
+                  file = sprintf("output/gray_et_al_2009/ML/tree_plots/ML_gray_-%s.pdf", feature),
+                  width=8, height=16
+)
+
 cat("Done with ASR ML on ", feature, ".\n", sep = "")
 
 #beepr::beep(2)
@@ -124,7 +132,6 @@ GB_ASR_ML_all_split  <- GB_ASR_ML_all %>%
   ungroup()
 
 
-
 #making empty df to rbind to
 
 results <- data.frame(
@@ -147,26 +154,3 @@ results <- rbind(results, row)
   }
 
 write_csv( results, "output/gray_et_al_2009/ML/results.csv")
-
-    saveRDS(corHMM_result, file=sprintf("output/gray_et_al_2009/raydisc/recon-%s.rds", v))
-    
-    corHMM::plotRECON(tree, r$states, font=1,
-          use.edge.length = TRUE,
-          piecolors=c("steelblue", "tomato"),
-          title = sprintf(
-            "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
-            v, r$loglik,
-            r$states[1, 1], r$states[1, 2]
-            ),
-          file = sprintf("output/gray_et_al_2009/raydisc/recon-%s.pdf", v),
-          width=8, height=16
-    )
-    
-
-
-
-
-
-
-
-

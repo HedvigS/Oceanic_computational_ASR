@@ -1,6 +1,6 @@
 #This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
 
-source("requirements.R")
+source("1_requirements.R")
 
 #finding the filenames for the two tables we are interested in, the language and value tables. The specific filenames can vary, so instead of identifying them via the filename we should check which of the tables conform to particular CLDF-standards and then take the filenames for the tables that conform to those standards fromt the meta-datajson.
 
@@ -264,6 +264,6 @@ Parameter_desc_binary %>%
   mutate(Binary_Multistate = ifelse(is.na(Binary_Multistate), "Binary", Binary_Multistate)) %>% 
   write_tsv(file.path("data", "GB", "parameters_binary.tsv"))
 
-cat("Wrote paramters_binar.tsv \n")
+cat("Wrote paramters_binary.tsv \n")
 
 } else{message("Stop the presses!!! There was a match of dialect to dialect between the Gray et al 2009-tree and Grambank! Let's have a rethink!")}
