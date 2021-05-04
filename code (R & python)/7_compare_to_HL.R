@@ -1,15 +1,15 @@
 source("requirements.R")
 
 #reading in old sheet with HL-predictions
-comparison_sheet <- read_csv(file.path("data", "HL_findings", "HL_findings.csv")) %>% 
+HL_findings_sheet <- read_csv(file.path("data", "HL_findings", "HL_findings.csv")) %>% 
   dplyr::select(`Grambank ID`, "Proto-language", Prediction = `Finding from Historical Linguistics`, "Historical Linguistics sources") 
 
 #reading in old sheet with HL-predictions - ergative section
-comparison_sheet_erg <- read_csv(file.path("data", "HL_findings", "HL_findings_erg.csv")) %>% 
+HL_findings_sheet_erg <- read_csv(file.path("data", "HL_findings", "HL_findings_erg.csv")) %>% 
   dplyr::select(`Grambank ID`, "Proto-language", Prediction = `Finding from Historical Linguistics`, "Historical Linguistics sources") 
 
-comparison_sheet <- comparison_sheet_erg %>% 
-  full_join(comparison_sheet)
+HL_findings_sheet <- HL_findings_sheet_erg %>% 
+  full_join(HL_findings_sheet)
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
@@ -234,6 +234,8 @@ df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>%
   mutate(`1` = round(`1`)) %>% 
   dplyr::select(`Grambank ID`, "Proto-language", gray_parsimony_prediction,gray_parsimony_prediction_0 = `0`, gray_parsimony_prediction_1 = `1`)
 
+cat("Done with retreiving the particular states for 4 proto-languages for all features, each tree and each method.")
+
 ##comparing gray and glottolog
 
 automatic_predctions <- df_lik_anc_ML_glottolog  %>% 
@@ -241,7 +243,7 @@ automatic_predctions <- df_lik_anc_ML_glottolog  %>%
   full_join(df_lik_anc_parsimony_gray) %>% 
   full_join(df_lik_anc_parsimony_glottolog)
 
-df <- comparison_sheet %>% 
+df <- HL_findings_sheet %>% 
   left_join(automatic_predctions) 
 
 df$`ML result (Glottolog-tree)` <- if_else(df$glottolog_ML_prediction == "Present" & df$Prediction == "Present", "True Positive",  
@@ -260,20 +262,20 @@ df$`ML result (Gray et al 2009-tree)` <- if_else(df$gray_ML_prediction == "Prese
                                                                          ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
 
 
-df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$Parsimony_gray_prediction == "Present" & df$Prediction == "Present", "True Positive",  
-                                                 if_else(df$Parsimony_gray_prediction == "Absent" & df$Prediction == "Absent", "True Negative",   
-                                                         if_else(df$Parsimony_gray_prediction == "Absent" & df$Prediction == "Present", "False Negative",  
-                                                                 if_else(df$Parsimony_gray_prediction == "Present" & df$Prediction == "Absent", "False Positive",
+df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$gray_parsimony_prediction == "Present" & df$Prediction == "Present", "True Positive",  
+                                                 if_else(df$gray_parsimony_prediction == "Absent" & df$Prediction == "Absent", "True Negative",   
+                                                         if_else(df$gray_parsimony_prediction == "Absent" & df$Prediction == "Present", "False Negative",  
+                                                                 if_else(df$gray_parsimony_prediction == "Present" & df$Prediction == "Absent", "False Positive",
                                                                          
-                                                                         ifelse(df$Parsimony_gray_prediction == "Half", "Half", NA)))))
+                                                                         ifelse(df$gray_parsimony_prediction == "Half", "Half", NA)))))
 
 
-df$`Parsimony result (Glottolog-tree)` <- if_else(df$Parsimony_glottolog_prediction == "Present" & df$Prediction == "Present", "True Positive",  
-                                                        if_else(df$Parsimony_glottolog_prediction == "Absent" & df$Prediction == "Absent", "True Negative",   
-                                                                if_else(df$Parsimony_glottolog_prediction == "Absent" & df$Prediction == "Present", "False Negative",  
-                                                                        if_else(df$Parsimony_glottolog_prediction == "Present" & df$Prediction == "Absent", "False Positive",
+df$`Parsimony result (Glottolog-tree)` <- if_else(df$glottolog_parsimony_prediction == "Present" & df$Prediction == "Present", "True Positive",  
+                                                        if_else(df$glottolog_parsimony_prediction == "Absent" & df$Prediction == "Absent", "True Negative",   
+                                                                if_else(df$glottolog_parsimony_prediction == "Absent" & df$Prediction == "Present", "False Negative",  
+                                                                        if_else(df$glottolog_parsimony_prediction == "Present" & df$Prediction == "Absent", "False Positive",
                                                                                 
-                                                                                ifelse(df$Parsimony_glottolog_prediction == "Half", "Half", NA)))))
+                                                                                ifelse(df$glottolog_parsimony_prediction == "Half", "Half", NA)))))
 
 df <- value_count_df %>% 
   rename(`Grambank ID` = Feature_ID) %>% 
@@ -292,7 +294,7 @@ df$countTrueNeg <- rowSums(df == "True Negative", na.rm = T)
 df$countTrue <- df$countTruePos + df$countTrueNeg
 
 #parameter description
-GB_df_desc <- read_csv("data/parameters_binary.csv") %>% 
+GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
  dplyr::select(`Grambank ID` = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 
@@ -310,7 +312,7 @@ df_pruned_erg <- df %>%
                 `ML result (Gray et al 2009-tree)`)
 
 df_pruned_erg %>% 
-  write_tsv(path = "output/ASR/latex_table_automatic_asr_ergativity.tsv")
+  write_tsv(path = "output/HL_comparison/HL_comparison_erg.tsv")
 
 
 df_non_erg <- df %>% 
@@ -325,6 +327,6 @@ df_non_erg <- df %>%
 
 
 df_non_erg %>% 
-  write_tsv(path = "output/ASR/latex_table_automatic_asr.tsv")
+  write_tsv(path = "output/HL_comparison/HL_comparison.tsv")
 
 
