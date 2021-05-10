@@ -170,12 +170,12 @@ if(dialect_matches_gray_et_al_tree_grambank == 0){
 
 GB_wide %>% 
   reshape2::melt(id.vars= "Language_ID") %>%
-  filter(value != "?") %>% #we want to pick a non-? value, so let's just remove the ? totally
+  filter(value != "\\?") %>% #we want to pick a non-? value, so let's just remove the ? totally
   left_join(glottolog_df, by = "Language_ID") %>% 
   group_by(Language_level_ID, variable) %>% 
-  sample_n(1) %>% #for rows where dialects of the same language are coded for the same feature, pick a value at random from the available one
+  sample_n(1) %>% #for rows where dialects of the same language are coded for the same feature, pick a value at random from the available one 
   reshape2::dcast(Language_level_ID ~ variable, value.var = "value") %>%
-  rename(Language_ID = Language_level_ID) %>%
+  rename(Language_ID = Language_level_ID) %>% 
   write_tsv(output_path)
 
 cat("Wrote", output_path, "\n")
