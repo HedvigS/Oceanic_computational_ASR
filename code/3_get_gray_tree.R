@@ -19,16 +19,16 @@ if(!is.binary(Gray_et_al_tree) & !is.ultrametric(Gray_et_al_tree)){
 }
 
 #reading in taxa data
-taxa <- read_csv(Gray_et_al_tree_taxon_fn) %>% 
+taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>% 
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere 
 
 #reading in grambank data
-grambank_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>% 
+grambank_df <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
   dplyr::select(Glottocode = Language_ID) %>% 
   mutate(in_GB = "Yes") 
 
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv")  %>% 
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification) 
 
 ##remove duplicates manually
@@ -54,9 +54,9 @@ tree_removed_dups <- drop.tip(Gray_et_al_tree, tip = dup_to_remove)
 Gray_et_al_tree_tip.label_df <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
   rename(taxon = ".") %>% 
-  left_join(taxa) %>% 
-  left_join(glottolog_df) %>% 
-  left_join(grambank_df) %>% 
+  left_join(taxa, by = "taxon") %>% 
+  left_join(glottolog_df, by = "Glottocode") %>% 
+  left_join(grambank_df, by = "Glottocode") %>% 
   mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) 
 
 tree_removed_dups$tip.label <- Gray_et_al_tree_tip.label_df$Glottocode
@@ -65,7 +65,7 @@ tree_removed_dups$tip.label <- Gray_et_al_tree_tip.label_df$Glottocode
 tips_to_drop <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Glottocode") %>% 
   filter(!str_detect(classification, "ocea1241"))
 
 tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)

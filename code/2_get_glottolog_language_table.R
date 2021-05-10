@@ -57,7 +57,7 @@ languages <- readr::read_csv(languages_csv_url, na = c("","<NA>"), col_types = c
 
 #The languages-table from glottolog-cldf contains a paramter called "Language_ID" which is NOT the same as the parameter "Language_ID" in the values tables. This parameter is in fact the language leveled parent of a dialect. In order to avoid confusion, let's rename the parameter in the languages tables to the more transparent "Language_level_ID". This set-up first test if this is indeed a problem (i.e. if this is glottolog-cldf) and only does the renaming then.
 
-glottolog_language_table_wide_df <- dplyr::full_join(values,languages) %>% 
+glottolog_language_table_wide_df <- dplyr::full_join(values,languages, by = "Language_ID") %>% 
   mutate(Language_level_ID = ifelse(level == "language", Language_ID, Language_level_ID))
 
 write_tsv(glottolog_language_table_wide_df, "data/glottolog_language_table_wide_df.tsv")
