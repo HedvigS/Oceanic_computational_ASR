@@ -138,10 +138,9 @@ stopifnot(all(!multistate_features %in% colnames(values_multi_only_binarized)))
 
 output_path <- file.path("data", "GB", "GB_wide_binarised.tsv")
 
-
 GB_wide <- values %>% 
   dplyr::select(-all_of(multistate_features)) %>% 
-  full_join(values_multi_only_binarized) %>% 
+  full_join(values_multi_only_binarized, by = "Language_ID") %>% 
   dplyr::select(Language_ID, everything())  # reordering columns for inspection convenience
 
 ##AGGREGATE dialects to langauge
@@ -162,9 +161,9 @@ taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>%
 
 dialect_matches_gray_et_al_tree_grambank <- GB_wide %>% 
   dplyr::select(Language_ID) %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   filter(level == "dialect") %>% 
-  inner_join(taxa) %>% nrow()
+  inner_join(taxa, by = "Language_ID") %>% nrow()
 
 if(dialect_matches_gray_et_al_tree_grambank == 0){
   cat("There were no matches of dialect to dialect between the Gray et al 2009-tree and Grambank, therefore it makes sense to generally aggregate to language-level for both trees. \n")
@@ -172,11 +171,11 @@ if(dialect_matches_gray_et_al_tree_grambank == 0){
 GB_wide %>% 
   reshape2::melt(id.vars= "Language_ID") %>%
   filter(value != "?") %>% #we want to pick a non-? value, so let's just remove the ? totally
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   group_by(Language_level_ID, variable) %>% 
   sample_n(1) %>% #for rows where dialects of the same language are coded for the same feature, pick a value at random from the available one
   reshape2::dcast(Language_level_ID ~ variable, value.var = "value") %>%
-  rename(Language_ID = Language_level_ID) %>% 
+  rename(Language_ID = Language_level_ID) %>%
   write_tsv(output_path)
 
 cat("Wrote", output_path, "\n")
@@ -256,7 +255,7 @@ Parameter_desc_binary <- tibble(
     1
   ), 
   Binary_Multistate = c("binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised")
-) %>% full_join(parameters_df)
+) %>% full_join(parameters_df, by = c("ID", "Grambank_ID_desc"))
 
 
 Parameter_desc_binary %>% 
