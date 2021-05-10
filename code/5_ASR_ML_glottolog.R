@@ -10,10 +10,12 @@ Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
 tree <-  ape::multi2di(Glottolog_tree_full) #binarising
 tree <- ape::compute.brlen(tree)
 
+
+
 #reading in Grambank
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
 
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
