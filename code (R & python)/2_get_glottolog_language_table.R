@@ -1,14 +1,6 @@
 #This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
 
-if (!suppressPackageStartupMessages(require("pacman"))) { install.packages("pacman") } #if pacman isn't already installed, install it.
-
-pacman::p_load(
-  dplyr,#for data wrangling
-  jsonlite, #reading json files
-  stringr, #for string evaluation
-  readr #for reading in data files
-)
-
+source("1_requirements.R")
 
 #finding the filenames for the two tables we are intersted in, the language and value tables. The specific filenames can vary, so instead of identifying them via the filename we should check which of the tables conform to particular CLDF-standards and then take the filenames for the tables that conform to those standards fromt the meta-datajson.
 

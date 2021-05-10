@@ -38,6 +38,8 @@ pacman::p_load(
   broom, 
 #  pscl,
   ggrepel,
+jsonlite, #reading json files
+stringr, #for string evaluation
   ggpubr,
  # cowplot,
   fuzzyjoin,
