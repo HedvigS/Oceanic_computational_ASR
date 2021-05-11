@@ -75,7 +75,7 @@ gray_tree_pruned$tip.label <- gray_tree_pruned_tip.labels_df$Name
 ntips <- phylobase::nTips(gray_tree_pruned)
 ntips_table <- feature_vec %>% table() %>% as.matrix()
 
-cat("I've finished Parsimony ASR for  ", feature, ". \n", sep = "")
+cat("I've finished Parsimony ASR with Gray et al-tree for  ", feature, ". \n", sep = "")
 output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table)
 output
 }
@@ -127,7 +127,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   title(plot_title, cex.main = 1, line = -1)
   
   dev.off()
-  cat("I've finished the tree plot for ", feature, ". \n", sep = "")
+  cat("I've finished the tree plot for ", feature, ", given Gray et al-tree. \n", sep = "")
   
 }
 
@@ -147,3 +147,5 @@ df_parsimony_gray %>%
   rename(`0`= `1`) %>% 
   rename(`1`= `2`) %>% 
   write_csv("output/gray_et_al_2009/parsimony/results.csv")
+
+cat("ASR with parsimony and Gray et al 2009-tree (MCCT) all done.")

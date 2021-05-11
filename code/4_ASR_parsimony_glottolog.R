@@ -75,7 +75,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   ntips <- phylobase::nTips(Glottolog_tree_full_pruned)
   ntips_table <- feature_vec %>% table() %>% as.matrix()
   
-  cat("I've finished Parsimony ASR for  ", feature, ". \n", sep = "")
+  cat("I've finished Parsimony ASR with glottolog-tree for  ", feature, ". \n", sep = "")
   output <- list(feature, castor_parsimony, feature_vec, Glottolog_tree_full_pruned, plot_title, ntips, ntips_table)
   output
 }
@@ -128,7 +128,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 
   dev.off()
   
-  cat("I've finished the tree plot for ", feature, ". \n", sep = "")
+  cat("I've finished the tree plot for ", feature, ", given glottolog-tree. \n", sep = "")
   
 }
 
@@ -150,6 +150,6 @@ df_parsimony_glottolog %>%
   rename(`1`= `2`) %>% 
   write_csv("output/glottolog_tree_binary/parsimony/results.csv")
 
-
+cat("ASR with parsimony and Glottolog-tree all done.")
 
 
