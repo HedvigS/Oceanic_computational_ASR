@@ -13,7 +13,8 @@
 
 #folders
 *glottolog_zenodo*
-*output*
+*output/gray_et_al_2009/.*
+*output/glottolog_tree_binary/.*
 *to sort*
 *D-PLACE-dplace-data-541f9f*
 *glottolog-glottolog*
@@ -32,3 +33,5 @@
 .Rproj.user
 code/data/GB/GB_wide_binarised.tsv
 code/data/GB/parameters_binary.tsv
+code/output/gray_et_al_2009/ML/results.csv
+code/output/gray_et_al_2009/parsimony/results.csv
