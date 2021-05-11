@@ -1,4 +1,4 @@
-source("requirements.R")
+source("1_requirements.R")
 
 #reading in old sheet with HL-predictions
 HL_findings_sheet <- read_csv(file.path("data", "HL_findings", "HL_findings.csv")) %>% 
@@ -221,7 +221,7 @@ df_lik_anc_parsimony_glottolog <- df_lik_anc_parsimony_glottolog %>%
 
 
 ###Gray parsimony
-GB_ACR_all_parsimony <- readRDS("output/ASR/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
+GB_ACR_all_parsimony <- readRDS("output/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
 
 df_lik_anc_parsimony_gray <- lapply(GB_ACR_all_parsimony$content, get_node_positions_parsimony) %>% bind_rows()
 
