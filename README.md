@@ -7,7 +7,10 @@ These scripts are set up to be run either from the command line or within Rstudi
 
 These scripts will install python and R packages for you. You can see which ones here ([python](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/1_requirements.txt)) and here ([R](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/1_requirements.R)).
 
+Other requirements
+
 *  R should be installed. I haven't done testing, but it should most likely be at least R 3.0
 *  python3 should be installed
-*  Glottolog (CLDF), Glottolog (as data curation repos) and D-PLACE should all be downloaded from zenodo and placed in data/zenodo. [config.json](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/config.json) specifies the precise locations and URLs for where to download the datasets
-*  Grambank should exist as a cldf repos on the machine. Currently grambank cldf isn't public so I can't tell you where frlom the web to grab it from. config.json specifies exactly where it expects grambank-cldf to live ("../../grambank-cldf/")
+*  this project needs 4 datasets: Glottolog (CLDF), Glottolog (as data curation repos), D-PLACE and grambank-cldf
+*  the firs three (Glottolog (CLDF), Glottolog (as data curation repos) and D-PLACE) should all be downloaded from zenodo and placed in code/data/zenodo. [config.json](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/config.json) specifies the precise locations and URLs for where to download the datasets. If you have them somewhere else on your machine, update config.json accordingly
+* Grambank should exist as a cldf repos on the machine. Currently grambank cldf isn't public so only people with at least read-access to [glottobank/grambank-cldf](https://github.com/glottobank/grambank-cldf) can run this project. config.json specifies exactly where it expects grambank-cldf to live ("../../grambank-cldf/"), update accordingly if it lives elsewhere.
