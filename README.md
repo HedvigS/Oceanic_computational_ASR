@@ -5,9 +5,9 @@ This is a set of R scripts and one python scripts that take data on grammatical 
 ### To note
 These scripts are set up to be run either from the command line or within Rstudio. The scripts are specifically fetching Grambank data as found in the clone of grambank/grambank-cldf.
 
-These scripts will install python and R packages for you. You can see which ones here ([python](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code%20(R%20%26%20python)/requirements.txt)) and here ([R](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code%20(R%20%26%20python)/requirements.R)).
+These scripts will install python and R packages for you. You can see which ones here ([python](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/1_requirements.txt)) and here ([R](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/1_requirements.R)).
 
 *  R should be installed. I haven't done testing, but it should most likely be at least R 3.0
 *  python3 should be installed
-*  Glottolog (CLDF), Glottolog (as data curation repos) and D-PLACE should all be downloaded from zenodo and placed in data/zenodo. [config.json](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code%20(R%20%26%20python)/config.json) specifies the precise locations and URLs for where to download the datasets
+*  Glottolog (CLDF), Glottolog (as data curation repos) and D-PLACE should all be downloaded from zenodo and placed in data/zenodo. [config.json](https://github.com/HedvigS/Oceanic_computational_ASR/blob/main/code/config.json) specifies the precise locations and URLs for where to download the datasets
 *  Grambank should exist as a cldf repos on the machine. Currently grambank cldf isn't public so I can't tell you where frlom the web to grab it from. config.json specifies exactly where it expects grambank-cldf to live ("../../grambank-cldf/")
