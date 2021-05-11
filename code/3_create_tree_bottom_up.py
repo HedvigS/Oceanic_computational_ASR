@@ -4,7 +4,7 @@
 #It is necessary that you have a local version of glottolog data. This can either be a clone of the glottolog/glottolog repository or your fork of it, an unzipped released version of Glottolog from GitHub, or an unzipped download of a released version of Glottolog from ZENODO. This is the object that needs to be specified as "glottolog_data" in this script. This sample scripts contains a file path on my machine, you will need to edit this.
 # In this particular example, I'm using the zenodo release of glottolog 4.3. You can fetch it yourself at https://zenodo.org/record/4061162/files/glottolog/glottolog-v4.3.zip. (It needs to be unzipped.)
 
-#You will  need python3 installed as well as the specific pacakges pyglottolog, newick and pandas.
+#You will  need python3 installed as well as the specific packages pyglottolog, newick and pandas.
 
 #list of tips needs to have the relevant glottocodes as its first column
 
