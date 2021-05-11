@@ -1,3 +1,8 @@
+#####
+
+#THIS MAKEFILE DOES NOT WORK IN ITS CURRENT STATE. I'M WORKING ON IT. DON'T ATTEMPT TO RUN
+#####
+
 #Necessary requirements beyond what is installed by scripts called here
 
 #R should be installed. I haven't done testing, but it should most likely be at least R 3.0
@@ -7,23 +12,23 @@
 # Grambank should exist as a cldf repos on the machine. Currently grambank cldf isn't public so I can't set it to grab from the web right now
 # grambank-cldf is expected to live at "../../grambank-cldf/"
 
-all: step_1 step_2 step_3 step_4 step_5 step_7
+# Determine this makefile's path.
+#THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
 
+.PHONY: clean
+
+all: 
+  @echo "THIS MAKEFILE DOESN'T WORK. HOLD ON"
+  
 ## 1. Check and install dependencies if needed.
-step_1: requirements
-
-requirements:
+requirements.log:
 	Rscript 1_requirements.R | tee $@
 	python3 -m pip install -r 1_requirements.txt
-		@echo "Installed the necessary packages for python3 and R"
+#		@echo "Installed the necessary packages for python3 and R"
 		
 ## 2. get cldf-data
-step_2: get_glottolog_table get_grambank
-
-get_glottolog_table: 
+step_2: 
 	Rscript 2_get_glottolog_language_table.R
-	
-get_grambank:
 	Rscript 2_get_grambank_data.R 
 	@echo "Grambank cldf data made wide."
 
