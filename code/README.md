@@ -12,7 +12,11 @@ Methods: parsimony, ML and SCM.
 Trees: Gray et al 2009-tree and Glottolog (Glottolog tree only computed for SM, not main goal but still being run).
 
 ## General note on state of project
-This project is based on a chapter of my PhD thesis and work with Simon, Cara and Hannah on stability of features. Most of the code is written by me, with some of Simon's code. The biggest difference from the PhD chapter is that I'm using the MCCT tree instead of the summary tree for the Gray et a 2009-tree. There are also some smaller changes for the ML ASR; I'm using corHMM::corHMM instead of corHMM::rayDISC (not big change honestly), I'm no longer having ambiguous states at tips and root.p has changed from "NULL" to "yang". Because the scripts are currently a mix of current Hedvig, past Hedvig and Simon sometimes things are done in a bit of a funny manner (particularly the way results.csv are build for each tree and method). I have on my to do list to smooth that out, it's just taken backseat to things running correctly and incorporating SCM. You are welcome to do PR's if you see anything you want to chip in on.
+This project is based on a chapter of my PhD thesis and work with Simon, Cara and Hannah on stability of features. Most of the code is written by me, with some of Simon's code. The biggest difference from the PhD chapter is that I'm using the MCCT tree instead of the summary tree for the Gray et a 2009-tree. There are also some smaller changes for the ML ASR; I'm using corHMM::corHMM instead of corHMM::rayDISC (not big change honestly), I'm no longer having ambiguous states at tips and root.p has changed from "NULL" to "yang". Because the scripts are currently a mix of current Hedvig, past Hedvig and Simon sometimes things are done in a bit of a funny manner (particularly the way results.csv are build for each tree and method). I have on my to do list to smooth that out, it's just taken backseat to things running correctly and incorporating SCM. 
+
+The makefile is far from finished, so don't attempt to run it right now. The scripts are named by the steps the should be run in, so you can run them in the correct order by the name.
+
+You are welcome to do PR's if you see anything you want to chip in on.
 
 I'm hopefully presenting based on this work both at ICAL and COOL this year, and planning on submitting an article as well before the years end.
 
