@@ -32,12 +32,14 @@ For each reconstruction, I'm pruning the relevant tree to only tips which have a
 I have to use different functions for goals (a) + (b) compared to (c). This is because the conservatism approach I'm using for ML unroots the tree. I'm using Nanggu [nang1262] as outgroup for re-rooting tree.
 
 *Parsimony*
-(a) compare with HL and (b) feature rates = castor::asr_max_parsimony(Nstates = 2, transition_costs = "all_equal") for the parsimony analysis, 
-(c) conservatism = phangorn::ACCTRAN()
+
+(a) compare with HL and (b) feature rates = `castor::asr_max_parsimony(Nstates = 2, transition_costs = "all_equal")` for the parsimony analysis, 
+(c) conservatism = `phangorn::ACCTRAN()`
 
 *ML*
-(a) compare with HL and (b) feature rates =  corHMM::corHMM(  model="ARD", rate.cat = 1, lewis.asc.bias = TRUE, node.states = "marginal",  root.p = "yang")
-(c) conservatism = phangorn::optim.pml(rearrangement="none")
+
+(a) compare with HL and (b) feature rates =  `corHMM::corHMM(  model="ARD", rate.cat = 1, lewis.asc.bias = TRUE, node.states = "marginal",  root.p = "yang")`
+(c) conservatism = `phangorn::optim.pml(rearrangement="none")`
 
 *SCM*
 
