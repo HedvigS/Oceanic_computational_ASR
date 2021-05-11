@@ -281,10 +281,10 @@ df <- value_count_df %>%
   rename(`Grambank ID` = Feature_ID) %>% 
   right_join(df)
 
-df$`ML result (Gray et al 2009-tree)`<- if_else(df$ntips_ML_gray <  56, "Not enough languages", df$`ML result (Gray et al 2009-tree)`)
-df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$ntips_parsimony_gray <  56, "Not enough languages", df$`Parsimony result (Gray et al 2009-tree)`)
-df$`ML result (Glottolog-tree)` <- if_else(df$ntips_ML_glottolog <  113, "Not enough languages", df$`ML result (Glottolog-tree)` )
-df$`Parsimony result (Glottolog-tree)` <- if_else(df$ntips_parsimony_glottolog <  113, "Not enough languages", df$`Parsimony result (Glottolog-tree)`)
+df$`ML result (Gray et al 2009-tree)`<- if_else(df$ntips_ML_gray <  62, "Not enough languages", df$`ML result (Gray et al 2009-tree)`)
+df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$ntips_parsimony_gray <  62, "Not enough languages", df$`Parsimony result (Gray et al 2009-tree)`)
+df$`ML result (Glottolog-tree)` <- if_else(df$ntips_ML_glottolog <  117, "Not enough languages", df$`ML result (Glottolog-tree)` )
+df$`Parsimony result (Glottolog-tree)` <- if_else(df$ntips_parsimony_glottolog <  117, "Not enough languages", df$`Parsimony result (Glottolog-tree)`)
 
 #Counting up trues per feature
 df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
@@ -312,7 +312,7 @@ df_pruned_erg <- df %>%
                 `ML result (Gray et al 2009-tree)`)
 
 df_pruned_erg %>% 
-  write_tsv(path = "output/HL_comparison/HL_comparison_erg.tsv")
+  write_tsv("output/HL_comparison/HL_comparison_erg.tsv")
 
 
 df_non_erg <- df %>% 
@@ -327,6 +327,47 @@ df_non_erg <- df %>%
 
 
 df_non_erg %>% 
-  write_tsv(path = "output/HL_comparison/HL_comparison.tsv")
+  write_tsv("output/HL_comparison/HL_comparison.tsv")
 
+##
 
+#ntips_ML_glottolog,
+#ntips_ML_gray,
+#ntips_parsimony_gray, 
+#ntips_parsimony_glottolog,
+
+accuracy_summary_table<- df %>% 
+  anti_join(df_pruned_erg) %>% 
+  arrange(-countTrue) %>% 
+  left_join(GB_df_desc) %>% 
+  separate(Abbreviation, into = c("`Grambank ID`", "Abbreviation"), sep = " ") %>% 
+  dplyr::select("Grambank ID" , 
+                `Parsimony result (Glottolog-tree)`,
+                `ML result (Glottolog-tree)` ,
+                `Parsimony result (Gray et al 2009-tree)`,
+                `ML result (Gray et al 2009-tree)`) %>%
+  reshape2::melt(id.vars = "Grambank ID" ) %>% 
+  group_by(variable, value) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  filter(!is.na(value)) %>% 
+  reshape2::dcast(variable ~ value, value.var = "n") %>% 
+  group_by(variable) %>% 
+  mutate(Disagree = sum(`False Negative`, `False Positive`),
+                        Agree = sum(`True Negative` , `True Positive`), 
+         reconstructions_non_half = sum(Agree, Disagree),
+         reconstructions_all= sum(Agree, Disagree, Half)) %>% 
+  mutate(Accuracy = Agree / reconstructions_non_half, 
+         Accuracy_incl_half = (Agree + (Half/2) / reconstructions_all), 
+         Precision = `True Positive` / (`True Positive` + `False Positive`), 
+         Recall = `True Positive` / (`True Positive` + `False Negative`)) %>%
+  mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall))) %>% 
+  mutate(across(where(is.numeric), round, 2)) %>% 
+  t() 
+  
+colnames(accuracy_summary_table) <- accuracy_summary_table[1,]    
+accuracy_summary_table <- accuracy_summary_table[-1,]    
+
+accuracy_summary_table %>% 
+  as.data.frame() %>% 
+write_tsv("output/HL_comparison/HL_comparison_summary.tsv")

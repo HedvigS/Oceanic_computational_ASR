@@ -1,0 +1,14 @@
+Grambank ID	Abbreviation	Question	Proto-language	Finding from Historical Linguistics	Historical Linguistics sources	Parsimony result (Glottolog-tree)	ML result (Glottolog-tree)	Parsimony result (Gray et al 2009-tree)	ML result (Gray et al 2009-tree)
+GB409	Ergative	Is there any ergative alignment of flagging?	Proto-Central Pacific	Present	\citet[1]{kikusawa2002proto}	False Negative	Half	False Negative	False Negative
+GB410	NeutralAlign	Is there any neutral alignment of flagging?	Proto-Central Pacific	Present	\citet[147]{kikusawa2002proto}	Half	True Positive	True Positive	True Positive
+GB147	PassiveBoundV	Is there a morphological passive marked on the lexical verb?	Proto-Eastern Polynesian	Present	\citet[108]{clark1976aspects}, \citet[139]{pawley1973some}, \citet[350]{pawley1970change}	True Positive	True Positive	True Positive	True Positive
+GB408	Accusative	Is there any accusative alignment of flagging?	Proto-Eastern Polynesian	Present	\citet[106-107]{clark1976aspects}	True Positive	Half	True Positive	Half
+GB409	Ergative	Is there any ergative alignment of flagging?	Proto-Eastern Polynesian	Absent	\citet[106-107]{clark1976aspects}	True Negative	False Positive	False Positive	False Positive
+GB147	PassiveBoundV	Is there a morphological passive marked on the lexical verb?	Proto-Oceanic	Absent	\citet[533]{ross2004morphosyntactic}	True Negative	True Negative	True Negative	True Negative
+GB408	Accusative	Is there any accusative alignment of flagging?	Proto-Oceanic	Present	\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}	False Negative	Half	False Negative	Half
+GB409	Ergative	Is there any ergative alignment of flagging?	Proto-Oceanic	Absent	\citet[496]{ross2004morphosyntactic}	True Negative	True Negative	True Negative	True Negative
+GB147	PassiveBoundV	Is there a morphological passive marked on the lexical verb?	Proto-Polynesian	Present	\cite[261-261]{chung1978}	False Negative	False Negative	False Negative	False Negative
+GB408	Accusative	Is there any accusative alignment of flagging?	Proto-Polynesian	Absent	\citet[106-107]{clark1976aspects}	True Negative	Half	True Negative	Half
+GB408	Accusative	Is there any accusative alignment of flagging?	Proto-Polynesian	Present	\cite[261-261]{chung1978}	False Negative	Half	False Negative	Half
+GB409	Ergative	Is there any ergative alignment of flagging?	Proto-Polynesian	Present	\citet[106-107]{clark1976aspects}	True Positive	Half	True Positive	True Positive
+GB409	Ergative	Is there any ergative alignment of flagging?	Proto-Polynesian	Absent	\cite[261-261]{chung1978}	False Positive	Half	False Positive	False Positive
