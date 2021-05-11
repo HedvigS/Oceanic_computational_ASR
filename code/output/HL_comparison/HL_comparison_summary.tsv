@@ -9,7 +9,7 @@ Agree	94	86	91	89
 reconstructions_non_half	100	 94	102	 96
 reconstructions_all	109	109	109	108
 Accuracy	0.94	0.91	0.89	0.93
-Accuracy_incl_half	94.04	86.07	91.03	89.06
+Accuracy_incl_half	0.90	0.86	0.87	0.88
 Precision	0.98	0.94	0.91	0.98
 Recall	0.91	0.90	0.89	0.89
 F1_score	0.94	0.92	0.90	0.93

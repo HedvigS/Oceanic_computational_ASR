@@ -358,7 +358,7 @@ accuracy_summary_table<- df %>%
          reconstructions_non_half = sum(Agree, Disagree),
          reconstructions_all= sum(Agree, Disagree, Half)) %>% 
   mutate(Accuracy = Agree / reconstructions_non_half, 
-         Accuracy_incl_half = (Agree + (Half/2) / reconstructions_all), 
+         Accuracy_incl_half = ((Agree + (Half/2)) / reconstructions_all), 
          Precision = `True Positive` / (`True Positive` + `False Positive`), 
          Recall = `True Positive` / (`True Positive` + `False Negative`)) %>%
   mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall))) %>% 
