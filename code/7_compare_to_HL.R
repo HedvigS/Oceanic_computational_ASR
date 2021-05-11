@@ -370,4 +370,5 @@ accuracy_summary_table <- accuracy_summary_table[-1,]
 
 accuracy_summary_table %>% 
   as.data.frame() %>% 
+  rownames_to_column("Stat") %>% 
 write_tsv("output/HL_comparison/HL_comparison_summary.tsv")
