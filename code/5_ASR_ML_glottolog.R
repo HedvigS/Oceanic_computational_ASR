@@ -4,13 +4,8 @@ source("1_requirements.R")
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Name)
 
-#reading in glottolog tree, binarising and imputing branch lengths
-Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
-
-tree <-  ape::multi2di(Glottolog_tree_full) #binarising
-tree <- ape::compute.brlen(tree)
-
-
+#reading in glottolog tree
+tree <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
 
 #reading in Grambank
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
@@ -26,7 +21,7 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>%
 fun_GB_ASR_ML <- function(feature) {
   
   #feature <- "GB109"
-  cat("I've started ASR ML on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
+  cat("I've started ASR ML on ", feature, " with the glottolog-tree.\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
@@ -39,8 +34,8 @@ fun_GB_ASR_ML <- function(feature) {
   
   tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
   
-  #tree_pruned <- ape::multi2di(tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
-  #tree_pruned$edge.length[tree_pruned$edge.length==0]<-max(nodeHeights(tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
+  tree_pruned  <-  ape::multi2di(tree_pruned) #binarising
+  tree_pruned  <- ape::compute.brlen(tree_pruned ) #applying grafens
   
   feature_df <-  tree_pruned$tip.label %>% 
     as.data.frame() %>% 
@@ -104,7 +99,7 @@ fun_GB_ASR_ML <- function(feature) {
                         feature, corHMM_result_direct$loglik,
                         corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                       ),
-                      file = sprintf("output/glottolog_tree_binary/ML/tree_plots/ML_gray_-%s.pdf", feature),
+                      file = sprintf("output/glottolog_tree_binary/ML/tree_plots/ML_glottolog_-%s.pdf", feature),
                       width=8, height=16
     )
     
