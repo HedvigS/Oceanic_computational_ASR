@@ -61,6 +61,8 @@ jsonlite, #reading json files
   fields,
   adephylo,
   phytools,
+nloptr, 
+GenSA,
 #  diversitree,
   phylobase, 
   phangorn, 
