@@ -18,7 +18,7 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols())
 
 fun_GB_ASR_SCM <- function(feature) {
   
-  #feature <- "GB110"
+  #feature <- "GB109"
   cat("I've started ASR SCM on ", feature, " with the glottolog-tree.\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
@@ -48,10 +48,41 @@ if(states >1) {
                                   model = "ARD", 
                                   pi = "estimated", 
                                   method = "optim")
-result
+
+
+  results_df <- data.frame(
+    Feature_ID = feature,
+    LogLikelihood = result$logL %>% as.vector(),
+#    AICc = NA,
+#    pRoot0 = NA,
+#    pRoot1 = NA,
+    q01 = result$Q[2, 1],
+    q10 = result$Q[1, 2],
+    nTips = result$Nnode,
+    nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
+    nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
+  
+  output <- list(result, results_df)
+output  
+  
 }else{
   message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
-  NA
+  results_df <- data.frame(
+    Feature_ID = feature,
+    LogLikelihood = NA,
+    #    AICc = NA,
+    #    pRoot0 = NA,
+    #    pRoot1 = NA,
+    q01 = NA,
+    q10 = NA,
+    nTips = NA,
+    nTips_state_0 =  NA,
+    nTips_state_1 = NA)
+  
+    output <- list(NA, results_df)
+    output  
+    
+
   }
 }
 
@@ -59,9 +90,11 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
                         content = purrr::map(GB_df_desc$ID,
                                              fun_GB_ASR_SCM))
 
-#beepr::beep(3)
+beepr::beep(3)
 
 saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
+#GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
+
 
 
 
