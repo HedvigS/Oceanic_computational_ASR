@@ -1,20 +1,23 @@
 source("1_requirements.R")
 options(tidyverse.quiet = TRUE) 
 
-#This script reads in the gray et al 2009 tree, as prepped by get_gray_tree.R, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
+#This script reads in the gray et al 2009 trees, as prepped by get_gray_tree.R, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The trees are pruned to only tips with data for the specific feature.
 
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, level, classification, Name)
-
-#reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was invidually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
+
+#as a vector to have something to loop over
+GB_parameters <- GB_df_desc  %>% 
+  dplyr::select(Feature_ID = ID) %>% 
+  as.matrix() %>% 
+  as.vector()
 
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
@@ -29,20 +32,21 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>%
   mutate(value = as.integer(value) %>% suppressWarnings()) %>% 
   reshape2::dcast(Glottocode ~ variable)
 
+
 fun_GB_ASR_Parsimony <- function(feature){
 #If you'd like to run this script chunk-wise on one feature to understand each step or to debug, you can assign GB020 to the argument "function" by running this line and then run the rest of the lines stepwise as you please.
 #feature <- "GB020" 
    
   filter_criteria <- paste0("!is.na(", feature, ")")
   
-to_keep <- gray_tree$tip.label %>% 
+to_keep <- tree $tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
   left_join(GB_df_all, by = "Glottocode") %>% 
   filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Glottocode, {{feature}})
   
-gray_tree_pruned <- keep.tip(gray_tree, to_keep$Glottocode)  
+gray_tree_pruned <- keep.tip(tree, to_keep$Glottocode)  
 
 #gray_tree_pruned <- ape::multi2di(gray_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
 #gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0]<-max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
@@ -80,30 +84,13 @@ output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_ti
 output
 }
 
-GB_parameters <- GB_df_desc  %>% 
-  dplyr::select(Feature_ID = ID) %>% 
-    as.matrix() %>% 
-  as.vector()
-
-GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
-                           content = purrr::map(GB_parameters,
-                                                fun_GB_ASR_Parsimony))
-
-saveRDS(GB_ASR_Parsimony_all_df, "output/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
-
-####PLOTTING TIME
-
-#colors for piecharts
-colours <- c("#8856a7", "#ffffbf")
-############################################
-
 ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
   #If you want to step through this function chunkwise, uncomment these lines and run line by line
-#  ACR_object <- GB_ASR_Parsimony_all_df$content[[1]]
-#   fsize = 0.35
-#    cex_tip = 0.13 
-#    cex_node = 0.2
+  #  ACR_object <- GB_ASR_Parsimony_all_df$content[[1]]
+  #   fsize = 0.35
+  #    cex_tip = 0.13 
+  #    cex_node = 0.2
   
   feature <- ACR_object[[1]]
   ACR_parsimony <- ACR_object[[2]][[2]]
@@ -112,7 +99,8 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- paste0("output/gray_et_al_2009/parsimony/tree_plots/parsimony_gray_tree_", feature, ".png")
+  FN_plot <- paste0(feature, ".png")
+  FN_ACR <- file.path(output_dir,  FN_plot)
   
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
@@ -131,6 +119,37 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
 }
 
+
+
+#looping over all trees in the posterior
+
+gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
+
+for(tree_fn in 1:length(gray_trees_fns)){
+  
+  #tree_fn <- 1
+  
+  fn_full <- gray_trees_fns[[tree_fn]]
+  tree <- read.tree(fn_full)
+  fn <-   fn_full %>% basename() %>% str_replace_all(".txt", "")
+  #creating a folder for outputting tables
+  output_dir <- file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree", fn)
+  
+  if (!dir.exists(output_dir)) { dir.create(output_dir) }
+  
+  GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
+                                    content = purrr::map(GB_parameters,
+                                                         fun_GB_ASR_Parsimony))
+  
+  saveRDS(GB_ASR_Parsimony_all_df, file = file.path(output_dir, "GB_parsimony_gray_tree.rds"))
+  
+
+####PLOTTING TIME
+
+#colors for piecharts
+colours <- c("#8856a7", "#ffffbf")
+############################################
+
 lapply(X = GB_ASR_Parsimony_all_df$content, ACR_plot)
 
 ###Making a summary results table for easy comparison
@@ -146,6 +165,8 @@ df_parsimony_gray$ntips <- df_parsimony_gray$`1` + df_parsimony_gray$`2`
 df_parsimony_gray %>% 
   rename(`0`= `1`) %>% 
   rename(`1`= `2`) %>% 
-  write_csv("output/gray_et_al_2009/parsimony/results.csv")
+  write_csv(file.path(output_dir, "results.csv"))
 
-cat("ASR with parsimony and Gray et al 2009-tree (MCCT) all done.")
+cat("ASR with parsimony and Gray et al 2009-tree all done.")
+
+}
