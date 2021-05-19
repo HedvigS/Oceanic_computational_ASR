@@ -1,22 +1,18 @@
 source("1_requirements.R")
 
-#fetching the gray et al 2009 tree from dplace's github repos
+#fetching the gray et al 2009 trees from dplace's github repos, dropping unwanted duplicates and renaming all tips to their respective language level glottocodes
 
 config_json <- jsonlite::read_json("config.json")
 
 dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$location
 
-Gray_et_al_tree_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/original/a400-m1pcv-time.mcct.trees.gz")
+Gray_et_al_trees_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/original/a400-m1pcv-time.trees.gz")
 
 #due to some mismatches in the old taxon meta data file, I'm using an update version based on glottocodes in lexibank/abvd
 #Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
 Gray_et_al_tree_taxon_fn <- "data/gray_et_al_2009_updated_taxa.csv"
 
-Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
-
-if(!is.binary(Gray_et_al_tree) & !is.ultrametric(Gray_et_al_tree)){
-  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. However, the tree will not be binraised or made ultrametric as this would distort the branch lengths in an inappropriate way.")
-}
+Gray_et_al_trees <- read.nexus(Gray_et_al_trees_fn)
 
 #reading in taxa data
 taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>% 
@@ -48,10 +44,18 @@ dup_to_remove <- c("Sisingga",
                    "Marshallese"
 )
 
-tree_removed_dups <- drop.tip(Gray_et_al_tree, tip = dup_to_remove)
+index <- 0
+
+for(tree in 1:length(Gray_et_al_trees)){
+index <- index +1
+cat("i'm at tree", index, "\n.")
+
+tree <- Gray_et_al_trees[[tree]]
+
+tree_removed_dups <- drop.tip(tree, tip = dup_to_remove)
 
 #renaming tips in the tree to glottocodes. Keeping dialect glottocodes if they are also represented in grambank
-Gray_et_al_tree_tip.label_df <- tree_removed_dups$tip.label %>% 
+tree_tip.label_df <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
   rename(taxon = ".") %>% 
   left_join(taxa, by = "taxon") %>% 
@@ -59,7 +63,7 @@ Gray_et_al_tree_tip.label_df <- tree_removed_dups$tip.label %>%
   left_join(grambank_df, by = "Glottocode") %>% 
   mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) 
 
-tree_removed_dups$tip.label <- Gray_et_al_tree_tip.label_df$Glottocode
+tree_removed_dups$tip.label <- tree_tip.label_df$Glottocode
 
 #dropping tips which aren't in GB at all and non-oceanic languages
 tips_to_drop <- tree_removed_dups$tip.label %>% 
@@ -70,4 +74,8 @@ tips_to_drop <- tree_removed_dups$tip.label %>%
 
 tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 
-ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
+tree_fn <- paste0("gray_et_al_2009_posterior_trees_pruned_", index, ".txt")
+
+ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned", tree_fn))
+
+}
