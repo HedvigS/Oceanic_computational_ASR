@@ -19,6 +19,8 @@
 *D-PLACE-dplace-data-541f9f*
 *glottolog-glottolog*
 *zenodo*
+*trees*
+*output/tree_tips*
 
 #latex
 *tex/*log
@@ -27,8 +29,8 @@
 *tex/*blg
 *tex/*.out
 *tex/*gz
-
-
+*simmo*
+*output*
 
 .Rproj.user
 code/data/GB/GB_wide_binarised.tsv
