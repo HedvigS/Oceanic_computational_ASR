@@ -1,7 +1,15 @@
 source("1_requirements.R")
 options(tidyverse.quiet = TRUE) 
 
-#This script reads in the gray et al 2009 trees, as prepped by get_gray_tree.R, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The trees are pruned to only tips with data for the specific feature.
+#This script reads in all the trees in the posterior of Gray et al 2009. They have already been pruned and tips are set to glottocodes (see 3_get_gray_tree.R). In this script, we apply the function castor::max_parsimony() to each tree and saves the output from that, along with some other handy output regarding tip states etc in a row in a tibble. There is one tibble per tree in the posterior (i.e. 42000) and each tibble has one row per feature, and is saved to an RDS-file. All output is saved to a folder inside output/gray_et_al_2009/parsimony/results_by_tree/. Each folder name is unique to each tree, and all output concerning each tree is saved in the respective folder.
+
+#The setup is as follows
+#1) basics are read in
+#2) a custom function is defined which runs asr_max_parsimon() and saves some particular output to a list
+#3) 
+
+
+##Reading in basics
 
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
@@ -13,7 +21,7 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>%
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-#as a vector to have something to loop over
+#parameters as a vector to have something to loop over. Each element in this vector also serves as the content of the first column in the output tibble.
 GB_parameters <- GB_df_desc  %>% 
   dplyr::select(Feature_ID = ID) %>% 
   as.matrix() %>% 
@@ -32,6 +40,8 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>%
   mutate(value = str_replace_all(value, "0", "1")) %>% 
   mutate(value = as.integer(value)) %>% 
   reshape2::dcast(Glottocode ~ variable)
+
+##Defining functions
 
 fun_GB_ASR_Parsimony <- function(feature){
 #If you'd like to run this script chunk-wise on one feature to understand each step or to debug, you can assign GB020 to the argument "function" by running this line and then run the rest of the lines stepwise as you please.
@@ -80,6 +90,8 @@ cat("I've finished Parsimony ASR with Gray et al-tree for  ", feature,  "and ", 
 output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table, output_dir)
 output
 }
+
+###
 
 #looping over all trees in the posterior
 
