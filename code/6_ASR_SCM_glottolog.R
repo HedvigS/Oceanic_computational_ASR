@@ -90,8 +90,6 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
                         content = purrr::map(GB_df_desc$ID,
                                              fun_GB_ASR_SCM))
 
-beepr::beep(3)
-
 saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 #GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 

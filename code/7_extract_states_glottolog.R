@@ -264,5 +264,3 @@ df_non_erg %>%
 
 computational_predictions_all_df %>%
   write_tsv("output/HL_comparison/glottolog_tree_predictions_all.tsv")
-
-
