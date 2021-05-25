@@ -5,6 +5,10 @@ source("1_requirements.R")
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Name)
 
+output_dir <- file.path("output", "gray_et_al_2009", "ML", "mcct")
+if (!dir.exists(output_dir)) { dir.create(output_dir) }
+if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) } #dir for tree plot images
+
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
 gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
 
@@ -100,7 +104,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                     feature, corHMM_result_direct$loglik,
                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                   ),
-                  file = sprintf("output/gray_et_al_2009/ML/mcct/tree_plots/ML_gray_-%s.pdf", feature),
+                  file = file.path(output_dir, "tree_plots", paste0("ML_gray_-", feature, ".pdf")),
                   width=8, height=16
 )
 
@@ -119,7 +123,7 @@ GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
 
 #beepr::beep(3)
 
-saveRDS(GB_ASR_ML_all, "output/gray_et_al_2009/ML/mcct/GB_ML_gray_tree.rds")
+saveRDS(GB_ASR_ML_all, file = file.path(output_dir, "GB_ML_gray_tree.rds"))
 
 ##unraveling the output into a summary table
 
@@ -153,4 +157,4 @@ for(row in GB_ASR_ML_all_split$results_df){
 results <- rbind(results, row)
   }
 
-write_csv( results, "output/gray_et_al_2009/ML/mcct/results.csv")
+write_csv( results, file = file.path(output_dir,"results.csv"))
