@@ -48,7 +48,6 @@ index <- 0
 
 for(tree in 1:length(Gray_et_al_trees)){
 index <- index +1
-cat("i'm at tree", index, "\n.")
 
 tree <- Gray_et_al_trees[[tree]]
 
@@ -77,5 +76,5 @@ tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 tree_fn <- paste0("gray_et_al_2009_posterior_trees_pruned_", index, ".txt")
 
 ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned", tree_fn))
-
+cat("I'm done with tree", index, ".\n")
 }
