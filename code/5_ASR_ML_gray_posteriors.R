@@ -6,7 +6,7 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
+gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
@@ -26,14 +26,14 @@ cat("I've started ASR ML on ", feature, " with the Gray et al 2009-tree.\n", sep
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
-to_keep <- gray_tree$tip.label %>% 
+to_keep <- tree$tip.label %>% 
   as.data.frame() %>% 
   rename(Language_ID = ".") %>% 
   left_join(GB_df_all, by = "Language_ID") %>% 
   filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Language_ID, {{feature}})
 
-gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  
+gray_tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
 
 #gray_tree_pruned <- ape::multi2di(gray_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
 #gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0]<-max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
@@ -100,7 +100,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                     feature, corHMM_result_direct$loglik,
                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                   ),
-                  file = sprintf("output/gray_et_al_2009/ML/tree_plots/ML_gray_-%s.pdf", feature),
+                  file = file.path(output_dir, "tree_plots", paste0(feature, ".pdf")),
                   width=8, height=16
 )
 
@@ -112,45 +112,56 @@ output <- list(corHMM_result_direct, results_df)
 }
 }
 
+for(tree_fn in 1:length(gray_trees_fns)){
+  
+  #tree_fn <- 1
+  
+  fn_full <- gray_trees_fns[[tree_fn]]
+  tree <- read.tree(fn_full)
+  fn <-   fn_full %>% basename() %>% str_replace_all(".txt", "")
+  #creating a folder for outputting tables
+  output_dir <- file.path("output", "gray_et_al_2009", "ML", "results_by_tree", fn)
+  
+  if (!dir.exists(output_dir)) { dir.create(output_dir) }
+  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
+    
+  GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID[1:10],
+                          content = purrr::map(GB_df_desc$ID[1:10],
+                                               fun_GB_ASR_ML ))
 
-GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
-                                   content = purrr::map(GB_df_desc$ID,
-                                                        fun_GB_ASR_ML ))
-
-#beepr::beep(3)
-
-saveRDS(GB_ASR_ML_all, "output/gray_et_al_2009/ML/GB_ML_gray_tree.rds")
-
-##unraveling the output into a summary table
-
-GB_ASR_ML_all_split  <- GB_ASR_ML_all %>% 
-  unnest(content) %>% 
-  group_by(Feature_ID) %>% 
-  mutate(col=seq_along(Feature_ID)) %>%
-  spread(key=col, value=content) %>% 
-  rename(corHMM_result_direct = "1", results_df = "2") %>% 
-  ungroup()
-
-
-#making empty df to rbind to
-
-results <- data.frame(
-  Variable = NULL,
-  LogLikelihood = NULL,
-  AICc = NULL,
-  pRoot0 = NULL,
-  pRoot1 = NULL,
-  q01 = NULL,
-  q10 = NULL,
-  nTips = NULL,
-  nTips_state_0 =  NULL,
-  nTips_state_1 =  NULL
-)
-
-
-for(row in GB_ASR_ML_all_split$results_df){
-  print(row)
-results <- rbind(results, row)
+  
+  saveRDS(GB_ASR_ML_all , file = file.path(output_dir, "GB_ML_gray_tree.rds"))
+  
+  ###Making a summary results table for easy comparison
+  GB_ASR_ML_all_split  <- GB_ASR_ML_all %>% 
+    unnest(content) %>% 
+    group_by(Feature_ID) %>% 
+    mutate(col=seq_along(Feature_ID)) %>%
+    spread(key=col, value=content) %>% 
+    rename(corHMM_result_direct = "1", results_df = "2") %>% 
+    ungroup()
+  
+  
+  #making empty df to rbind to
+  
+  results <- data.frame(
+    Variable = NULL,
+    LogLikelihood = NULL,
+    AICc = NULL,
+    pRoot0 = NULL,
+    pRoot1 = NULL,
+    q01 = NULL,
+    q10 = NULL,
+    nTips = NULL,
+    nTips_state_0 =  NULL,
+    nTips_state_1 =  NULL
+  )
+  
+  
+  for(row in GB_ASR_ML_all_split$results_df){
+    print(row)
+    results <- rbind(results, row)
   }
-
-write_csv( results, "output/gray_et_al_2009/ML/results.csv")
+  
+  write_csv( results, file.path(output_dir, "results.csv"))
+}

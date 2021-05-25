@@ -41,6 +41,9 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>%
   mutate(value = as.integer(value)) %>% 
   reshape2::dcast(Glottocode ~ variable)
 
+#reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
+gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
+
 ##Defining functions
 
 fun_GB_ASR_Parsimony <- function(feature){
@@ -94,8 +97,6 @@ output
 ###
 
 #looping over all trees in the posterior
-
-gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
 
 for(tree_fn in 1:length(gray_trees_fns)){
   
