@@ -19,7 +19,7 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>%
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
   rename(Glottocode = Language_ID) %>% 
-  left_join(glottolog_df, by = "Language_ID") %>% 
+  left_join(glottolog_df, by = "Glottocode") %>% 
   filter(str_detect(classification, "ocea1241")) %>% #we'll make life easier for the below script as well and tease out only the Oceanic languages as well
   dplyr::select(Glottocode, GB_df_desc$ID) %>% 
   reshape2::melt(id.vars = "Glottocode") %>%
@@ -89,7 +89,7 @@ GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
                                   content = purrr::map(GB_parameters,
                                                        fun_GB_ASR_Parsimony))
 
-saveRDS(GB_ASR_Parsimony_all_df, "output/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds")
+saveRDS(GB_ASR_Parsimony_all_df, "output/gray_et_al_2009/parsimony/mcct/GB_parsimony_gray_tree.rds")
 
 ####PLOTTING TIME
 
