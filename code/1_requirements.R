@@ -84,3 +84,20 @@ library("corHMM")
 
 #quieting down tidyverse
 options(tidyverse.quiet = TRUE)
+
+##setting up folder structure 
+
+#dirs for gray_et_al_tree
+if (!dir.exists("output")) { dir.create("output") }
+if (!dir.exists(file.path("output", "gray_et_al_2009"))) { dir.create(file.path("output", "gray_et_al_2009")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
+
+#dirs for glottolog-tree
+if (!dir.exists(file.path("output", "glottolog_tree_binary"))) { dir.create(file.path("output", "glottolog_tree_binary")) }
+if (!dir.exists(file.path("output", "glottolog_tree_binary", "ML"))) { dir.create(file.path("output", "glottolog_tree_binary", "ML")) }
+if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony")) }
+if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
+
+
