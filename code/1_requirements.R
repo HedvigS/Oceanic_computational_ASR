@@ -91,8 +91,11 @@ options(tidyverse.quiet = TRUE)
 if (!dir.exists("output")) { dir.create("output") }
 if (!dir.exists(file.path("output", "gray_et_al_2009"))) { dir.create(file.path("output", "gray_et_al_2009")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
 
 #dirs for glottolog-tree
 if (!dir.exists(file.path("output", "glottolog_tree_binary"))) { dir.create(file.path("output", "glottolog_tree_binary")) }
