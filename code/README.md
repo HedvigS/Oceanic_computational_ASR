@@ -25,9 +25,11 @@ I'm using version 1, found at grambank-cldf. The dataset is binarised for this p
 The datasets and the trees are aggregated such that the tips and unit of analysis are languages, not a dialects. For the grambank dataset, I'm merging dialects into on language and randomly picking a value if they have conflicting values for the same feature (see 2_get_grambank_data.R). If one dialect has missing data for a feature and another has a defined value, I go with the non-missing data. For the Gray et al 2009-tree I have hand picked which dialect to use if there is more than one based on data quality in ABVD, see 3_get_gray_tree.R for details. I'm not using the taxa file for this tree as found at D-PLACE/dplace-data, but instead the one found at lexibank/ABVD ([see this PR for discussion](https://github.com/D-PLACE/dplace-data/pull/293)). The Glottolog tree is created using pyglottolog and the python package newick made by Forkel et al, and it's building a tree based on the Language_ID entries in the GB wide file, which is already aggregated for dialects. We don't gain that many data-points honestly by aggregating to languages, but a few and it seems more principled to just lump everything to language so that's what I'm doing. 
 
 ## Note on Gray et al 2009-tree
-I'm using the all of the posterior trees. I'm using the lexibank/ABVD taxa file rather than D-PLACE/dplace-data.
+I'm using the all of the posterior trees and the MCCT-tree. I'm using the lexibank/ABVD taxa file rather than D-PLACE/dplace-data. 
 
-Because this takes a signifiant amount of time (there are 4200 trees), I have also stored scripts in this repos which just run over the MCCT tree. These can be found in the direcotry "scripts_ASR_gray_tree_mcct_faster_demo". They can be used as a demo of sorts for the full analysis.
+Because this takes a signifiant amount of time (there are 4200 trees), I have also stored scripts in this repos which just run over the MCCT tree. These can be found in the directory "analysis_scripts_gray_mcct". They can be used as a demo of sorts for the full analysis.
+
+The full analysis on all the posteriors is in "analysis_scripts_gray_all_posterior".
 
 ## Note on tree pruning (general)
 For each reconstruction, I'm pruning the relevant tree to only tips which have a value for that feature. I'm not inferring unknown tip states. I could, but I am not. Again, I think principle-wise it'd be a bit too much for traditional linguists to stomach and it shouldn't make much of a difference. For the rest of the results, I'm ignoring trees where more than half tips are missing.
