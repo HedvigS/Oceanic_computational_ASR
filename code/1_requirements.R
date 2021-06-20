@@ -85,6 +85,11 @@ library("corHMM")
 #quieting down tidyverse
 options(tidyverse.quiet = TRUE)
 
+#setting up cut-off numbers for tree tips
+
+ntips_half_gray <- 62 #half of gray et al tree tips that can be matched to GB
+ntips_half_glottolog <- 117 #half of glottolog tree tips that can be matched to GB
+
 ##setting up folder structure 
 
 #dirs for gray_et_al_tree
@@ -102,5 +107,7 @@ if (!dir.exists(file.path("output", "glottolog_tree_binary"))) { dir.create(file
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "ML"))) { dir.create(file.path("output", "glottolog_tree_binary", "ML")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
+
+
 
 

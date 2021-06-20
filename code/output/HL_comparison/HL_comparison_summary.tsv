@@ -1,15 +1,15 @@
 Stat	Parsimony result (Glottolog-tree)	ML result (Glottolog-tree)	Parsimony result (Gray et al 2009-tree)	ML result (Gray et al 2009-tree)
-False Negative	5	5	6	6
-False Positive	1	3	5	1
-Half	 9	15	 7	12
-True Negative	46	41	41	41
-True Positive	48	45	50	48
-Disagree	 6	 8	11	 7
-Agree	94	86	91	89
-reconstructions_non_half	100	 94	102	 96
-reconstructions_all	109	109	109	108
-Accuracy	0.94	0.91	0.89	0.93
-Accuracy_incl_half	0.90	0.86	0.87	0.88
-Precision	0.98	0.94	0.91	0.98
-Recall	0.91	0.90	0.89	0.89
-F1_score	0.94	0.92	0.90	0.93
+False Negative	6	6	6	7
+False Positive	2	2	4	1
+Half	 8	13	 5	 9
+True Negative	39	36	37	37
+True Positive	43	41	46	44
+Disagree	 8	 8	10	 8
+Agree	82	77	83	81
+reconstructions_non_half	90	85	93	89
+reconstructions_all	98	98	98	98
+Accuracy	0.91	0.91	0.89	0.91
+Accuracy_incl_half	0.88	0.85	0.87	0.87
+Precision	0.96	0.95	0.92	0.98
+Recall	0.88	0.87	0.88	0.86
+F1_score	0.91	0.91	0.90	0.92

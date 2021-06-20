@@ -1,0 +1,196 @@
+Feature_ID	Feature	Value	Source (Latex)	Source	Comment
+GB028	Is there a distinction between inclusive and exclusive?	1	\citet[112]{pawley1973some}, \citet[184]{crowley1985common}, \citet[500]{ross2004morphosyntactic}, \citet[67, 75]{lynchrosscrowley_proto_grammar_oceanic}	Pawley (1973:112); Crowley (1985:184); Ross (2004:500); Lynch, Ross and Crowley (2011:67, 75)	
+GB023	Are there postnominal articles?	0	\citet[112]{pawley1973some}, \citet[498]{ross2004morphosyntactic}	Pawley (1973:112); Ross (2004:498)	
+GB431	Can adnominal possession be marked by a prefix on the possessed noun?	0	\citet[117]{pawley1973some}, \citet[494, 497]{ross2004morphosyntactic}	Pawley (1973:117); Ross (2004:494, 497)	
+GB105	Can the recipient in a ditransitive construction be marked like the monotransitive patient?	0	\citet[118]{pawley1973some}	Pawley (1973:118)	
+GB133	Is a pragmatically unmarked constituent order verb-final for transitive clauses?	1	\citet[118]{pawley1973some}	Pawley (1973:118)	
+GB131	Is a pragmatically unmarked constituent order verb-initial for transitive clauses?	1	\citet[118]{pawley1973some}, \citet[86]{lynchrosscrowley_proto_grammar_oceanic}	Pawley (1973:118); Lynch, Ross and Crowley (2011:86)	
+GB079	Do verbs have prefixes/proclitics, other than those that only mark A, S or P (do include portmanteau: A & S  TAM)?	1	\citet[142]{pawley1973some}, \citet[292]{ross2007two}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Pawley (1973:142); Ross (2007:292); Lynch, Ross and Crowley (2011:83)	
+GB140	Is verbal predication marked by the same negator as all of the following types of predication: locational, existential and nominal?	0	\citet[143-6]{pawley1973some}, \citet[88]{lynchrosscrowley_proto_grammar_oceanic}	Pawley (1973:143-146); Lynch, Ross and Crowley (2011:88)	
+GB058	Are there possessive classifiers?	1	\citet[154]{pawley1973some}, \citet[498]{ross2004morphosyntactic}, \citet[69, 77]{lynchrosscrowley_proto_grammar_oceanic}	Pawley (1973:154); Ross (2004:498); Lynch, Ross and Crowley (2011: 69, 77)	
+GB065	Is the order of possessor noun and possessed noun possessed-possessor?	3	\citet[155-156]{pawley1973some}, \citet[512]{ross2004morphosyntactic}, \citet[77]{lynchrosscrowley_proto_grammar_oceanic}; \citet[76]{lynchrosscrowley_proto_grammar_oceanic}, \citet[155-156]{pawley1973some}	Pawley (1973:155-156); Ross (2004:512); Lynch, Ross and Crowley (2011: 77); Lynch, Ross and Crowley (2011:76); Pawley (1973:155-156)	
+GB408	Is there any accusative alignment of flagging?	1	\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}	Pawley (1973:167); Ross (2004:498)	
+GB074	Are there prepositions?	1	\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}	Pawley (1973:167); Ross (2004:498)	
+GB113	Are there verbal affixes or clitics that turn intransitive verbs into transitive ones?	1	\citet[171]{pawley1973some}, \citet[123]{wilson1982proto}, \citet[80, 92]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}	Pawley (1973:171); Wilson (1982:123); Lynch, Ross and Crowley (2011:80, 92)	
+GB115	Is there a phonologically bound reciprocal marker on the verb?	1	\citet[172]{pawley1973some}, \citet[495, 513]{ross2004morphosyntactic}	Pawley (1973:172); Ross (2004:495,513)	
+GB059	Is the adnominal possessive construction different for alienable and inalienable nouns?	1	\citet[492, 511-512]{ross2004morphosyntactic}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:492, 511-512); Lynch, Ross and Crowley (2011:69)	
+GB522	"Can the S or A argument be omitted from a pragmatically unmarked clause when the referent is inferrable from context (""pro-drop"" or ""null anaphora"")?"	1	\citet[495]{ross2004morphosyntactic}	Ross (2004:495)	
+GB433	Can adnominal possession be marked by a suffix on the possessed noun?	1	\citet[495]{ross2004morphosyntactic}, \citet[155]{pawley1973some}	Ross (2004:495); Pawley (1973:155)	
+GB409	Is there any ergative alignment of flagging?	0	\citet[496]{ross2004morphosyntactic}	Ross (2004:496)	
+GB132	Is a pragmatically unmarked constituent order verb-medial for transitive clauses?	1	\citet[497]{ross2004morphosyntactic}, \citet[117]{pawley1973some}	Ross (2004:497); Pawley (1973:117)	
+GB193	Is the order of the adnominal property and the noun N-ANM?	2	\citet[497]{ross2004morphosyntactic}, \citet[74]{lynchrosscrowley_proto_grammar_oceanic}; 	Ross (2004:497); Lynch, Ross and Crowley (2011:74)	
+GB091	Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause?	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83)	
+GB094	Can the P argument be indexed by a prefix/proclitic on the verb in the simple main clause?	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83)	
+GB092	Can the A argument be indexed by a prefix/proclitic on the verb in the simple main clause?	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83)	
+GB090	Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause?	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83)	
+GB089	Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause?	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83)	
+GB093	Can the P argument be indexed by a suffix/enclitic on the verb in the simple main clause?	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}	Ross (2004:498-499); Lynch, Ross and Crowley (2011:83); Evans (2003:112)	
+GB030	Is there a gender distinction in independent 3rd person pronouns?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB051	Is there a gender/noun class system where sex is a factor in class assignment?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB054	Is there a gender/noun class system where plant status is a factor in class assignment?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB170	Can an adnominal property word agree with the noun in gender/noun class?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB172	Can an article agree with the noun in gender/noun class?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB192	Is there a gender system where a noun's phonological properties are a factor in class assignment?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB198	Can an adnominal numeral agree with the noun in gender/noun class?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB432	Can adnominal possession be marked by a suffix on the possessor?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB052	Is there a gender/noun class system where shape is a factor in class assignment?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB053	Is there a gender/noun class system where animacy is a factor in class assignment?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB171	Can an adnominal demonstrative agree with the noun in gender/noun class?	0	\citet[498]{ross2004morphosyntactic}	Ross (2004:498)	
+GB031	Is there a dual or unit augmented form (in addition to plural or augmented) for all person categories in the pronoun system?	1	\citet[498]{ross2004morphosyntactic}, \citet[109]{kikusawa2001rotuman}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic}, \citet[173]{pawley1973some}	Ross (2004:498); Kikusawa (2001:109); Lynch, Ross and Crowley (2011:69); Pawley (1973:173)	
+GB075	Are there postpositions?	0	\citet[500]{ross2004morphosyntactic}	Ross (2004:500)	
+GB430	Can adnominal possession be marked by a prefix on the possessor?	0	\citet[511]{ross2004morphosyntactic}	Ross (2004:511)	
+GB147	Is there a morphological passive marked on the lexical verb?	0	\citet[533]{ross2004morphosyntactic}	Ross (2004:533)	
+GB068	Do core adjectives (defined semantically as property concepts such as value, shape, age, dimension) act like verbs in predicative position?	1	\citet[63, 74]{lynchrosscrowley_proto_grammar_oceanic}, \citet[113]{pawley1973some}	Lynch, Ross and Crowley (2011:63, 74); Pawley (1973:113)	
+GB047	Is there a productive morphological pattern for deriving an action/state noun from a verb?	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:70)	
+GB159	Are nouns reduplicated?	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:70)	
+GB049	Is there a productive morphological pattern for deriving an object noun from a verb?	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:70)	
+GB333	Is there a decimal numeral system?	1	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:72)	
+GB025	Is the order of adnominal demonstratives and nouns N-Dem?	2	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:72)	
+GB035	Are there three or more distance contrasts in demonstratives?	1	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:72)	
+GB155	Are causatives formed by affixes or clitics on verbs?	1	\citet[74, 83]{lynchrosscrowley_proto_grammar_oceanic}, \citet[130]{pawley1973some}, \citet[344]{evans2003study}	Lynch, Ross and Crowley (2011:74, 83); Pawley (1973:130); Evans (2003:344)	
+GB082	Is there overt morphological marking of present tense on verbs?	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:76)	
+GB521	"Can tense be marked by a non-inflecting word (""auxiliary particle"")?"	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB083	Is there overt morphological marking on the verb dedicated to past tense?	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB084	Is there overt morphological marking on the verb dedicated to future tense?	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB121	"Can tense be marked by an inflecting word (""auxiliary verb"")?"	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB312	Is there overt morphological marking on the verb dedicated to mood?	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB086	Is a morphological distinction between perfective and imperfective aspect available on verbs?	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:84)	
+GB158	Are verbs reduplicated?	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}	Lynch, Ross and Crowley (2011:84); Evans (2003:112)	
+GB117	Is there a copula for predicate nominals?	0	\citet[86]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:86)	
+GB299	"Can standard negation be marked by a non-inflecting word (""auxiliary particle"")?"	1	\citet[88]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:88)	
+GB260	Can polar interrogation be indicated by a special word order?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB264	Is there a polar interrogative particle that most commonly occurs neither clause-initially nor clause-finally?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB285	Can polar interrogation be marked by a question particle and verbal morphology?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB286	Can polar interrogation be indicated by overt verbal morphology only?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB291	Can polar interrogation be marked by tone?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB262	Is there a clause-initial polar interrogative particle?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB297	Can polar interrogation be indicated by a V-not-V construction?	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}	Lynch, Ross and Crowley (2011:89)	
+GB022	Are there prenominal articles?	1	\citet{crowley1985common}, \citet[70]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{pawley1973some}	Crowley (1985); Lynch, Ross and Crowley (2011:70); Pawley (1973:112)	
+GB020					
+GB021					
+GB024					
+GB026					
+GB027					
+GB036					
+GB037					
+GB038					
+GB039					
+GB041					
+GB042					
+GB043					
+GB044					
+GB046					
+GB048					
+GB057					
+GB069					
+GB070					
+GB071					
+GB072					
+GB073					
+GB080					
+GB081					
+GB095					
+GB096					
+GB098					
+GB099					
+GB103					
+GB104					
+GB107					
+GB108					
+GB109					
+GB110					
+GB111					
+GB114					
+GB116					
+GB118					
+GB119					
+GB120					
+GB122					
+GB123					
+GB124					
+GB126					
+GB127					
+GB129					
+GB130					
+GB134					
+GB135					
+GB136					
+GB137					
+GB138					
+GB139					
+GB146					
+GB148					
+GB149					
+GB150					
+GB151					
+GB152					
+GB156					
+GB160					
+GB165					
+GB166					
+GB167					
+GB177					
+GB184					
+GB185					
+GB186					
+GB187					
+GB188					
+GB196					
+GB197					
+GB203					
+GB204					
+GB250					
+GB252					
+GB253					
+GB254					
+GB256					
+GB257					
+GB263					
+GB265					
+GB266					
+GB270					
+GB273					
+GB275					
+GB276					
+GB296					
+GB298					
+GB300					
+GB301					
+GB302					
+GB303					
+GB304					
+GB305					
+GB306					
+GB309					
+GB313					
+GB314					
+GB315					
+GB316					
+GB317					
+GB318					
+GB319					
+GB320					
+GB321					
+GB322					
+GB323					
+GB324					
+GB325					
+GB326					
+GB327					
+GB328					
+GB329					
+GB330					
+GB331					
+GB334					
+GB335					
+GB336					
+GB400					
+GB401					
+GB402					
+GB403					
+GB410					
+GB415					
+GB421					
+GB422					
+GB519					
+GB520					
