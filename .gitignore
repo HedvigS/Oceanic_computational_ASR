@@ -12,14 +12,10 @@
 *.pdf
 
 #folders
-*glottolog_zenodo*
-*output"
+*output
 *to sort*
-*D-PLACE-dplace-data-541f9f*
-*glottolog-glottolog*
-*zenodo*
-*trees*
 *output/tree_tips*
+*glottolog-glottolog-1ff8114*
 
 #latex
 *tex/*log
@@ -31,9 +27,6 @@
 *simmo*
 *output*
 *TBA*
+*gray_et_al_2009_posterior_trees_pruned*
 
 .Rproj.user
-code/data/GB/GB_wide_binarised.tsv
-code/data/GB/parameters_binary.tsv
-code/output/gray_et_al_2009/ML/results.csv
-code/output/gray_et_al_2009/parsimony/results.csv

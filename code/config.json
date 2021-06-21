@@ -8,7 +8,7 @@
     "zenodo_url":"https://zenodo.org/record/4061162/files/glottolog/glottolog-v4.3.zip"
   },
   "grambank_cldf":{
-    "location":"../../grambank-cldf/cldf",
+    "location":"data/GB/grambank-cldf/cldf",
     "zenodo_url":""
   },
   "d_place_gray_et_al_2009_tree":{
