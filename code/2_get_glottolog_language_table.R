@@ -62,4 +62,4 @@ glottolog_language_table_wide_df <- dplyr::full_join(values,languages, by = "Lan
 
 write_tsv(glottolog_language_table_wide_df, "data/glottolog_language_table_wide_df.tsv")
 
-cat("glottolog-cldf table created.")
+cat("glottolog-cldf table created.\n")

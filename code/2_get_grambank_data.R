@@ -179,8 +179,6 @@ GB_wide %>%
   rename(Language_ID = Language_level_ID) %>% 
   write_tsv(output_path)
 
-cat("Wrote", output_path, "\n")
-
 ################################
 
 
@@ -264,6 +262,6 @@ Parameter_desc_binary %>%
   mutate(Binary_Multistate = ifelse(is.na(Binary_Multistate), "Binary", Binary_Multistate)) %>% 
   write_tsv(file.path("data", "GB", "parameters_binary.tsv"))
 
-cat("Grambank made wide and binarised. Wide table and parameters table written.")
+cat("Grambank made wide and binarised. Wide table and parameters table written.\n")
 
 } else{message("Stop the presses!!! There was a match of dialect to dialect between the Gray et al 2009-tree and Grambank! Let's have a rethink!")}
