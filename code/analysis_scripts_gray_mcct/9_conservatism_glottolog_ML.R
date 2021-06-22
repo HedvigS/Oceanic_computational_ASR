@@ -21,7 +21,7 @@ fun_get_ML_branch_lengths <- function(Feature, ASR_tibble) {
   asr_object_row <- ASR_tibble %>% 
     filter(Feature_ID == Feature) 
   
-  asr_object <-  asr_object_row$content[[1]]
+  asr_object <-  asr_object_row$content[[1]][[1]]
   
   tree <- asr_object$phy
 
@@ -37,10 +37,23 @@ fun_get_ML_branch_lengths <- function(Feature, ASR_tibble) {
   
   m <- optim.pml(start.fit, rearrangement="none")
   
-  #ml.tree <- midpoint(m$tree)  
-
-ml.tree <- root(m$tree, outgroup = "nang1262")
+#  ayiw1239
   
+#  natu1246
+  
+if("nang1262" %in% m$tree$tip.label) {
+  ml.tree <- root(m$tree, outgroup = "nang1262")
+} else{if("ayiw1239" %in% m$tree$tip.label){
+  ml.tree <- root(m$tree, outgroup = "ayiw1239")}else{
+    if("natu1246" %in% m$tree$tip.label){
+      ml.tree <- root(m$tree, outgroup = "natu1246")}
+  
+  }
+  
+    }
+  
+    
+
 dists_ML_dist <- distRoot(ml.tree) %>% 
     as.data.frame() %>% 
     rename(dist = 1) %>% 
@@ -58,9 +71,17 @@ dists <- dists_ML_dist %>% full_join(dists_nNodes)
 }
 
 
-Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog #%>% 
-#  filter(Feature_ID != "GB110") %>% 
-#  filter(Feature_ID != "GB149") %>% 
+Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog %>% 
+#  filter(Feature_ID != "GB203a") %>% #excluded because nanggu isn't in tree 
+#  filter(Feature_ID != "GB203b") %>% #excluded because nanggu isn't in tree 
+#filter(Feature_ID != "GB041") %>% #excluded because nanggu isn't in tree 
+#filter(Feature_ID != "GB046") %>% #excluded because nanggu isn't in tree 
+#  filter(Feature_ID != "GB114") %>% #excluded because nanggu isn't in tree 
+#  filter(Feature_ID != "GB118") %>% #excluded because nanggu isn't in tree 
+#  filter(Feature_ID != "GB122") %>% #excluded because nanggu isn't in tree 
+#  filter(Feature_ID != "GB123") %>% #excluded because nanggu isn't in tree 
+  filter(Feature_ID != "GB110") %>% #excluded because values are too skewed 
+ filter(Feature_ID != "GB149") #%>% excluded because values are too skewed 
 #  filter(Feature_ID != "GB336") %>% 
 #  filter(Feature_ID != "GB315")
 
