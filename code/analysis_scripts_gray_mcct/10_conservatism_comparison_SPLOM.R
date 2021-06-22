@@ -1,13 +1,8 @@
-source("requirements.R")
-
-rm(list=setdiff(ls(), "start_time")) #cleaning environment
+source("1_requirements.R")
 
 range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 
-taxa <- read_csv("../../dplace-data/phylogenies/gray_et_al2009/taxa.csv")
-
-
-subregions <- read_tsv("../data/Remote_Oceania_Political_complex_and_more/oceania_subregions.tsv") %>% 
+subregions <- read_tsv("data/oceania_subregions.tsv") %>% 
   rename(glottocode = Glottocode)  %>% 
   mutate(Smallest_Island_group = str_split(Smallest_Island_group, ",")) %>% 
   unnest(Smallest_Island_group) %>% 
@@ -15,27 +10,27 @@ subregions <- read_tsv("../data/Remote_Oceania_Political_complex_and_more/oceani
   dplyr::select(Smallest_Island_group, glottocode) 
 
 
-dates <- read_xlsx("../data/Remote_Oceania_Political_complex_and_more/island_group_settlement_date.xlsx") %>% dplyr::select(Smallest_Island_group = "Smaller specific island group", Time_depth = "Time depth settlement group") %>% 
-  full_join(subregions) 
+#dates <- read_xlsx("../data/Remote_Oceania_Political_complex_and_more/island_group_settlement_date.xlsx") %>% dplyr::select(Smallest_Island_group = "Smaller specific island group", Time_depth = "Time depth settlement group") %>% 
+ # full_join(subregions) 
 
-parsimony_gray <- read_tsv("output/ASR/conservatism_parsimony_gray.tsv") %>% 
-  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
-  rename(parsimony_cost_gray = `Mean parsimony cost`) %>% 
-  rename(taxon = glottocode) %>% 
-  left_join(taxa) %>% 
-  dplyr::select(glottocode, parsimony_cost_gray)
+#parsimony_gray <- read_tsv("output/ASR/conservatism_parsimony_gray.tsv") %>% 
+#  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
+#  rename(parsimony_cost_gray = `Mean parsimony cost`) %>% 
+#  rename(taxon = glottocode) %>% 
+#  left_join(taxa) %>% 
+#  dplyr::select(glottocode, parsimony_cost_gray)
 
-parsimony_glottolog <- read_tsv("output/ASR/conservatism_parsimony_glottolog.tsv") %>% 
-  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
-  rename(parsimony_cost_glottolog = `Mean parsimony cost`) %>% 
-  dplyr::select(parsimony_cost_glottolog, glottocode)
+#parsimony_glottolog <- read_tsv("output/ASR/conservatism_parsimony_glottolog.tsv") %>% 
+#  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
+#  rename(parsimony_cost_glottolog = `Mean parsimony cost`) %>% 
+#  dplyr::select(parsimony_cost_glottolog, glottocode)
 
-ML_gray <- read_tsv("output/ASR/conservatism_ML_gray.tsv") %>% 
+ML_gray <- read_tsv("output/gray_et_al_2009/ML/mcct/conservatism_ML_gray.tsv") %>% 
   mutate(mean_dist = range01(mean_dist)) %>% 
   rename(ML_dist_gray = mean_dist) %>% 
   dplyr::select(ML_dist_gray, glottocode)
 
-ML_glottolog <- read_tsv("output/ASR/conservatism_ML_glottolog.tsv") %>% 
+ML_glottolog <- read_tsv("output/glottolog_tree_binary/ML/conservatism_ML_glottolog.tsv") %>% 
   mutate(mean_dist = range01(mean_dist)) %>% 
   rename(ML_dist_glottolog = mean_dist) %>% 
   dplyr::select(ML_dist_glottolog , glottocode)
@@ -43,30 +38,31 @@ ML_glottolog <- read_tsv("output/ASR/conservatism_ML_glottolog.tsv") %>%
 
 all_dists_wide <- ML_glottolog %>% 
   full_join(ML_gray) %>% 
-  full_join(parsimony_glottolog) %>% 
-  full_join(parsimony_gray) %>% 
-  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
-  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
+#  full_join(parsimony_glottolog) %>% 
+#  full_join(parsimony_gray) %>% 
+#  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
+#  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
   rename(`Mean ML-branch length (Gray et al 2009)` = ML_dist_gray) %>% 
   rename(`Mean ML-branch length (Glottolog)` = ML_dist_glottolog) 
 
 
 all_dists <- ML_glottolog %>% 
   full_join(ML_gray) %>% 
-  full_join(parsimony_glottolog) %>% 
-  full_join(parsimony_gray) %>% 
-  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
-  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
+#  full_join(parsimony_glottolog) %>% 
+ # full_join(parsimony_gray) %>% 
+#  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
+#  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
   rename(`Mean ML-branch length (Gray et al 2009)` = ML_dist_gray) %>% 
   rename(`Mean ML-branch length (Glottolog)` = ML_dist_glottolog) %>% 
   reshape2::melt(id.vars = "glottocode") %>% 
   filter(!is.na(value))
 
-glottolog <- read_tsv("data/Glottolog_lookup_table_Heti_edition.tsv")  %>% 
-  mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude)) 
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())   %>% 
+  mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  %>% 
+  rename(glottocode = Glottocode)
 
 df_wide_with_lat_long <- all_dists %>% 
-  left_join(glottolog)   
+  left_join(glottolog_df)   
 
 #worldmaps
 #rendering a worldmap that is pacific centered
@@ -113,29 +109,26 @@ basemap +
         strip.background=element_rect(fill="#dcfaff")) +
   facet_wrap(~variable, ncol = 2)
 
-ggsave("output/ASR/other_plots/br_len_maps.png", width = 26, height =20)
+ggsave("output/other_plots/br_len_maps.png", width = 26, height =20)
 
 ##SPLOM TIME
 
 all_dists_for_SPLOM <- ML_glottolog %>% 
-  full_join(ML_gray) %>% 
-  full_join(parsimony_glottolog) %>% 
-  full_join(parsimony_gray) %>% 
-  left_join(dates) %>% 
-  dplyr::select(-Smallest_Island_group) %>% 
-  rename("ML\nGlottolog-tree" = "ML_dist_glottolog",
-  "ML\nGray et al 2009-tree"= "ML_dist_gray", 
-  "Parsimony\nGlottolog-tree" = "parsimony_cost_glottolog" , 
-  "Parsimony\nGray et al 2009-tree"= "parsimony_cost_gray",
-  "Settlement time order" = "Time_depth" )
+  full_join(ML_gray) #%>% 
+#  full_join(parsimony_glottolog) %>% 
+#  full_join(parsimony_gray) %>% 
+#  left_join(dates) %>% 
+#  dplyr::select(-Smallest_Island_group) %>% 
+#  rename("ML\nGlottolog-tree" = "ML_dist_glottolog",
+#  "ML\nGray et al 2009-tree"= "ML_dist_gray", 
+#  "Parsimony\nGlottolog-tree" = "parsimony_cost_glottolog" , 
+#  "Parsimony\nGray et al 2009-tree"= "parsimony_cost_gray",
+#  "Settlement time order" = "Time_depth" )
 
 
+png("output/other_plots/br_len_splom.png",  height =17, width = 17, units = "cm", res = 400)
 
-library(psych)
-
-png("output/ASR/other_plots/br_len_splom.png",  height =17, width = 17, units = "cm", res = 400)
-
-pairs.panels(all_dists_for_SPLOM[,2:6], 
+pairs.panels(all_dists_for_SPLOM[,c(1, 3)], 
              method = "pearson", # correlation method
              hist.col = "#a3afd1",# "#a9d1a3","",""),
              density = TRUE,  # show density plots
@@ -144,7 +137,7 @@ pairs.panels(all_dists_for_SPLOM[,2:6],
              #           smoother= T,
              cor=T,
              lm=T,
-             labels = c("Maximum Likelihood\nGlottolog-tree", "Maximum Likelihood\nGray et al 2009-tree", "Parsimony\nGlottolog-tree", "Parsimony\nGray et al 2009-tree", "Settlement time depth"),
+#             labels = c("Maximum Likelihood\nGlottolog-tree", "Maximum Likelihood\nGray et al 2009-tree", "Parsimony\nGlottolog-tree", "Parsimony\nGray et al 2009-tree", "Settlement time depth"),
              ci = T, cex.cor = 0.9,stars = T)
 
 dev.off()

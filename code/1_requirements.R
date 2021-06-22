@@ -40,6 +40,7 @@ pacman::p_load(
   ggrepel,
 jsonlite, #reading json files
   ggpubr,
+psych,
  # cowplot,
   fuzzyjoin,
   infotheo,

@@ -58,3 +58,6 @@ Rscript analysis_scripts_gray_mcct/8_make_stability_tables.R
 Rscript 9_conservatism_glottolog_ML.R
 Rscript analysis_scripts_gray_mcct/9_conservatism_gray_ML.R
 
+##compare conservatism scores
+
+Rscript analysis_scripts_gray_mcct/10_conservatism_comparison_SPLOM.R
