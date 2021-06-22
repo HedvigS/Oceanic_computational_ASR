@@ -1,13 +1,16 @@
-source("requirements.R")
+source("1_requirements.R")
 options(tidyverse.quiet = TRUE)
 
-glottolog <- read_tsv("../../Glottolog_look_up_table/Glottolog_lookup_table_Hedvig_output/Glottolog_lookup_table_Heti_edition.tsv")
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  
 
-GB_ACR_all_ML_glottolog <- read_csv("output/ASR/glottolog_tree_binary/raydisc/results.csv")
 
-results_FN <- list.files(path = "output/ASR/glottolog_tree_binary/raydisc/", pattern = ".rds", full.names = T)
+GB_ACR_all_ML_glottolog_summaries <- read_csv("output/glottolog_tree_binary/ML/results.csv")
 
-GB_ACR_all_ML_glottolog$content <- lapply(results_FN, readRDS)
+results_FN <- list.files(path = "output/glottolog_tree_binary/ML/", pattern = ".rds", full.names = T)
+
+GB_ACR_all_ML_glottolog <- results_FN %>% 
+  readRDS %>% 
+  full_join(GB_ACR_all_ML_glottolog_summaries)
 
 fun_get_ML_branch_lengths <- function(Feature, ASR_tibble) {
   
@@ -55,11 +58,11 @@ dists <- dists_ML_dist %>% full_join(dists_nNodes)
 }
 
 
-Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog %>% 
-  filter(Feature_ID != "GB110") %>% 
-  filter(Feature_ID != "GB149") %>% 
-  filter(Feature_ID != "GB336") %>% 
-  filter(Feature_ID != "GB315")
+Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog #%>% 
+#  filter(Feature_ID != "GB110") %>% 
+#  filter(Feature_ID != "GB149") %>% 
+#  filter(Feature_ID != "GB336") %>% 
+#  filter(Feature_ID != "GB315")
 
 dist_root_rbind_df <- as.data.frame(do.call(rbind,(lapply(Features_to_run_ML_br_len_over$Feature_ID, fun_get_ML_branch_lengths , ASR_tibble = GB_ACR_all_ML_glottolog))))
 
