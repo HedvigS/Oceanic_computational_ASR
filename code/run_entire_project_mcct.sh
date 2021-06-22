@@ -50,4 +50,11 @@ Rscript analysis_scripts_gray_mcct/7_compare_to_HL.R
 
 ## 8 make stability tables
 
-Rscript analysis_scripts_gray_mcct/8_make_stability_tables
+Rscript analysis_scripts_gray_mcct/8_make_stability_tables.R
+
+
+## 9 conservatism scores
+
+Rscript 9_conservatism_glottolog_ML.R
+Rscript analysis_scripts_gray_mcct/9_conservatism_gray_ML.R
+
