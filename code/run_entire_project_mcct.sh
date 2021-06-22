@@ -46,5 +46,8 @@ Rscript 5_ASR_ML_glottolog.R
 ## 7 Compare to HL
 echo seventh step, compate to classical historical linguistics
 
+Rscript analysis_scripts_gray_mcct/7_compare_to_HL.R
 
-#Rscript 7_compare_to_HL.R
+## 8 make stability tables
+
+Rscript analysis_scripts_gray_mcct/8_make_stability_tables
