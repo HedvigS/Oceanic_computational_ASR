@@ -81,22 +81,21 @@ Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog %>%
 #  filter(Feature_ID != "GB122") %>% #excluded because nanggu isn't in tree 
 #  filter(Feature_ID != "GB123") %>% #excluded because nanggu isn't in tree 
   filter(Feature_ID != "GB110") %>% #excluded because values are too skewed 
- filter(Feature_ID != "GB149") #%>% excluded because values are too skewed 
-#  filter(Feature_ID != "GB336") %>% 
-#  filter(Feature_ID != "GB315")
+ filter(Feature_ID != "GB149") %>% #excluded because values are too skewed 
+  filter(Feature_ID != "GB315") %>% #excluded because values are too skewed 
+filter(Feature_ID != "GB522") #excluded because values are too skewed 
 
 dist_root_rbind_df <- as.data.frame(do.call(rbind,(lapply(Features_to_run_ML_br_len_over$Feature_ID, fun_get_ML_branch_lengths , ASR_tibble = GB_ACR_all_ML_glottolog))))
 
 #writing it to a full tsv
-dist_root_rbind_df %>%   write_tsv("output/ASR/conservatism_ML_glottolog_all.tsv")
-dist_root_rbind_df <-   read_tsv("output/ASR/conservatism_ML_glottolog_all.tsv")
+dist_root_rbind_df %>%   write_tsv("output/glottolog_tree_binary/ML/conservatism_ML_glottolog_all.tsv")
+#dist_root_rbind_df <-   read_tsv("output/ASR/conservatism_ML_glottolog_all.tsv")
 
 #removing features for which the language had missing value and this was replaced by "1&0"
 
-GB_long <-  read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
+GB_long <-  read_tsv("data/GB/GB_wide_binarised.tsv") %>% 
   rename(glottocode = Language_ID) %>% 
-  dplyr::select(-na_prop) %>% 
-  melt() %>% 
+  melt(id.vars = "glottocode") %>% 
   filter(!is.na(value)) %>% 
   dplyr::select(-value)
 
@@ -104,5 +103,5 @@ dist_root_rbind_df %>%
   inner_join(GB_long) %>% 
   group_by(glottocode) %>% 
   summarise(mean_dist = mean(dist, na.rm = T), nNodes_mean = mean(nNodes_dist, na.rm = T)) %>% 
-  write_tsv("output/ASR/conservatism_ML_glottolog.tsv")
+  write_tsv("output/glottolog_tree_binary/ML/conservatism_ML_glottolog.tsv")
 
