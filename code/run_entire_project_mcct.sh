@@ -30,15 +30,15 @@ fi
 
 echo fourth step, run the max parsimony ancestral state reconstruction analysis on the glottolog tree and the MCCT tree from Gray et al 2009.
 
-Rscript analysis_scripts_gray_mcct/4_ASR_parsimony_gray_mmct.R
-Rscript 4_ASR_parsimony_glottolog.R
+#Rscript analysis_scripts_gray_mcct/4_ASR_parsimony_gray_mmct.R
+#Rscript 4_ASR_parsimony_glottolog.R
 
 ## 5 run ASR analysis - Maximum Likelihood
 # These scripts do the ASR and deposits the results in an Rdata file and makes a tree-plot for each feature and method and outputs a PNG file.
 #step_5: max_likelihood
 
-echo fifth step, run the max liklihood (marginal) ancestral state reconstruction analysis  on the glottolog tree and the MCCT tree from Gray et al 2009.
-Rscript analysis_scripts_gray_mcct/5_ASR_ML_gray_mcct
+echo "fifth step, run the max liklihood (marginal) ancestral state reconstruction analysis  on the glottolog tree and the MCCT tree from Gray et al 2009.""
+Rscript analysis_scripts_gray_mcct/5_ASR_ML_gray_mcct""
 Rscript 5_ASR_ML_glottolog.R
 
 ## 6 run ASR analysis - SIMMAP

@@ -17,14 +17,57 @@ full_join(read_tsv("data/HL_findings/GB_sheets/HS_ocea1241.tsv")%>%
   full_join(read_csv("data/HL_findings/HL_findings_binarised_extra.csv")) %>% 
   dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
 
+###Make coding sheets binarised
+
+
+#GB024 multistate 1; Num-N; 2: N-Num; 3: both.
+if("GB024" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB024a <- if_else(HL_findings_sheet$GB024 == "1"|HL_findings_sheet$GB024 == "3", "1", ifelse(HL_findings_sheet$GB024 == "2", "0", NA)) 
+  
+  HL_findings_sheet$GB024b <- if_else(HL_findings_sheet$GB024 == "2"|HL_findings_sheet$GB024 == "3", "1", ifelse(HL_findings_sheet$GB024 == "1", "0", NA)) 
+}
+
+#GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
+if("GB025" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB025a <- if_else(HL_findings_sheet$GB025 == "1"|HL_findings_sheet$GB025 == "3", "1", ifelse(HL_findings_sheet$GB025 == "2", "0", NA)) 
+  
+  HL_findings_sheet$GB025b <- ifelse(HL_findings_sheet$GB025 == "2"|HL_findings_sheet$GB025 == "3", "1", ifelse(HL_findings_sheet$GB025 == "1", "0", NA)) 
+}
+
+#GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
+if("GB065" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB065a <- if_else(HL_findings_sheet$GB065 == "1"|HL_findings_sheet$GB065 == "3", "1", ifelse(HL_findings_sheet$GB065 == "2", "0", NA)) 
+  
+  HL_findings_sheet$GB065b <- if_else(HL_findings_sheet$GB065 == "2"|HL_findings_sheet$GB065 == "3", "1", ifelse(HL_findings_sheet$GB065 == "1", "0", NA)) 
+}
+
+#GB130 multistate 1: SV; 2: VS; 3: both
+if("GB130" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB130a <- if_else(HL_findings_sheet$GB130 == "1"|HL_findings_sheet$GB130 == "3", "1", ifelse(HL_findings_sheet$GB130 == "2", "0", NA)) 
+  
+  HL_findings_sheet$GB130b <- if_else(HL_findings_sheet$GB130 == "2"|HL_findings_sheet$GB130 == "3", "1", ifelse(HL_findings_sheet$GB130 == "1", "0", NA)) 
+}
+
+#GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
+if("GB193" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB193a <- if_else(HL_findings_sheet$GB193 == "1"|HL_findings_sheet$GB193 == "3", "1", ifelse(HL_findings_sheet$GB193 == "2"|HL_findings_sheet$GB193 == "0", "0", NA)) 
+  
+  HL_findings_sheet$GB193b <- if_else(HL_findings_sheet$GB193 == "2"|HL_findings_sheet$GB193 == "3", "1", ifelse(HL_findings_sheet$GB193 == "1"|HL_findings_sheet$GB193 == "0", "0", NA)) 
+}
+#GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
+if("GB203" %in% colnames(HL_findings_sheet)){
+  HL_findings_sheet$GB203a <- if_else(HL_findings_sheet$GB203 == "1"|HL_findings_sheet$GB203 == "3", "1", ifelse(HL_findings_sheet$GB203 == "2"|HL_findings_sheet$GB203 == "0", "0", NA)) 
+  
+  HL_findings_sheet$GB203b <- if_else(HL_findings_sheet$GB203 == "2"|HL_findings_sheet$GB203 == "3", "1", ifelse(HL_findings_sheet$GB203 == "1"|HL_findings_sheet$GB203 == "0", "0", NA)) 
+}
+
+
+####
 
 #reading in old sheet with HL-predictions - ergative section
 HL_findings_sheet_conflict <- read_csv("data/HL_findings/HL_findings_conflicts.csv")%>% 
   
   dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
-
-HL_findings_sheet <- HL_findings_sheet_conflict %>% 
-  full_join(HL_findings_sheet)
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
@@ -251,6 +294,7 @@ df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>%
 
 cat("Done with retreiving the particular states for 4 proto-languages for all features, each tree and each method.")
 
+##############################################################################
 ##comparing gray and glottolog
 
 automatic_predctions <- df_lik_anc_ML_glottolog  %>% 
@@ -259,8 +303,9 @@ automatic_predctions <- df_lik_anc_ML_glottolog  %>%
   full_join(df_lik_anc_parsimony_glottolog, by = c("Feature_ID", "Proto-language"))
 
 df <- HL_findings_sheet %>% 
-  full_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
+  right_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
 
+##Marking more clearly results
 df$`ML result (Glottolog-tree)` <- if_else(df$glottolog_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  
                                            if_else(df$glottolog_ML_prediction == "Absent" & df$Prediction == 0, "True Negative",   
                                                    if_else(df$glottolog_ML_prediction == "Absent" & 
@@ -311,27 +356,8 @@ df$countTrue <- df$countTruePos + df$countTrueNeg
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
  dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
-df_pruned_erg <- df %>% 
-    filter(!is.na(Prediction)) %>% 
-  arrange(`Proto-language`, Feature_ID) %>% 
-  filter(Feature_ID == "GB409" |
-    Feature_ID == "GB408" ) %>% 
-    #      `Feature_ID` == "GB410" |
-#     `Feature_ID` == "GB147" )   %>% 
-  left_join(GB_df_desc) %>% 
-  separate(Abbreviation, into = c("Feature_ID", "Abbreviation"), sep = " ") %>% 
-  dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language", `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources" ,`Parsimony result (Glottolog-tree)`,
-                `ML result (Glottolog-tree)` ,
-                `Parsimony result (Gray et al 2009-tree)`,
-                `ML result (Gray et al 2009-tree)`)
-
-df_pruned_erg %>% 
-  write_tsv("output/HL_comparison/HL_comparison_erg.tsv")
-
-
 df_non_erg <- df %>% 
   filter(!is.na(Prediction)) %>% 
-  anti_join(df_pruned_erg) %>% 
   arrange(-countTrue) %>% 
   left_join(GB_df_desc) %>% 
   separate(Abbreviation, into = c("`Feature_ID`", "Abbreviation"), sep = " ") %>% 
@@ -352,8 +378,7 @@ df_non_erg %>%
 #ntips_parsimony_glottolog,
 
 accuracy_summary_table<- df %>% 
-  anti_join(df_pruned_erg) %>% 
-  filter(!is.na(ntips_ML_gray)) %>% 
+  filter(!is.na(Prediction)) %>% 
   arrange(-countTrue) %>% 
   left_join(GB_df_desc) %>% 
   separate(Abbreviation, into = c("`Feature_ID`", "Abbreviation"), sep = " ") %>% 
@@ -363,22 +388,23 @@ accuracy_summary_table<- df %>%
                 `Parsimony result (Gray et al 2009-tree)`,
                 `ML result (Gray et al 2009-tree)`) %>%
   reshape2::melt(id.vars = "Feature_ID" ) %>% 
+  filter(!is.na(value)) %>% 
   group_by(variable, value) %>% 
   summarise(n = n()) %>% 
   ungroup() %>% 
   filter(!is.na(value)) %>% 
   reshape2::dcast(variable ~ value, value.var = "n") %>% 
   group_by(variable) %>% 
-  mutate(Disagree = sum(`False Negative`, `False Positive`),
-                        Agree = sum(`True Negative` , `True Positive`), 
-         reconstructions_non_half = sum(Agree, Disagree),
-         reconstructions_all= sum(Agree, Disagree, Half)) %>% 
+  mutate(Disagree = sum(`False Negative`, `False Positive`, na.rm = T),
+                        Agree = sum(`True Negative` , `True Positive`, na.rm = T), 
+         reconstructions_non_half = sum(Agree, Disagree, na.rm = T),
+         reconstructions_all= sum(Agree, Disagree, Half, na.rm = T)) %>% 
   mutate(Accuracy = Agree / reconstructions_non_half, 
          Accuracy_incl_half = ((Agree + (Half/2)) / reconstructions_all), 
          Precision = `True Positive` / (`True Positive` + `False Positive`), 
          Recall = `True Positive` / (`True Positive` + `False Negative`)) %>%
   mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall))) %>% 
-  mutate(across(where(is.numeric), round, 2)) %>% 
+  mutate(across(where(is.numeric), round, 3)) %>% 
   t() 
   
 colnames(accuracy_summary_table) <- accuracy_summary_table[1,]    
@@ -388,3 +414,40 @@ accuracy_summary_table %>%
   as.data.frame() %>% 
   rownames_to_column("Stat") %>% 
 write_tsv("output/HL_comparison/HL_comparison_summary_mcct.tsv")
+
+##new predictions
+
+df_new_preductions_positive <-  df %>%
+  filter(is.na(Prediction)) %>% 
+  filter(glottolog_ML_prediction == "Present") %>% 
+  filter(glottolog_parsimony_prediction == "Present") %>% 
+  filter(gray_ML_prediction == "Present") %>% 
+  filter(gray_parsimony_prediction == "Present") %>%
+  filter(min_percent_ML_glottolog > 0.3) %>% 
+  dplyr::select(Feature_ID, `Proto-language`, automatic_prediction = gray_parsimony_prediction) %>% 
+  left_join(GB_df_desc) 
+  
+
+##CONFLICTS
+
+df_conflict_resolution <- HL_findings_sheet_conflict %>% 
+  full_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
+
+# 
+# df_pruned_erg <- df %>% 
+#   filter(!is.na(Prediction)) %>% 
+#   arrange(`Proto-language`, Feature_ID) %>% 
+#   filter(Feature_ID == "GB409" |
+#            Feature_ID == "GB408" ) %>% 
+#   #      `Feature_ID` == "GB410" |
+#   #     `Feature_ID` == "GB147" )   %>% 
+#   left_join(GB_df_desc) %>% 
+#   separate(Abbreviation, into = c("Feature_ID", "Abbreviation"), sep = " ") %>% 
+#   dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language", `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources" ,`Parsimony result (Glottolog-tree)`,
+#                 `ML result (Glottolog-tree)` ,
+#                 `Parsimony result (Gray et al 2009-tree)`,
+#                 `ML result (Gray et al 2009-tree)`)
+# 
+# df_pruned_erg %>% 
+#   write_tsv("output/HL_comparison/HL_comparison_erg.tsv")
+
