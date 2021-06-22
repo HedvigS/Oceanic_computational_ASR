@@ -148,7 +148,7 @@ GB_wide <- values %>%
 
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Language_ID= Glottocode, Language_level_ID, level)
+  dplyr::select(Language_ID= Glottocode, Language_level_ID, level, classification)
 
 #One of the reasons this makes sense to do is because there are no dialect to dialect matches between the Grambank data and the gray et al 2009-tree. Let's just double check that though in case you added new coding. If there is a match, we should do things differently. The code flow to the next scripts will break if there is a match.
 config_json <- jsonlite::read_json("config.json")
@@ -172,6 +172,7 @@ GB_wide %>%
   reshape2::melt(id.vars= "Language_ID") %>%
   filter(value == "1" | value == "0") %>% #we want to pick a non-? value, so let's just filter to only 0's and 1's
   left_join(glottolog_df, by = "Language_ID") %>%
+  filter(str_detect(classification, "ocea1241")) %>% 
   dplyr::select(Language_ID, Language_level_ID, everything()) %>% 
   group_by(Language_level_ID, variable) %>% 
   sample_n(1) %>% #for rows where dialects of the same language are coded for the same feature, pick a value at random from the available one 
