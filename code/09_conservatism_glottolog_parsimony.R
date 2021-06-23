@@ -1,31 +1,23 @@
 source("01_requirements.R")
 
-glottolog <- read_tsv("data/Glottolog_lookup_table_Heti_edition.tsv") %>%
-  dplyr::select(glottocode, Name_stripped_no_spaces, Family_name, Path)
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  
 
 #reading in glottolog tree
-Glottolog_tree_full <- read.tree("data/trees/glottolog4.1_grambank_pruned.newick")
-
-#renaming tips to names instead of glottocodes
-Glottolog_tree_full_tips_df <- Glottolog_tree_full$tip.label %>% 
-  as.data.frame() %>% 
-  rename(glottocode = ".") %>% 
-  left_join(glottolog)
+Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
 
 #reading in Grambank
-GB_df_desc <- read_csv("data/parameters_binary.csv") %>% 
+GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-GB_df_integers <- read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
+GB_df_integers <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%  
   rename(glottocode = Language_ID) %>% 
-  dplyr::select(glottocode, GB_df_desc$ID) %>% 
-  melt() %>%
+  reshape2::melt(id.vars = "glottocode") %>%
   mutate(value = as.character(value)) %>%  
   mutate(value = str_replace_all(value, "1", "2")) %>%  
   mutate(value = str_replace_all(value, "0", "1")) %>% 
   mutate(value = as.integer(value)) %>% 
-  dcast(glottocode ~ variable)
+  reshape2::dcast(glottocode ~ variable)
 
 
 GB_df_all_na_prop <- read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
