@@ -37,20 +37,14 @@ fun_get_ML_branch_lengths <- function(Feature, ASR_tibble) {
   
   m <- optim.pml(start.fit, rearrangement="none")
   
-#  ayiw1239
-  
-#  natu1246
-  
+#rerooting  
 if("nang1262" %in% m$tree$tip.label) {
   ml.tree <- root(m$tree, outgroup = "nang1262")
 } else{if("ayiw1239" %in% m$tree$tip.label){
   ml.tree <- root(m$tree, outgroup = "ayiw1239")}else{
     if("natu1246" %in% m$tree$tip.label){
       ml.tree <- root(m$tree, outgroup = "natu1246")}
-  
-  }
-  
-    }
+    }  }
   
     
 

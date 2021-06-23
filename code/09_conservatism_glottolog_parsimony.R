@@ -7,11 +7,12 @@ Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
 
 #reading in Grambank
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+  filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-GB_df_integers <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%  
-  rename(glottocode = Language_ID) %>% 
+GB_oceanic_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%  
+  dplyr::select(glottocode = Language_ID, GB_df_desc$ID) %>% 
   reshape2::melt(id.vars = "glottocode") %>%
   mutate(value = as.character(value)) %>%  
   mutate(value = str_replace_all(value, "1", "2")) %>%  
@@ -19,29 +20,17 @@ GB_df_integers <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%
   mutate(value = as.integer(value)) %>% 
   reshape2::dcast(glottocode ~ variable)
 
-
-GB_df_all_na_prop <- read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
-  dplyr::select(glottocode = Language_ID, na_prop)
-
-GB_oceanic_df <- glottolog %>% 
-  filter(str_detect(Path, "ocea1241")) %>% 
-  inner_join(GB_df_integers) %>% 
-  inner_join(GB_df_all_na_prop) %>% 
-  filter(!is.na(na_prop)) %>% 
-  inner_join(Glottolog_tree_full_tips_df) 
-
-Glottolog_tree_pruned_oceanic <- drop.tip(Glottolog_tree_full,Glottolog_tree_full$tip.label[-match(GB_oceanic_df$glottocode, Glottolog_tree_full$tip.label)])
-
-GB_oceanic_df_nanggu <- GB_oceanic_df   %>% 
-  filter(Name_stripped_no_spaces == "Nanggu") %>% 
-  dplyr::select(GB_df_desc$ID) %>% 
-  melt() %>% 
+GB_feats_has_outgroup <- GB_oceanic_df   %>% 
+  filter(glottocode == "nang1262"|   glottocode == "ayiw1239"|   glottocode == "natu1246") %>% 
+  dplyr::select(glottocode, GB_df_desc$ID) %>% 
+  reshape2::melt(id.vars = "glottocode") %>% 
   filter(!is.na(value)) %>% 
-  dplyr::select(Feature_ID = variable)
+  distinct(variable) %>% 
+  rename(Feature_ID = variable)
 
 ###Glottolog parsimony
-GB_ACR_all_parsimony <- readRDS("output/ASR/glottolog_tree_binary/parsimony/GB_ACR_all.rds") %>% 
-  inner_join(GB_oceanic_df_nanggu)
+GB_ACR_all_parsimony <- readRDS("output/glottolog_tree_binary/parsimony/GB_parsimony_Glottolog_tree_full.rds") %>% 
+  inner_join(GB_feats_has_outgroup)
 
 asr_parsimony_br_len <- function(ASR_object){
 
@@ -56,7 +45,14 @@ feat_vector_named <- as.character(feat_vector)
 names(feat_vector_named) <- names(feat_vector)
 tree$tip.label <- names(feat_vector)
 
-tree <- root(tree , outgroup = "nang1262")
+#rerooting  
+if("nang1262" %in% tree$tip.label) {
+  tree <- root(tree, outgroup = "nang1262")
+} else{if("ayiw1239" %in% tree$tip.label){
+  tree <- root(tree, outgroup = "ayiw1239")}else{
+    if("natu1246" %in% tree$tip.label){
+      tree <- root(tree, outgroup = "natu1246")}
+  }  }
  
 phydat_data <- feat_vector_phydat <-  as.phyDat(feat_vector_named, type = "USER", levels = c("1", "2"))
 
@@ -90,7 +86,7 @@ df_summarised <- df %>%
 
 df_summarised %>% 
   dplyr::select(glottocode, `Mean parsimony cost` = rowmeans, nNodes_mean) %>% 
-  write_tsv("output/ASR/conservatism_parsimony_glottolog.tsv")
+  write_tsv("output/glottolog_tree_binary/parsimony/conservatism_parsimony_glottolog.tsv")
 
 
 
