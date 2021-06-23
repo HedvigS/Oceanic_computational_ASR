@@ -10,9 +10,6 @@ glottolog_cldf_github_folder <- paste0(config_json$data_sources$glottolog_cldf$l
 
 glottolog_cldf_json <- jsonlite::read_json(paste0(glottolog_cldf_github_folder, "cldf-metadata.json"))
 
-#creating a folder for outputting tables
-if (!dir.exists("output_tables")) { dir.create("output_tables") }
-
 #finding the fileanme for the relevant tables by checking which of the tables entered into the json meta data file conforms to a given cldf-standard and pulling the filename from there
 
 index <- 0
