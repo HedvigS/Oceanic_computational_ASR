@@ -29,7 +29,7 @@ For the Gray et al 2009-tree I have hand picked which dialect to use if there is
 ## Note on Gray et al 2009-tree
 I'm using the all of the posterior trees and the MCCT-tree. I'm using the lexibank/ABVD taxa file rather than D-PLACE/dplace-data. 
 
-Because this takes a signifiant amount of time (there are 4200 trees), I have also stored scripts in this repos which just run over the MCCT tree. These can be found in the directory "analysis_scripts_gray_mcct". They can be used as a demo of sorts for the full analysis.
+Because this takes a signifiant amount of time (there are 4200 trees), I have also stored scripts in this repos which just run over the MCCT tree. These can be found in the directory "analysis_scripts_gray_mcct". They can be used as a demo of sorts for the full analysis. For the phangrorn::acctran() function which is used for calcuating parsimony cost from root to tip, it is necessary that the tree is binary. I used ape::multi2di() to binarise the MCCT-tree in this instance. Because branch lengths matters less for parsimony than for ML, this is not as much of a concern as it otherwise would be - but it is still slightly different from the ASR-function castor::asr_max_parsimony() which is used to estimate previous states.
 
 The full analysis on all the posteriors is in "analysis_scripts_gray_all_posterior".
 
