@@ -1,4 +1,5 @@
-source("requirements.R")
+source("01_requirements.R")
+
 
 #reading in glottolog tree
 

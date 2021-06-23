@@ -1,5 +1,6 @@
-source("1_requirements.R")
-options(tidyverse.quiet = TRUE)
+source("01_requirements.R")
+
+
 
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  
 GB_ACR_all_ML_gray_summaries <- read_csv("output/gray_et_al_2009/ML/mcct/results.csv")

@@ -1,5 +1,5 @@
-source("1_requirements.R")
-options(tidyverse.quiet = TRUE)
+source("01_requirements.R")
+
 
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  
 

@@ -1,5 +1,4 @@
-source("requirements.R")
-
+source("01_requirements.R")
 
 glottolog <- read_tsv("data/Glottolog_lookup_table_Heti_edition.tsv") %>%
   dplyr::select(glottocode, Name_stripped_no_spaces, Family_name, Path)

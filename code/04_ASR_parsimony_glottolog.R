@@ -1,5 +1,4 @@
-source("1_requirements.R")
-options(tidyverse.quiet = TRUE)
+source("01_requirements.R")
 
 #This script reads in the glottolog 4.3 tree, as prepped by create_tree_bottom_up.py, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
 

@@ -22,7 +22,7 @@ if [ -f "$FILE" ]; then
     echo "$FILE exists."
     echo "Grambank cldf wide table already exists, won't bother remaking it."
 else 
-Rscript 2_get_grambank_data.R 
+Rscript 02_get_grambank_data.R 
 fi
 
 
@@ -46,33 +46,33 @@ fi
 
 echo fourth step, run the max parsimony ancestral state reconstruction analysis on the glottolog tree and the MCCT tree from Gray et al 2009.
 
-#Rscript analysis_scripts_gray_mcct/4_ASR_parsimony_gray_mmct.R
-#Rscript 4_ASR_parsimony_glottolog.R
+Rscript analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mmct.R
+Rscript 04_ASR_parsimony_glottolog.R
 
 ## 5 run ASR analysis - Maximum Likelihood
 # These scripts do the ASR and deposits the results in an Rdata file and makes a tree-plot for each feature and method and outputs a PNG file.
 #step_5: max_likelihood
 
 echo "fifth step, run the max liklihood (marginal) ancestral state reconstruction analysis  on the glottolog tree and the MCCT tree from Gray et al 2009.""
-Rscript analysis_scripts_gray_mcct/5_ASR_ML_gray_mcct""
-Rscript 5_ASR_ML_glottolog.R
+Rscript analysis_scripts_gray_mcct/05_ASR_ML_gray_mcct""
+Rscript 05_ASR_ML_glottolog.R
 
 ## 6 run ASR analysis - SIMMAP
 
 ## 7 Compare to HL
 echo seventh step, compate to classical historical linguistics
 
-Rscript analysis_scripts_gray_mcct/7_compare_to_HL.R
+Rscript analysis_scripts_gray_mcct/07_compare_to_HL.R
 
 ## 8 make stability tables
 
-Rscript analysis_scripts_gray_mcct/8_make_stability_tables.R
+Rscript analysis_scripts_gray_mcct/08_make_stability_tables.R
 
 
 ## 9 conservatism scores
 
-Rscript 9_conservatism_glottolog_ML.R
-Rscript analysis_scripts_gray_mcct/9_conservatism_gray_ML.R
+Rscript 09_conservatism_glottolog_ML.R
+Rscript analysis_scripts_gray_mcct/09_conservatism_gray_ML.R
 
 ##compare conservatism scores
 

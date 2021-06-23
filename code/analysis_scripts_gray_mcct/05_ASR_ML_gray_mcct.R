@@ -1,5 +1,6 @@
-source("1_requirements.R")
-#library(beepr)
+source("01_requirements.R")
+
+
 
 #reading in glottolog language table (for names of tips)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
