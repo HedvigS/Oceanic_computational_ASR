@@ -97,8 +97,12 @@ ntips_half_glottolog <- 117 #half of glottolog tree tips that can be matched to 
 if (!dir.exists("output")) { dir.create("output") }
 if (!dir.exists(file.path("output", "gray_et_al_2009"))) { dir.create(file.path("output", "gray_et_al_2009")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "MCCT")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "MCCT", "tree_plots")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "mcct")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "mcct", "tree_plots")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
@@ -107,6 +111,7 @@ if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(fil
 if (!dir.exists(file.path("output", "glottolog_tree_binary"))) { dir.create(file.path("output", "glottolog_tree_binary")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "ML"))) { dir.create(file.path("output", "glottolog_tree_binary", "ML")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony")) }
+if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony", "tree_plots")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
 
 
