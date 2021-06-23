@@ -77,3 +77,4 @@ Rscript analysis_scripts_gray_mcct/09_conservatism_gray_parsimony.R
 ##compare conservatism scores
 
 Rscript analysis_scripts_gray_mcct/10_conservatism_comparison_SPLOM_ridgeplots.R
+Rscript analysis_scripts_gray_mcct/10_conservatism_compared_to_tree_nodes.R
