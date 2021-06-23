@@ -8,8 +8,24 @@ Rscript 1_requirements.R
 
 #Step 2
 echo second step, fecthing data
+FILE=/data/glottolog_language_table_wide_df
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+    echo "Glottolog-cldf table file already exists, won't bother remaking it."
+else 
 Rscript 2_get_glottolog_language_table.R
+fi
+
+
+FILE=/data/GB/GB_wide_binarised.tsv
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+    echo "Grambank cldf wide table already exists, won't bother remaking it."
+else 
 Rscript 2_get_grambank_data.R 
+fi
+
+
 
 ## 3. prep trees
 echo third step, prep trees
