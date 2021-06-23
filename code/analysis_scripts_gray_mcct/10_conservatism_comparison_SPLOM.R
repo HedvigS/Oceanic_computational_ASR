@@ -1,8 +1,9 @@
 source("01_requirements.R")
 
-
+#define a function that transform a range of numerical values to be between 0 and 1
 range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 
+#reading in data which specifies which island is connected with which language
 subregions <- read_tsv("data/oceania_subregions.tsv") %>% 
   rename(glottocode = Glottocode)  %>% 
   mutate(Smallest_Island_group = str_split(Smallest_Island_group, ",")) %>% 
@@ -10,9 +11,8 @@ subregions <- read_tsv("data/oceania_subregions.tsv") %>%
   mutate(Smallest_Island_group = trimws(Smallest_Island_group)) %>% 
   dplyr::select(Smallest_Island_group, glottocode) 
 
-
-#dates <- read_xlsx("../data/Remote_Oceania_Political_complex_and_more/island_group_settlement_date.xlsx") %>% dplyr::select(Smallest_Island_group = "Smaller specific island group", Time_depth = "Time depth settlement group") %>% 
- # full_join(subregions) 
+dates <- read_xlsx("data/island_group_settlement_date.xlsx") %>% dplyr::select(Smallest_Island_group = "Smaller specific island group", Time_depth = "Time depth settlement group") %>% 
+  full_join(subregions) 
 
 #parsimony_gray <- read_tsv("output/ASR/conservatism_parsimony_gray.tsv") %>% 
 #  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
@@ -118,8 +118,8 @@ all_dists_for_SPLOM <- ML_glottolog %>%
   full_join(ML_gray) #%>% 
 #  full_join(parsimony_glottolog) %>% 
 #  full_join(parsimony_gray) %>% 
-#  left_join(dates) %>% 
-#  dplyr::select(-Smallest_Island_group) %>% 
+  left_join(dates) %>% 
+  dplyr::select(-Smallest_Island_group) %>% 
 #  rename("ML\nGlottolog-tree" = "ML_dist_glottolog",
 #  "ML\nGray et al 2009-tree"= "ML_dist_gray", 
 #  "Parsimony\nGlottolog-tree" = "parsimony_cost_glottolog" , 
@@ -144,28 +144,25 @@ pairs.panels(all_dists_for_SPLOM[,c(1, 3)],
 dev.off()
 
 
-#ggpairs(all_dists_for_SPLOM[,2:6], ) +
-#  theme_classic()
-
-
 ###COMPARING TO POL COMPLEX DATA
 
 
-pol_complex <-  read_csv("../data/Remote_Oceania_Political_complex_and_more/Remote_oceania_pol_complex_hedvig_code.csv") %>% 
+pol_complex <-  read_csv("data/Remote_oceania_pol_complex_hedvig_code.csv") %>% 
   dplyr::select(Smallest_Island_group = Smallest_Island_group_main, `Pol complex` = pol_complex_code_Hedvig) %>% 
   full_join(subregions) 
-
 
 
 all_dists_for_SPLOM_pol_complex <- all_dists_for_SPLOM  %>% 
   left_join(pol_complex) %>% 
   left_join(dates) %>% 
   dplyr::select(-Smallest_Island_group) %>% 
-  distinct() 
+  distinct() %>% 
+  dplyr::select(glottocode, everything())
+
 
 png("output/ASR/other_plots/br_len_splom_with_pol_complex_dates.png",  height =25, width = 25, units = "cm", res = 400)
 
-pairs.panels(all_dists_for_SPLOM_pol_complex [,2:7], 
+pairs.panels(all_dists_for_SPLOM_pol_complex[,2:5], 
              method = "pearson", # correlation method
              hist.col = "#a3afd1",# "#a9d1a3","",""),
              density = TRUE,  # show density plots
