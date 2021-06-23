@@ -14,17 +14,15 @@ subregions <- read_tsv("data/oceania_subregions.tsv") %>%
 dates <- read_xlsx("data/island_group_settlement_date.xlsx") %>% dplyr::select(Smallest_Island_group = "Smaller specific island group", Time_depth = "Time depth settlement group") %>% 
   full_join(subregions) 
 
-#parsimony_gray <- read_tsv("output/ASR/conservatism_parsimony_gray.tsv") %>% 
-#  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
-#  rename(parsimony_cost_gray = `Mean parsimony cost`) %>% 
-#  rename(taxon = glottocode) %>% 
-#  left_join(taxa) %>% 
-#  dplyr::select(glottocode, parsimony_cost_gray)
+parsimony_gray <- read_tsv("output/gray_et_al_2009/parsimony/mcct/conservatism_parsimony_gray.tsv") %>% 
+  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
+  rename(parsimony_cost_gray = `Mean parsimony cost`) %>% 
+  dplyr::select(glottocode, parsimony_cost_gray)
 
-#parsimony_glottolog <- read_tsv("output/ASR/conservatism_parsimony_glottolog.tsv") %>% 
-#  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
-#  rename(parsimony_cost_glottolog = `Mean parsimony cost`) %>% 
-#  dplyr::select(parsimony_cost_glottolog, glottocode)
+parsimony_glottolog <- read_tsv("output/glottolog_tree_binary/parsimony/conservatism_parsimony_glottolog.tsv") %>% 
+  mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
+  rename(parsimony_cost_glottolog = `Mean parsimony cost`) %>% 
+  dplyr::select(parsimony_cost_glottolog, glottocode)
 
 ML_gray <- read_tsv("output/gray_et_al_2009/ML/mcct/conservatism_ML_gray.tsv") %>% 
   mutate(mean_dist = range01(mean_dist)) %>% 
@@ -36,23 +34,22 @@ ML_glottolog <- read_tsv("output/glottolog_tree_binary/ML/conservatism_ML_glotto
   rename(ML_dist_glottolog = mean_dist) %>% 
   dplyr::select(ML_dist_glottolog , glottocode)
 
-
 all_dists_wide <- ML_glottolog %>% 
   full_join(ML_gray) %>% 
-#  full_join(parsimony_glottolog) %>% 
-#  full_join(parsimony_gray) %>% 
-#  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
-#  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
+  full_join(parsimony_glottolog) %>% 
+  full_join(parsimony_gray) %>% 
+  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
+  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
   rename(`Mean ML-branch length (Gray et al 2009)` = ML_dist_gray) %>% 
   rename(`Mean ML-branch length (Glottolog)` = ML_dist_glottolog) 
 
 
 all_dists <- ML_glottolog %>% 
   full_join(ML_gray) %>% 
-#  full_join(parsimony_glottolog) %>% 
- # full_join(parsimony_gray) %>% 
-#  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
-#  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
+  full_join(parsimony_glottolog) %>% 
+  full_join(parsimony_gray) %>% 
+  rename(`Mean parsimony cost (Glottolog)` = parsimony_cost_glottolog) %>% 
+  rename(`Mean parsimony cost (Gray et al 2009)` = parsimony_cost_gray) %>% 
   rename(`Mean ML-branch length (Gray et al 2009)` = ML_dist_gray) %>% 
   rename(`Mean ML-branch length (Glottolog)` = ML_dist_glottolog) %>% 
   reshape2::melt(id.vars = "glottocode") %>% 
@@ -115,21 +112,21 @@ ggsave("output/other_plots/br_len_maps.png", width = 26, height =20)
 ##SPLOM TIME
 
 all_dists_for_SPLOM <- ML_glottolog %>% 
-  full_join(ML_gray) #%>% 
-#  full_join(parsimony_glottolog) %>% 
-#  full_join(parsimony_gray) %>% 
+  full_join(ML_gray) %>% 
+  full_join(parsimony_glottolog) %>% 
+  full_join(parsimony_gray) %>% 
   left_join(dates) %>% 
   dplyr::select(-Smallest_Island_group) %>% 
-#  rename("ML\nGlottolog-tree" = "ML_dist_glottolog",
-#  "ML\nGray et al 2009-tree"= "ML_dist_gray", 
-#  "Parsimony\nGlottolog-tree" = "parsimony_cost_glottolog" , 
-#  "Parsimony\nGray et al 2009-tree"= "parsimony_cost_gray",
-#  "Settlement time order" = "Time_depth" )
-
+  rename("ML\nGlottolog-tree" = "ML_dist_glottolog",
+   "ML\nGray et al 2009-tree"= "ML_dist_gray", 
+  "Parsimony\nGlottolog-tree" = "parsimony_cost_glottolog" , 
+  "Parsimony\nGray et al 2009-tree"= "parsimony_cost_gray",
+   "Settlement time order" = "Time_depth" ) %>% 
+  dplyr::select(glottocode, everything())
 
 png("output/other_plots/br_len_splom.png",  height =17, width = 17, units = "cm", res = 400)
 
-pairs.panels(all_dists_for_SPLOM[,c(1, 3)], 
+pairs.panels(all_dists_for_SPLOM[,2:6], 
              method = "pearson", # correlation method
              hist.col = "#a3afd1",# "#a9d1a3","",""),
              density = TRUE,  # show density plots
@@ -151,7 +148,6 @@ pol_complex <-  read_csv("data/Remote_oceania_pol_complex_hedvig_code.csv") %>%
   dplyr::select(Smallest_Island_group = Smallest_Island_group_main, `Pol complex` = pol_complex_code_Hedvig) %>% 
   full_join(subregions) 
 
-
 all_dists_for_SPLOM_pol_complex <- all_dists_for_SPLOM  %>% 
   left_join(pol_complex) %>% 
   left_join(dates) %>% 
@@ -160,9 +156,9 @@ all_dists_for_SPLOM_pol_complex <- all_dists_for_SPLOM  %>%
   dplyr::select(glottocode, everything())
 
 
-png("output/ASR/other_plots/br_len_splom_with_pol_complex_dates.png",  height =25, width = 25, units = "cm", res = 400)
+png("output/other_plots/br_len_splom_with_pol_complex_dates.png",  height =25, width = 25, units = "cm", res = 400)
 
-pairs.panels(all_dists_for_SPLOM_pol_complex[,2:5], 
+pairs.panels(all_dists_for_SPLOM_pol_complex[,2:7], 
              method = "pearson", # correlation method
              hist.col = "#a3afd1",# "#a9d1a3","",""),
              density = TRUE,  # show density plots
@@ -175,46 +171,59 @@ pairs.panels(all_dists_for_SPLOM_pol_complex[,2:5],
 dev.off()
 
 #subregions
-subregions <- read_tsv("../data/Remote_Oceania_Political_complex_and_more/oceania_subregions.tsv") %>% 
-  rename(glottocode = Glottocode)
-
+subregions <- read_tsv("data/oceania_subregions.tsv") %>% 
+  rename(glottocode = Glottocode)  %>% 
+  full_join(read_tsv("data/oceania_subregions_extra.tsv") ) %>% 
+  filter(!is.na(Abberancy_group)) %>%
+  distinct(glottocode, Abberancy_group) 
+    
+  
 all_dists_grouped_by_aberr <- all_dists %>%
   left_join(subregions)  %>% 
   group_by(Abberancy_group, variable) %>% 
   summarise(value = mean(value, na.rm = T)) %>%
   arrange(variable, value)
 
-all_dists_grouped_by_aberr %>% 
-  filter(variable == "Mean ML-branch length (Glottolog)") %>% 
-  dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (ML Glottolog)", label = "conservatism_group_ML_glottolog") %>% 
-  xtable::print.xtable(include.rownames = F) %>% 
-  write_lines("output/ASR/conservatism_group_ML_glottolog.txt")
+all_dists %>%
+  left_join(subregions)  %>% 
+  dplyr::select(glottocode,Abberancy_group) %>% 
+  left_join(glottolog_df) %>% 
+  distinct(glottocode, .keep_all = T) %>% 
+  filter(is.na(Abberancy_group)) %>% write_tsv("to_group.tsv")
 
-all_dists_grouped_by_aberr %>% 
-  filter(variable == "Mean ML-branch length (Gray et al 2009)") %>% 
-  dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (ML Gray)", label = "conservatism_group_ML_Gray") %>% 
-  xtable::print.xtable(include.rownames = F) %>% 
-  write_lines("output/ASR/conservatism_group_ML_Gray.txt")
 
-all_dists_grouped_by_aberr %>% 
-  filter(variable == "Mean parsimony cost (Glottolog)") %>% 
-  dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Glottolog)", label = "conservatism_group_parsimony_glottolog") %>% 
-  xtable::print.xtable(include.rownames = F) %>% 
-  write_lines("output/ASR/conservatism_group_parsimony_glottolog.txt")
-
-all_dists_grouped_by_aberr %>% 
-  filter(variable == "Mean parsimony cost (Gray et al 2009)") %>% 
-  dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Gray)", label = "conservatism_group_parsimony_Gray") %>% 
-  xtable::print.xtable(include.rownames = F) %>% 
-  write_lines("output/ASR/conservatism_group_parsimony_Gray.txt")
-
-all_dists_grouped_by_aberr %>% 
-  group_by(Abberancy_group) %>% 
-  summarise(value = mean(value, na.rm = T)) %>%
-  arrange(value) %>%
-  dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Gray)", label = "conservatism_group_parsimony_Gray") %>% 
-  xtable::print.xtable(include.rownames = F) %>% 
-  write_lines("output/ASR/conservatism_group_all.txt")
+# LaTeX tables
+# all_dists_grouped_by_aberr %>% 
+#   filter(variable == "Mean ML-branch length (Glottolog)") %>% 
+#   dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (ML Glottolog)", label = "conservatism_group_ML_glottolog") %>% 
+#   xtable::print.xtable(include.rownames = F) %>% 
+#   write_lines("output/ASR/conservatism_group_ML_glottolog.txt")
+# 
+# all_dists_grouped_by_aberr %>% 
+#   filter(variable == "Mean ML-branch length (Gray et al 2009)") %>% 
+#   dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (ML Gray)", label = "conservatism_group_ML_Gray") %>% 
+#   xtable::print.xtable(include.rownames = F) %>% 
+#   write_lines("output/ASR/conservatism_group_ML_Gray.txt")
+# 
+# all_dists_grouped_by_aberr %>% 
+#   filter(variable == "Mean parsimony cost (Glottolog)") %>% 
+#   dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Glottolog)", label = "conservatism_group_parsimony_glottolog") %>% 
+#   xtable::print.xtable(include.rownames = F) %>% 
+#   write_lines("output/ASR/conservatism_group_parsimony_glottolog.txt")
+# 
+# all_dists_grouped_by_aberr %>% 
+#   filter(variable == "Mean parsimony cost (Gray et al 2009)") %>% 
+#   dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Gray)", label = "conservatism_group_parsimony_Gray") %>% 
+#   xtable::print.xtable(include.rownames = F) %>% 
+#   write_lines("output/ASR/conservatism_group_parsimony_Gray.txt")
+# 
+# all_dists_grouped_by_aberr %>% 
+#   group_by(Abberancy_group) %>% 
+#   summarise(value = mean(value, na.rm = T)) %>%
+#   arrange(value) %>%
+#   dplyr::select(`Island group` = Abberancy_group, `Average distance from root (Proto-Oceanic)` = value) %>% xtable(caption = "Island groups ordered by conservatism (Parsimony Gray)", label = "conservatism_group_parsimony_Gray") %>% 
+#   xtable::print.xtable(include.rownames = F) %>% 
+#   write_lines("output/ASR/conservatism_group_all.txt")
 
 
 
@@ -236,8 +245,6 @@ mean_labels <- dists_for_ridgeplot %>%
   summarise(mean_dist = mean(value))
 
 
-
-
 dists_for_ridgeplot %>% 
   dplyr::select(value, variable, Abberancy_group) %>% 
   ggplot(aes(x = value, y = Abberancy_group, fill = Abberancy_group)) +
@@ -250,7 +257,7 @@ dists_for_ridgeplot %>%
         legend.position = "None") +
   facet_wrap(~variable)
 
-ggsave("output/ASR/other_plots/br_len_ridgeplots.png", width = 10, height =10)
+ggsave("output/other_plots/br_len_ridgeplots.png", width = 10, height =10)
 
 
 mean_labels_ML <- dists_for_ridgeplot %>% 

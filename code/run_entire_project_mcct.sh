@@ -68,12 +68,12 @@ Rscript analysis_scripts_gray_mcct/07_compare_to_HL.R
 
 Rscript analysis_scripts_gray_mcct/08_make_stability_tables.R
 
-
 ## 9 conservatism scores
-
 Rscript 09_conservatism_glottolog_ML.R
+Rscript 09_conservatism_glottolog_parsimony.R
 Rscript analysis_scripts_gray_mcct/09_conservatism_gray_ML.R
+Rscript analysis_scripts_gray_mcct/09_conservatism_gray_parsimony.R
 
 ##compare conservatism scores
 
-Rscript analysis_scripts_gray_mcct/10_conservatism_comparison_SPLOM.R
+Rscript analysis_scripts_gray_mcct/10_conservatism_comparison_SPLOM_ridgeplots.R

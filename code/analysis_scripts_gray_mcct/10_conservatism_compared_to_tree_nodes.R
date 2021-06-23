@@ -1,36 +1,30 @@
 source("01_requirements.R")
 
-
-rm(list=setdiff(ls(), "start_time")) #cleaning environment
-
-subregions <- read_tsv("../data/Remote_Oceania_Political_complex_and_more/oceania_subregions.tsv") %>% 
-  rename(glottocode = Glottocode)
+subregions <- read_tsv("data/oceania_subregions.tsv") %>% 
+  rename(glottocode = Glottocode)  %>% 
+  full_join(read_tsv("data/oceania_subregions_extra.tsv") ) %>% 
+  filter(!is.na(Abberancy_group)) %>%
+  distinct(glottocode, Abberancy_group) 
 
 
 range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 
-taxa <- read_csv("../../dplace-data/phylogenies/gray_et_al2009/taxa.csv")
-
-
-parsimony_gray <- read_tsv("output/ASR/conservatism_parsimony_gray.tsv") %>% 
+parsimony_gray <- read_tsv("output/gray_et_al_2009/parsimony/mcct/conservatism_parsimony_gray.tsv") %>% 
   mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
   rename(parsimony_cost_gray = `Mean parsimony cost`) %>% 
-  rename(taxon = glottocode) %>% 
-  left_join(taxa) %>% 
   dplyr::select(glottocode, parsimony_cost_gray, nNodes_mean_MP_gray = nNodes_mean)
 
-parsimony_glottolog <- read_tsv("output/ASR/conservatism_parsimony_glottolog.tsv") %>% 
+parsimony_glottolog <- read_tsv("output/glottolog_tree_binary/parsimony/conservatism_parsimony_glottolog.tsv") %>% 
   mutate(`Mean parsimony cost` = range01(`Mean parsimony cost`)) %>% 
   rename(parsimony_cost_glottolog = `Mean parsimony cost`) %>% 
   dplyr::select(parsimony_cost_glottolog, glottocode, nNodes_mean_MP_glottolog = nNodes_mean)
 
-
-ML_gray <- read_tsv("output/ASR/conservatism_ML_gray.tsv") %>% 
+ML_gray <- read_tsv("output/gray_et_al_2009/ML/mcct/conservatism_ML_gray.tsv") %>% 
   mutate(mean_dist = range01(mean_dist)) %>% 
   rename(ML_dist_gray = mean_dist) %>% 
   dplyr::select(ML_dist_gray, glottocode, nNodes_mean_ML_gray = nNodes_mean)
 
-ML_glottolog <- read_tsv("output/ASR/conservatism_ML_glottolog.tsv") %>% 
+ML_glottolog <- read_tsv("output/glottolog_tree_binary/ML/conservatism_ML_glottolog.tsv") %>% 
   mutate(mean_dist = range01(mean_dist)) %>% 
   rename(ML_dist_glottolog = mean_dist) %>% 
   dplyr::select(ML_dist_glottolog , glottocode, nNodes_mean_ML_glottolog = nNodes_mean)
@@ -47,25 +41,23 @@ nodes_between_df <-  full_join(ML_glottolog, ML_gray) %>%
   ungroup() %>% 
   mutate(mean_all_nodes = ((mean_nNodes_mean_ML_glottolog+ mean_nNodes_mean_ML_gray+ mean_nNodes_mean_MP_glottolog+mean_nNodes_mean_MP_gray)/4 ))
 
-nodes_between_df %>% 
-  dplyr::select(`Island group` = Abberancy_group,`Mean number of nodes between tips and root`= mean_all_nodes ) %>% 
-  arrange(`Mean number of nodes between tips and root`) %>% xtable() %>% 
-  xtable::print.xtable(include.rownames = F)
+#nodes_between_df %>% 
+#  dplyr::select(`Island group` = Abberancy_group,`Mean number of nodes between tips and root`= mean_all_nodes ) %>% 
+#  arrange(`Mean number of nodes between tips and root`) %>% xtable() %>% 
+#  xtable::print.xtable(include.rownames = F)
 
 
-nodes_between_df %>% 
-  dplyr::select(`Island group` = Abberancy_group,
-                `All`= mean_all_nodes, 
-                `MP Glottolog` = mean_nNodes_mean_MP_glottolog,
-                `MP Gray et al 2009` = mean_nNodes_mean_MP_gray,  
-                `ML Glottolog` = mean_nNodes_mean_ML_glottolog,
-                `ML Gray et al 2009` = mean_nNodes_mean_ML_gray) %>% 
-  arrange(All) %>% xtable() %>% 
-  xtable::print.xtable(include.rownames = F)
+#nodes_between_df %>% 
+#  dplyr::select(`Island group` = Abberancy_group,
+       #         `All`= mean_all_nodes, 
+      #          `MP Glottolog` = mean_nNodes_mean_MP_glottolog,
+     #           `MP Gray et al 2009` = mean_nNodes_mean_MP_gray,  
+    #            `ML Glottolog` = mean_nNodes_mean_ML_glottolog,
+   #             `ML Gray et al 2009` = mean_nNodes_mean_ML_gray) %>% 
+  #arrange(All) %>% xtable() %>% 
+ # xtable::print.xtable(include.rownames = F)
 
 
-
-nNodes_mean_ML_gray 
 ######
 
 ML_glottolog_plot <- ML_glottolog %>% 
@@ -114,11 +106,8 @@ parsimony_gray_plot <- parsimony_gray %>%
   xlim(c(0, 20))
 
 
-
-library(ggpubr)
-
 ggpubr::ggarrange(parsimony_glottolog_plot, parsimony_gray_plot, ML_glottolog_plot , ML_gray_plot)
 
-ggsave("output/ASR/other_plots/br_len_compare_to_nodes.png", height = 8, width = 8)
+ggsave("output/other_plots/br_len_compare_to_nodes.png", height = 8, width = 8)
 
 

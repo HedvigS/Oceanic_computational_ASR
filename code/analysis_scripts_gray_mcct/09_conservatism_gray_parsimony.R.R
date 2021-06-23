@@ -1,55 +1,36 @@
 source("01_requirements.R")
 
-
-#reading in glottolog tree
-
-glottolog <- read_tsv("data/Glottolog_lookup_table_Heti_edition.tsv")
-
-Gray_et_al_tree <- read.nexus("data/trees/gray_et_al2009/summary.trees")
-taxa <- read_csv("data/trees/gray_et_al2009/taxa.csv") %>% left_join(glottolog)
-
-Gray_et_al_tree_tip.label_df <- Gray_et_al_tree$tip.label %>% 
-  as.data.frame() %>% 
-  rename(taxon = ".") %>% 
-  full_join(taxa) %>% 
-  left_join(glottolog) %>% 
-  dplyr::select(glottocode)
+#reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was invidually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
+gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
 
 #reading in Grambank
-GB_df_desc <- read_csv("data/parameters_binary.csv") %>% 
+#reading in Grambank
+GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+  filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-GB_df_integers <- read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
-  rename(glottocode = Language_ID) %>% 
-  dplyr::select(glottocode, GB_df_desc$ID) %>% 
-  melt() %>%
+GB_oceanic_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>%  
+  dplyr::select(glottocode = Language_ID, GB_df_desc$ID) %>% 
+  reshape2::melt(id.vars = "glottocode") %>%
   mutate(value = as.character(value)) %>%  
   mutate(value = str_replace_all(value, "1", "2")) %>%  
   mutate(value = str_replace_all(value, "0", "1")) %>% 
   mutate(value = as.integer(value)) %>% 
-  dcast(glottocode ~ variable)
+  reshape2::dcast(glottocode ~ variable)
 
-GB_df_all_na_prop <- read_tsv("data/GB_wide_strict_binarized.tsv") %>% 
-  dplyr::select(glottocode = Language_ID, na_prop)
-
-GB_oceanic_df <- glottolog %>% 
-  filter(str_detect(Path, "ocea1241")) %>% 
-  inner_join(GB_df_integers) %>% 
-  inner_join(GB_df_all_na_prop) %>% 
-  filter(!is.na(na_prop)) %>% 
-  inner_join(Gray_et_al_tree_tip.label_df) 
-
-GB_oceanic_df_nanggu <- GB_oceanic_df   %>% 
-  filter(Name_stripped_no_spaces == "Nanggu") %>% 
-  dplyr::select(GB_df_desc$ID) %>% 
-  melt() %>% 
+#making list of all features that have at least one of the three lgs we'll use for outgrouping
+GB_feats_has_outgroup <- GB_oceanic_df   %>% 
+  filter(glottocode == "nang1262"|   glottocode == "ayiw1239"|   glottocode == "natu1246") %>% 
+  dplyr::select(glottocode, GB_df_desc$ID) %>% 
+  reshape2::melt(id.vars = "glottocode") %>% 
   filter(!is.na(value)) %>% 
-  dplyr::select(Feature_ID = variable)
+  distinct(variable) %>% 
+  rename(Feature_ID = variable)
 
 ###Glottolog parsimony
-GB_ACR_all_parsimony <- readRDS("output/ASR/gray_et_al_2009/parsimony/GB_parsimony_gray_tree.rds") %>% 
-  inner_join(GB_oceanic_df_nanggu)
+GB_ACR_all_parsimony <- readRDS("output/gray_et_al_2009/parsimony/mcct/GB_parsimony_gray_tree.rds") %>% 
+  inner_join(GB_feats_has_outgroup)
 
 asr_parsimony_br_len <- function(ASR_object){
 
@@ -58,15 +39,25 @@ asr_parsimony_br_len <- function(ASR_object){
 feature <-  ASR_object[[1]]
 asr_object <-  ASR_object[[2]]
 feat_vector <- ASR_object[[3]] %>% as.factor()
-tree <-  ASR_object[[4]]
+tree <-  ASR_object[[4]] 
 
-tree <- root(tree, outgroup = "Nanggu")
+#rerooting  
+if("nang1262" %in% tree$tip.label) {
+  tree <- root(tree, outgroup = "nang1262")
+} else{if("ayiw1239" %in% tree$tip.label){
+  tree <- root(tree, outgroup = "ayiw1239")}else{
+    if("natu1246" %in% tree$tip.label){
+      tree <- root(tree, outgroup = "natu1246")}
+  }  }
+
 
 feat_vector_named <- as.character(feat_vector)
 names(feat_vector_named) <- names(feat_vector)
 tree$tip.label <- names(feat_vector)
 
 phydat_data <-  as.phyDat(feat_vector_named, type = "USER", levels = c("1", "2") , ambiguity = NA)
+
+tree <- multi2di(tree)
 
 acctran_tree <- acctran(tree = tree, data = phydat_data ) 
 
@@ -86,7 +77,6 @@ df_dist_roots %>%
   rename("Cost" = ".")
 }
 
-
 df <- lapply(GB_ACR_all_parsimony$content, asr_parsimony_br_len) %>% bind_rows()
 
 df_summarised <- df %>% 
@@ -95,4 +85,4 @@ df_summarised <- df %>%
 
 df_summarised  %>% 
   dplyr::select(glottocode, `Mean parsimony cost` = rowmeans, nNodes_mean) %>% 
-  write_tsv("output/ASR/conservatism_parsimony_gray.tsv")
+  write_tsv("output/gray_et_al_2009/parsimony/mcct/conservatism_parsimony_gray.tsv")

@@ -66,14 +66,6 @@ dists <- dists_ML_dist %>% full_join(dists_nNodes)
 
 
 Features_to_run_ML_br_len_over <- GB_ACR_all_ML_glottolog %>% 
-#  filter(Feature_ID != "GB203a") %>% #excluded because nanggu isn't in tree 
-#  filter(Feature_ID != "GB203b") %>% #excluded because nanggu isn't in tree 
-#filter(Feature_ID != "GB041") %>% #excluded because nanggu isn't in tree 
-#filter(Feature_ID != "GB046") %>% #excluded because nanggu isn't in tree 
-#  filter(Feature_ID != "GB114") %>% #excluded because nanggu isn't in tree 
-#  filter(Feature_ID != "GB118") %>% #excluded because nanggu isn't in tree 
-#  filter(Feature_ID != "GB122") %>% #excluded because nanggu isn't in tree 
-#  filter(Feature_ID != "GB123") %>% #excluded because nanggu isn't in tree 
   filter(Feature_ID != "GB110") %>% #excluded because values are too skewed 
  filter(Feature_ID != "GB149") %>% #excluded because values are too skewed 
   filter(Feature_ID != "GB315") %>% #excluded because values are too skewed 
