@@ -1,0 +1,12 @@
+Feature_ID,Abbreviation,Question,Proto-language,Value,Source (Latex)
+GB193a,OrderANMN,Is the order of the adnominal property and the noun ANM-N?,Proto-Polynesian,0,\citet[xiv]{clark1976aspects}
+GB193b,OrderNANM,Is the order of the adnominal property and the noun N-ANM?,Proto-Polynesian,1,\citet[495]{ross2004morphosyntactic}
+GB193b,OrderNANM,Is the order of the adnominal property and the noun N-ANM?,Proto-Oceanic,1,"\citet[497]{ross2004morphosyntactic}, \citet[74]{lynchrosscrowley_proto_grammar_oceanic}"
+GB130b,OrderVS,Is the order of S and V in intranstive clauses VS?,Proto-Polynesian,1,\citet[122]{kikusawa2002proto}
+GB130a,OrderSV,Is the order of S and V in intranstive clauses SV?,Proto-Polynesian,0,\citet[122]{kikusawa2002proto}
+GB025b,OrderNDEM,Is the order of adnominal demonstratives and nouns N-Dem?,Proto-Oceanic,1,\citet[72]{lynchrosscrowley_proto_grammar_oceanic}
+GB065b,OrderPosdPosr,Is the order of possessor noun and possessed noun possessed-possessor?,Proto-Oceanic,1,"\citet[155-156]{pawley1973some}, \citet[512]{ross2004morphosyntactic}, \citet[77]{lynchrosscrowley_proto_grammar_oceanic}"
+GB193a,OrderANMN,Is the order of the adnominal property and the noun ANM-N?,Proto-Oceanic,0,"\citet[497]{ross2004morphosyntactic}, \citet[74]{lynchrosscrowley_proto_grammar_oceanic}"
+GB065a,OrderPosrPosd,Is the order of possessor noun and possessed noun possessor-possessed?,Proto-Oceanic,1,"\citet[76]{lynchrosscrowley_proto_grammar_oceanic}, \citet[155-156]{pawley1973some}"
+GB130a,OrderSV,Is the order of S and V in intranstive clauses SV?,Proto-Central Pacific,0,\citet[122]{kikusawa2002proto}
+GB130b,OrderVS,Is the order of S and V in intranstive clauses VS?,Proto-Central Pacific,1,\citet[122]{kikusawa2002proto}

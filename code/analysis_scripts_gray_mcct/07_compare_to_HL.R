@@ -16,7 +16,6 @@ HL_findings_sheet <- read_tsv("data/HL_findings/GB_sheets/HS_cent2060.tsv") %>%
 full_join(read_tsv("data/HL_findings/GB_sheets/HS_ocea1241.tsv")%>% 
             mutate("Proto-language" = "Proto-Oceanic",
                    Language_ID =   "ocea1241")) %>% 
-  full_join(read_csv("data/HL_findings/HL_findings_binarised_extra.csv")) %>% 
   dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
 
 ###Make coding sheets binarised
