@@ -1,6 +1,5 @@
 source("01_requirements.R")
 
-
 #fetching the gray et al 2009 tree from dplace's github repos
 
 config_json <- jsonlite::read_json("config.json")
@@ -58,7 +57,7 @@ Gray_et_al_tree_tip.label_df <- tree_removed_dups$tip.label %>%
   left_join(taxa, by = "taxon") %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
   left_join(grambank_df, by = "Glottocode") %>% 
-  mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) 
+  mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) #superceed the specific glottocode with the language level glottocode if there isn't a dialect match
 
 tree_removed_dups$tip.label <- Gray_et_al_tree_tip.label_df$Glottocode
 
