@@ -24,6 +24,7 @@ pacman::p_load(
 #  foreign, 
   MASS, 
   colorspace,
+pals,
   RColorBrewer,
 #  wesanderson,
   randomcoloR,
