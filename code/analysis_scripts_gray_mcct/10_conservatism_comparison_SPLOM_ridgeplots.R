@@ -281,7 +281,7 @@ dists_for_ridgeplot %>%
         legend.position = "None") +
   facet_wrap(~variable)
 
-ggsave("output/ASR/other_plots/br_len_ridgeplots_ML.png", width = 10, height =5)
+ggsave("output/other_plots/br_len_ridgeplots_ML.png", width = 10, height =5)
 
 
 
@@ -307,8 +307,30 @@ dists_for_ridgeplot %>%
         legend.position = "None") +
   facet_wrap(~variable)
 
-ggsave("output/ASR/other_plots/br_len_ridgeplots_MP.png", width = 10, height =5)
+ggsave("output/other_plots/br_len_ridgeplots_MP.png", width = 10, height =5)
 
+
+mean_labels_gray <- dists_for_ridgeplot %>%
+  filter(str_detect(variable, "Gray")) %>% 
+  group_by(variable, Abberancy_group) %>% 
+  summarise(mean_dist = mean(value))
+
+dists_for_ridgeplot %>% 
+  filter(str_detect(variable, "Gray")) %>%
+  dplyr::select(value, variable, Abberancy_group) %>% 
+  ggplot(aes(x = value, y = Abberancy_group, fill = Abberancy_group)) +
+  geom_density_ridges(panel_scaling = F,  quantile_lines = T, quantile_fun = mean, jittered_points = TRUE, point_size = 2, point_shape = 21  ,  position = position_points_jitter(height = 0)) +
+  geom_label(data = mean_labels_gray, aes(x = mean_dist, y = Abberancy_group,
+                                        label = round(mean_dist, 2)), size = 2, nudge_x = 0.01, nudge_y = 0.2, alpha = 0.7, label.padding = unit(0.1, "lines")) +
+  theme_classic() +
+  xlim(c(0,1)) +
+  theme(axis.title = element_blank(), 
+        legend.position = "None") +
+  facet_wrap(~variable) +
+  scale_fill_manual(values=as.vector(pals::cols25(10)))
+
+
+ggsave("output/other_plots/br_len_ridgeplots_gray.png", width = 10, height =5)
 
 
 #LM stuff
