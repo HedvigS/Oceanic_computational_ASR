@@ -3,7 +3,7 @@ source("01_requirements.R")
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  
 
 #reading in glottolog tree
-Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
+Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #reading in Grambank
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 

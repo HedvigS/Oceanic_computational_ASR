@@ -30,17 +30,29 @@ def run():
   
   top_node = glottolog_data.languoid(top_node_name) 
 
-  lg_list_fn = 'data/GB/GB_wide_binarised.tsv' #This is the list of desired tips
+  GB_lg_list_fn = 'data/GB/GB_wide_binarised.tsv' #This is the list of desired tips
+  GB_lg_list = pandas.read_csv(GB_lg_list_fn, sep='\t') #reading it in
+  GB_lg_list = list(GB_lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
 
-  lg_list = pandas.read_csv(lg_list_fn, sep='\t')
-  lg_list = list(lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
+  Oceanic_lg_list_fn = 'data/glottolog_oceanic_languages_df.tsv' #This is the list of desired tips
+  Oceanic_lg_list = pandas.read_csv(Oceanic_lg_list_fn, sep='\t') #reading it in
+  Oceanic_lg_list = list(Oceanic_lg_list.iloc[:,0]) #Specifying that we are taking column 1 of the table
 
+#extracting tree
   tree = top_node.newick_node(template='{l.id}') #using the newick package to extract the entire tree
-  tree.prune_by_names(lg_list, inverse=True) #pruning tree
+
+#Oceanic tree
+  tree.prune_by_names(Oceanic_lg_list, inverse=True) #pruning tree
+  tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
+  
+  newick.write(tree, "data/trees/glottolog_tree_newick_all_oceanic.txt") #printing to file
+  
+#GB tree
+  tree.prune_by_names(GB_lg_list, inverse=True) #pruning tree
   tree.remove_redundant_nodes() #removing nodes which aren't necessary for this set of tips
 
   #print(tree.ascii_art()) #optional, makes ASII-art illustration of tree 
-  newick.write(tree, "data/trees/glottolog_4.3_tree_newick.txt") #printing to file
+  newick.write(tree, "data/trees/glottolog_tree_newick_GB_pruned.txt") #printing to file
 
 if __name__ =="__main__":
   run()

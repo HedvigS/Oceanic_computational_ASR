@@ -3,7 +3,7 @@ source("01_requirements.R")
 #This script reads in the glottolog 4.3 tree, as prepped by create_tree_bottom_up.py, and GB data, as prepped by get_grambank_data.R, adds the information about GB stats to the tips and runs the function castor::asr_max_parsimony() feature-wise. The tree is pruned to only tips with data for the specific feature.
 
 #reading in glottolog tree
-Glottolog_tree_full <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
+Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #reading in glottolog language table (to be used for Names)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 

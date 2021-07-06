@@ -60,3 +60,9 @@ glottolog_language_table_wide_df <- dplyr::full_join(values,languages, by = "Lan
 write_tsv(glottolog_language_table_wide_df, "data/glottolog_language_table_wide_df.tsv")
 
 cat("glottolog-cldf table created.\n")
+
+#Making a list of language-leveled oceanic languages for glottolog tree for viz
+glottolog_language_table_wide_df %>% 
+  filter(str_detect(classification, "ocea1241")) %>% 
+  filter(level =="language") %>% 
+  write_tsv( "data/glottolog_oceanic_languages_df.tsv")

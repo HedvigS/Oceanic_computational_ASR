@@ -6,7 +6,7 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Name)
 
 #reading in glottolog tree
-tree <- read.tree("data/trees/glottolog_4.3_tree_newick.txt")
+tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #reading in Grambank
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 

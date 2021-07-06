@@ -38,6 +38,7 @@ dup_to_remove <- c("Sisingga",
                    "Carolinian",
                    "Futuna", 
                    "Aria",
+                   "Madara",
                    "Maututu",
                    "Chuukese",
                    "NakanaiBileki_D",
@@ -45,7 +46,9 @@ dup_to_remove <- c("Sisingga",
                    "Buma",
                    "NehanHape",
                    "Woleai",
-                   "Marshallese"
+                   "Marshallese", 
+                   "FutunaWest", #mystery language with no entries
+                   "Baliledo" #can't get a glottocode match
 )
 
 tree_removed_dups <- drop.tip(Gray_et_al_tree, tip = dup_to_remove)
@@ -67,7 +70,7 @@ tips_to_drop <- tree_removed_dups$tip.label %>%
   rename(Glottocode = ".") %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
   filter(!str_detect(classification, "ocea1241"))
-
+  
 tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 
 ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
