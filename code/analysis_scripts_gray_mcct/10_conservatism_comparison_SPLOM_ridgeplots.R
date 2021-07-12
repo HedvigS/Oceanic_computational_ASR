@@ -172,8 +172,8 @@ dev.off()
 
 #subregions
 subregions <- read_tsv("data/oceania_subregions.tsv") %>% 
-  rename(glottocode = Glottocode)  %>% 
   full_join(read_tsv("data/oceania_subregions_extra.tsv") ) %>% 
+  rename(glottocode = Glottocode)  %>% 
   filter(!is.na(Abberancy_group)) %>%
   distinct(glottocode, Abberancy_group) 
     
