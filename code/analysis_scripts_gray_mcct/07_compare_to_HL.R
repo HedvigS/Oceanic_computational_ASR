@@ -3,17 +3,18 @@ source("01_requirements.R")
 
 
 #reading in old sheet with HL-predictions
-HL_findings_sheet <- read_tsv("data/HL_findings/GB_sheets/HS_cent2060.tsv") %>% 
+
+HL_findings_sheet <- read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_cent2060.tsv") %>% 
   mutate("Proto-language" = "Proto-Central Pacific",
          Language_ID = "cent2060") %>% 
-  full_join(read_tsv("data/HL_findings/GB_sheets/HS_east2449.tsv") %>% 
+  full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_east2449.tsv") %>% 
               mutate("Proto-language" = "Proto-Eastern Polynesian",
                      Language_ID =  "east2449")) %>% 
-  full_join(read_tsv("data/HL_findings/GB_sheets/HS_poly1242.tsv") %>% 
+  full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_poly1242.tsv") %>% 
             mutate("Proto-language" = "Proto-Polynesian",
                      Language_ID = "poly1242")
             ) %>% 
-full_join(read_tsv("data/HL_findings/GB_sheets/HS_ocea1241.tsv")%>% 
+full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_ocea1241.tsv")%>% 
             mutate("Proto-language" = "Proto-Oceanic",
                    Language_ID =   "ocea1241")) %>% 
   dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
@@ -355,13 +356,18 @@ df$countTrue <- df$countTruePos + df$countTrueNeg
 
 #parameter description
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
- dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
+  dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
+
+df %>% 
+  arrange(-countTrue) %>% 
+  left_join(GB_df_desc) %>% 
+  write_tsv("output/conservatism/all_reconstructions.tsv")  
 
 df_non_erg <- df %>% 
   filter(!is.na(Prediction)) %>% 
   arrange(-countTrue) %>% 
   left_join(GB_df_desc) %>% 
-  separate(Abbreviation, into = c("`Feature_ID`", "Abbreviation"), sep = " ") %>% 
+  separate(Abbreviation, into = c("Feature_ID_abbreviation", "Abbreviation"), sep = " ") %>% 
   dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language",  `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources" ,`Parsimony result (Glottolog-tree)`,
                 `ML result (Glottolog-tree)` ,
                 `Parsimony result (Gray et al 2009-tree)`,
