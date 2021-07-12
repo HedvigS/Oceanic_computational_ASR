@@ -17,7 +17,7 @@ pacman::p_load(
 #  forcats,
 #  knitr, 
   lazyeval,
-#  gplots,
+  gplots,
 #  igraph,
 #  geosphere,
  # diagram,
