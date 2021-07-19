@@ -1,8 +1,7 @@
 source("01_requirements.R")
 
-
-
 #reading in old sheet with HL-predictions
+#the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 
 HL_findings_sheet <- read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_cent2060.tsv") %>% 
   mutate("Proto-language" = "Proto-Central Pacific",
@@ -342,10 +341,34 @@ df$`Parsimony result (Glottolog-tree)` <- if_else(df$glottolog_parsimony_predict
 df <- value_count_df %>% 
   right_join(df) 
 
-df$`ML result (Gray et al 2009-tree)`<- if_else(df$ntips_ML_gray <  ntips_half_gray, "Not enough languages", df$`ML result (Gray et al 2009-tree)`)
+##Marking which results can't be included because they don't have enough languages
+
+#ML Gray
+df$`ML result (Gray et al 2009-tree)` <- if_else(df$ntips_ML_gray <  ntips_half_gray, "Not enough languages", df$`ML result (Gray et al 2009-tree)`)
+df$gray_ML_prediction <- if_else(df$ntips_ML_gray <  ntips_half_gray, "Not enough languages", df$gray_ML_prediction)
+df$gray_ML_prediction_1 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_1)
+df$gray_ML_prediction_0 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_0)
+
+
+#Parsimony gray
 df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$ntips_parsimony_gray <  ntips_half_gray, "Not enough languages", df$`Parsimony result (Gray et al 2009-tree)`)
+df$gray_parsimony_prediction <- if_else(df$ntips_parsimony_gray <  ntips_half_gray, "Not enough languages", df$gray_parsimony_prediction)
+df$gray_parsimony_prediction_1 <- ifelse(df$ntips_parsimony_gray <  ntips_half_gray, NA, df$gray_parsimony_prediction_1)
+df$gray_parsimony_prediction_0 <- ifelse(df$ntips_parsimony_gray <  ntips_half_gray, NA, df$gray_parsimony_prediction_0)
+
+#ML Glottolog
 df$`ML result (Glottolog-tree)` <- if_else(df$ntips_ML_glottolog <  ntips_half_glottolog, "Not enough languages", df$`ML result (Glottolog-tree)` )
+df$glottolog_ML_prediction <- if_else(df$ntips_ML_glottolog <  ntips_half_glottolog, "Not enough languages", df$glottolog_ML_prediction)
+df$glottolog_ML_prediction_1 <- ifelse(df$ntips_ML_glottolog <  ntips_half_glottolog, NA, df$glottolog_ML_prediction_1 )
+df$glottolog_ML_prediction_0 <- ifelse(df$ntips_ML_glottolog <  ntips_half_glottolog, NA, df$glottolog_ML_prediction_0 )
+
+
+#parsimony glottolog
 df$`Parsimony result (Glottolog-tree)` <- if_else(df$ntips_parsimony_glottolog <  ntips_half_glottolog, "Not enough languages", df$`Parsimony result (Glottolog-tree)`)
+df$glottolog_parsimony_prediction <- if_else(df$ntips_parsimony_glottolog <  ntips_half_glottolog, "Not enough languages", df$glottolog_parsimony_prediction)
+df$glottolog_parsimony_prediction_1 <- ifelse(df$ntips_parsimony_glottolog <  ntips_half_glottolog, NA, df$glottolog_parsimony_prediction_1)
+df$glottolog_parsimony_prediction_0 <- ifelse(df$ntips_parsimony_glottolog <  ntips_half_glottolog, NA, df$glottolog_parsimony_prediction_0)
+
 
 #Counting up trues per feature
 df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
@@ -377,84 +400,5 @@ df_non_erg <- df %>%
 df_non_erg %>% 
   write_tsv("output/HL_comparison/HL_comparison.tsv")
 
-##
 
-#ntips_ML_glottolog,
-#ntips_ML_gray,
-#ntips_parsimony_gray, 
-#ntips_parsimony_glottolog,
-
-accuracy_summary_table<- df %>% 
-  filter(!is.na(Prediction)) %>% 
-  arrange(-countTrue) %>% 
-  left_join(GB_df_desc) %>% 
-  separate(Abbreviation, into = c("`Feature_ID`", "Abbreviation"), sep = " ") %>% 
-  dplyr::select("Feature_ID" , 
-                `Parsimony result (Glottolog-tree)`,
-                `ML result (Glottolog-tree)` ,
-                `Parsimony result (Gray et al 2009-tree)`,
-                `ML result (Gray et al 2009-tree)`) %>%
-  reshape2::melt(id.vars = "Feature_ID" ) %>% 
-  filter(!is.na(value)) %>% 
-  group_by(variable, value) %>% 
-  summarise(n = n()) %>% 
-  ungroup() %>% 
-  filter(!is.na(value)) %>% 
-  reshape2::dcast(variable ~ value, value.var = "n") %>% 
-  group_by(variable) %>% 
-  mutate(Disagree = sum(`False Negative`, `False Positive`, na.rm = T),
-                        Agree = sum(`True Negative` , `True Positive`, na.rm = T), 
-         reconstructions_non_half = sum(Agree, Disagree, na.rm = T),
-         reconstructions_all= sum(Agree, Disagree, Half, na.rm = T)) %>% 
-  mutate(Accuracy = Agree / reconstructions_non_half, 
-         Accuracy_incl_half = ((Agree + (Half/2)) / reconstructions_all), 
-         Precision = `True Positive` / (`True Positive` + `False Positive`), 
-         Recall = `True Positive` / (`True Positive` + `False Negative`)) %>%
-  mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall))) %>% 
-  mutate(across(where(is.numeric), round, 3)) %>% 
-  t() 
-  
-colnames(accuracy_summary_table) <- accuracy_summary_table[1,]    
-accuracy_summary_table <- accuracy_summary_table[-1,]    
-
-accuracy_summary_table %>% 
-  as.data.frame() %>% 
-  rownames_to_column("Stat") %>% 
-write_tsv("output/HL_comparison/HL_comparison_summary_mcct.tsv")
-
-##new predictions
-
-df_new_preductions_positive <-  df %>%
-  filter(is.na(Prediction)) %>% 
-  filter(glottolog_ML_prediction == "Present") %>% 
-  filter(glottolog_parsimony_prediction == "Present") %>% 
-  filter(gray_ML_prediction == "Present") %>% 
-  filter(gray_parsimony_prediction == "Present") %>%
-  filter(min_percent_ML_glottolog > 0.3) %>% 
-  dplyr::select(Feature_ID, `Proto-language`, automatic_prediction = gray_parsimony_prediction) %>% 
-  left_join(GB_df_desc) 
-  
-
-##CONFLICTS
-
-df_conflict_resolution <- HL_findings_sheet_conflict %>% 
-  full_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
-
-# 
-# df_pruned_erg <- df %>% 
-#   filter(!is.na(Prediction)) %>% 
-#   arrange(`Proto-language`, Feature_ID) %>% 
-#   filter(Feature_ID == "GB409" |
-#            Feature_ID == "GB408" ) %>% 
-#   #      `Feature_ID` == "GB410" |
-#   #     `Feature_ID` == "GB147" )   %>% 
-#   left_join(GB_df_desc) %>% 
-#   separate(Abbreviation, into = c("Feature_ID", "Abbreviation"), sep = " ") %>% 
-#   dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language", `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources" ,`Parsimony result (Glottolog-tree)`,
-#                 `ML result (Glottolog-tree)` ,
-#                 `Parsimony result (Gray et al 2009-tree)`,
-#                 `ML result (Gray et al 2009-tree)`)
-# 
-# df_pruned_erg %>% 
-#   write_tsv("output/HL_comparison/HL_comparison_erg.tsv")
 
