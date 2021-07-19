@@ -1,0 +1,4 @@
+#NEXUS
+Begin trees;
+    tree glottolog_kiwa1251 = (coas1298:1,daru1245:1,doum1239:1,east2521:1,isla1274:1,sout2950:1);
+end;

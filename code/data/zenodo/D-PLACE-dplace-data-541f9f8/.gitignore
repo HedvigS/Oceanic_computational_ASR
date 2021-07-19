@@ -1,0 +1,7 @@
+.idea
+*.log
+*.pot
+*.pyc
+.DS_Store
+pydplace.egg-info
+.pytest_cache/

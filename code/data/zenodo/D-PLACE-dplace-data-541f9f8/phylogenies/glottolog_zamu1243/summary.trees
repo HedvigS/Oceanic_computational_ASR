@@ -1,0 +1,4 @@
+#NEXUS
+Begin trees;
+    tree glottolog_zamu1243 = (ebit1237:1,cham1316:1);
+end;

@@ -1,4 +1,4 @@
-source("1_requirements.R")
+source("01_requirements.R")
 
 #fetching the gray et al 2009 trees from dplace's github repos, dropping unwanted duplicates and renaming all tips to their respective language level glottocodes
 
@@ -29,11 +29,11 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 
 ##remove duplicates manually
 # For each set of tips which have the same glottocode or are dialects of the same languagaes (and are in GB and in the Oceanic subbgranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed within the different dialect clusters.
-
 dup_to_remove <- c("Sisingga", 
                    "Carolinian",
                    "Futuna", 
                    "Aria",
+                   "Madara",
                    "Maututu",
                    "Chuukese",
                    "NakanaiBileki_D",
@@ -41,8 +41,11 @@ dup_to_remove <- c("Sisingga",
                    "Buma",
                    "NehanHape",
                    "Woleai",
-                   "Marshallese"
+                   "Marshallese", 
+                   "FutunaWest", #mystery language with no entries
+                   "Baliledo" #can't get a glottocode match
 )
+
 
 index <- 0
 
@@ -60,7 +63,7 @@ tree_tip.label_df <- tree_removed_dups$tip.label %>%
   left_join(taxa, by = "taxon") %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
   left_join(grambank_df, by = "Glottocode") %>% 
-  mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) 
+  mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) #superceed the specific glottocode with the language level glottocode if there isn't a dialect match
 
 tree_removed_dups$tip.label <- tree_tip.label_df$Glottocode
 

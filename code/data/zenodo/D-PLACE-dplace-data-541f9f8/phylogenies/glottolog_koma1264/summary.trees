@@ -1,0 +1,4 @@
+#NEXUS
+Begin trees;
+    tree glottolog_koma1264 = (komo1258:1);
+end;

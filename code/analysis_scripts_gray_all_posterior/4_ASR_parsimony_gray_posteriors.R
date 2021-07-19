@@ -1,12 +1,10 @@
-source("1_requirements.R")
-options(tidyverse.quiet = TRUE) 
+source("01_requirements.R")
 
 #This script reads in all the trees in the posterior of Gray et al 2009. They have already been pruned and tips are set to glottocodes (see 3_get_gray_tree.R). In this script, we apply the function castor::max_parsimony() to each tree and saves the output from that, along with some other handy output regarding tip states etc in a row in a tibble. There is one tibble per tree in the posterior (i.e. 42000) and each tibble has one row per feature, and is saved to an RDS-file. All output is saved to a folder inside output/gray_et_al_2009/parsimony/results_by_tree/. Each folder name is unique to each tree, and all output concerning each tree is saved in the respective folder.
 
 #The setup is as follows
 #1) basics are read in
 #2) a custom function is defined which runs asr_max_parsimon() and saves some particular output to a list
-#3) 
 
 
 ##Reading in basics
@@ -51,23 +49,26 @@ fun_GB_ASR_Parsimony <- function(feature){
 #feature <- "GB020" 
    
 filter_criteria <- paste0("!is.na(", feature, ")")
-  
-to_keep <- tree $tip.label %>% 
+
+to_keep <- tree$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
   left_join(GB_df_all, by = "Glottocode") %>% 
   filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Glottocode, {{feature}})
-  
+
 gray_tree_pruned <- keep.tip(tree, to_keep$Glottocode)  
 
-#making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the associated feature values as values
+#gray_tree_pruned <- ape::multi2di(gray_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
+#gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0]<-max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
+
+#making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
 feature_vec <-  gray_tree_pruned$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
   left_join(GB_df_all, by = "Glottocode") %>% 
   dplyr::select(Glottocode, {{feature}}) %>% 
-   tibble::deframe()
+  tibble::deframe()
 
 #running the ASR
 castor_parsimony <- castor::asr_max_parsimony(tip_states = feature_vec, tree = gray_tree_pruned, Nstates = 2, transition_costs = "all_equal")
@@ -89,8 +90,8 @@ gray_tree_pruned$tip.label <- gray_tree_pruned_tip.labels_df$Name
 ntips <- phylobase::nTips(gray_tree_pruned)
 ntips_table <- feature_vec %>% table() %>% as.matrix()
 
-cat("I've finished Parsimony ASR with Gray et al-tree for  ", feature,  "and ", output_dir, ".\n", sep = "")
-output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table, output_dir)
+cat("I've finished Parsimony ASR with ", fn, " for ", feature, ". \n", sep = "")
+output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table)
 output
 }
 
@@ -98,7 +99,8 @@ output
 
 #looping over all trees in the posterior
 
-for(tree_fn in 1:length(gray_trees_fns)){
+#for(tree_fn in 1:length(gray_trees_fns)){
+for(tree_fn in 1:10){
   
   #tree_fn <- 1
   
@@ -130,6 +132,7 @@ df_parsimony_gray %>%
   rename(`0`= `1`) %>% 
   rename(`1`= `2`) %>% 
   write_csv(file.path(output_dir, "results.csv"))
+cat("done summary results table.csv")
 
-cat("ASR with parsimony and Gray et al 2009-tree all done, for", output_dir, ".\n" , sep = "")
+cat("ASR with parsimony and Gray et al 2009-tree all done, for", fn, ".\n" , sep = "")
 }

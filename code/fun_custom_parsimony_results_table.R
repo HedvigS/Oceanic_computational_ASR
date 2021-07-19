@@ -1,4 +1,4 @@
-source("1_requirements.R")
+source("01_requirements.R")
 
 fun_extract_tip_counts_parsimony_cost <- function(ASR_tibble, feature) {
   
@@ -22,7 +22,5 @@ fun_extract_tip_counts_parsimony_cost <- function(ASR_tibble, feature) {
   } 
   
   matrix <- cost %>% cbind(tip_counts) %>% cbind(feature) %>% as.data.frame()
-  cat("done ", feature, "\n")
-  
   matrix
 }
