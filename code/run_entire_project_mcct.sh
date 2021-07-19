@@ -34,13 +34,16 @@ Rscript analysis_scripts_gray_mcct/3_get_gray_tree_mcct.R #pruning tree and chan
 
 #to avoid people having to redo the glottolog-tree, i'm asking if the file already exists (I uploaded it to the repos) and if it does it doesn't run the python script.
 
-FILE=/data/trees/glottolog_4.3_tree_newick.txt
+FILE=/data/trees/glottolog_tree_newick_GB_pruned.txt
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
     echo "Glottolog-tree file already exists, won't bother remaking it."
 else 
 python3 3_create_glottolog_tree_bottom_up.py #	will create a tree based on glottolog phylogeny of Oceanic languages where the tips are languoids in grambank
 fi
+
+#visualise coverage
+Rscript 03_coverage_viz.R
 
 ## 4 run ASR anlsysis -Parsimony
 
@@ -63,18 +66,3 @@ Rscript 05_ASR_ML_glottolog.R
 echo seventh step, compate to classical historical linguistics
 
 Rscript analysis_scripts_gray_mcct/07_compare_to_HL.R
-
-## 8 make stability tables
-
-Rscript analysis_scripts_gray_mcct/08_make_stability_tables.R
-
-## 9 conservatism scores
-Rscript 09_conservatism_glottolog_ML.R
-Rscript 09_conservatism_glottolog_parsimony.R
-Rscript analysis_scripts_gray_mcct/09_conservatism_gray_ML.R
-Rscript analysis_scripts_gray_mcct/09_conservatism_gray_parsimony.R
-
-##compare conservatism scores
-
-Rscript analysis_scripts_gray_mcct/10_conservatism_comparison_SPLOM_ridgeplots.R
-Rscript analysis_scripts_gray_mcct/10_conservatism_compared_to_tree_nodes.R
