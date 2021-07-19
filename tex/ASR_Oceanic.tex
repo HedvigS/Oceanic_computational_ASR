@@ -521,22 +521,11 @@ The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai
 
 \newpage
 \section{Results}
-The results of this study are divided into three parts:
-
-\begin{enumerate}
-\item Concordance between computational reconstructions and findings in traditional historical linguists
-\begin{itemize}
-\item the ergativity in proto-Polynesian-issue
-\end{itemize}
-\item Stability of features
-\item Conservatism of languages
-\end{enumerate}
 
 In this study we are using the MCCT tree from \citet{grayetal_2009} and two models (Parsimony and Maximum Likelihood Estimation), making for two sets of results. Trees with more than half of the possible tips missing are discarded. The match between languages in Grambank and the Gray et al-tree is 112, meaning that results with less than 56 tips are ignored.  %#update
 
 All results have been calculated in \texttt{R} \citep{R} using the packages \texttt{castor} (Parsimony) \citep{louca2017efficient}, \texttt{phangorn} \citet{phangorn}, \texttt{adephylo} \citep{jombart2017package}, \texttt{corHMM} \citep{corHMM}, \texttt{ape} \cite{paradis2004ape} and phytools \citep{revell2012phytools} and tidyverse \citep{tidyverse13}.
 
-\subsubsection{Concordance with traditional historical linguistics}
 In this section we compare how often the computational reconstructions are in concordance with those made by historical linguists. For each feature, the algorithm predicts a distribution of the two states (presence and absence) for every ancestral node. If the distribution is majority presence (more than 60\% of the ancestral state is ``1'') it is registered as ``Presence''; if less than 40\% presence it is registered as ``Absence''. If the ancestral state is between 40-60\% of either state, the prediction is registered as ``Half/Half''. If the reconstruction of a feature by experts for that ancestral node was ``Presence'' and the algorithm did predict presence with over 60\%, it is a ``True positive'', and so on. Table~\ref{example_HL_prediction_table_true_positives} illustrates how the results are calculated.
 
 \begin{table}[H]
@@ -651,212 +640,212 @@ The proposals of \citet{hale_1968}, \citet{hohepa_1967, hohepa_1969}, and \citet
 %###############
 
 
-
-\subsubsection{Stability of features}
-\label{sec:asr:stability}
-
-We assess the stability of the features in our data by measuring the Parsimony cost (number of changes in the tree) and the rate of gains and losses in the ML results. Features where more than half of the languages of the tree were missing were excluded from these results.
-
-Parsimony cost represents the number of changes inferred as part of the most parsimonious solution. Trees where all the tips are of the same value will have a parsimony cost of 0, since no change occurred. A parsimony cost of 1 will indicate that 1 change occurred somewhere in the tree, and so on.
-
-The ML results produce a rate of gain and loss for each feature given the full tree. In order to make the rates comparable across features, all the trees used have the same number of tips (with tips with missing data being converted to ambiguous states). For the results, the average rate (mean of rate of gain and loss) is considered.
-
-The large majority of the most stable features are dominated by rare phenomena. For example, all four sets of results rank the following two features as among the five most stable:
-
-\begin{enumerate}
-    \item GB110 \emph{Is there verb suppletion for tense or aspect?}
-    \item GB149 \emph{Is there a morphologically marked inverse on verbs?}
-\end{enumerate}
-
-However, these are both entirely absent from the entire group. There is no Oceanic language in Grambank with verb suppletion for tense or aspect, nor a language with inverse marked on verbs. It is little wonder that these features are stable, no change is needed from the reconstructed root (absence) to all the tips (also absence). This is a characteristic of some of the results from the study by \cite{dediu2013some} as well: many of the most stable features in their overview were also rare.
-
-In order to avoid the most rare features, the results are also reported for only features where the balance of presence/absence is at least 5\% one way and 95\% the other. The top and bottom five for each method and tree are reported in appendix \ref{stability_tables}, including a separate table for stable features with at least a distribution of 5\%/95\%.
-
-Table \ref{summary_stability} is a summary of the top-5 most stable features in each of the four sets of results, including only features with a distribution of at least 5\%/95\%.
-
-\begin{table}
-\centering
-\caption{Top 5 most stable features per method and tree, only including features with a distribution of at least 5\%/95\%.}
-\label{summary_stability}
-\begin{tabular}{?l?p{2cm}?p{2cm}?p{2cm}?p{2cm}?l?l?l?l}
-\hline
-\multirow{2}{*}{\textbf{Grambank Feature}}& \multicolumn{2}{c|}{\textbf{Glottolog 4.0-tree}}& \multicolumn{2}{c|}{\textbf{Gray et al (2009)-tree}}\\ \cline{2-5}
-& \textbf{Parsimony} & \textbf{Maximum Likelihood} & \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
-\textbf{GB081 VInfix}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-\textbf{GB433 POSSSfxPosd}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-\textbf{GB131 TransVInitOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-\textbf{GB132 TransVMedOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-\textbf{GB024b OrderNNUM}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-\textbf{GB188 AUGBound} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-\textbf{GB422 ComplThinkKnowPost} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-\textbf{GB300 VSupplGive}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-\textbf{GB095 CaseSplitTAM}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-\textbf{GB133 TransVFinalOrder} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-\textbf{GB264 QPartMedial} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-\textbf{GB330 RELCorr} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-\textbf{GB091 A-ArgSfxV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-\textbf{GB333 NUMDecimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-\textbf{GB148 AntipassiveBoundV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-\textbf{GB335 NUMVigesimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-
-\end{tabular}
-\end{table}
-
-These results indicate that there is little agreement between the methods as to which features are most stable. Three out of four sets of results rank verbal infixing (GB081) as among the five most stable and while it is indeed less rare than 5\%/95\%, it is not much rarer. Only 8\% of the languages in the sample have this feature.
-
-There are a few interesting features in this summary table. Counting systems (GB333 and GB335) are often said to be stable. There are also a few word-order related features, which is in line with previous research \citep[c.f.][]{dediu2013some}.
-
-However, overall these results do not strongly support that certain features are more stable than others consistently. This is likely because Oceanic is not a deep enough genealogical unit for this kind of analysis. Features are either overwhelmingly present or absent with little in between. This makes phylogenetic analysis difficult. It is possible to consider other factors besides time-depth as relevant factors for stability, such as social network structure/political complexity (see section \ref{prediting:sec:pol:complex}), but this is outside the scope of this study. Furthermore, it is possible that the characteristics of structural data are such that it is much more difficult to apply ancestral reconstruction methods
-(there are several different reasons for the presence of a structural feature, and they may be unrelated, see \ref{subsection:comp_lex_str} and section \ref{sec:ars:metod:hist}).
-
-
-
-
-\subsubsection{Conservatism per language}
-\label{sec:conservatism}
-Conservatism is a measurement of how much change there has been from the reconstructed root of the tree (proto-Oceanic) down to each of the tips (languages). A high number indicates a large amount of change has occurred between the root and the tips. The change can go back and forth, i.e. flip between presence and absence of a feature several times between the root and the tip.
-
-This is different from the direct pairwise dissimilarity between each language and a reconstructed version of Proto-Oceanic which we saw in section \ref{aberr_dist_results}. The analysis of pairwise dissimilarity did not take into account the intermediate nodes between Proto-Oceanic and each language, and only included the features where findings in historical linguistics indicated a particular feature in Grambank for Proto-Oceanic. The analysis here differs in two important ways: a) the state of the intermediate nodes are taken into account and b) the tips are compared to the computationally reconstructed Proto-Oceanic (which includes more features than there are findings for in historical linguistics).
-
-For the two parsimony sets of results, conservatism was calculated by a kind of parsimony analysis known as ACCTRAN (ACCelerated TRANsformation). This lets us examine how many changes occur from the root down to each of the tips according to the most parsimonious solution of ancestral states. 
-
-For the ML analysis, the function \texttt{optim.ml()} was used to rescale the branches in accordance with the changes that the ML (marginal) reconstruction posited. The result of \texttt{optim.ml()} is an unrooted tree, which is why it is necessary to reroot. Nanggu [nang1262] was used as an outgroup to root the trees, since it is well-known as an Oceanic outlier.
-
-In order to make the results comparable across the two methods, the ACCTRAN trees were also re-rooted with Nanggu as an outgroup. Because Nanggu was used as an outgroup, features which Nanggu lacked were excluded. This left 167 Grambank features which were included in the conservatism analysis. 
-
-The results from both the Maximum Parsimony and Maximum Likelihood were rescaled to between 0 and 1 in order to make them comparable. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred. Fig. \ref{map_br_lens} shows the languages of the sample coloured by conservatism in each of the four sets of results given our two methods and two trees.
-
-%The language in Papua New Guinea that appears as a bright yellow (progressive) point in Papua New Guinea in the results based on Maximum Likelihood is Kilivila [kili1267]
-
-
-\newpage
-\begin{sidewaysfigure}
-\centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_maps.png}
-\caption[Map of Oceanic languages and their average conservatism given the four sets of results.]{\textbf{Map of Oceanic languages and their average conservatism given the four sets of results. Yellow = progressive, blue = conservative. First row: Maximum Likelihood branch lengths, second row: Parsimony cost. First column: Glottolog-tree, second column: Gray et al 2009-tree.)}}
-\label{map_br_lens}
-\end{sidewaysfigure}
-
-Across the four sets of results the map visualisation indicates that the most conservative regions appear to be the Bismarck archipelago and Temotu (see Fig. \ref{Marck_map_with_language_names} in section \ref{subregion:sailing} for locations of Bismarck and Temotu).
-
-In order to evaluate the conservatism of the different regions in our data the languages were grouped into island groups. The same groups as in chapter \ref{chapter_distances} were used with the addition of three groups in Near Oceania, making for a total of ten groups (ordered by mean conservatism averaged over all four sets of findings): Temotu, Bismarck, Solomons and Bougainville, Northern Vanuatu, New Caledonia, New Guinea Mainland/Louisiade Archipelago, Micronesia, Central Vanuatu, Central Pacific and Southern Vanuatu. 
-
-Figs. \ref{ridgeplot_BR_len_MP} and \ref{ridgeplot_BR_len_ML} show the distribution of conservativeness across the island groups over the four methods. The ridgeplots represent the distribution of conservativeness in each island group but points have also been added to show the precise locations of the data-points. The line and label on each distribution indicates the mean. For the analysis with the Gray et al 2009-tree there were unfortunate only two languages of the Northern Vanuatu group present, which is not enough to generate a ridgeplot but the points indicate the values of the languages there.
- 
-%% latex table generated in R 4.0.0 by xtable 1.8-4 package
-%% Sun Apr 26 22:18:59 2020
-%\begin{table}[H]
+%
+%\subsubsection{Stability of features}
+%\label{sec:asr:stability}
+%
+%We assess the stability of the features in our data by measuring the Parsimony cost (number of changes in the tree) and the rate of gains and losses in the ML results. Features where more than half of the languages of the tree were missing were excluded from these results.
+%
+%Parsimony cost represents the number of changes inferred as part of the most parsimonious solution. Trees where all the tips are of the same value will have a parsimony cost of 0, since no change occurred. A parsimony cost of 1 will indicate that 1 change occurred somewhere in the tree, and so on.
+%
+%The ML results produce a rate of gain and loss for each feature given the full tree. In order to make the rates comparable across features, all the trees used have the same number of tips (with tips with missing data being converted to ambiguous states). For the results, the average rate (mean of rate of gain and loss) is considered.
+%
+%The large majority of the most stable features are dominated by rare phenomena. For example, all four sets of results rank the following two features as among the five most stable:
+%
+%\begin{enumerate}
+%    \item GB110 \emph{Is there verb suppletion for tense or aspect?}
+%    \item GB149 \emph{Is there a morphologically marked inverse on verbs?}
+%\end{enumerate}
+%
+%However, these are both entirely absent from the entire group. There is no Oceanic language in Grambank with verb suppletion for tense or aspect, nor a language with inverse marked on verbs. It is little wonder that these features are stable, no change is needed from the reconstructed root (absence) to all the tips (also absence). This is a characteristic of some of the results from the study by \cite{dediu2013some} as well: many of the most stable features in their overview were also rare.
+%
+%In order to avoid the most rare features, the results are also reported for only features where the balance of presence/absence is at least 5\% one way and 95\% the other. The top and bottom five for each method and tree are reported in appendix \ref{stability_tables}, including a separate table for stable features with at least a distribution of 5\%/95\%.
+%
+%Table \ref{summary_stability} is a summary of the top-5 most stable features in each of the four sets of results, including only features with a distribution of at least 5\%/95\%.
+%
+%\begin{table}
 %\centering
-%\caption[Island groups ordered by mean conservatism.]{Island groups ordered by mean conservatism. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred.} 
-%\label{conservatism_group_parsimony_Gray}
-%\begin{tabular}{lr}
-%  \hline
-%Island group & Average distance from root\\ 
-%  \hline
-%Temotu & 0.18 \\ 
-%  Bismarck & 0.46 \\ 
-%  Solomons and Bougainville & 0.52 \\ 
-%  Northern Vanuatu & 0.52 \\ 
-%  New Caledonia & 0.54 \\ 
-%  New Guinea mainland / Louisiade archipelago & 0.56 \\ 
-%  Micronesia & 0.57 \\ 
-%  Central Vanuatu & 0.58 \\ 
-%  Central Pacific & 0.64 \\ 
-%  Southern Vanuatu & 0.68 \\ 
-%   \hline
+%\caption{Top 5 most stable features per method and tree, only including features with a distribution of at least 5\%/95\%.}
+%\label{summary_stability}
+%\begin{tabular}{?l?p{2cm}?p{2cm}?p{2cm}?p{2cm}?l?l?l?l}
+%\hline
+%\multirow{2}{*}{\textbf{Grambank Feature}}& \multicolumn{2}{c|}{\textbf{Glottolog 4.0-tree}}& \multicolumn{2}{c|}{\textbf{Gray et al (2009)-tree}}\\ \cline{2-5}
+%& \textbf{Parsimony} & \textbf{Maximum Likelihood} & \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
+%\textbf{GB081 VInfix}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
+%\textbf{GB433 POSSSfxPosd}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
+%\textbf{GB131 TransVInitOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
+%\textbf{GB132 TransVMedOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
+%\textbf{GB024b OrderNNUM}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
+%\textbf{GB188 AUGBound} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
+%\textbf{GB422 ComplThinkKnowPost} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
+%\textbf{GB300 VSupplGive}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
+%\textbf{GB095 CaseSplitTAM}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
+%\textbf{GB133 TransVFinalOrder} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
+%\textbf{GB264 QPartMedial} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
+%\textbf{GB330 RELCorr} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
+%\textbf{GB091 A-ArgSfxV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
+%\textbf{GB333 NUMDecimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
+%\textbf{GB148 AntipassiveBoundV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
+%\textbf{GB335 NUMVigesimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
+%
 %\end{tabular}
 %\end{table}
-
-\begin{sidewaysfigure}
-\centering
-\includegraphics[width=\textwidth]{../code/output/other_plots/br_len_ridgeplots_gray.png}
-\caption{{Ridgeplots of the distribution of conservatism over the island groups per method.}}
-\label{ridgeplot_BR_len_MP}
-\end{sidewaysfigure}
-
-The results from the different methods and trees differ, we shall take a closer look at this later and compare the scores to each other and to time of settlement.
-
-Temotu is the most conservative group in the sample across all the four sets of findings. If we average the conservatism of all the analyses, Temotu languages have a mean of 0.18 conservatism compared to Bismarck's 0.46. However, Nanggu was used to outgroup root the tree, which makes Nanggu the first split from proto-Oceanic in the tree which was used in the reconstruction. This is likely to have inflated the conservatism of Nanggu and therefore the conservatism of its closest relatives, which are other languages in the Temotu group. This is likely to have enhanced the conservatism of the Temotu island group. However, it should be noted that Temotu languages did also have the lowest direct distance to Proto-Oceanic as reconstructed by historical linguists (section \ref{aberr_dist_results}).
-
-It is possible that if certain ancestral nodes in the tree had been anchored by archaeological accounts, such as those found in \cite{rieth_cochrane_2018} or \citet{kirch2017road}, Temotu would have been less likely to be the most conservative. This is because the settlement order would definitely be Bismarck first and Temotu later.
-
-Historical linguistics research indicates that the most likely homeland of Oceanic is found in the Bismarck archipelago \citep[97]{lynchrosscrowleyinternalsubgroupingoceanic}. The second most conservative group in our sample is indeed Bismarck, which supports this notion.
-
-As was discussed in the previous chapter (\ref{chapter_distances}) certain languages of Temotu, Southern Vanuatu and New Caledonia are known to be unusually innovative lexically and phonologically \citep{grace1981indirect, grace_1992_aberrant, pawley2006explaining}. In the previous chapter, we saw that Temotu and New Caledonia were more unusual lexically than Southern Vanuatu, and that structurally there was little difference. In these results however,  Southern Vanuatu is the most progressive in the MP results, and in the mid-range in the ML-results, whereas Temotu is the least conservative overall and New Caledonia appears in the mid-range in all the results. It appears that it took more transitions back and forth to ``get to'' the structure of Southern Vanuatu languages compared to the other two ``aberrant'' groups Temotu and New Caledonia.
-
-The languages of the Central Pacific are known as especially \emph{conservative} in their lexicon (\citet{blust1981, blust2000lexicostatistics} and \citet{pawley_2009_solomons}). However, this seems to not hold structurally. The Central Pacific Languages are the most progressive in the MP results (after Southern Vanuatu) and in the upper-mid range in the ML results. A few features that make the Central Pacific languages stand out are the lack of subject markers as prefixes or proclitics on verbs (GB090 \& GB092) as well as the presence of ergative case marking (GB409) and passive voice (GB147).
-
-%##here is where you are
-
-However, there are a few methodological considerations that are important to the interpretation of these results, in particular concerning Central Pacific. The difference between the Maximum Parsimony and Maximum Likelihood results are most likely due to branch lengths and the number of nodes between each tip and the root. For the Maximum Parsimony analysis, the branch lengths are irrelevant. Maximum Parsimony only reconstructs states at each intermediate node, regardless of how close that node is to another. This means that if there are more nodes between the root and the tip, Maximum Parsimony has more ``opportunity'' to posit changes than if there were fewer. The Maximum Likelihood analysis however takes into account the length of the branches, which in turn means that the particular number of nodes between the root and the tips is of less importance.
-
-The two trees we have used in this analysis, the Glottolog tree\footnote{Note that both trees have been binarised for the analysis in this chapter.} and the Gray et al 2009-trees, have a structure such that there are more nodes between the languages of Central Pacific and the root (Proto-Oceanic) than there are between languages of Central Vanuatu and the root. The tree topologies are displayed in section \ref{asr:sec:GBcoverage}, but as it is difficult to appreciate this difference in the plots there I have summarised the number of nodes between tips and root per island group in table \ref{table_mean_nodes}. The precise number of nodes between the tips and root differ between the two trees, and also between the two methods since the Parsimony analysis drops tips with missing data. However, the rank orders are largely the same, with Temotu languages having the fewest number of nodes between them and the root and Central Pacific the most.
-
-% latex table generated in R 4.0.0 by xtable 1.8-4 package
-% Fri May 29 13:23:48 2020
-\begin{table}[ht]
-\caption{Mean number of nodes between tips and root per method and tree.}
-\label{table_mean_nodes}
-\centering
-\begin{tabular}{?l?  p{2cm} ?p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}?}
-  \hline
-  &   \multicolumn{5}{c?}{\textbf{Mean number of nodes between tips and root} } \\    \cline{2-6}
-& &  \multicolumn{2}{c|}{\textbf{Max Parsimony}} &\multicolumn{2}{c|}{\textbf{Max Likelihood}}\\ \cline{3-6}
-\textbf{Island group} & \textbf{All} &  \textbf{Glottolog }& \textbf{Gray} & \textbf{Glottolog} & \textbf{Gray}  \\ \hline
-
-%Island group & All & MP Glottolog & MP Gray et al 2009 & ML Glottolog & ML Gray et al 2009 \\ 
-  \hline
-Temotu & 2.95 & 2.83 & 2.58 & 3.25 & 3.14 \\ 
-  New Caledonia & 9.85 & 11.19 & 7.73 & 12.08 & 8.40 \\ 
-  Southern Vanuatu & 10.29 & 10.56 & 9.15 & 11.62 & 9.83 \\ 
-  New Guinea mainland / Louisiade archipelago & 10.66 & 11.67 & 8.35 & 12.31 & 10.33 \\ 
-  Micronesia & 11.32 & 11.92 & 10.08 & 12.37 & 10.92 \\ 
-  Northern Vanuatu & 11.51 & 11.94 & 10.31 & 13.80 & 10.00 \\ 
-  Bismarck & 11.77 & 13.18 & 9.24 & 13.24 & 11.43 \\ 
-  Central Vanuatu & 12.47 & 12.90 & 11.21 & 13.15 & 12.62 \\ 
-  Solomons and Bougainville & 12.96 & 14.45 & 9.91 & 15.58 & 11.88 \\ 
-  Central Pacific & 14.55 & 15.20 & 12.80 & 16.54 & 13.67 \\ 
-   \hline
-\end{tabular}
-
-\end{table}
-
-Since there are more nodes between Central Pacific and the root this means that the Maximum Parsimony algorithm has more ``chances'' to posit changes. This is not true of the Maximum Likelihood analysis which is able to posit changes in relation to the branch lengths and cares less about the precise number of nodes on the tree. Fig. \ref{BR_len_to_nnodes} shows the language conservatism score per method and tree compared to the number of nodes between the languages and the root. There is a stronger correlation between the number of nodes along the route from a specific language (tip) to the root and the Maximum Parsimony scores of conservatism for that language (upper row) than there is between the Maximum Likelihood and the number of nodes (lower row). The correlation between the number of nodes and the Maximum Likelihood, though significant, is very weak.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width= \textwidth]{illustrations/plots_from_R/br_len_compare_to_nodes.png}
-\caption{Scatterplots comparing number of nodes from root to tips and conservatism scores.}
-\label{BR_len_to_nnodes}
-\end{figure}
-
-This means that the Maximum Parsimony conservatism score is mainly reproducing the number of splits between the language and the root --- the more splits, the higher the Parsimony cost (amount of change). Conversely, fewer splits mean less change (lower Parsimony cost). Temotu languages are more conservative in the Parsimony analysis than in the Maximum Likelihood analysis, and the outgroup-rooting with Nanggu results in fewer nodes between the root and the Temotu languages. Whether or not this is good or bad depends on what we think splits in the tree represent. Do we expect languages which are more deeply nested in a family tree to have had a more tumultuous history? Or do we think that the rate of change is not correlated with the number of splits found in the tree --- that ``early'' off-shoots like Nanggu and Yapese are equally likely to undergo substantial changes as Central Pacific language which have more splits in their lineage? 
-
-Furthermore, sub-nesting may also be a product of research efforts --- areas which have been more well-researched may be better represented in the tree of Glottolog than those which have had comparatively less research. Note that this is not as relevant for the Gray et al 2009-tree which is based on lexical and archaeological data, not compilations of historical linguists' accounts like the Glottolog tree\footnote{A total of 102 references are used in Glottolog for the structure of the Austronesian family tree, with the main references being \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. It is beyond the scope of this dissertation to reach any final conclusions on how we should interpret the nature of splits in these trees. The findings of this chapter indicate that the more splits in a lineage the less conservative the language is in the Maximum Parsimony analysis, which informs us that the Maximum Parsimony is adding little information concerning conservatism beyond the number of splits. How we should interpret the number of splits is however not clear.
-
-Bringing this back to the specific island groups, it is still noteworthy that Central Pacific is not among the most conservative languages structurally in either of the four sets of results. This goes against what we might have expected given the lexical conservatism of these languages found in other publications. 
-
-More remarkable perhaps in light of the correlation between number of nodes and the Maximum Parsimony conservatism score is the progressiveness of Southern Vanuatu languages and the conservatism of Bismarck languages. Table \ref{table_mean_nodes} shows that Southern Vanuatu languages have the third least number of nodes on average between the root and the languages, and Bismark's languages appear in the mid range. And yet, the Southern Vanuatu languages are among the most progressive in the results, with Bismarck languages among the most conservative. This indicates that the progressiveness of the Southern Vanuatu languages and the conservatism of the Bismarck languages are robust findings.
-
-We can also compare the conservatism of the languages across the methods, and to known settlement dates. Fig. \ref{SPLOM_BR_len} shows a scatterplot matrix comparing the four conservatism-per-language scores to each other and also to settlement order (see section \ref{pol_complex_sec_dates} in chapter \ref{chapter_pol_complex}). The lower triangle shows scatterplots of different combinations of data. The cell in the second row and first column displays a scatterplot of the two ML results compared against each other. The dexter diagonal shows the histograms of the various datasets. The upper triangle shows the Pearson's statistic. Stars indicate significance in the conventional manner. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_splom_SFM.png}
-\caption{{Scatterplot matrix of correlations between conservatism scores over the four different sets of results, and settlement order.}}
-\label{SPLOM_BR_len}
-\end{figure}
-
-There is a very strong correlation between the two ML results (0.94), even though the two tree topologies are quite different. This is noticeable, we might expect that analysis using such different trees would generate more different results. The correlation between the two parsimony results is also strong (0.79), but not as strong. The parsimony results also correlate with the settlement time, the Glottolog and Maximum Parsimony results moderately (0.55) and the Gray et al 2009 and Maximum Parsimony weakly (0.35). This indicates that the higher the Parsimony cost (i.e. rate of change), the more likely a language is to be spoken on an island which has been settled more recently. This correlation, though present, is not strong and needs to be further investigated. It is possible that the correlation between the Maximum Parsimony conservatism scores and settlement time depth is related to the aforementioned relationships to degree of nesting (i.e. number of nodes between root and tip).
-
-The fact that the two Maximum Likelihood results correlate more with each other than the two Maximum Parsimony results does suggests that it is a more robust methodology.
-
-In summary, the results differ between the four methods, and these differences reveal some of the consequences behind the methodologies. Since Maximum Parsimony is more dependent on the number of nodes along a lineage, the findings show that it adds little information beyond that. The interpretation of the precise results depends on how we choose to interpret what it means that the lineages of certain languages involve more splitting events than others. Regardless, the findings indicate that Central Pacific languages are \emph{not} especially conservative structurally, that the Bismarck languages are indeed particularly conservative and that the ``aberrant'' island group of Southern Vanuatu appears especially innovative structurally. For future studies, it is possible to investigate the drivers behind conservatism in a similar manner to how language richness is explored in chapter \ref{chapter_pol_complex}.
-
-
-%The distribution of conservatism over these languages looks more similar to the settlement pattern, with more recently settled areas overall being more progressive. In chapter \ref{chapter_pol_complex}, we used archaeological dates for a model on factors of language diversification in the region (see Fig.\ref{dates_map} for a map of time of settlement). If we compare the time depth-data from that study to these Parsimony costs using a Pearson's product-moment correlation we do find a statistically significant positive correlation (cor = 0.59, \emph{p} value = 2.1 * 10 $^-13$). In the case of islands and atolls in Eastern Polynesia and the northern Polynesian outliers, their high rate of change could be due to bottleneck effects (c.f. \citet{bromham_polynesian_sizes}).
-
-%In summary, structural features of language may be subject to different pressures than lexical (c.f. \citet{francois2011}). These results indicate that the retention rate of structural features is different from that ofbasic lexicon.
+%
+%These results indicate that there is little agreement between the methods as to which features are most stable. Three out of four sets of results rank verbal infixing (GB081) as among the five most stable and while it is indeed less rare than 5\%/95\%, it is not much rarer. Only 8\% of the languages in the sample have this feature.
+%
+%There are a few interesting features in this summary table. Counting systems (GB333 and GB335) are often said to be stable. There are also a few word-order related features, which is in line with previous research \citep[c.f.][]{dediu2013some}.
+%
+%However, overall these results do not strongly support that certain features are more stable than others consistently. This is likely because Oceanic is not a deep enough genealogical unit for this kind of analysis. Features are either overwhelmingly present or absent with little in between. This makes phylogenetic analysis difficult. It is possible to consider other factors besides time-depth as relevant factors for stability, such as social network structure/political complexity (see section \ref{prediting:sec:pol:complex}), but this is outside the scope of this study. Furthermore, it is possible that the characteristics of structural data are such that it is much more difficult to apply ancestral reconstruction methods
+%(there are several different reasons for the presence of a structural feature, and they may be unrelated, see \ref{subsection:comp_lex_str} and section \ref{sec:ars:metod:hist}).
+%
+%
+%
+%
+%\subsubsection{Conservatism per language}
+%\label{sec:conservatism}
+%Conservatism is a measurement of how much change there has been from the reconstructed root of the tree (proto-Oceanic) down to each of the tips (languages). A high number indicates a large amount of change has occurred between the root and the tips. The change can go back and forth, i.e. flip between presence and absence of a feature several times between the root and the tip.
+%
+%This is different from the direct pairwise dissimilarity between each language and a reconstructed version of Proto-Oceanic which we saw in section \ref{aberr_dist_results}. The analysis of pairwise dissimilarity did not take into account the intermediate nodes between Proto-Oceanic and each language, and only included the features where findings in historical linguistics indicated a particular feature in Grambank for Proto-Oceanic. The analysis here differs in two important ways: a) the state of the intermediate nodes are taken into account and b) the tips are compared to the computationally reconstructed Proto-Oceanic (which includes more features than there are findings for in historical linguistics).
+%
+%For the two parsimony sets of results, conservatism was calculated by a kind of parsimony analysis known as ACCTRAN (ACCelerated TRANsformation). This lets us examine how many changes occur from the root down to each of the tips according to the most parsimonious solution of ancestral states. 
+%
+%For the ML analysis, the function \texttt{optim.ml()} was used to rescale the branches in accordance with the changes that the ML (marginal) reconstruction posited. The result of \texttt{optim.ml()} is an unrooted tree, which is why it is necessary to reroot. Nanggu [nang1262] was used as an outgroup to root the trees, since it is well-known as an Oceanic outlier.
+%
+%In order to make the results comparable across the two methods, the ACCTRAN trees were also re-rooted with Nanggu as an outgroup. Because Nanggu was used as an outgroup, features which Nanggu lacked were excluded. This left 167 Grambank features which were included in the conservatism analysis. 
+%
+%The results from both the Maximum Parsimony and Maximum Likelihood were rescaled to between 0 and 1 in order to make them comparable. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred. Fig. \ref{map_br_lens} shows the languages of the sample coloured by conservatism in each of the four sets of results given our two methods and two trees.
+%
+%%The language in Papua New Guinea that appears as a bright yellow (progressive) point in Papua New Guinea in the results based on Maximum Likelihood is Kilivila [kili1267]
+%
+%
+%\newpage
+%\begin{sidewaysfigure}
+%\centering
+%\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_maps.png}
+%\caption[Map of Oceanic languages and their average conservatism given the four sets of results.]{\textbf{Map of Oceanic languages and their average conservatism given the four sets of results. Yellow = progressive, blue = conservative. First row: Maximum Likelihood branch lengths, second row: Parsimony cost. First column: Glottolog-tree, second column: Gray et al 2009-tree.)}}
+%\label{map_br_lens}
+%\end{sidewaysfigure}
+%
+%Across the four sets of results the map visualisation indicates that the most conservative regions appear to be the Bismarck archipelago and Temotu (see Fig. \ref{Marck_map_with_language_names} in section \ref{subregion:sailing} for locations of Bismarck and Temotu).
+%
+%In order to evaluate the conservatism of the different regions in our data the languages were grouped into island groups. The same groups as in chapter \ref{chapter_distances} were used with the addition of three groups in Near Oceania, making for a total of ten groups (ordered by mean conservatism averaged over all four sets of findings): Temotu, Bismarck, Solomons and Bougainville, Northern Vanuatu, New Caledonia, New Guinea Mainland/Louisiade Archipelago, Micronesia, Central Vanuatu, Central Pacific and Southern Vanuatu. 
+%
+%Figs. \ref{ridgeplot_BR_len_MP} and \ref{ridgeplot_BR_len_ML} show the distribution of conservativeness across the island groups over the four methods. The ridgeplots represent the distribution of conservativeness in each island group but points have also been added to show the precise locations of the data-points. The line and label on each distribution indicates the mean. For the analysis with the Gray et al 2009-tree there were unfortunate only two languages of the Northern Vanuatu group present, which is not enough to generate a ridgeplot but the points indicate the values of the languages there.
+% 
+%%% latex table generated in R 4.0.0 by xtable 1.8-4 package
+%%% Sun Apr 26 22:18:59 2020
+%%\begin{table}[H]
+%%\centering
+%%\caption[Island groups ordered by mean conservatism.]{Island groups ordered by mean conservatism. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred.} 
+%%\label{conservatism_group_parsimony_Gray}
+%%\begin{tabular}{lr}
+%%  \hline
+%%Island group & Average distance from root\\ 
+%%  \hline
+%%Temotu & 0.18 \\ 
+%%  Bismarck & 0.46 \\ 
+%%  Solomons and Bougainville & 0.52 \\ 
+%%  Northern Vanuatu & 0.52 \\ 
+%%  New Caledonia & 0.54 \\ 
+%%  New Guinea mainland / Louisiade archipelago & 0.56 \\ 
+%%  Micronesia & 0.57 \\ 
+%%  Central Vanuatu & 0.58 \\ 
+%%  Central Pacific & 0.64 \\ 
+%%  Southern Vanuatu & 0.68 \\ 
+%%   \hline
+%%\end{tabular}
+%%\end{table}
+%
+%\begin{sidewaysfigure}
+%\centering
+%\includegraphics[width=\textwidth]{../code/output/other_plots/br_len_ridgeplots_gray.png}
+%\caption{{Ridgeplots of the distribution of conservatism over the island groups per method.}}
+%\label{ridgeplot_BR_len_MP}
+%\end{sidewaysfigure}
+%
+%The results from the different methods and trees differ, we shall take a closer look at this later and compare the scores to each other and to time of settlement.
+%
+%Temotu is the most conservative group in the sample across all the four sets of findings. If we average the conservatism of all the analyses, Temotu languages have a mean of 0.18 conservatism compared to Bismarck's 0.46. However, Nanggu was used to outgroup root the tree, which makes Nanggu the first split from proto-Oceanic in the tree which was used in the reconstruction. This is likely to have inflated the conservatism of Nanggu and therefore the conservatism of its closest relatives, which are other languages in the Temotu group. This is likely to have enhanced the conservatism of the Temotu island group. However, it should be noted that Temotu languages did also have the lowest direct distance to Proto-Oceanic as reconstructed by historical linguists (section \ref{aberr_dist_results}).
+%
+%It is possible that if certain ancestral nodes in the tree had been anchored by archaeological accounts, such as those found in \cite{rieth_cochrane_2018} or \citet{kirch2017road}, Temotu would have been less likely to be the most conservative. This is because the settlement order would definitely be Bismarck first and Temotu later.
+%
+%Historical linguistics research indicates that the most likely homeland of Oceanic is found in the Bismarck archipelago \citep[97]{lynchrosscrowleyinternalsubgroupingoceanic}. The second most conservative group in our sample is indeed Bismarck, which supports this notion.
+%
+%As was discussed in the previous chapter (\ref{chapter_distances}) certain languages of Temotu, Southern Vanuatu and New Caledonia are known to be unusually innovative lexically and phonologically \citep{grace1981indirect, grace_1992_aberrant, pawley2006explaining}. In the previous chapter, we saw that Temotu and New Caledonia were more unusual lexically than Southern Vanuatu, and that structurally there was little difference. In these results however,  Southern Vanuatu is the most progressive in the MP results, and in the mid-range in the ML-results, whereas Temotu is the least conservative overall and New Caledonia appears in the mid-range in all the results. It appears that it took more transitions back and forth to ``get to'' the structure of Southern Vanuatu languages compared to the other two ``aberrant'' groups Temotu and New Caledonia.
+%
+%The languages of the Central Pacific are known as especially \emph{conservative} in their lexicon (\citet{blust1981, blust2000lexicostatistics} and \citet{pawley_2009_solomons}). However, this seems to not hold structurally. The Central Pacific Languages are the most progressive in the MP results (after Southern Vanuatu) and in the upper-mid range in the ML results. A few features that make the Central Pacific languages stand out are the lack of subject markers as prefixes or proclitics on verbs (GB090 \& GB092) as well as the presence of ergative case marking (GB409) and passive voice (GB147).
+%
+%%##here is where you are
+%
+%However, there are a few methodological considerations that are important to the interpretation of these results, in particular concerning Central Pacific. The difference between the Maximum Parsimony and Maximum Likelihood results are most likely due to branch lengths and the number of nodes between each tip and the root. For the Maximum Parsimony analysis, the branch lengths are irrelevant. Maximum Parsimony only reconstructs states at each intermediate node, regardless of how close that node is to another. This means that if there are more nodes between the root and the tip, Maximum Parsimony has more ``opportunity'' to posit changes than if there were fewer. The Maximum Likelihood analysis however takes into account the length of the branches, which in turn means that the particular number of nodes between the root and the tips is of less importance.
+%
+%The two trees we have used in this analysis, the Glottolog tree\footnote{Note that both trees have been binarised for the analysis in this chapter.} and the Gray et al 2009-trees, have a structure such that there are more nodes between the languages of Central Pacific and the root (Proto-Oceanic) than there are between languages of Central Vanuatu and the root. The tree topologies are displayed in section \ref{asr:sec:GBcoverage}, but as it is difficult to appreciate this difference in the plots there I have summarised the number of nodes between tips and root per island group in table \ref{table_mean_nodes}. The precise number of nodes between the tips and root differ between the two trees, and also between the two methods since the Parsimony analysis drops tips with missing data. However, the rank orders are largely the same, with Temotu languages having the fewest number of nodes between them and the root and Central Pacific the most.
+%
+%% latex table generated in R 4.0.0 by xtable 1.8-4 package
+%% Fri May 29 13:23:48 2020
+%\begin{table}[ht]
+%\caption{Mean number of nodes between tips and root per method and tree.}
+%\label{table_mean_nodes}
+%\centering
+%\begin{tabular}{?l?  p{2cm} ?p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}?}
+%  \hline
+%  &   \multicolumn{5}{c?}{\textbf{Mean number of nodes between tips and root} } \\    \cline{2-6}
+%& &  \multicolumn{2}{c|}{\textbf{Max Parsimony}} &\multicolumn{2}{c|}{\textbf{Max Likelihood}}\\ \cline{3-6}
+%\textbf{Island group} & \textbf{All} &  \textbf{Glottolog }& \textbf{Gray} & \textbf{Glottolog} & \textbf{Gray}  \\ \hline
+%
+%%Island group & All & MP Glottolog & MP Gray et al 2009 & ML Glottolog & ML Gray et al 2009 \\ 
+%  \hline
+%Temotu & 2.95 & 2.83 & 2.58 & 3.25 & 3.14 \\ 
+%  New Caledonia & 9.85 & 11.19 & 7.73 & 12.08 & 8.40 \\ 
+%  Southern Vanuatu & 10.29 & 10.56 & 9.15 & 11.62 & 9.83 \\ 
+%  New Guinea mainland / Louisiade archipelago & 10.66 & 11.67 & 8.35 & 12.31 & 10.33 \\ 
+%  Micronesia & 11.32 & 11.92 & 10.08 & 12.37 & 10.92 \\ 
+%  Northern Vanuatu & 11.51 & 11.94 & 10.31 & 13.80 & 10.00 \\ 
+%  Bismarck & 11.77 & 13.18 & 9.24 & 13.24 & 11.43 \\ 
+%  Central Vanuatu & 12.47 & 12.90 & 11.21 & 13.15 & 12.62 \\ 
+%  Solomons and Bougainville & 12.96 & 14.45 & 9.91 & 15.58 & 11.88 \\ 
+%  Central Pacific & 14.55 & 15.20 & 12.80 & 16.54 & 13.67 \\ 
+%   \hline
+%\end{tabular}
+%
+%\end{table}
+%
+%Since there are more nodes between Central Pacific and the root this means that the Maximum Parsimony algorithm has more ``chances'' to posit changes. This is not true of the Maximum Likelihood analysis which is able to posit changes in relation to the branch lengths and cares less about the precise number of nodes on the tree. Fig. \ref{BR_len_to_nnodes} shows the language conservatism score per method and tree compared to the number of nodes between the languages and the root. There is a stronger correlation between the number of nodes along the route from a specific language (tip) to the root and the Maximum Parsimony scores of conservatism for that language (upper row) than there is between the Maximum Likelihood and the number of nodes (lower row). The correlation between the number of nodes and the Maximum Likelihood, though significant, is very weak.
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width= \textwidth]{illustrations/plots_from_R/br_len_compare_to_nodes.png}
+%\caption{Scatterplots comparing number of nodes from root to tips and conservatism scores.}
+%\label{BR_len_to_nnodes}
+%\end{figure}
+%
+%This means that the Maximum Parsimony conservatism score is mainly reproducing the number of splits between the language and the root --- the more splits, the higher the Parsimony cost (amount of change). Conversely, fewer splits mean less change (lower Parsimony cost). Temotu languages are more conservative in the Parsimony analysis than in the Maximum Likelihood analysis, and the outgroup-rooting with Nanggu results in fewer nodes between the root and the Temotu languages. Whether or not this is good or bad depends on what we think splits in the tree represent. Do we expect languages which are more deeply nested in a family tree to have had a more tumultuous history? Or do we think that the rate of change is not correlated with the number of splits found in the tree --- that ``early'' off-shoots like Nanggu and Yapese are equally likely to undergo substantial changes as Central Pacific language which have more splits in their lineage? 
+%
+%Furthermore, sub-nesting may also be a product of research efforts --- areas which have been more well-researched may be better represented in the tree of Glottolog than those which have had comparatively less research. Note that this is not as relevant for the Gray et al 2009-tree which is based on lexical and archaeological data, not compilations of historical linguists' accounts like the Glottolog tree\footnote{A total of 102 references are used in Glottolog for the structure of the Austronesian family tree, with the main references being \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. It is beyond the scope of this dissertation to reach any final conclusions on how we should interpret the nature of splits in these trees. The findings of this chapter indicate that the more splits in a lineage the less conservative the language is in the Maximum Parsimony analysis, which informs us that the Maximum Parsimony is adding little information concerning conservatism beyond the number of splits. How we should interpret the number of splits is however not clear.
+%
+%Bringing this back to the specific island groups, it is still noteworthy that Central Pacific is not among the most conservative languages structurally in either of the four sets of results. This goes against what we might have expected given the lexical conservatism of these languages found in other publications. 
+%
+%More remarkable perhaps in light of the correlation between number of nodes and the Maximum Parsimony conservatism score is the progressiveness of Southern Vanuatu languages and the conservatism of Bismarck languages. Table \ref{table_mean_nodes} shows that Southern Vanuatu languages have the third least number of nodes on average between the root and the languages, and Bismark's languages appear in the mid range. And yet, the Southern Vanuatu languages are among the most progressive in the results, with Bismarck languages among the most conservative. This indicates that the progressiveness of the Southern Vanuatu languages and the conservatism of the Bismarck languages are robust findings.
+%
+%We can also compare the conservatism of the languages across the methods, and to known settlement dates. Fig. \ref{SPLOM_BR_len} shows a scatterplot matrix comparing the four conservatism-per-language scores to each other and also to settlement order (see section \ref{pol_complex_sec_dates} in chapter \ref{chapter_pol_complex}). The lower triangle shows scatterplots of different combinations of data. The cell in the second row and first column displays a scatterplot of the two ML results compared against each other. The dexter diagonal shows the histograms of the various datasets. The upper triangle shows the Pearson's statistic. Stars indicate significance in the conventional manner. 
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_splom_SFM.png}
+%\caption{{Scatterplot matrix of correlations between conservatism scores over the four different sets of results, and settlement order.}}
+%\label{SPLOM_BR_len}
+%\end{figure}
+%
+%There is a very strong correlation between the two ML results (0.94), even though the two tree topologies are quite different. This is noticeable, we might expect that analysis using such different trees would generate more different results. The correlation between the two parsimony results is also strong (0.79), but not as strong. The parsimony results also correlate with the settlement time, the Glottolog and Maximum Parsimony results moderately (0.55) and the Gray et al 2009 and Maximum Parsimony weakly (0.35). This indicates that the higher the Parsimony cost (i.e. rate of change), the more likely a language is to be spoken on an island which has been settled more recently. This correlation, though present, is not strong and needs to be further investigated. It is possible that the correlation between the Maximum Parsimony conservatism scores and settlement time depth is related to the aforementioned relationships to degree of nesting (i.e. number of nodes between root and tip).
+%
+%The fact that the two Maximum Likelihood results correlate more with each other than the two Maximum Parsimony results does suggests that it is a more robust methodology.
+%
+%In summary, the results differ between the four methods, and these differences reveal some of the consequences behind the methodologies. Since Maximum Parsimony is more dependent on the number of nodes along a lineage, the findings show that it adds little information beyond that. The interpretation of the precise results depends on how we choose to interpret what it means that the lineages of certain languages involve more splitting events than others. Regardless, the findings indicate that Central Pacific languages are \emph{not} especially conservative structurally, that the Bismarck languages are indeed particularly conservative and that the ``aberrant'' island group of Southern Vanuatu appears especially innovative structurally. For future studies, it is possible to investigate the drivers behind conservatism in a similar manner to how language richness is explored in chapter \ref{chapter_pol_complex}.
+%
+%
+%%The distribution of conservatism over these languages looks more similar to the settlement pattern, with more recently settled areas overall being more progressive. In chapter \ref{chapter_pol_complex}, we used archaeological dates for a model on factors of language diversification in the region (see Fig.\ref{dates_map} for a map of time of settlement). If we compare the time depth-data from that study to these Parsimony costs using a Pearson's product-moment correlation we do find a statistically significant positive correlation (cor = 0.59, \emph{p} value = 2.1 * 10 $^-13$). In the case of islands and atolls in Eastern Polynesia and the northern Polynesian outliers, their high rate of change could be due to bottleneck effects (c.f. \citet{bromham_polynesian_sizes}).
+%
+%%In summary, structural features of language may be subject to different pressures than lexical (c.f. \citet{francois2011}). These results indicate that the retention rate of structural features is different from that ofbasic lexicon.
 
 \section{Conclusions}
 In this chapter, we have investigated the history of structural features of Oceanic languages to examine how computational reconstructive methods compare to reconstructions by historical linguists (including contributing to the debate on Proto-Polynesian alignment), the stability of features and conservatism of languages of the region.

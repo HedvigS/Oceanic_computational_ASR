@@ -6,19 +6,16 @@
 \contentsline {subsubsection}{\numberline {2.0.3}Computational phylogenetic methods}{17}{subsubsection.2.0.3}%
 \contentsline {subsubsection}{\numberline {2.0.4}Data coverage}{20}{subsubsection.2.0.4}%
 \contentsline {section}{\numberline {3}Results}{25}{section.3}%
-\contentsline {subsubsection}{\numberline {3.0.1}Concordance with traditional historical linguistics}{25}{subsubsection.3.0.1}%
-\contentsline {paragraph}{\numberline {3.0.1.1}Ergativity}{29}{paragraph.3.0.1.1}%
-\contentsline {subsubsection}{\numberline {3.0.2}Stability of features}{31}{subsubsection.3.0.2}%
-\contentsline {subsubsection}{\numberline {3.0.3}Conservatism per language}{33}{subsubsection.3.0.3}%
-\contentsline {section}{\numberline {4}Conclusions}{43}{section.4}%
-\contentsline {section}{Appendices}{57}{section.4}%
-\contentsline {section}{\numberline {A}Roboustness control with Glottolog-tree}{57}{appendix.A}%
-\contentsline {section}{\numberline {B}Grambank features}{57}{appendix.B}%
-\contentsline {section}{\numberline {C}Table of Political complexity scores per society}{69}{appendix.C}%
-\contentsline {section}{\numberline {D}Table of settlement date per island group based on archaeology}{85}{appendix.D}%
-\contentsline {section}{\numberline {E}Languages per island group}{123}{appendix.E}%
-\contentsline {section}{\numberline {F}Data tables for island groups (shared language and overnight distance}{133}{appendix.F}%
-\contentsline {subsubsection}{\numberline {.1}Tables of data on shared language island groups}{133}{subsubsection.F.0.1}%
-\contentsline {subsubsection}{\numberline {.2}Table of data on overnight distance island groups}{140}{subsubsection.F.0.2}%
-\contentsline {section}{\numberline {G}Table of comparison of computational ancestral state reconstruction to findings in historical linguistics}{147}{appendix.G}%
-\contentsline {section}{\numberline {H}Tables of feature stability}{168}{appendix.H}%
+\contentsline {paragraph}{\numberline {3.0.0.1}Ergativity}{28}{paragraph.3.0.0.1}%
+\contentsline {section}{\numberline {4}Conclusions}{30}{section.4}%
+\contentsline {section}{Appendices}{44}{section.4}%
+\contentsline {section}{\numberline {A}Roboustness control with Glottolog-tree}{44}{appendix.A}%
+\contentsline {section}{\numberline {B}Grambank features}{44}{appendix.B}%
+\contentsline {section}{\numberline {C}Table of Political complexity scores per society}{56}{appendix.C}%
+\contentsline {section}{\numberline {D}Table of settlement date per island group based on archaeology}{72}{appendix.D}%
+\contentsline {section}{\numberline {E}Languages per island group}{110}{appendix.E}%
+\contentsline {section}{\numberline {F}Data tables for island groups (shared language and overnight distance}{120}{appendix.F}%
+\contentsline {subsubsection}{\numberline {.1}Tables of data on shared language island groups}{120}{subsubsection.F.0.1}%
+\contentsline {subsubsection}{\numberline {.2}Table of data on overnight distance island groups}{127}{subsubsection.F.0.2}%
+\contentsline {section}{\numberline {G}Table of comparison of computational ancestral state reconstruction to findings in historical linguistics}{134}{appendix.G}%
+\contentsline {section}{\numberline {H}Tables of feature stability}{155}{appendix.H}%
