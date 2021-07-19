@@ -1,5 +1,5 @@
-%\documentclass[a4paper,10pt]{article} % Artikel med 12pt text och A4 storlek.
-\documentclass[draft,10pt]{article} % Artikel med 12pt text och A4 storlek.
+\documentclass[a4paper,10pt]{article} % Artikel med 12pt text och A4 storlek.
+%\documentclass[draft,10pt]{article} % Artikel med 12pt text och A4 storlek.
 \usepackage[english]{babel} % Svensk avstavning istället för engelsk
 %\usepackage[pdflatex]{graphicx}% De här två behövs för svenska
 \usepackage[utf8]{inputenc} % UTF-8 encodad fil. Kan bytas ut mot latin1 om en vill...
@@ -487,7 +487,7 @@ Table~\ref{GB_coverage_table} shows the number of languages in the Oceanic subgr
 
 \begin{sidewaysfigure}
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/Austro_map_desc_status.png}
+\includegraphics[width=\textwidth]{../code/output/other_plots/coverage_map_oceanic.png}
 \caption{{Map of Oceania, with Austronesian languages coloured for coverage in Grambank.}}
 \label{GB_austro_coverage}
 \end{sidewaysfigure} %#update
@@ -500,7 +500,7 @@ The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/Oceanic_tree_desc_status_gray_et_al_tree.png}
+\includegraphics[width=\textwidth]{../code/output/other_plots/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png}
 \caption{{Tree of Oceanic from \citet{grayetal_2009}, with languages coloured for coverage in Grambank.}}
 \label{tree_coverage_oceanic_gray}
 \end{figure}
@@ -555,7 +555,7 @@ Absence & 40-60\% Presence/Absence & Half/Half \\ \hline
 \end{tabular}
 \end{table}
 
-In order to evaluate the results, we need to calculate a concordance score per method and tree. \citet{jager2018using} use the F1-score (harmonic mean between precision and recall) in their study of how computationally reconstructed lexical proto-forms compare to those reconstructed by historical linguists.  For example, if for a given proto-language there are 60 features reconstructed by experts and the algorithm result is 10 True Positives, 10 False Positives, 10 True Negatives, 10 False Negatives and 20 ``Half/Half'' then the F1-score is 0.5 (recall = 10 / (10+10) = 0.5, precision = 10 / (10+10) = 0.5 and F1-score = 2 *((0.5*0.5) / (0.5 + 0.5) = 0.5)). %Note that the F1-score disregards True Negatives and Half /Half-results.
+In order to evaluate the results, we need to calculate a concordance score per method and tree. \citet{jager2018using} use the F1-score (harmonic mean between precision and recall) in their study of how computationally reconstructed lexical proto-forms compare to those reconstructed by historical linguists.  For example, if for a given proto-language there are 60 features reconstructed by experts and the algorithm result is 10 True Positives, 10 False Positives, 10 True Negatives, 10 False Negatives and 20 ``Half/Half'' then the F1-score is 0.5 (recall = 10 / (10+10) = 0.5, precision = 10 / (10+10) = 0.5 and F1-score = 2 *((0.5*0.5) / (0.5 + 0.5) = 0.5)). Note that the F1-score disregards True Negatives and Half /Half-results.
 
 F1-scores will be reported because they are insightful and have been used in similar studies. However, the F1-formula ignores the amount of True Negatives and Half/Half results. Therefore, in addition we will also calculate a simpler concordance score; how many concordant predictions did the algorithm make given all the predictions it made (aka ``accuracy'')? For example, if for a given proto-language there are 60 features predicted by experts with the same distribution of results as in the example above, then the concordance score would be (10 + 10)/40 = 0.5. We can also include the Half/Half-predictions, awarding 0.5 points for at least not strongly predicting a false value. In that case, this example has a concordance score of 0.5 ((10 + 10 + (20/2)) / 60). These scores all reflect different ways of assessing concordance and will give different perspectives on our results and how our algorithms are performing. %Features where there were more than half of the data-points missing in the tree were not to be included. hankfully there were no occurrences of this.
 
@@ -588,11 +588,11 @@ The full table of all predictions (excluding those relating to ergativity) and a
 
 One of the most striking features of these results is the number of Half/Half predictions in the ML results. The ML approach takes into account the overall likelihood of the entire data, and for our dataset and trees this leads to more Half/Half results compared to the parsimony approach. One way of interpreting this is that the ML is more careful, it makes fewer confident predictions (more than 60\% either way), but it also disagrees less often with the findings from historical linguistics.
 
-As was discussed earlier, there are several different ways of evaluating the performance of these approaches. If we consider how often they made a prediction that agreed with historical linguistics out of all the times they made a confident prediction (Accuracy score excl Half/Half), then ML paired with the Glottolog tree does best. If we award half a point for Half/Half predictions, Parsimony paired with the Glottolog tree does best. Overall, the results using the Glottolog-tree agreed more often with historical linguistics than did the analysis with the Gray et al 2009-tree.
+As was discussed earlier, there are several different ways of evaluating the performance of these approaches. If we consider how often they made a prediction that agreed with historical linguistics out of all the times they made a confident prediction (Accuracy score excl Half/Half), then ML. If we award half a point for Half/Half predictions, Parsimony does better. However, in both instances the numbers are very close to each other.
 
-We are comparing our computational reconstruction results to those predicted by expert linguists. The reason that the Glottolog tree is more in line with the predictions from historical linguistics is probably because it resembles the tree most historical linguists are used to more than the Gray et al-2009 tree does (the Glottolog tree is based on \citet{blust_2009,blust_2014} and \citet{blust_chen_2017}). That is not to say it is necessarily a better reflection of the true history of these languages, but rather that it may fit better with the underlying model that the field of historical linguistics has been working with in recent decades. Most of the literature on reconstructions of Proto-Oceanic does not include detailed accounts of the exact tree topologies and branch lengths used to reconstruct the ancestral languages. As was shown in section \ref{sec:asr_methods}, we had to impute branch lengths for the Glottolog-tree. The manner by which reconstructions are postulated in historical linguistics is typically by considering how well distributed the phenomena are over certain genealogical and areal subgroups. If the distribution is convincingly non-random and the comparative method can be used to reconstruct forms, predictions about the proto-language are made (c.f. \citet[109-110]{pawley1973some}).
+%We are comparing our computational reconstruction results to those predicted by expert linguists. The reason that the Glottolog tree is more in line with the predictions from historical linguistics is probably because it resembles the tree most historical linguists are used to more than the Gray et al-2009 tree does (the Glottolog tree is based on \citet{blust_2009,blust_2014} and \citet{blust_chen_2017}). That is not to say it is necessarily a better reflection of the true history of these languages, but rather that it may fit better with the underlying model that the field of historical linguistics has been working with in recent decades. Most of the literature on reconstructions of Proto-Oceanic does not include detailed accounts of the exact tree topologies and branch lengths used to reconstruct the ancestral languages. As was shown in section \ref{sec:asr_methods}, we had to impute branch lengths for the Glottolog-tree. The manner by which reconstructions are postulated in historical linguistics is typically by considering how well distributed the phenomena are over certain genealogical and areal subgroups. If the distribution is convincingly non-random and the comparative method can be used to reconstruct forms, predictions about the proto-language are made (c.f. \citet[109-110]{pawley1973some}).
 
-Furthermore, there were fewer matches between languages for which there is Grambank data and the Gray et al Tree, making for more uncertainty in predicting ancestral states.
+%Furthermore, there were fewer matches between languages for which there is Grambank data and the Gray et al Tree, making for more uncertainty in predicting ancestral states.
 
 In a similar study, \citet{jager2018using} attempt to reconstruct cognate classes for the proto-languages of three different language families. They used various approaches: binarising versus not binarising data; Maximum Parsimony versus Maximum Likelihood Estimation versus Minimal Lateral Networks; and using a single consensus tree versus sampling several from the tree posterior. The highest F1-score they achieved in this paper was 0.79 for the Maxmimum Likelihood Estimation reconstruction of Austronesian (using either a single tree or a sample of trees). This means that all of our results above perform ``better''. While this may be pleasing, it is not yet entirely clear why this is. 
 
@@ -709,14 +709,6 @@ There are a few interesting features in this summary table. Counting systems (GB
 However, overall these results do not strongly support that certain features are more stable than others consistently. This is likely because Oceanic is not a deep enough genealogical unit for this kind of analysis. Features are either overwhelmingly present or absent with little in between. This makes phylogenetic analysis difficult. It is possible to consider other factors besides time-depth as relevant factors for stability, such as social network structure/political complexity (see section \ref{prediting:sec:pol:complex}), but this is outside the scope of this study. Furthermore, it is possible that the characteristics of structural data are such that it is much more difficult to apply ancestral reconstruction methods
 (there are several different reasons for the presence of a structural feature, and they may be unrelated, see \ref{subsection:comp_lex_str} and section \ref{sec:ars:metod:hist}).
 
-%%###HEREWITHSOUP
-
-%Clusivity was included in the top-5 most stable features for both the MP and ML results given the Gray et al 2009-tree. However, if did not qualify as among the most stable in the analysis using the Glottolog tree. This is likely due to the sample sizes, there were not enough languages in the Gray et al 2009-tree lacking clusivity compared to in the Glottolog tree. 
-
-
-
-%A Pearson's product correlation test shows that the average rate of gains and losses; the rate of gains and the rate of losses between the two trees are not significantly correlated. However, the rate of gains is correlated with the rate of losses for the Gray et al tree (cor = 0.92, \emph{p} value  > 0.005), this is also true for the Glottolog tree (cor = 0.71, \emph{p} value > 0.005).
-
 
 
 
@@ -777,17 +769,9 @@ Figs. \ref{ridgeplot_BR_len_MP} and \ref{ridgeplot_BR_len_ML} show the distribut
 
 \begin{sidewaysfigure}
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_ridgeplots_MP.png}
-\caption{{Ridgeplots of the distribution of conservatism over the island groups per tree, Maximum Parsimony.}}
+\includegraphics[width=\textwidth]{../code/output/other_plots/br_len_ridgeplots_gray.png}
+\caption{{Ridgeplots of the distribution of conservatism over the island groups per method.}}
 \label{ridgeplot_BR_len_MP}
-\end{sidewaysfigure}
-
-
-\begin{sidewaysfigure}
-\centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_ridgeplots_ML.png}
-\caption{{Ridgeplots of the distribution of conservatism over the island groups per tree, Maximum Likelihood.}}
-\label{ridgeplot_BR_len_ML}
 \end{sidewaysfigure}
 
 The results from the different methods and trees differ, we shall take a closer look at this later and compare the scores to each other and to time of settlement.

@@ -9,10 +9,11 @@
 
 #plots
 *.png
-*.pdf
+*GB*.pdf
 
 #folders
 *output
+*old*
 *to sort*
 *output/tree_tips*
 *glottolog-glottolog-1ff8114*
