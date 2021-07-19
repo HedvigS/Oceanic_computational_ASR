@@ -91,7 +91,7 @@ ntips <- phylobase::nTips(gray_tree_pruned)
 ntips_table <- feature_vec %>% table() %>% as.matrix()
 
 cat("I've finished Parsimony ASR with ", fn, " for ", feature, ". \n", sep = "")
-output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table)
+output <- list(feature, castor_parsimony, feature_vec, gray_tree_pruned, plot_title, ntips, ntips_table, output_dir)
 output
 }
 
@@ -99,8 +99,8 @@ output
 
 #looping over all trees in the posterior
 
-#for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in 1:10){
+for(tree_fn in 1:length(gray_trees_fns)){
+#for(tree_fn in 1:10){
   
   #tree_fn <- 1
   

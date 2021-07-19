@@ -1,5 +1,4 @@
-source("1_requirements.R")
-options(tidyverse.quiet = TRUE) 
+source("01_requirements.R")
 
 ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
@@ -33,7 +32,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   title(plot_title, cex.main = 1, line = -1)
   
   dev.off()
-  cat("I've finished the tree plot for ", feature, " for ", output_dir, "\n", sep = "")
+  cat("I've finished the tree plot for ", feature, " for ", fn, "\n", sep = "")
   
 }
 
