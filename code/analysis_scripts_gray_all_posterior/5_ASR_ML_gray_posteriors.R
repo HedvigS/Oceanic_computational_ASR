@@ -1,5 +1,4 @@
-source("1_requirements.R")
-#library(beepr)
+source("01_requirements.R")
 
 #reading in glottolog language table (for names of tips)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
@@ -112,8 +111,8 @@ output <- list(corHMM_result_direct, results_df)
 }
 }
 
-for(tree_fn in 1:length(gray_trees_fns)){
-  
+#for(tree_fn in 1:length(gray_trees_fns)){
+for(tree_fn in 1:5){  
   #tree_fn <- 1
   
   fn_full <- gray_trees_fns[[tree_fn]]
