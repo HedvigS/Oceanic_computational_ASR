@@ -1,4 +1,4 @@
-source("1_requirements.R")
+source("01_requirements.R")
 #library(beepr)
 
 #reading in glottolog language table (for names of tips)
