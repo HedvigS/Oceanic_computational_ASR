@@ -21,7 +21,7 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols())
 fun_GB_ASR_SCM <- function(feature) {
   
   #feature <- "GB109"
-  cat("I've started ASR SCM on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
+  cat("I've started ASR SCM on ", feature, " with ",fn , ".\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
@@ -46,7 +46,7 @@ fun_GB_ASR_SCM <- function(feature) {
 if(is.binary(gray_tree_pruned)){  
   
   if(states == 1) {  
-    message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+    message("All tips for feature ", feature, " on ", fn," are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
@@ -87,7 +87,7 @@ if(is.binary(gray_tree_pruned)){
     output <- list(result, results_df)
     output  
   }}else{
-  message("The tree", fn, "wasn't binary. Skipping for SCM.")  
+  message("The tree", fn, " wasn't binary for ", feature, ". Skipping for SCM.")  
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
@@ -107,8 +107,8 @@ if(is.binary(gray_tree_pruned)){
 }
 
 #for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in 1:5){  
-  #tree_fn <- 1
+for(tree_fn in gray_trees_fns){  
+  #tree_fn <- 10
   
   fn_full <- gray_trees_fns[[tree_fn]]
   tree <- read.tree(fn_full)
@@ -132,7 +132,7 @@ for(tree_fn in 1:5){
     group_by(Feature_ID) %>% 
     mutate(col=seq_along(Feature_ID)) %>%
     spread(key=col, value=content) %>% 
-    rename(corHMM_result_direct = "1", results_df = "2") %>% 
+    rename(simmap_result_direct = "1", results_df = "2") %>% 
     ungroup()
   
   

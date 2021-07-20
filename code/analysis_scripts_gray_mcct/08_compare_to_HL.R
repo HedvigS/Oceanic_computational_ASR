@@ -1,6 +1,6 @@
 source("01_requirements.R")
 
-df <- read_tsv("output/conservatism/all_reconstructions.tsv")  
+df <- read_tsv("output/HL_comparison/mcct/all_reconstructions.tsv")  
 
 #analyzing accuracy taking into account the probability of ML
 Abscence_accuray_melted <- df %>% 
@@ -56,7 +56,7 @@ accuracy_summary_table <- accuracy_summary_table[-1,]
 accuracy_summary_table %>% 
   as.data.frame() %>% 
   rownames_to_column("Stat") %>% 
-  write_tsv("output/HL_comparison/HL_comparison_summary_mcct.tsv")
+  write_tsv("output/HL_comparison/mcct/HL_comparison_summary_mcct.tsv")
 
 ##new predictions
 

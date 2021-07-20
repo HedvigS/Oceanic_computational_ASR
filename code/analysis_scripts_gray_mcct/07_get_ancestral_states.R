@@ -104,8 +104,8 @@ rm(value_counts_ML_gray, value_counts_ML_glottolog, value_counts_parsimony_glott
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, classification, Name)
 
-#Function for getting ancestral states for 4 specific nodes out of raydisc gray version
-get_node_positions <- function(GB_asr_object_ml){
+#Function for getting ancestral states for 4 specific nodes out of corHMM gray version
+get_node_positions_ML <- function(GB_asr_object_ml){
 
 #GB_asr_object_ml <- GB_ASR_RDS_ML_gray$content[[1]][[1]]
 
@@ -172,7 +172,7 @@ GB_ASR_RDS_ML_gray <- readRDS("output/gray_et_al_2009/ML/mcct/GB_ML_gray_tree.rd
   left_join(value_count_df, by = "Feature_ID") %>% 
   filter(!is.na(ntips_ML_gray))
 
-df_lik_anc_ML_gray <- lapply(GB_ASR_RDS_ML_gray$content, get_node_positions) %>% bind_rows()
+df_lik_anc_ML_gray <- lapply(GB_ASR_RDS_ML_gray$content, get_node_positions_ML) %>% bind_rows()
 
 df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
 
@@ -190,7 +190,7 @@ GB_ASR_RDS_ML_glottolog <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glotto
   left_join(value_count_df, by = "Feature_ID") %>% 
   filter(!is.na(ntips_ML_glottolog))
 
-df_lik_anc_ML_glottolog <- lapply(GB_ASR_RDS_ML_glottolog$content, get_node_positions) %>% bind_rows()
+df_lik_anc_ML_glottolog <- lapply(GB_ASR_RDS_ML_glottolog$content, get_node_positions_ML) %>% bind_rows()
 
 df_lik_anc_ML_glottolog$glottolog_ML_prediction <- if_else(df_lik_anc_ML_glottolog$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_glottolog$`1` > 0.6, "Present", "Half")) 
 
@@ -283,8 +283,6 @@ df_lik_anc_parsimony_glottolog <- df_lik_anc_parsimony_glottolog %>%
 GB_ACR_all_parsimony <- readRDS("output/gray_et_al_2009/parsimony/mcct/GB_parsimony_gray_tree.rds")
 
 df_lik_anc_parsimony_gray <- lapply(GB_ACR_all_parsimony$content, get_node_positions_parsimony) %>% bind_rows()
-
-df_lik_anc_parsimony_gray$Parsimony_gray_prediction <- if_else(df_lik_anc_parsimony_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_parsimony_gray$`1` > 0.6, "Present", "Half")) 
 
 df_lik_anc_parsimony_gray$gray_parsimony_prediction <- if_else(df_lik_anc_parsimony_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_parsimony_gray$`1` > 0.6, "Present", "Half")) 
 
@@ -384,7 +382,7 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>%
 df %>% 
   arrange(-countTrue) %>% 
   left_join(GB_df_desc) %>% 
-  write_tsv("output/conservatism/all_reconstructions.tsv")  
+  write_tsv("output/HL_comparison/mcct/all_reconstructions.tsv")  
 
 df_non_erg <- df %>% 
   filter(!is.na(Prediction)) %>% 
@@ -398,7 +396,7 @@ df_non_erg <- df %>%
 
 
 df_non_erg %>% 
-  write_tsv("output/HL_comparison/HL_comparison.tsv")
+  write_tsv("output/HL_comparison/mcct/HL_comparison.tsv")
 
 
 

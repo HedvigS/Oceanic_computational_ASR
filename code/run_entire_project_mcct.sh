@@ -62,7 +62,13 @@ Rscript 05_ASR_ML_glottolog.R
 
 ## 6 run ASR analysis - SIMMAP
 
-## 7 Compare to HL
-echo seventh step, compate to classical historical linguistics
+## 7 get all the states for 4 proto-languages
+echo sevent step, get ancestral states
 
-Rscript analysis_scripts_gray_mcct/07_compare_to_HL.R
+Rscript analysis_scripts_gray_mcct/07_get_ancestral_states.R
+
+## 8 compare to HL
+
+echo eigth step, compate to classical historical linguistics
+
+Rscript analysis_scripts_gray_mcct/08_compare_to_HL.R
