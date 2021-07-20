@@ -35,19 +35,3 @@ The full analysis on all the posteriors is in "analysis_scripts_gray_all_posteri
 
 ## Note on tree pruning (general)
 For each reconstruction, I'm pruning the relevant tree to only tips which have a value for that feature. I'm not inferring unknown tip states. I could, but I am not. Again, I think principle-wise it'd be a bit too much for traditional linguists to stomach and it shouldn't make much of a difference. For the rest of the results, I'm ignoring trees where more than half tips are missing.
-
-## Functions per method and goal.
-I have to use different functions for goals (a) + (b) compared to (c). This is because the conservatism approach I'm using for ML unroots the tree. I'm using Nanggu [nang1262] as outgroup for re-rooting tree.
-
-*Parsimony*
-
-(a) compare with HL and (b) feature rates = `castor::asr_max_parsimony(Nstates = 2, transition_costs = "all_equal")` for the parsimony analysis, 
-(c) conservatism = `phangorn::ACCTRAN()`
-
-*ML*
-
-(a) compare with HL and (b) feature rates =  `corHMM::corHMM(  model="ARD", rate.cat = 1, lewis.asc.bias = TRUE, node.states = "marginal",  root.p = "yang")`
-(c) conservatism = `phangorn::optim.pml(rearrangement="none")`
-
-*SCM*
-
