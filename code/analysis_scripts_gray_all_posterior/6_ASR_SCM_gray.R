@@ -5,12 +5,7 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick.txt"))
-source("1_requirements.R")
-
-#reading in glottolog language table (for names of tips)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Name)
+gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
@@ -22,21 +17,22 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols())
 
 ###ASR FUNCTION
 
+
 fun_GB_ASR_SCM <- function(feature) {
   
   #feature <- "GB109"
-  cat("I've started ASR SCM on ", feature, " with the gray et al 2009-tree.\n", sep = "")
+  cat("I've started ASR SCM on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
-  to_keep <- gray_tree$tip.label %>% 
+  to_keep <- tree$tip.label %>% 
     as.data.frame() %>% 
     rename(Language_ID = ".") %>% 
     left_join(GB_df_all, by = "Language_ID") %>% 
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Language_ID, {{feature}})
   
-  gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  
+  gray_tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
   
   feature_vec <-  gray_tree_pruned$tip.label %>% 
     as.data.frame() %>% 
@@ -47,12 +43,28 @@ fun_GB_ASR_SCM <- function(feature) {
   
   states <-   feature_vec %>% table() %>% length()
   
-  if(states >1) {
+if(is.binary(gray_tree_pruned)){  
+  
+  if(states == 1) {  
+    message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+    results_df <- data.frame(
+      Feature_ID = feature,
+      LogLikelihood = NA,
+      #    AICc = NA,
+      #    pRoot0 = NA,
+      #    pRoot1 = NA,
+      q01 = NA,
+      q10 = NA,
+      nTips = NA,
+      nTips_state_0 =  NA,
+      nTips_state_1 = NA)
     
-    #replacing branch lengths of length 0 with a teeny-tiny length based on the max heigh of the tree
-    gray_tree_pruned $edge.length[gray_tree_pruned $edge.length==0] <- max(nodeHeights(gray_tree_pruned ))*1e-6
+    output <- list(NA, results_df)
+    output
+  } else{
     
     
+    # If I decide to switch back and have unknown tips in, replace ? or missing tips with "0&1" or leave as NA and don't prune
     result <- phytools::make.simmap(tree = gray_tree_pruned, 
                                     x = feature_vec, 
                                     model = "ARD", 
@@ -74,9 +86,8 @@ fun_GB_ASR_SCM <- function(feature) {
     
     output <- list(result, results_df)
     output  
-    
-  }else{
-    message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+  }}else{
+  message("The tree", fn, "wasn't binary. Skipping for SCM.")  
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
@@ -90,18 +101,61 @@ fun_GB_ASR_SCM <- function(feature) {
       nTips_state_1 = NA)
     
     output <- list(NA, results_df)
-    output  
-    
+    output
     
   }
 }
 
-GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
-                         content = purrr::map(GB_df_desc$ID,
-                                              fun_GB_ASR_SCM))
-
-#beepr::beep(3)
-
-saveRDS(GB_ASR_SCM_all, "output/gray_et_al_2009/SCM/GB_SCM_gray_tree.rds")
-#GB_ASR_SCM_all <- readRDS("output/gray_et_al_2009/SCM/GB_SCM_gray_tree.rds")
-
+#for(tree_fn in 1:length(gray_trees_fns)){
+for(tree_fn in 1:5){  
+  #tree_fn <- 1
+  
+  fn_full <- gray_trees_fns[[tree_fn]]
+  tree <- read.tree(fn_full)
+  fn <-   fn_full %>% basename() %>% str_replace_all(".txt", "")
+  #creating a folder for outputting tables
+  output_dir <- file.path("output", "gray_et_al_2009", "SCM", "results_by_tree", fn)
+  
+  if (!dir.exists(output_dir)) { dir.create(output_dir) }
+  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
+  
+  GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
+                          content = purrr::map(GB_df_desc$ID,
+                                               fun_GB_ASR_SCM ))
+  
+  
+  saveRDS(GB_ASR_SCM_all , file = file.path(output_dir, "GB_SCM_gray_tree.rds"))
+  
+  ###Making a summary results table for easy comparison
+  GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>% 
+    unnest(content) %>% 
+    group_by(Feature_ID) %>% 
+    mutate(col=seq_along(Feature_ID)) %>%
+    spread(key=col, value=content) %>% 
+    rename(corHMM_result_direct = "1", results_df = "2") %>% 
+    ungroup()
+  
+  
+  #making empty df to rbind to
+  
+  results <- data.frame(
+    Variable = NULL,
+    LogLikelihood = NULL,
+    AICc = NULL,
+    pRoot0 = NULL,
+    pRoot1 = NULL,
+    q01 = NULL,
+    q10 = NULL,
+    nTips = NULL,
+    nTips_state_0 =  NULL,
+    nTips_state_1 =  NULL
+  )
+  
+  
+  for(row in GB_ASR_SCM_all_split$results_df){
+    print(row)
+    results <- rbind(results, row)
+  }
+  
+  write_csv( results, file.path(output_dir, "results.csv"))
+}

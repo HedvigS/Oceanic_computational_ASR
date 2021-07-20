@@ -1,7 +1,5 @@
 source("01_requirements.R")
 
-
-
 #reading in glottolog language table (for names of tips)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Name)

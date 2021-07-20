@@ -106,7 +106,7 @@ if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.crea
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "mcct", "tree_plots")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
+if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
 if (!dir.exists(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("output", "gray_et_al_2009")) }
 
 

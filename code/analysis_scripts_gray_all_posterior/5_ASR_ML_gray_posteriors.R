@@ -124,8 +124,8 @@ for(tree_fn in 1:5){
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
   if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
     
-  GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID[1:10],
-                          content = purrr::map(GB_df_desc$ID[1:10],
+  GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
+                          content = purrr::map(GB_df_desc$ID,
                                                fun_GB_ASR_ML ))
 
   
