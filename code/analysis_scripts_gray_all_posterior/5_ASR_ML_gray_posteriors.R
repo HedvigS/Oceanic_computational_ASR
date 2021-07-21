@@ -21,7 +21,7 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols())
 fun_GB_ASR_ML <- function(feature) {
 
 #feature <- "GB109"
-cat("I've started ASR ML on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
+cat("I've started ASR ML on ", feature, " with ",fn,".\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
@@ -33,9 +33,6 @@ to_keep <- tree$tip.label %>%
   dplyr::select(Language_ID, {{feature}})
 
 gray_tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
-
-#gray_tree_pruned <- ape::multi2di(gray_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
-#gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0]<-max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
 
 feature_df <-  gray_tree_pruned$tip.label %>% 
   as.data.frame() %>% 
@@ -103,7 +100,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                   width=8, height=16
 )
 
-cat("Done with ASR ML on ", feature, ".\n", sep = "")
+cat("Done with ASR ML on ", feature, " for ",fn, ".\n", sep = "")
 
 #beepr::beep(2)
 output <- list(corHMM_result_direct, results_df)
@@ -112,7 +109,7 @@ output <- list(corHMM_result_direct, results_df)
 }
 
 #for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in 1:5){  
+for(tree_fn in 1:2){  
   #tree_fn <- 1
   
   fn_full <- gray_trees_fns[[tree_fn]]
