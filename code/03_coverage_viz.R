@@ -67,7 +67,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
   ylim(c(-56, 27))
 
 basemap +
-  geom_jitter(data = glottolog_df_tip_values, aes(x = Longitude, y = Latitude, 
+  geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
               #colour = glottolog_df_tip_values$tip_color, 
               alpha = 0.5, shape = 17, width = 1) +
