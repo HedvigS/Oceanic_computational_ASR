@@ -80,12 +80,15 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 #function for getting node positions over ML objects
-get_node_positions_ML <- function(GB_asr_object_ml){
+get_node_positions_ML <- function(GB_asr_object_ml_content){
   
-  #GB_asr_object_ml <- GB_ASR_RDS_ML_gray$content[[1]][[1]]
+  #GB_asr_object_ml <- GB_ACR_all_ML$content[[73]]
+
+GB_asr_object_ml <- GB_asr_object_ml_content[[1]]
   
-  GB_asr_object_ml <- GB_asr_object_ml[[1]]
-  
+
+
+    
   feature <- GB_asr_object_ml$data %>% colnames() %>% .[2]
   tree <- GB_asr_object_ml$phy
   
@@ -138,7 +141,7 @@ get_node_positions_ML <- function(GB_asr_object_ml){
     mutate(Feature_ID = feature) %>% 
     rename(`0`= "(1,R1)" , `1` = "(2,R1)")
   
-  cat("I'm done with finding the ML proto-language states for feature ", feature, ".\n", sep = "")
+  cat("I'm done with finding the ML proto-language states for feature ", feature, " for ", basename(dir), ".\n", sep = "")
   df
 }
 
@@ -171,10 +174,13 @@ for(dir in dirs){
     dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray = `nTips_state_0`, ones_ML_gray = `nTips_state_1`, min_percent_ML_gray)
   
   ###Gray ML
-  GB_ACR_all_ML <- readRDS(file.path(dir, "GB_ML_gray_tree.rds"))
+  GB_ACR_all_ML <- readRDS(file.path(dir, "GB_ML_gray_tree.rds")) %>% 
+    left_join(value_count_df, by = "Feature_ID") %>% 
+    filter(!is.na(ntips_ML_gray))
   
-  df_lik_anc_ML_gray <- lapply(GB_ACR_all_ML$content, get_node_positions_ML) %>% bind_rows()
+    df_lik_anc_ML_gray <- lapply(GB_ACR_all_ML$content, get_node_positions_ML) %>% bind_rows()
     
+
   df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
   
   df_lik_anc_ML_gray <- df_lik_anc_ML_gray %>% 
