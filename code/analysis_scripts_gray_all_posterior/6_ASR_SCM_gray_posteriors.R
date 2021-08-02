@@ -106,8 +106,8 @@ if(is.binary(gray_tree_pruned)){
   }
 }
 
-#for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in gray_trees_fns){  
+for(tree_fn in 1:length(gray_trees_fns)){
+#for(tree_fn in gray_trees_fns){  
   #tree_fn <- 10
   
   fn_full <- gray_trees_fns[[tree_fn]]
