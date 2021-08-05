@@ -10,7 +10,7 @@ Gray_et_al_tree_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al200
 
 #due to some mismatches in the old taxon meta data file, I'm using an update version based on glottocodes in lexibank/abvd
 #Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
-Gray_et_al_tree_taxon_fn <- "data/gray_et_al_2009_updated_taxa.csv"
+Gray_et_al_tree_taxon_fn <- "data/git/dplace-data/phylogenies/gray_et_al2009/taxa.csv"
 
 Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
 
