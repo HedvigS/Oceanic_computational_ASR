@@ -9,11 +9,11 @@
   },
   "grambank_cldf":{
     "location":"data/GB/grambank-cldf/cldf",
-    "zenodo_url":""
+    "git_url":"https://github.com/glottobank/grambank-cldf"
   },
   "d_place_gray_et_al_2009_tree":{
-    "location":"data/zenodo/D-PLACE-dplace-data-541f9f8",
-    "zenodo_url":"https://zenodo.org/record/4087918/files/D-PLACE/dplace-data-v2.2.0.zip"
+    "location":"data/git/dplace-data/",
+    "git_url":"https://github.com/D-PLACE/dplace-data"
   }
 },
 "analysis_specs":{
