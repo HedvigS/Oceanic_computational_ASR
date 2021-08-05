@@ -75,7 +75,7 @@ basemap +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
-ggsave("output/other_plots/coverage_map_oceanic.png", height = 8, width = 15)
+ggsave("output/coverage_plots/maps/coverage_map_oceanic.png", height = 8, width = 15)
 
 
 ###COVERAGE PLOT: TREES
@@ -91,7 +91,7 @@ gray_tree$tip.label <- gray_tree_tip_value_df$Name
 
 x <- gray_tree_tip_value_df$tip_value
 
-png(file = "output/other_plots/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png", width = 8.27, height = 10.69, units = "in", res = 600)
+png(file = "output/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png", width = 8.27, height = 10.69, units = "in", res = 600)
 
 plot.phylo(ladderize(gray_tree , right = F), col="grey", tip.color = gray_tree_tip_value_df$tip_color, type = "fan", cex = 0.7,label.offset = 0.1)
 
@@ -121,7 +121,7 @@ x <- glottolog_tree_tip_value_df$tip_value
 
 #Glottolog_tree_full <- compute.brlen(Glottolog_tree_full)
 
-png(file = "output/other_plots/Oceanic_tree_desc_status_glottolog_tree.png", width = 8.27, height = 10.69, units = "in", res = 600)
+png(file = "output/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png", width = 8.27, height = 10.69, units = "in", res = 600)
 
 plot.phylo(ladderize(Glottolog_tree_full , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
 
