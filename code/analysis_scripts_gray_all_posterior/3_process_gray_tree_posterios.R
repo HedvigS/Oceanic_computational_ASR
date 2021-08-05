@@ -8,9 +8,7 @@ dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$
 
 Gray_et_al_trees_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/original/a400-m1pcv-time.trees.gz")
 
-#due to some mismatches in the old taxon meta data file, I'm using an update version based on glottocodes in lexibank/abvd
-#Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
-Gray_et_al_tree_taxon_fn <- "data/gray_et_al_2009_updated_taxa.csv"
+Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn,"phylogenies/gray_et_al2009/taxa.csv")
 
 Gray_et_al_trees <- read.nexus(Gray_et_al_trees_fn)
 
@@ -79,5 +77,5 @@ tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
 
 ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned", tree_fn))
-cat("I'm done with tree", index, ".\n")
+cat("I'm done with tree ", index, ".\n", sep = "")
 }

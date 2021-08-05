@@ -8,8 +8,6 @@ dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$
 
 Gray_et_al_tree_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/original/a400-m1pcv-time.mcct.trees.gz")
 
-#due to some mismatches in the old taxon meta data file, I'm using an update version based on glottocodes in lexibank/abvd
-#Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
 Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn,"phylogenies/gray_et_al2009/taxa.csv")
 
 Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
