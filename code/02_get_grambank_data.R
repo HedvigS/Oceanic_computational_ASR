@@ -46,10 +46,8 @@ if (!dir.exists("data")) { dir.create("data") }
 
 
 #reading in data and making it wide
-values <- readr::read_csv(values_csv_fn, na = c("","<NA>"), col_types = cols()) %>% 
+values <- readr::read_csv(values_csv_fn, col_types = cols(.default = "c")) %>% 
   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value") #making long data wide
-
-
 
 #reading in the parameters table
 
@@ -68,7 +66,7 @@ for (table in grambank_cldf_json$tables ) {
 codes_fn_name <- grambank_cldf_json$tables[index_CodeTable][[1]]$url #not sure why this has the name "url" when it is just the filename but that is the way
 codes_csv_fn <- file.path(grambank_cldf_github_folder, codes_fn_name ) #creating the file path
 
-codes_df <- readr::read_csv(codes_csv_fn , na = c("","<NA>"), col_types = cols()) 
+codes_df <- readr::read_csv(codes_csv_fn , col_types = cols(.default = "c")) 
 
 
 #binarising it 
@@ -87,8 +85,6 @@ multistate_features <- codes_df  %>%
 values_multi <- values %>% 
   column_to_rownames("Language_ID") %>% 
   dplyr::select(contains(multistate_features))
-
-
 
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
 if("GB024" %in% colnames(values_multi)){
@@ -148,7 +144,7 @@ GB_wide <- values %>%
 # In order for the rescaling of the branches to an ultrametric tree to make sense, we should aggregate all dialects to language level. Otherwise, we'd have dialects as tips alongside languages.
 
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv",col_types = cols(.default = "c"))  %>% 
   dplyr::select(Language_ID= Glottocode, Language_level_ID, level, classification) %>% 
   mutate(Language_level_ID = if_else(is.na(Language_level_ID), Language_ID, Language_level_ID))
 
@@ -158,7 +154,7 @@ config_json <- jsonlite::read_json("config.json")
 dplace_github_repos_fn <- config_json$data_sources$d_place_gray_et_al_2009_tree$location
 
 Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn, "/phylogenies/gray_et_al2009/taxa.csv")
-taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>% 
+taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols(.default = "c")) %>% 
   rename(Language_ID = glottocode) #to conform to what glottolog does elsewhere
 
 dialect_matches_gray_et_al_tree_grambank <- GB_wide %>% 
@@ -171,7 +167,7 @@ if(dialect_matches_gray_et_al_tree_grambank == 0){
   cat("There were no matches of dialect to dialect between the Gray et al 2009-tree and Grambank, therefore it makes sense to generally aggregate to language-level for both trees. \n")
 
 GB_wide %>% 
-  reshape2::melt(id.vars= "Language_ID") %>%
+  reshape2::melt(id.vars= "Language_ID") %>% 
   filter(value == "1" | value == "0") %>% #we want to pick a non-? value, so let's just filter to only 0's and 1's
   left_join(glottolog_df, by = "Language_ID") %>%
   filter(str_detect(classification, "ocea1241")) %>% 
@@ -203,7 +199,10 @@ for (table in grambank_cldf_json$tables ) {
 parameters_fn_name <- grambank_cldf_json$tables[index_CodeTable][[1]]$url #not sure why this has the name "url" when it is just the filename but that is the way
 parameters_csv_fn <- file.path(grambank_cldf_github_folder, parameters_fn_name ) #creating the file path
 
-parameters_df <- readr::read_csv(parameters_csv_fn, na = c("","<NA>"), col_types = cols()) 
+parameters_df <- data.table::fread(parameters_csv_fn ,
+                                   encoding = 'UTF-8', 
+                                   quote = "\"", header = TRUE, 
+                                   sep = ",")
 
 Parameter_desc_binary <- tibble(
   ID = c(
@@ -259,10 +258,10 @@ Parameter_desc_binary <- tibble(
   Binary_Multistate = c("binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised","binarised")
 ) %>% full_join(parameters_df, by = c("ID", "Grambank_ID_desc"))
 
-
 Parameter_desc_binary %>% 
   mutate(Binary_Multistate= ifelse(ID %in% multistate_features, "Multi", Binary_Multistate)) %>% 
-  mutate(Binary_Multistate = ifelse(is.na(Binary_Multistate), "Binary", Binary_Multistate)) %>% 
+  mutate(Binary_Multistate = ifelse(is.na(Binary_Multistate), "Binary", Binary_Multistate)) %>%
+  dplyr::select(-Description) %>% 
   write_tsv(file.path("data", "GB", "parameters_binary.tsv"))
 
 cat("Grambank made wide and binarised. Wide table and parameters table written.\n")
