@@ -37,7 +37,7 @@ fun_GB_ASR_ML <- function(feature) {
   
 #  tree_pruned<- ape::multi2di(tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
   
- # tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
+  tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
   
 #  tree_pruned  <-  ape::multi2di(tree_pruned) #binarising
   #tree_pruned  <- ape::compute.brlen(tree_pruned ) #applying grafens
