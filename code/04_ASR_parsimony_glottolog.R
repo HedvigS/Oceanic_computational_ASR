@@ -10,7 +10,12 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
 #reading in GB
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
+GB_df_desc <-  data.table::fread("data/GB/parameters_binary.tsv" ,
+                    encoding = 'UTF-8', 
+                    quote = "\"", 
+                    fill = T, 
+                    header = TRUE, 
+                    sep = "\t") %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
@@ -42,10 +47,13 @@ fun_GB_ASR_Parsimony <- function(feature){
     dplyr::select(Glottocode, {{feature}})
   
   Glottolog_tree_full_pruned <- keep.tip(Glottolog_tree_full, to_keep$Glottocode)  
-  
-  Glottolog_tree_full_pruned <- ape::multi2di(Glottolog_tree_full_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
+    
+#  Glottolog_tree_full_pruned <- ape::multi2di(Glottolog_tree_full_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
 
+ # Glottolog_tree_full_pruned <- compute.brlen(  Glottolog_tree_full_pruned , method = 1) #making all branch lenghts one
+  
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
+
   feature_vec <-  Glottolog_tree_full_pruned$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 

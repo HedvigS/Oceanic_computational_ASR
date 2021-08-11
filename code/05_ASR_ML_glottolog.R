@@ -35,8 +35,13 @@ fun_GB_ASR_ML <- function(feature) {
   
   tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
   
-  tree_pruned  <-  ape::multi2di(tree_pruned) #binarising
-  tree_pruned  <- ape::compute.brlen(tree_pruned ) #applying grafens
+#  tree_pruned<- ape::multi2di(tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
+  
+ # tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
+  
+#  tree_pruned  <-  ape::multi2di(tree_pruned) #binarising
+  #tree_pruned  <- ape::compute.brlen(tree_pruned ) #applying grafens
+#  tree_pruned$edge.length <- 1 #making all edge lengths the same, including the tiny new ones that came about as a result of multi2di
   
   feature_df <-  tree_pruned$tip.label %>% 
     as.data.frame() %>% 
@@ -48,9 +53,8 @@ fun_GB_ASR_ML <- function(feature) {
   
   if(states == 1) {
     message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
-    #  beepr::beep(9)
-    
-    results_df <- data.frame(
+
+results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
       AICc = NA,
