@@ -71,7 +71,7 @@ if(is.binary(gray_tree_pruned)){
                                     pi = "estimated", 
                                     method = "optim")
     
-    
+
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = result$logL %>% as.vector(),
@@ -106,8 +106,8 @@ if(is.binary(gray_tree_pruned)){
   }
 }
 
-for(tree_fn in 1:length(gray_trees_fns)){
-#for(tree_fn in gray_trees_fns){  
+#for(tree_fn in 1:length(gray_trees_fns)){
+for(tree_fn in 1:3){  
   #tree_fn <- 10
   
   fn_full <- gray_trees_fns[[tree_fn]]
@@ -117,7 +117,7 @@ for(tree_fn in 1:length(gray_trees_fns)){
   output_dir <- file.path("output", "gray_et_al_2009", "SCM", "results_by_tree", fn)
   
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
-  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
+#  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
   
   GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
                           content = purrr::map(GB_df_desc$ID,

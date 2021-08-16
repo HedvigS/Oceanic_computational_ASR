@@ -108,8 +108,8 @@ output <- list(corHMM_result_direct, results_df)
 }
 }
 
-#for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in 1:2){  
+for(tree_fn in 1:length(gray_trees_fns)){
+#for(tree_fn in 1:3){  
   #tree_fn <- 1
   
   fn_full <- gray_trees_fns[[tree_fn]]
