@@ -25,6 +25,7 @@ else
 Rscript 02_get_grambank_data.R 
 fi
 
+Rscript 02_massage_HL_findings_sheets.R
 
 
 ## 3. prep trees

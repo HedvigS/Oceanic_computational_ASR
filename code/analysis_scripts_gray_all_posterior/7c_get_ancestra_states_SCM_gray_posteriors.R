@@ -1,7 +1,4 @@
 source("01_requirements.R")
-
-#reading in old sheet with HL-predictions
-#the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
@@ -16,12 +13,12 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>%
 get_node_positions_ML <- function(GB_asr_object_ml_content){
   
   #GB_asr_object_ml <- GB_ACR_all_ML$content[[73]]
-
-GB_asr_object_ml <- GB_asr_object_ml_content[[1]]
   
-
-
-    
+  GB_asr_object_ml <- GB_asr_object_ml_content[[1]]
+  
+  
+  
+  
   feature <- GB_asr_object_ml$data %>% colnames() %>% .[2]
   tree <- GB_asr_object_ml$phy
   
@@ -111,9 +108,9 @@ for(dir in dirs){
     left_join(value_count_df, by = "Feature_ID") %>% 
     filter(!is.na(ntips_ML_gray))
   
-    df_lik_anc_ML_gray <- lapply(GB_ACR_all_ML$content, get_node_positions_ML) %>% bind_rows()
-    
-
+  df_lik_anc_ML_gray <- lapply(GB_ACR_all_ML$content, get_node_positions_ML) %>% bind_rows()
+  
+  
   df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
   
   df_lik_anc_ML_gray <- df_lik_anc_ML_gray %>% 
@@ -124,14 +121,14 @@ for(dir in dirs){
   df <- HL_findings_sheet %>% 
     right_join(df_lik_anc_ML_gray, by = c("Feature_ID", "Proto-language")) 
   
-    df$`ML result (Gray et al 2009-tree)` <- ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  
-                                                          ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 0, "True Negative",   
-                                                                  ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 1, "False Negative",  
-                                                                          ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
+  df$`ML result (Gray et al 2009-tree)` <- ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  
+                                                  ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 0, "True Negative",   
+                                                         ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 1, "False Negative",  
+                                                                ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
   
-    df <- value_count_df %>% 
+  df <- value_count_df %>% 
     right_join(df, by = "Feature_ID") 
-
+  
   ##Marking which results can't be included because they don't have enough languages
   
   #ML gray
