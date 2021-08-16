@@ -4,7 +4,7 @@ source("01_requirements.R")
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Name)
 
-glottolog_tree <- read.newick(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt")
+glottolog_tree <- read.newick(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt"))
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
@@ -31,7 +31,11 @@ fun_GB_ASR_SCM <- function(feature) {
     dplyr::select(Language_ID, {{feature}})
   
   glottolog_tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
+
+#  glottolog_tree_pruned <- ape::multi2di(glottolog_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
   
+ glottolog_tree_pruned <- compute.brlen(  glottolog_tree_pruned , method = 1) #making all branch lengths one
+
   feature_vec <-  glottolog_tree_pruned$tip.label %>% 
     as.data.frame() %>% 
     rename(Language_ID = ".") %>% 
@@ -43,26 +47,25 @@ states <-   feature_vec %>% table() %>% length()
     
 if(states >1) {
 
-  result <- phytools::make.simmap(tree = glottolog_tree_pruned, 
+  result_all_maps <- phytools::make.simmap(tree = glottolog_tree_pruned, 
                                   x = feature_vec, 
                                   model = "ARD", 
+                                  nsim = 100,
                                   pi = "estimated", 
                                   method = "optim")
 
-
-  results_df <- data.frame(
+result <-   result_all_maps %>% summary()
+  
+    results_df <- data.frame(
     Feature_ID = feature,
-    LogLikelihood = result$logL %>% as.vector(),
-#    AICc = NA,
-#    pRoot0 = NA,
-#    pRoot1 = NA,
-    q01 = result$Q[2, 1],
-    q10 = result$Q[1, 2],
-    nTips = result$Nnode,
+    LogLikelihood = NA,
+    q01 = NA,
+    q10 = NA,
+    nTips = glottolog_tree_pruned$tip.label %>% length(),
     nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
     nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
   
-  output <- list(result, results_df)
+output <- list(result , results_df)
 output  
   
 }else{
@@ -92,8 +95,3 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
 
 saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 #GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
-
-
-
-
-
