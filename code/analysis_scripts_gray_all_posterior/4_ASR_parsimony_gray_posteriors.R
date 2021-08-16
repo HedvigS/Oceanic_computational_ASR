@@ -60,7 +60,7 @@ to_keep <- tree$tip.label %>%
 gray_tree_pruned <- keep.tip(tree, to_keep$Glottocode)  
 
 #gray_tree_pruned <- ape::multi2di(gray_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
-#gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0]<-max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
+#gray_tree_pruned$edge.length[gray_tree_pruned$edge.length==0] <- max(nodeHeights(gray_tree_pruned))*1e-6 #if there are any branch lengths which as 0, make them not zero but a very small value
 
 #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
 feature_vec <-  gray_tree_pruned$tip.label %>% 
@@ -98,7 +98,7 @@ output
 ###
 
 #looping over all trees in the posterior
-
+#
 for(tree_fn in 1:length(gray_trees_fns)){
 #for(tree_fn in 1:10){
   
@@ -134,5 +134,5 @@ df_parsimony_gray %>%
   write_csv(file.path(output_dir, "results.csv"))
 cat("done summary results table.csv")
 
-cat("ASR with parsimony and Gray et al 2009-tree all done, for", fn, ".\n" , sep = "")
+cat("ASR with parsimony and Gray et al 2009-tree all done, for ", fn, ".\n" , sep = "")
 }
