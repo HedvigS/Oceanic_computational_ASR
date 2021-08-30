@@ -1,203 +1,89 @@
 source("01_requirements.R")
-
 #reading in old sheet with HL-predictions
-#the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
-
-HL_findings_sheet <- read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_cent2060.tsv") %>% 
-  mutate("Proto-language" = "Proto-Central Pacific",
-         Language_ID = "cent2060") %>% 
-  full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_east2449.tsv") %>% 
-              mutate("Proto-language" = "Proto-Eastern Polynesian",
-                     Language_ID =  "east2449")) %>% 
-  full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_poly1242.tsv") %>% 
-            mutate("Proto-language" = "Proto-Polynesian",
-                     Language_ID = "poly1242")
-            ) %>% 
-full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_ocea1241.tsv")%>% 
-            mutate("Proto-language" = "Proto-Oceanic",
-                   Language_ID =   "ocea1241")) %>% 
-  dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
-
-###Make coding sheets binarised
-
-
-#GB024 multistate 1; Num-N; 2: N-Num; 3: both.
-if("GB024" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB024a <- if_else(HL_findings_sheet$GB024 == "1"|HL_findings_sheet$GB024 == "3", "1", ifelse(HL_findings_sheet$GB024 == "2", "0", NA)) 
-  
-  HL_findings_sheet$GB024b <- if_else(HL_findings_sheet$GB024 == "2"|HL_findings_sheet$GB024 == "3", "1", ifelse(HL_findings_sheet$GB024 == "1", "0", NA)) 
-}
-
-#GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
-if("GB025" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB025a <- if_else(HL_findings_sheet$GB025 == "1"|HL_findings_sheet$GB025 == "3", "1", ifelse(HL_findings_sheet$GB025 == "2", "0", NA)) 
-  
-  HL_findings_sheet$GB025b <- ifelse(HL_findings_sheet$GB025 == "2"|HL_findings_sheet$GB025 == "3", "1", ifelse(HL_findings_sheet$GB025 == "1", "0", NA)) 
-}
-
-#GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
-if("GB065" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB065a <- if_else(HL_findings_sheet$GB065 == "1"|HL_findings_sheet$GB065 == "3", "1", ifelse(HL_findings_sheet$GB065 == "2", "0", NA)) 
-  
-  HL_findings_sheet$GB065b <- if_else(HL_findings_sheet$GB065 == "2"|HL_findings_sheet$GB065 == "3", "1", ifelse(HL_findings_sheet$GB065 == "1", "0", NA)) 
-}
-
-#GB130 multistate 1: SV; 2: VS; 3: both
-if("GB130" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB130a <- if_else(HL_findings_sheet$GB130 == "1"|HL_findings_sheet$GB130 == "3", "1", ifelse(HL_findings_sheet$GB130 == "2", "0", NA)) 
-  
-  HL_findings_sheet$GB130b <- if_else(HL_findings_sheet$GB130 == "2"|HL_findings_sheet$GB130 == "3", "1", ifelse(HL_findings_sheet$GB130 == "1", "0", NA)) 
-}
-
-#GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
-if("GB193" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB193a <- if_else(HL_findings_sheet$GB193 == "1"|HL_findings_sheet$GB193 == "3", "1", ifelse(HL_findings_sheet$GB193 == "2"|HL_findings_sheet$GB193 == "0", "0", NA)) 
-  
-  HL_findings_sheet$GB193b <- if_else(HL_findings_sheet$GB193 == "2"|HL_findings_sheet$GB193 == "3", "1", ifelse(HL_findings_sheet$GB193 == "1"|HL_findings_sheet$GB193 == "0", "0", NA)) 
-}
-#GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
-if("GB203" %in% colnames(HL_findings_sheet)){
-  HL_findings_sheet$GB203a <- if_else(HL_findings_sheet$GB203 == "1"|HL_findings_sheet$GB203 == "3", "1", ifelse(HL_findings_sheet$GB203 == "2"|HL_findings_sheet$GB203 == "0", "0", NA)) 
-  
-  HL_findings_sheet$GB203b <- if_else(HL_findings_sheet$GB203 == "2"|HL_findings_sheet$GB203 == "3", "1", ifelse(HL_findings_sheet$GB203 == "1"|HL_findings_sheet$GB203 == "0", "0", NA)) 
-}
-
-
-####
-
-#reading in old sheet with HL-predictions - ergative section
-HL_findings_sheet_conflict <- read_csv("data/HL_findings/HL_findings_conflicts.csv")%>% 
-  
-  dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
+HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
-value_counts_parsimony_glottolog <- read_csv("output/glottolog_tree_binary/parsimony/results.csv") %>%
-  mutate(min = pmin(`0`, `1`)) %>% 
-  mutate(min_percent_parsimony_glottolog = min / (`0`+ `1`)) %>%
-  dplyr::select(Feature_ID, ntips_parsimony_glottolog = ntips, zeroes_parsimony_glottolog = `0`, ones_parsimony_glottolog = `1`, min_percent_parsimony_glottolog) 
-
-value_counts_parsimony_gray <- read_csv("output/gray_et_al_2009/parsimony/mcct/results.csv") %>% 
-  mutate(min = pmin(`0`, `1`)) %>% 
-  mutate(min_percent_parsimony_gray = min / (`0`+ `1`)) %>%
-  dplyr::select(Feature_ID, ntips_parsimony_gray = ntips, zeroes_parsimony_gray = `0`, ones_parsimony_gray = `1`, min_percent_parsimony_gray)
-
-value_counts_ML_glottolog <- read_csv("output/glottolog_tree_binary/ML/results.csv") %>%
+value_count_df <- read_csv("output/gray_et_al_2009/SCM/mcct/results.csv") %>% 
   mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
-  mutate(min_percent_ML_glottolog = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_ML_glottolog = nTips, zeroes_ML_glottolog =  nTips_state_0, ones_ML_glottolog =  nTips_state_1, min_percent_ML_glottolog)
-
-value_counts_ML_gray <- read_csv("output/gray_et_al_2009//ML/mcct/results.csv") %>%
-  mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
-  mutate(min_percent_ML_gray = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray =  nTips_state_0, ones_ML_gray =  nTips_state_1, min_percent_ML_gray)
-  
-value_count_df <- value_counts_ML_gray %>% 
-  full_join(value_counts_ML_glottolog) %>%
-  full_join(value_counts_parsimony_glottolog) %>%
-  full_join(value_counts_parsimony_gray) 
-
-rm(value_counts_ML_gray, value_counts_ML_glottolog, value_counts_parsimony_glottolog, value_counts_parsimony_gray)
+  mutate(min_percent_SCM_gray = min / nTips) %>%
+  dplyr::select(Feature_ID, ntips_SCM_gray = nTips, zeroes_SCM_gray =  nTips_state_0, ones_SCM_gray =  nTips_state_1, min_percent_SCM_gray)
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, classification, Name)
 
-#Function for getting ancestral states for 4 specific nodes out of corHMM gray version
-get_node_positions_ML <- function(GB_asr_object_ml){
+##Gray SCM rdata object
+GB_ASR_RDS_SCM_gray <- readRDS("output/gray_et_al_2009/SCM/mcct/GB_SCM_gray_tree.rds") %>% 
+  left_join(value_count_df, by = "Feature_ID") %>% 
+  filter(!is.na(ntips_SCM_gray))
 
-#GB_asr_object_ml <- GB_ASR_RDS_ML_gray$content[[1]][[1]]
-
-GB_asr_object_ml <- GB_asr_object_ml[[1]]
+########################################## SCM ##########################################
+get_node_positions_SCM <- function(GB_asr_object_SCM){
   
-feature <- GB_asr_object_ml$data %>% colnames() %>% .[2]
-tree <- GB_asr_object_ml$phy
+  #GB_asr_object_SCM <- GB_ASR_RDS_SCM_gray$content[[1]]
 
-tip_label_df <- tree$tip.label %>% 
-  as.data.frame() %>% 
-  rename("Glottocode" = ".") 
+  feature <- GB_asr_object_SCM[[2]][1,1]
+  tree <- GB_asr_object_SCM[[1]]
+  
+  tip_label_df <- tree$tip.label %>% 
+    as.data.frame() %>% 
+    rename("Glottocode" = ".") 
+  
+  Polynesian_tips <- tip_label_df %>% 
+    left_join(glottolog_df, by = "Glottocode") %>% 
+    filter(str_detect(classification, "poly1242")) %>% 
+    dplyr::select(Glottocode) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+  polynesian_node <- getMRCA(tree, Polynesian_tips)
+  
+  oceanic_tips <- tip_label_df %>% 
+    left_join(glottolog_df, by = "Glottocode") %>% 
+    filter(str_detect(classification, "ocea1241")) %>% 
+    dplyr::select(Glottocode) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+  oceanic_node <- getMRCA(tree, oceanic_tips)
+  
+  central_oceanic_tips <- tip_label_df %>% 
+    left_join(glottolog_df, by = "Glottocode") %>% 
+    filter(str_detect(classification, "cent2060")) %>% 
+    dplyr::select(Glottocode) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+  central_oceanic_node <- getMRCA(tree, central_oceanic_tips)
+  
+  eastern_polynesian_tips <- tip_label_df %>% 
+    left_join(glottolog_df, by = "Glottocode") %>% 
+    filter(str_detect(classification, "east2449")) %>% 
+    dplyr::select(Glottocode) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+  eastern_poly_node <- getMRCA(tree, eastern_polynesian_tips)
+  
+  df_proto_nodes <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian") , Node = c(oceanic_node,  central_oceanic_node,  polynesian_node, eastern_poly_node))
 
-Polynesian_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "poly1242")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-polynesian_node <- getMRCA(tree, Polynesian_tips)
-
-oceanic_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "ocea1241")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-oceanic_node <- getMRCA(tree, oceanic_tips)
-
-central_oceanic_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "cent2060")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-central_oceanic_node <- getMRCA(tree, central_oceanic_tips)
-
-eastern_polynesian_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "east2449")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-eastern_poly_node <- getMRCA(tree, eastern_polynesian_tips)
-
-df_proto_nodes <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian") , Node = c(oceanic_node,  central_oceanic_node,  polynesian_node, eastern_poly_node))
-
-df_lik_anc <- as.data.frame(GB_asr_object_ml$states)
-df_lik_anc$Node <- seq(Ntip(tree) + 1, Ntip(tree) + nrow(df_lik_anc))   # i.e. count from ntips + 1 …to .. ntips + number of nodes
-df <- df_proto_nodes %>% 
-  left_join(df_lik_anc, by = "Node") %>% 
-  mutate(Feature_ID = feature) %>% 
-  rename(`0`= "(1,R1)" , `1` = "(2,R1)")
-
-cat("I'm done with finding the ML proto-language states for feature ", feature, ".\n", sep = "")
-df
+  df_lik_anc <-   tree$mapped.edge %>% as.data.frame() %>% View()
+  df_lik_anc$Node <- seq(Ntip(tree) + 1, Ntip(tree) + nrow(df_lik_anc))   # i.e. count from ntips + 1 …to .. ntips + number of nodes
+  df <- df_proto_nodes %>% 
+    left_join(df_lik_anc, by = "Node") %>% 
+    mutate(Feature_ID = feature) %>% 
+    rename(`0`= "(1,R1)" , `1` = "(2,R1)")
+  
+  cat("I'm done with finding the SCM proto-language states for feature ", feature, ".\n", sep = "")
+  df
 }
 
-##Gray tree ML 
-GB_ASR_RDS_ML_gray <- readRDS("output/gray_et_al_2009/ML/mcct/GB_ML_gray_tree.rds") %>% 
-  left_join(value_count_df, by = "Feature_ID") %>% 
-  filter(!is.na(ntips_ML_gray))
 
-df_lik_anc_ML_gray <- lapply(GB_ASR_RDS_ML_gray$content, get_node_positions_ML) %>% bind_rows()
-
-df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
-
-df_lik_anc_ML_gray <- df_lik_anc_ML_gray %>% 
-  mutate(`0` = round(`0` ,2)) %>% 
-  mutate(`1` = round(`1` ,2)) %>% 
-  dplyr::select(Feature_ID, "Proto-language", gray_ML_prediction,gray_ML_prediction_0 = `0`, gray_ML_prediction_1 = `1`)
+df_lik_anc_SCM_gray <- lapply(GB_ASR_RDS_SCM_gray$content, get_node_positions_ML) %>% bind_rows()
 
 
-
-##Glottolog ML
-#rds object with all the output of ML on the glottolog tree
-
-GB_ASR_RDS_ML_glottolog <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds") %>% 
-  left_join(value_count_df, by = "Feature_ID") %>% 
-  filter(!is.na(ntips_ML_glottolog))
-
-df_lik_anc_ML_glottolog <- lapply(GB_ASR_RDS_ML_glottolog$content, get_node_positions_ML) %>% bind_rows()
-
-df_lik_anc_ML_glottolog$glottolog_ML_prediction <- if_else(df_lik_anc_ML_glottolog$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_glottolog$`1` > 0.6, "Present", "Half")) 
-
-df_lik_anc_ML_glottolog <- df_lik_anc_ML_glottolog %>% 
-  mutate(`0` = round(`0` ,2)) %>% 
-  mutate(`1` = round(`1` ,2)) %>% 
-  dplyr::select(Feature_ID, "Proto-language", glottolog_ML_prediction,glottolog_ML_prediction_0 = `0`, glottolog_ML_prediction_1 = `1`)
 
 
 #Function for getting ancestral states for 4 specific nodes out of castor parsimony objects
