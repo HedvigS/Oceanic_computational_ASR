@@ -69,7 +69,7 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
     result_all_maps <- phytools::make.simmap(tree =   gray_tree_pruned , 
                                              x = feature_vec, 
                                              model = "ARD", 
-                                             nsim = 100,
+                                             nsim = 10,
                                              pi = "estimated", 
                                              method = "optim")
     
@@ -84,7 +84,7 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
       nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
       nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
     
-    output <- list(result, results_df)
+    output <- list(result, results_df, result_all_maps, gray_tree_pruned)
     output  
   }
 }
@@ -98,6 +98,8 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
 
 saveRDS(GB_ASR_SCM_all, file = file.path(output_dir, "GB_SCM_gray_tree_100.rds"))
 
+
+#GB_ASR_SCM_all <- readRDS(file.path(output_dir, "GB_SCM_gray_tree_100.rds"))
 ##unraveling the output into a summary table
 
 GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>% 
@@ -105,7 +107,7 @@ GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>%
   group_by(Feature_ID) %>% 
   mutate(col=seq_along(Feature_ID)) %>%
   spread(key=col, value=content) %>% 
-  rename(corHMM_result_direct = "1", results_df = "2") %>% 
+  rename(result_summary = "1", results_df = "2") %>% 
   ungroup()
 
 
