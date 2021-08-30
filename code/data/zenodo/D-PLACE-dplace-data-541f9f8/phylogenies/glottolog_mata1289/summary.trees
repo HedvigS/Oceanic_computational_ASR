@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_mata1289 = (iyow1239:1,wich1264:1);
-end;

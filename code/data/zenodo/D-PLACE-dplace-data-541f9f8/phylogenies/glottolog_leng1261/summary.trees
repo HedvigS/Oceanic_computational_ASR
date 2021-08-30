@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_leng1261 = (nort2971:1);
-end;

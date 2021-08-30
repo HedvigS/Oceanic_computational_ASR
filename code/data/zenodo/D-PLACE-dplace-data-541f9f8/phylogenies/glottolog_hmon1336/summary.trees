@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_hmon1336 = (horn1235:1,kimm1245:1);
-end;

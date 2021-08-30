@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_haid1248 = (nort2938:1,sout2956:1);
-end;

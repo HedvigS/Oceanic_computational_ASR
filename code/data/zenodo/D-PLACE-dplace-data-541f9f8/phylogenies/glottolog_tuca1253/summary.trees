@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_tuca1253 = (tuca1252:1,cube1242:1);
-end;

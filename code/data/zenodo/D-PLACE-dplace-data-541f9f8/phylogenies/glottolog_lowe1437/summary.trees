@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_lowe1437 = (bana1292:1);
-end;

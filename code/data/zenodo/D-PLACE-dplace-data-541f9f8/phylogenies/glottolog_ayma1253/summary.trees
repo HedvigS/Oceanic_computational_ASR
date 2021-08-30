@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_ayma1253 = (cent2142:1);
-end;

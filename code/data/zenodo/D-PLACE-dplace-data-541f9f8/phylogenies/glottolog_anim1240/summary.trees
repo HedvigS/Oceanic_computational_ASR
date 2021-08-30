@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_anim1240 = (cent2332:1,(gawi1240:1,sout2944:1,tuge1242:1)hali1245:1);
-end;

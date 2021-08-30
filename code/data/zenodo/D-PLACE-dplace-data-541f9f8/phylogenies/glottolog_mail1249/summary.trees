@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_mail1249 = (asia1264:1,baib1249:1,bore1246:1,dara1252:1,dere1243:1,doma1262:1,geag1239:1,ilai1239:1,isla1273:1);
-end;

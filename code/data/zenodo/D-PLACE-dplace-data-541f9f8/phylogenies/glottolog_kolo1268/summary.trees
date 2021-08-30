@@ -1,4 +1,0 @@
-#NEXUS
-Begin trees;
-    tree glottolog_kolo1268 = (kima1246:1);
-end;
