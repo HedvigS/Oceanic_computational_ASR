@@ -1,4 +1,5 @@
 source("01_requirements.R")
+source("fun_get_ASR_nodes_parsimony.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
@@ -14,67 +15,7 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 #Function for getting ancestral states for 4 specific nodes out of castor parsimony objects
-get_node_positions_parsimony <- function(GB_asr_object_parsimony){
-  
-  #  GB_asr_object_parsimony <- GB_ACR_all_parsimony$content[[187]]
-  
-  feature <- GB_asr_object_parsimony[[1]]
-  ASR_object <- GB_asr_object_parsimony[[2]]
-  tree <- GB_asr_object_parsimony[[4]]
-  
-  tip_label_df <- tree$tip.label %>% 
-    as.data.frame() %>% 
-    rename("Name" = ".") %>% 
-    left_join(glottolog_df, by = "Name") 
-  
-  Polynesian_tips <- tip_label_df %>% 
-    filter(str_detect(classification, "poly1242")) %>% 
-    dplyr::select(Name) %>% 
-    as.matrix() %>% 
-    as.vector()
-  
-  polynesian_node <- getMRCA(tree, Polynesian_tips)
-  
-  oceanic_tips <- tip_label_df %>% 
-    filter(str_detect(classification, "ocea1241")) %>% 
-    dplyr::select(Name) %>% 
-    as.matrix() %>% 
-    as.vector()
-  
-  oceanic_node <- getMRCA(tree, oceanic_tips)
-  
-  central_oceanic_tips <- tip_label_df %>% 
-    filter(str_detect(classification, "cent2060")) %>% 
-    dplyr::select(Name) %>% 
-    as.matrix() %>% 
-    as.vector()
-  
-  central_oceanic_node <- getMRCA(tree, central_oceanic_tips)
-  
-  eastern_polynesian_tips <- tip_label_df %>% 
-    filter(str_detect(classification, "east2449")) %>% 
-    dplyr::select(Name) %>% 
-    as.matrix() %>% 
-    as.vector()
-  
-  eastern_poly_node <- getMRCA(tree, eastern_polynesian_tips)
-  
-  df_proto_nodes <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian") , Node = c(oceanic_node,  central_oceanic_node,  polynesian_node, eastern_poly_node))
-  
-  #  df_proto_nodes$Node <-   df_proto_nodes$Node - 1
-  
-  df_lik_anc <- as.data.frame(ASR_object$ancestral_likelihoods)
-  df_lik_anc$Node <- seq(Ntip(tree) + 1, Ntip(tree) + nrow(df_lik_anc))  
-  colnames(df_lik_anc) <- c("0", "1", "Node") 
-  
-  df <- df_proto_nodes %>% 
-    left_join(df_lik_anc, by = "Node") %>% 
-    mutate(Feature_ID = feature)
-  
-  cat("I'm done with finding the parsimony proto-language states for feature ", feature, " for ", dir, ".\n", sep = "")
-  
-  df
-}
+
 
 
 dirs <- list.dirs("output/gray_et_al_2009/parsimony/results_by_tree/", recursive = F)
