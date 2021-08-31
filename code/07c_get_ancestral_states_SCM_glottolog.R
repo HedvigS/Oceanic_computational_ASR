@@ -8,32 +8,8 @@ HL_findings_sheet <-  read_tsv("data/HL_findings/HL_findings_for_comparison.tsv"
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
-value_counts_parsimony_glottolog <- read_csv("output/glottolog_tree_binary/parsimony/results.csv") %>%
-  mutate(min = pmin(`0`, `1`)) %>% 
-  mutate(min_percent_parsimony_glottolog = min / (`0`+ `1`)) %>%
-  dplyr::select(Feature_ID, ntips_parsimony_glottolog = ntips, zeroes_parsimony_glottolog = `0`, ones_parsimony_glottolog = `1`, min_percent_parsimony_glottolog) 
 
-value_counts_parsimony_gray <- read_csv("output/gray_et_al_2009/parsimony/mcct/results.csv") %>% 
-  mutate(min = pmin(`0`, `1`)) %>% 
-  mutate(min_percent_parsimony_gray = min / (`0`+ `1`)) %>%
-  dplyr::select(Feature_ID, ntips_parsimony_gray = ntips, zeroes_parsimony_gray = `0`, ones_parsimony_gray = `1`, min_percent_parsimony_gray)
-
-value_counts_ML_glottolog <- read_csv("output/glottolog_tree_binary/ML/results.csv") %>%
-  mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
-  mutate(min_percent_ML_glottolog = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_ML_glottolog = nTips, zeroes_ML_glottolog =  nTips_state_0, ones_ML_glottolog =  nTips_state_1, min_percent_ML_glottolog)
-
-value_counts_ML_gray <- read_csv("output/gray_et_al_2009//ML/mcct/results.csv") %>%
-  mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
-  mutate(min_percent_ML_gray = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray =  nTips_state_0, ones_ML_gray =  nTips_state_1, min_percent_ML_gray)
-
-value_counts_SCM_gray <- read_csv("output/gray_et_al_2009/SCM/mcct/results.csv") %>% 
-  mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
-  mutate(min_percent_SCM_gray = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_SCM_gray = nTips, zeroes_SCM_gray =  nTips_state_0, ones_SCM_gray =  nTips_state_1, min_percent_SCM_gray)
-
-#value_counts_SCM_glottolog <- read_csv("output/glottolog_tree_binary/SCM/GB_SC
+#value_count_df <- read_csv("output/glottolog_tree_binary/SCM/
 #  mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
 #  mutate(min_percent_SCM_gray = min / nTips) %>%
 #  dplyr::select(Feature_ID, ntips_SCM_gray = nTips, zeroes_SCM_gray =  nTips_state_0, ones_SCM_gray =  nTips_state_1, min_percent_SCM_gray)
