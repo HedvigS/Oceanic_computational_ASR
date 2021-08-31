@@ -10,17 +10,17 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 #function for getting node positions over ML objects
-get_node_positions_ML <- function(GB_asr_object_ml_content){
+get_node_positions_SCM <- function(GB_asr_object_SCM_content){
   
-  #GB_asr_object_ml <- GB_ACR_all_ML$content[[73]]
+  #GB_asr_object_SCM <- GB_ACR_all_SCM$content[[73]]
   
-  GB_asr_object_ml <- GB_asr_object_ml_content[[1]]
-  
-  
+  GB_asr_object_SCM <- GB_asr_object_SCM_content[[1]]
   
   
-  feature <- GB_asr_object_ml$data %>% colnames() %>% .[2]
-  tree <- GB_asr_object_ml$phy
+  
+  
+  feature <- GB_asr_object_SCM$data %>% colnames() %>% .[2]
+  tree <- GB_asr_object_SCM$phy
   
   tip_label_df <- tree$tip.label %>% 
     as.data.frame() %>% 
@@ -64,7 +64,7 @@ get_node_positions_ML <- function(GB_asr_object_ml_content){
   
   df_proto_nodes <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian") , Node = c(oceanic_node,  central_oceanic_node,  polynesian_node, eastern_poly_node))
   
-  df_lik_anc <- as.data.frame(GB_asr_object_ml$states)
+  df_lik_anc <- as.data.frame(GB_asr_object_SCM$states)
   df_lik_anc$Node <- seq(Ntip(tree) + 1, Ntip(tree) + nrow(df_lik_anc))   # i.e. count from ntips + 1 …to .. ntips + number of nodes
   df <- df_proto_nodes %>% 
     left_join(df_lik_anc, by = "Node") %>% 
@@ -100,31 +100,31 @@ for(dir in dirs){
                                  nTips_state_0 = col_double(),
                                  nTips_state_1 = col_double()                               )) %>% 
     mutate(min = pmin(`nTips_state_0`, `nTips_state_1`)) %>% 
-    mutate(min_percent_ML_gray = min / (`nTips_state_0`+ `nTips_state_1`)) %>%
-    dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray = `nTips_state_0`, ones_ML_gray = `nTips_state_1`, min_percent_ML_gray)
+    mutate(min_percent_SCM_gray = min / (`nTips_state_0`+ `nTips_state_1`)) %>%
+    dplyr::select(Feature_ID, ntips_SCM_gray = nTips, zeroes_SCM_gray = `nTips_state_0`, ones_SCM_gray = `nTips_state_1`, min_percent_SCM_gray)
   
   ###Gray ML
-  GB_ACR_all_ML <- readRDS(file.path(dir, "GB_ML_gray_tree.rds")) %>% 
+  GB_ACR_all_SCM <- readRDS(file.path(dir, "GB_SCM_gray_tree.rds")) %>% 
     left_join(value_count_df, by = "Feature_ID") %>% 
-    filter(!is.na(ntips_ML_gray))
+    filter(!is.na(ntips_SCM_gray))
   
-  df_lik_anc_ML_gray <- lapply(GB_ACR_all_ML$content, get_node_positions_ML) %>% bind_rows()
+  df_lik_anc_SCM_gray <- lapply(GB_ACR_all_SCM$content, get_node_positions_SCM) %>% bind_rows()
   
   
-  df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
+  df_lik_anc_SCM_gray$gray_SCM_prediction <- if_else(df_lik_anc_SCM_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_SCM_gray$`1` > 0.6, "Present", "Half")) 
   
-  df_lik_anc_ML_gray <- df_lik_anc_ML_gray %>% 
+  df_lik_anc_SCM_gray <- df_lik_anc_SCM_gray %>% 
     mutate(`0` = round(`0`)) %>% 
     mutate(`1` = round(`1`)) %>% 
-    dplyr::select(Feature_ID, "Proto-language", gray_ML_prediction,gray_ML_prediction_0 = `0`, gray_ML_prediction_1 = `1`)
+    dplyr::select(Feature_ID, "Proto-language", gray_SCM_prediction,gray_SCM_prediction_0 = `0`, gray_SCM_prediction_1 = `1`)
   
   df <- HL_findings_sheet %>% 
-    right_join(df_lik_anc_ML_gray, by = c("Feature_ID", "Proto-language")) 
+    right_join(df_lik_anc_SCM_gray, by = c("Feature_ID", "Proto-language")) 
   
-  df$`ML result (Gray et al 2009-tree)` <- ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  
-                                                  ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 0, "True Negative",   
-                                                         ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 1, "False Negative",  
-                                                                ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
+  df$`ML result (Gray et al 2009-tree)` <- ifelse(df$gray_SCM_prediction == "Present" & df$Prediction == 1, "True Positive",  
+                                                  ifelse(df$gray_SCM_prediction == "Absent" & df$Prediction == 0, "True Negative",   
+                                                         ifelse(df$gray_SCM_prediction == "Absent" & df$Prediction == 1, "False Negative",  
+                                                                ifelse(df$gray_SCM_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_SCM_prediction == "Half", "Half", NA)))))
   
   df <- value_count_df %>% 
     right_join(df, by = "Feature_ID") 
@@ -132,10 +132,10 @@ for(dir in dirs){
   ##Marking which results can't be included because they don't have enough languages
   
   #ML gray
-  df$gray_ML_prediction <- if_else(df$ntips_ML_gray <  ntips_half_gray, "Not enough languages", df$gray_ML_prediction)
-  df$gray_ML_prediction_1 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_1)
+  df$gray_SCM_prediction <- if_else(df$ntips_SCM_gray <  ntips_half_gray, "Not enough languages", df$gray_SCM_prediction)
+  df$gray_SCM_prediction_1 <- ifelse(df$ntips_SCM_gray <  ntips_half_gray, NA, df$gray_SCM_prediction_1)
   
-  df$gray_ML_prediction_0 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_0)
+  df$gray_SCM_prediction_0 <- ifelse(df$ntips_SCM_gray <  ntips_half_gray, NA, df$gray_SCM_prediction_0)
   
   #Counting up trues per feature
   df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
