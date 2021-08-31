@@ -62,19 +62,19 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
       nTips_state_0 =  NA,
       nTips_state_1 = NA)
     
-    output <- list(NA, results_df)
+    output <- list(NA, results_df, NA, NA)
     output
   } else{
     
     result_all_maps <- phytools::make.simmap(tree =   gray_tree_pruned , 
                                              x = feature_vec, 
                                              model = "ARD", 
-                                             nsim = 10,
+                                             nsim = 2,
                                              pi = "estimated", 
                                              method = "optim")
     
     result <-   result_all_maps %>% summary()
-    
+
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
