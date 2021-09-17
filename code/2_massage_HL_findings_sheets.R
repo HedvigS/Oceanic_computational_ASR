@@ -6,6 +6,7 @@ source("01_requirements.R")
 HL_findings_sheet <- read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_cent2060.tsv", col_types = cols(.default = "c")) %>% 
   mutate("Proto-language" = "Proto-Central Pacific",
          Language_ID = "cent2060") %>% 
+  filter(Feature_ID != "GB409") %>% 
   full_join(read_tsv("data/GB/grambank-cldf/raw/Grambank/original_sheets/HS_east2449.tsv", col_types = cols(.default = "c")) %>% 
               mutate("Proto-language" = "Proto-Eastern Polynesian",
                      Language_ID =  "east2449"),
