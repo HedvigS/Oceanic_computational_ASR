@@ -43,7 +43,6 @@ fun_GB_ASR_SCM <- function(feature) {
   
   states <-   feature_vec %>% table() %>% length()
   
-if(is.binary(gray_tree_pruned)){  
   
   if(states == 1) {  
     message("All tips for feature ", feature, " on ", fn," are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
@@ -68,41 +67,23 @@ if(is.binary(gray_tree_pruned)){
     result <- phytools::make.simmap(tree = gray_tree_pruned, 
                                     x = feature_vec, 
                                     model = "ARD", 
+                                    nsim = 100,
                                     pi = "estimated", 
                                     method = "optim")
     
-
-    results_df <- data.frame(
-      Feature_ID = feature,
-      LogLikelihood = result$logL %>% as.vector(),
-      #    AICc = NA,
-      #    pRoot0 = NA,
-      #    pRoot1 = NA,
-      q01 = result$Q[2, 1],
-      q10 = result$Q[1, 2],
-      nTips = result$Nnode,
-      nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
-      nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
+    result <-   result_all_maps %>% summary()
     
-    output <- list(result, results_df)
-    output  
-  }}else{
-  message("The tree", fn, " wasn't binary for ", feature, ". Skipping for SCM.")  
     results_df <- data.frame(
       Feature_ID = feature,
       LogLikelihood = NA,
-      #    AICc = NA,
-      #    pRoot0 = NA,
-      #    pRoot1 = NA,
       q01 = NA,
       q10 = NA,
-      nTips = NA,
-      nTips_state_0 =  NA,
-      nTips_state_1 = NA)
+      nTips =   gray_tree_pruned $tip.label %>% length(),
+      nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
+      nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
     
-    output <- list(NA, results_df)
-    output
-    
+    output <- list(result, results_df, result_all_maps, gray_tree_pruned)
+    output  
   }
 }
 
