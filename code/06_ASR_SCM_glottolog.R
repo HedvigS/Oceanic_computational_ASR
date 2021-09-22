@@ -50,7 +50,7 @@ if(states >1) {
   result_all_maps <- phytools::make.simmap(tree = glottolog_tree_pruned, 
                                   x = feature_vec, 
                                   model = "ARD", 
-                                  nsim = 100,
+                                  nsim = 2,
                                   pi = "estimated", 
                                   method = "optim")
 
@@ -65,7 +65,7 @@ result <-   result_all_maps %>% summary()
     nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
     nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
   
-output <- list(result , results_df)
+    output <- list(result, results_df, result_all_maps, glottolog_tree_pruned )
 output  
   
 }else{
@@ -82,7 +82,7 @@ output
     nTips_state_0 =  NA,
     nTips_state_1 = NA)
   
-    output <- list(NA, results_df)
+  output <- list(result, results_df, result_all_maps, glottolog_tree_pruned )
     output  
     
 
@@ -95,3 +95,9 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
 
 saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 #GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
+
+
+
+
+
+
