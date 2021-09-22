@@ -96,8 +96,34 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
 saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 #GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
 
+GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>%
+  unnest(content) %>% 
+  group_by(Feature_ID) %>% 
+  mutate(col=seq_along(Feature_ID)) %>%
+  spread(key=col, value=content) %>% 
+  rename(SIMMAP_result = "1", results_df = "2") %>% 
+  ungroup()
 
 
+#making empty df to rbind to
+
+results <- data.frame(
+  Feature_ID = NULL,
+  LogLikelihood = NULL,
+  AICc = NULL,
+  pRoot0 = NULL,
+  pRoot1 = NULL,
+  q01 = NULL,
+  q10 = NULL,
+  nTips = NULL,
+  nTips_state_0 =  NULL,
+  nTips_state_1 = NULL
+)
 
 
+for(row in GB_ASR_SCM_all_split$results_df){
+  print(row)
+  results <- rbind(results, row)
+}
 
+write_csv( results, "output/glottolog_tree_binary/ML/results.csv")
