@@ -1,6 +1,14 @@
 source("01_requirements.R")
 #reading in old sheet with HL-predictions
+
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+  mutate(conflict = "Yes") %>% 
+  rename(Prediction = Value)
+
+HL_findings_sheets <- HL_findings_sheet %>% 
+  full_join(HL_findings_sheet_conflicts)
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
@@ -24,9 +32,12 @@ get_node_positions_SCM <- function(GB_asr_object_SCM){
   
   #GB_asr_object_SCM <- GB_ASR_RDS_SCM_gray$content[[1]]
 
-  feature <- GB_asr_object_SCM[[2]][1,1]
+  GB_asr_object_scm_SIMMAP_summary <- GB_asr_object_SCM[[1]]
+  GB_asr_object_scm_results_df <- GB_asr_object_SCM[[2]]
+  
+  feature <- GB_asr_object_scm_results_df$Feature_ID
   tree <- GB_asr_object_SCM[[4]]
-
+  
   tip_label_df <- tree$tip.label %>% 
     as.data.frame() %>% 
     rename("Glottocode" = ".") 
@@ -94,7 +105,7 @@ df_lik_anc_SCM_gray  <- df_lik_anc_SCM_gray %>%
   mutate(`1` = round(`1`)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_mcct_scm_prediction,gray_mcct_scm_prediction_0 = `0`, gray_mcct_scm_prediction_1 = `1`)
 
-df <- HL_findings_sheet %>% 
+df <- HL_findings_sheets %>% 
   right_join(df_lik_anc_SCM_gray, by = c("Feature_ID", "Proto-language")) 
 
 ##Marking more clearly results
@@ -117,16 +128,10 @@ df$gray_mcct_scm_prediction <- if_else(df$ntips_SCM_gray <  ntips_half_gray, "No
 df$gray_mcct_scm_prediction_1 <- ifelse(df$ntips_SCM_gray <  ntips_half_gray, NA, df$gray_mcct_scm_prediction_1)
 df$gray_mcct_scm_prediction_0 <- ifelse(df$ntips_SCM_gray <  ntips_half_gray, NA, df$gray_mcct_scm_prediction_0)
 
-#Counting up trues per feature
-df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
-df$countTrueNeg <- rowSums(df == "True Negative", na.rm = T)
-df$countTrue <- df$countTruePos + df$countTrueNeg
-
 #parameter description
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
-  arrange(-countTrue) %>% 
   left_join(GB_df_desc) %>% 
   write_tsv("output/gray_et_al_2009/SCM/mcct/all_reconstructions.tsv")  
