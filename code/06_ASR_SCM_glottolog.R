@@ -4,7 +4,7 @@ source("01_requirements.R")
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Name)
 
-glottolog_tree <- read.newick(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt"))
+glottolog_tree <- ape::read.tree(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt"))
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
@@ -18,7 +18,7 @@ GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols())
 
 fun_GB_ASR_SCM <- function(feature) {
   
-  #feature <- "GB109"
+  #feature <- "GB020"
   cat("I've started ASR SCM on ", feature, " with the glottolog-tree.\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
@@ -31,8 +31,6 @@ fun_GB_ASR_SCM <- function(feature) {
     dplyr::select(Language_ID, {{feature}})
   
   glottolog_tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
-
-#  glottolog_tree_pruned <- ape::multi2di(glottolog_tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
   
  glottolog_tree_pruned <- compute.brlen(  glottolog_tree_pruned , method = 1) #making all branch lengths one
 
@@ -50,7 +48,7 @@ if(states >1) {
   result_all_maps <- phytools::make.simmap(tree = glottolog_tree_pruned, 
                                   x = feature_vec, 
                                   model = "ARD", 
-                                  nsim = 2,
+                                  nsim = 100,
                                   pi = "estimated", 
                                   method = "optim")
 
@@ -70,6 +68,10 @@ output
   
 }else{
   message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+  
+  result <- NULL
+  result_all_maps <- NULL
+  
   results_df <- data.frame(
     Feature_ID = feature,
     LogLikelihood = NA,
@@ -126,4 +128,4 @@ for(row in GB_ASR_SCM_all_split$results_df){
   results <- rbind(results, row)
 }
 
-write_csv( results, "output/glottolog_tree_binary/ML/results.csv")
+write_csv( results, "output/glottolog_tree_binary/SCM/results.csv")

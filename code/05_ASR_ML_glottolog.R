@@ -39,10 +39,6 @@ fun_GB_ASR_ML <- function(feature) {
   
   tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
   
-#  tree_pruned  <-  ape::multi2di(tree_pruned) #binarising
-  #tree_pruned  <- ape::compute.brlen(tree_pruned ) #applying grafens
-#  tree_pruned$edge.length <- 1 #making all edge lengths the same, including the tiny new ones that came about as a result of multi2di
-  
   feature_df <-  tree_pruned$tip.label %>% 
     as.data.frame() %>% 
     rename(Language_ID = ".") %>% 
@@ -124,7 +120,7 @@ GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
 #beepr::beep(3)
 
 saveRDS(GB_ASR_ML_all, "output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
-GB_ASR_ML_all <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
+#GB_ASR_ML_all <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
 
 ##unraveling the output into a summary table
 
@@ -150,39 +146,6 @@ results <- data.frame(
   nTips = NULL,
   nTips_state_0 =  NULL,
   nTips_state_1 = NULL
-)
-
-
-for(row in GB_ASR_ML_all_split$results_df){
-  print(row)
-  results <- rbind(results, row)
-}
-
-write_csv( results, "output/glottolog_tree_binary/ML/results.csv")
-
-
-GB_ASR_ML_all_split  <- GB_ASR_ML_all %>% 
-  unnest(content) %>% 
-  group_by(Feature_ID) %>% 
-  mutate(col=seq_along(Feature_ID)) %>%
-  spread(key=col, value=content) %>% 
-  rename(corHMM_result_direct = "1", results_df = "2") %>% 
-  ungroup()
-
-
-#making empty df to rbind to
-
-results <- data.frame(
-  Variable = NULL,
-  LogLikelihood = NULL,
-  AICc = NULL,
-  pRoot0 = NULL,
-  pRoot1 = NULL,
-  q01 = NULL,
-  q10 = NULL,
-  nTips = NULL,
-  nTips_state_0 =  NULL,
-  nTips_state_1 =  NULL
 )
 
 
