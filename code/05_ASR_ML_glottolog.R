@@ -6,7 +6,10 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Name)
 
 #reading in glottolog tree
-tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
+glottolog_tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
+
+root_edge <- glottolog_tree$root.edge
+glottolog_tree_rerooted <- castor::root_in_edge(glottolog_tree, root_edge)
 
 #reading in Grambank
 GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
@@ -26,16 +29,14 @@ fun_GB_ASR_ML <- function(feature) {
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
-  to_keep <- tree$tip.label %>% 
+  to_keep <- glottolog_tree_rerooted$tip.label %>% 
     as.data.frame() %>% 
     rename(Language_ID = ".") %>% 
     left_join(GB_df_all, by = "Language_ID") %>% 
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Language_ID, {{feature}})
   
-  tree_pruned <- keep.tip(tree, to_keep$Language_ID)  
-  
-#  tree_pruned<- ape::multi2di(tree_pruned) #resolve polytomies to binary splits. This should not have a great effect on the gray et al tree, but due to the pruning it's still worth doing.
+  tree_pruned <- keep.tip(glottolog_tree_rerooted, to_keep$Language_ID)  
   
   tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
   

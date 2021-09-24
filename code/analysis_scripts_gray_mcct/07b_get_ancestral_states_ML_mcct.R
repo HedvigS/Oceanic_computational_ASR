@@ -4,6 +4,13 @@ source("fun_get_ASR_nodes.R")
 #reading in old sheet with HL-predictions
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
 
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+  mutate(conflict = "Yes") %>% 
+  rename(Prediction = Value)
+
+HL_findings_sheets <- HL_findings_sheet %>% 
+  full_join(HL_findings_sheet_conflicts)
+
 ####
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with

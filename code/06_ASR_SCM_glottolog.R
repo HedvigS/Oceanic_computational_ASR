@@ -6,6 +6,25 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 
 glottolog_tree <- ape::read.tree(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt"))
 
+root_edge <- glottolog_tree$root.edge
+glottolog_tree_rerooted <- castor::root_in_edge(glottolog_tree, root_edge)
+# 
+# df_rerotted_disstips <-glottolog_tree_rerooted %>% distTips(method = "patristic") %>% 
+#   as.matrix() %>% 
+#   reshape2::melt() %>% 
+#   rename(reroot_dists = value)
+# 
+# df_first_rott_disstips <-glottolog_tree %>% distTips(method = "patristic") %>% 
+#   as.matrix() %>% 
+#   reshape2::melt() %>% 
+#   rename(first_root_dists = value)
+# 
+# df_combined <- df_rerotted_disstips %>% full_join(df_first_rott_disstips)
+# 
+# df_combined %>% 
+#   ggplot() +
+#   geom_point(aes(x = reroot_dists, y = first_root_dists))
+
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
@@ -30,8 +49,8 @@ fun_GB_ASR_SCM <- function(feature) {
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Language_ID, {{feature}})
   
-  glottolog_tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
-  
+  glottolog_tree_pruned <- drop.tip(glottolog_tree_rerooted, "kele1258")
+
  glottolog_tree_pruned <- compute.brlen(  glottolog_tree_pruned , method = 1) #making all branch lengths one
 
   feature_vec <-  glottolog_tree_pruned$tip.label %>% 
