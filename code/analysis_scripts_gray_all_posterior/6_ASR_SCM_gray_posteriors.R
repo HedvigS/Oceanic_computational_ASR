@@ -67,7 +67,7 @@ fun_GB_ASR_SCM <- function(feature) {
     result <- phytools::make.simmap(tree = gray_tree_pruned, 
                                     x = feature_vec, 
                                     model = "ARD", 
-                                    nsim = 100,
+                                    nsim = 3,
                                     pi = "estimated", 
                                     method = "optim")
     

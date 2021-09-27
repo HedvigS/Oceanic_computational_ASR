@@ -69,7 +69,7 @@ feature_vec <-  gray_tree_pruned$tip.label %>%
     result_all_maps <- phytools::make.simmap(tree =   gray_tree_pruned , 
                                              x = feature_vec, 
                                              model = "ARD", 
-                                             nsim = 100,
+                                             nsim = 3,
                                              pi = "estimated", 
                                              method = "optim")
     
