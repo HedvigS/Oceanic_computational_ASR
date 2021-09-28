@@ -42,7 +42,7 @@ automatic_predctions <- df_lik_anc_ML_gray %>%
 
 ##############################################################################
 
-df <- HL_findings_sheet %>% 
+df <- HL_findings_sheets %>% 
   right_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
 
 df$`ML result (Gray et al 2009-tree)` <- if_else(df$gray_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  

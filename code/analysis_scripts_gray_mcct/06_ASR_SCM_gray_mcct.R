@@ -96,10 +96,10 @@ GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
 
 #beepr::beep(3)
 
-saveRDS(GB_ASR_SCM_all, file = file.path(output_dir, "GB_SCM_gray_tree_100.rds"))
+saveRDS(GB_ASR_SCM_all, file = file.path(output_dir, "GB_SCM_gray_tree.rds"))
 
 
-#GB_ASR_SCM_all <- readRDS(file.path(output_dir, "GB_SCM_gray_tree_100.rds"))
+#GB_ASR_SCM_all <- readRDS(file.path(output_dir, "GB_SCM_gray_tree.rds"))
 ##unraveling the output into a summary table
 
 GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>% 
@@ -132,4 +132,4 @@ for(row in GB_ASR_SCM_all_split$results_df){
   results <- rbind(results, row)
 }
 
-write_csv( results, file = file.path(output_dir,"results_100.csv"))
+write_csv( results, file = file.path(output_dir,"results.csv"))

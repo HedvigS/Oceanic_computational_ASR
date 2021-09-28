@@ -1,10 +1,17 @@
 source("01_requirements.R")
-source("fun_get_ASR_nodes_parsimony.R")
+source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+  mutate(conflict = "Yes") %>% 
+  rename(Prediction = Value)
+
+HL_findings_sheets <- HL_findings_sheet %>% 
+  full_join(HL_findings_sheet_conflicts)
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
@@ -54,7 +61,7 @@ df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>%
   mutate(`1` = round(`1`)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_parsimony_prediction,gray_parsimony_prediction_0 = `0`, gray_parsimony_prediction_1 = `1`)
 
-df <- HL_findings_sheet %>% 
+df <- HL_findings_sheets %>% 
   right_join(df_lik_anc_parsimony_gray, by = c("Feature_ID", "Proto-language")) 
 
 
@@ -77,29 +84,10 @@ df$gray_parsimony_prediction <- if_else(df$ntips_parsimony_gray <  ntips_half_gr
 df$gray_parsimony_prediction_1 <- ifelse(df$ntips_parsimony_gray <  ntips_half_gray, NA, df$gray_parsimony_prediction_1)
 df$gray_parsimony_prediction_0 <- ifelse(df$ntips_parsimony_gray <  ntips_half_gray, NA, df$gray_parsimony_prediction_0)
 
-#Counting up trues per feature
-df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
-
-df$countTrueNeg <- rowSums(df == "True Negative", na.rm = T)
-
-df$countTrue <- df$countTruePos + df$countTrueNeg
-
 
 df %>% 
-  arrange(-countTrue) %>% 
   left_join(GB_df_desc, by = "Feature_ID") %>% 
   write_tsv(file.path(dir, "all_reconstructions.tsv") ) 
-
-df_non_erg <- df %>% 
-  filter(!is.na(Prediction)) %>% 
-  arrange(-countTrue) %>% 
-  left_join(GB_df_desc, by = "Feature_ID") %>% 
-  separate(Abbreviation, into = c("Feature_ID_abbreviation", "Abbreviation"), sep = " ") %>% 
-  dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language",  `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources", everything())
-
-
-df_non_erg %>% 
-  write_tsv(file.path(dir, "HL_comparison.tsv"))
 
 cat("Done with ", dir, ".\n")
 }

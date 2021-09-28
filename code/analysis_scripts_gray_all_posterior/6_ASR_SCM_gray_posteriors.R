@@ -58,13 +58,13 @@ fun_GB_ASR_SCM <- function(feature) {
       nTips_state_0 =  NA,
       nTips_state_1 = NA)
     
-    output <- list(NA, results_df)
+    output <- list(NA, results_df, NA, NA)
     output
   } else{
     
     
     # If I decide to switch back and have unknown tips in, replace ? or missing tips with "0&1" or leave as NA and don't prune
-    result <- phytools::make.simmap(tree = gray_tree_pruned, 
+    result_all_maps <- phytools::make.simmap(tree = gray_tree_pruned, 
                                     x = feature_vec, 
                                     model = "ARD", 
                                     nsim = 3,
@@ -87,8 +87,8 @@ fun_GB_ASR_SCM <- function(feature) {
   }
 }
 
-#for(tree_fn in 1:length(gray_trees_fns)){
-for(tree_fn in 1:3){  
+for(tree_fn in 1:length(gray_trees_fns)){
+#for(tree_fn in 1:3){  
   #tree_fn <- 10
   
   fn_full <- gray_trees_fns[[tree_fn]]

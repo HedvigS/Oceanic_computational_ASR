@@ -1,4 +1,5 @@
 source("01_requirements.R")
+source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
@@ -27,73 +28,6 @@ GB_ASR_RDS_SCM_glottolog <- readRDS("output/glottolog_tree_binary/SCM/GB_SCM_glo
   left_join(value_count_df, by = "Feature_ID") %>% 
   filter(!is.na(ntips_SCM_glottolog))
 
-##########################################  SCM function ##########################################
-
-#Function for getting ancestral states for 4 specific nodes out of scm glottolog
-get_node_positions_SCM <- function(GB_asr_object_SCM){
-
-#GB_asr_object_SCM <- GB_ASR_RDS_SCM_glottolog$content[[1]]
-
-GB_asr_object_scm_SIMMAP_summary <- GB_asr_object_SCM[[1]]
-GB_asr_object_scm_results_df <- GB_asr_object_SCM[[2]]
-
-feature <- GB_asr_object_scm_results_df$Feature_ID
-tree <- GB_asr_object_SCM[[4]]
-
-tip_label_df <- tree$tip.label %>% 
-  as.data.frame() %>% 
-  rename("Glottocode" = ".") 
-
-Polynesian_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "poly1242")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-polynesian_node <- getMRCA(tree, Polynesian_tips)
-
-oceanic_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "ocea1241")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-oceanic_node <- getMRCA(tree, oceanic_tips)
-
-central_oceanic_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "cent2060")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-central_oceanic_node <- getMRCA(tree, central_oceanic_tips)
-
-eastern_polynesian_tips <- tip_label_df %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(str_detect(classification, "east2449")) %>% 
-  dplyr::select(Glottocode) %>% 
-  as.matrix() %>% 
-  as.vector()
-
-eastern_poly_node <- getMRCA(tree, eastern_polynesian_tips)
-
-df_proto_nodes <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian") , Node = c(oceanic_node,  central_oceanic_node,  polynesian_node, eastern_poly_node))
-
-df_lik_anc <-     GB_asr_object_SCM[[1]]$ace %>% 
-  as.data.frame() %>% 
-  rownames_to_column("Node") 
-
-df <- df_proto_nodes %>% 
-  mutate(Node = as.character(Node)) %>% 
-  left_join(df_lik_anc, by = "Node") %>% 
-  mutate(Feature_ID = feature)
-
-cat("I'm done with finding the SCM proto-language states for feature ", feature, " and the glottolog tree.\n", sep = "")
-df
-}
 
 df_lik_anc_SCM_glottolog <- lapply(GB_ASR_RDS_SCM_glottolog$content, get_node_positions_SCM) %>% bind_rows()
 

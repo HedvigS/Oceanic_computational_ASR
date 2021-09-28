@@ -2,8 +2,14 @@ source("01_requirements.R")
 source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
-#the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+  mutate(conflict = "Yes") %>% 
+  rename(Prediction = Value)
+
+HL_findings_sheets <- HL_findings_sheet %>% 
+  full_join(HL_findings_sheet_conflicts)
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
@@ -31,7 +37,7 @@ df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>%
 cat("Done with retreiving the particular states for 4 proto-languages for all for the mcct tree and parsimony.")
 
 
-df <- HL_findings_sheet %>% 
+df <- HL_findings_sheets %>% 
   right_join(df_lik_anc_parsimony_gray, by = c("Feature_ID", "Proto-language")) 
 
 df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$gray_parsimony_prediction == "Present" & df$Prediction == 1, "True Positive",  
