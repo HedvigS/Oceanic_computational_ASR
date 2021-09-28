@@ -3,4 +3,4 @@
 #SBATCH --mem 20G
 #SBATCH -J Hedvig_Oceanic_ASR
 
-./run_entire_project.sh 
+./run_entire_project_mcct.sh
