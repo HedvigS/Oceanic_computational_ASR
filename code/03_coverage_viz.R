@@ -119,7 +119,7 @@ Glottolog_tree_full$tip.label <- glottolog_tree_tip_value_df$Name
 
 x <- glottolog_tree_tip_value_df$tip_value
 
-#Glottolog_tree_full <- compute.brlen(Glottolog_tree_full)
+Glottolog_tree_full <- compute.brlen(Glottolog_tree_full, method = 1)
 
 png(file = "output/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png", width = 8.27, height = 10.69, units = "in", res = 600)
 
