@@ -50,6 +50,7 @@ fun_GB_ASR_Parsimony <- function(feature){
     dplyr::select(Glottocode, {{feature}})
   
   Glottolog_tree_full_pruned <- keep.tip(glottolog_tree_rerooted, to_keep$Glottocode)  
+  Glottolog_tree_full_pruned <- compute.brlen(Glottolog_tree_full_pruned, method = 1)
 
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
 
