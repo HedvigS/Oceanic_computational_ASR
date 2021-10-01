@@ -380,31 +380,9 @@ The Oceanic subgroup covers almost all languages in Remote Oceania, with the exc
 
 Table~\ref{GB_coverage_table} shows the number of languages in the Oceanic subgroup that are covered in the Grambank dataset, and which ones are possible to cover in future. Of all the languages in the subgroup, there are 261 languages that have been documented in descriptive works such that we are able to answer our questionnaire. 241 languages are currently too poorly described for us to include them in the database. As has been discussed before, it is not always possible to fill in all the features for every language. Nineteen of the Oceanic languages that are included to date are less than 50\% completed. This can be due to lack of access to descriptive work, or that the content of the descriptive work doesn't cover the necessary domains in enough detail for our coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information for the languages of the region (including a few non-Oceanic Austronesian languages as well). 
 
-
-\begin{centering}
-\begin{table}[h]
-\caption{{Coverage of Oceanic languages in Grambank (based on Glottolog 4.0 definition of ``Oceanic''.)}}
-\label{GB_coverage_table}
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Coverage} & \textbf{Languages} \\
-\hline
-\textbf{\cellcolor{hedvig_orange!50}{No grammar}} &  247  \\
-\hline
-\textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} & 48 \\
-\hline
-\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} &  20  \\
-\hline
-\textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank}} &  205  \\
-\hline
-\end{tabular}
-\end{table}
-\end{centering}
-
 \begin{sidewaysfigure}
 \centering
-\includegraphics[width=\textwidth]{../code/output/coverages/maps/coverage_map_oceanic.png}
+\includegraphics[width=\textwidth]{../code/output/coverage_plots/maps/coverage_map_oceanic.png}
 \caption{{Map of Oceania, with Oceanic languages coloured for their coverage in Grambank.}}
 \label{GB_austro_coverage}
 \end{sidewaysfigure} %#update
@@ -412,15 +390,35 @@ Table~\ref{GB_coverage_table} shows the number of languages in the Oceanic subgr
 \begin{table}[h]
 \caption{{Table showing coverage of Oceanic languages in Grambank per island group}}
 \label{GB_coverage_table_island_group}
+\centering
+\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
+  \hline
+\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
+  \hline
+ Bismarck & 5 & 0 & 7 & 43 \\ \hline
+ N Coast New Guinea & 77 & 5 & 3 & 19 \\ \hline
+Interior New Guinea & 11 & 1 & 0 & 3 \\ \hline
+ S New Guinea & 36 & 8 & 1 & 21 \\ \hline
+ Solomons and Bougainville & 25 & 1 & 4 & 30 \\ \hline
+ Temotu & 3 & 0 & 2 & 5 \\    \hline
+ Northern Vanuatu & 9 & 0 & 0 & 5 \\ \hline
+Central Vanuatu & 42 & 0 & 1 & 48 \\ \hline
+ Southern Vanuatu & 1 & 0 & 0 & 8 \\ \hline
+ New Caledonia & 18 & 1 & 0 & 14 \\ \hline
+Central Pacific & 11 & 0 & 1 & 33 \\ \hline
+Micronesia & 6 & 0 & 1 & 16 \\ \hline
+\textbf{Total} &\textbf{277}&\textbf{16} &\textbf{20} &\textbf{256} \\  \hline
+\end{tabular}
+
 \end{table}
 
 
 The coverage of Grambank data for the Oceanic subgroup is in general better in the east than in the west. However, since we control for genealogical relatedness through the distance control approach, this is less of a problem for our methodology than if we were using traditional probability sampling.
 
-\subsection{The trees}
-In this study, we will be using both the Maximum Clade Credibility Tree (MCCT) and posterior trees from \citet{grayetal_2009} as well as the tree from Glottolog 
+\subsubsection{The trees}
+In this study, we will be using both the Maximum Clade Credibility Tree (MCCT) and posterior trees from \citet{grayetal_2009} as well as the tree from Glottolog 4.0 \footnote{The tree of Glottolog 4.0 is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. This section outlines the data coverage per tree and 
 
-For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank. For the further Maximum Parsimony analysis, tips representing languages where the data for a particular feature was missing were dropped for the analysis of that feature. For the Maximum Likelihood analysis, the value at such tips was converted to ambiguous. This is necessary because otherwise the rate of change across the different features would not be comparable in the Maximum Likelihood analysis.
+
 
 The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language is included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate languages were reduced to one, and only one dialect per language retained if there was more than one. 
 
@@ -439,6 +437,11 @@ Figure \ref{tree_coverage_oceanic_gray} shows the Grambank coverage of languages
 \caption{\textbf{Tree of Oceanic from Glottolog, with languages coloured for coverage in Grambank.}}
 \label{tree_coverage_oceanic_glottolog}
 \end{figure}
+
+
+For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank. For the further Maximum Parsimony analysis, tips representing languages where the data for a particular feature was missing were dropped for the analysis of that feature. For the Maximum Likelihood analysis, the value at such tips was converted to ambiguous. This is necessary because otherwise the rate of change across the different features would not be comparable in the Maximum Likelihood analysis.
+
+
 
 \subsubsection{Data from historical linguistics on Oceanic proto-language grammar}
 \label{sec:POC_lit_review}
