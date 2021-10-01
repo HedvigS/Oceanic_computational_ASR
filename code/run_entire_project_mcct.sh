@@ -31,7 +31,13 @@ Rscript 02_massage_HL_findings_sheets.R
 ## 3. prep trees
 echo third step, prep trees
 
+FILE=/data/trees/gray_et_al_tree_pruned_newick_mmct.txt
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+    echo "Gray et al 2009 MCCT already exists, won't bother making it."
+else 
 Rscript analysis_scripts_gray_mcct/3_get_gray_tree_mcct.R #pruning tree and changing tip names to glottocodes. removing duplicates and merges dialects
+fi
 
 #to avoid people having to redo the glottolog-tree, i'm asking if the file already exists (I uploaded it to the repos) and if it does it doesn't run the python script.
 
