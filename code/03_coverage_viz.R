@@ -1,7 +1,7 @@
 source("01_requirements.R")
 
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv") %>% 
-  dplyr::select(Glottocode, classification, Name, level, med, Language_level_ID, Longitude, Latitude) %>% 
+  dplyr::select(Glottocode, classification, Name, level, med, Language_level_ID, Longitude, Latitude, Countries) %>% 
   filter(str_detect(classification, "ocea1241")) %>% 
   filter(level == "language") %>% 
   mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))
@@ -28,11 +28,14 @@ glottolog_df_tip_values <- GB_df %>%
   mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "grammar exists (not in GB, yet)", tip_value)) %>% 
   mutate(tip_value = if_else(!str_detect(med, "grammar") & is.na(tip_value), "grammar doesn't exist", tip_value)) %>% 
   mutate(tip_color = if_else(tip_value == "More than half of features covered in GB", "#0b8c1f", "NA")) %>% 
- mutate(tip_color = if_else(tip_value == "Less than half of features covered in GB", "#81f093", tip_color)) %>% 
-  mutate(tip_color = if_else(tip_value == "grammar exists (not in GB, yet)", "#DA33FF", tip_color)) %>% 
-  mutate(tip_color = if_else(tip_value == "grammar doesn't exist", "#e0421b", tip_color))
-
-color_vector <- c( "#e0421b", "#DA33FF", "#81f093","#0b8c1f")
+ mutate(tip_color = if_else(tip_value == "Less than half of features covered in GB", "#81F093", tip_color)) %>% 
+  mutate(tip_color = if_else(tip_value == "grammar exists (not in GB, yet)", "#7D81F5", tip_color)) %>% 
+  mutate(tip_color = if_else(tip_value == "grammar doesn't exist", "#FFB87A", tip_color)) %>% 
+  filter(Glottocode != "poly1242") %>% #remove proto-languages to reduce confusion 
+  filter(Glottocode != "east2449") %>% 
+  filter(Glottocode != "cent2060") 
+  
+color_vector <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
 
 ###COVERAGE PLOT: MAP
 
@@ -133,10 +136,22 @@ add.simmap.legend(colors=colors,
                   vertical=T,
                   x=-11.5,
                   y=-10.1,prompt=F)
-#colors<-sapply(x,function(x,y) y[which(names(y)==x)], y=colors)
-#tt<-gsub("_"," ",tree_pruned_Oceanic$tip.label)
-#text(lastPP$xx[1:length(tt)],lastPP$yy[1:length(tt)], tt,cex=0.6,col=colors,pos=4,offset=0.1 , font = 2)
-
 title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.4-tree)", cex.main = 1, line = 1)
 
 dev.off()
+
+island_groups_df <-   read_tsv("data/island_groups.tsv") %>% 
+  right_join(  glottolog_df_tip_values) 
+
+island_groups_table <- island_groups_df %>% 
+  group_by(`Island group`, tip_value) %>% 
+  summarise(n = n()) %>% 
+  reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
+
+island_groups_table[is.na(island_groups_table)] <- 0
+
+colnames <- island_groups_table %>% colnames()
+
+xtable(island_groups_table, digits = 0)
+
+
