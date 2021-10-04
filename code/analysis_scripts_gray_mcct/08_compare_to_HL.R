@@ -1,10 +1,6 @@
 source("01_requirements.R")
 
-df_glottolog_ml <- read_tsv("output/glottolog_tree_binary/ML/")
-
-
-
-
+df <- read_tsv("output/HL_comparison/mcct/all_reconstructions.tsv")  
 
 #analyzing accuracy taking into account the probability of ML
 Abscence_accuray_melted <- df %>% 
@@ -79,3 +75,21 @@ df_new_preductions_positive <-  df %>%
 
 df_conflict_resolution <- HL_findings_sheet_conflict %>% 
   full_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 
+
+# 
+# df_pruned_erg <- df %>% 
+#   filter(!is.na(Prediction)) %>% 
+#   arrange(`Proto-language`, Feature_ID) %>% 
+#   filter(Feature_ID == "GB409" |
+#            Feature_ID == "GB408" ) %>% 
+#   #      `Feature_ID` == "GB410" |
+#   #     `Feature_ID` == "GB147" )   %>% 
+#   left_join(GB_df_desc) %>% 
+#   separate(Abbreviation, into = c("Feature_ID", "Abbreviation"), sep = " ") %>% 
+#   dplyr::select(Feature_ID, Abbreviation, Question, "Proto-language", `Finding from Historical Linguistics` = Prediction, "Historical Linguistics sources" ,`Parsimony result (Glottolog-tree)`,
+#                 `ML result (Glottolog-tree)` ,
+#                 `Parsimony result (Gray et al 2009-tree)`,
+#                 `ML result (Gray et al 2009-tree)`)
+# 
+# df_pruned_erg %>% 
+#   write_tsv("output/HL_comparison/HL_comparison_erg.tsv")
