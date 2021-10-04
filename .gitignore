@@ -4,6 +4,8 @@
 #r things
 *Rproj*
 *.rds*
+*.pdf
+*.toc
 *Rhist*
 *.Rdata*
 
