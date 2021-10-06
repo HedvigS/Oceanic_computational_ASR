@@ -1,8 +1,14 @@
 # Please run this script first to make sure you have all the necessary packages 
 # installed for running the rest of the scripts in this R project
 
+.libPaths(c("rlib/", .libPaths()))
+
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+
 if (!suppressPackageStartupMessages(require("pacman"))) { 
-  install.packages("pacman") 
+  install.packages("pacman", lib="./rlib/") 
   require("pacman")
   }
 
