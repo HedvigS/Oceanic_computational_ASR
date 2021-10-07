@@ -15,7 +15,6 @@ if (!suppressPackageStartupMessages(require("pacman"))) {
 pacman::p_load(
   tidyverse,
   reshape2,
-  modEvA,
   viridis,
   rlang,
   readODS,
@@ -57,7 +56,6 @@ GenSA,
   xtable,
   broom, 
   sf,
-adephylo,
 #  raster, 
   scales
 )
@@ -104,14 +102,6 @@ if (!dir.exists(file.path("output", "glottolog_tree_binary", "ML"))) { dir.creat
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony", "tree_plots")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
-
-#conservatism dirs
-
-if (!dir.exists(file.path("output", "HL_comparison"))) { dir.create(file.path("output", "HL_comparison")) }
-
-if (!dir.exists(file.path("output", "HL_comparison", "mcct"))) { dir.create(file.path("output", "HL_comparison", "mcct")) }
-
-if (!dir.exists(file.path("output", "HL_comparison", "posteriors"))) { dir.create(file.path("output", "HL_comparison", "posteriors")) }
 
 
 
