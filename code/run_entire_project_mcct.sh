@@ -8,6 +8,7 @@
 
 #Step 1
 echo first step, installing necessary packages
+mkdir rlib
 Rscript 01_requirements.R 
 
 #Step 2
@@ -89,8 +90,8 @@ Rscript 07b_get_ancestral_states_ML_glottolog.R
 #Rscript 07c_get_ancestral_states_SCM_glottolog.R
 
 echo "Gray et al tree (MCCT)"
-Rscript 07a_get_ancestral_states_parsimony_mcct.R
-Rscript 07b_get_ancestral_states_ML_mcct.R
+Rscript analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R
+Rscript analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R
 #Rscrpt 07c_get_ancestral_states_SCM_mcct.R
 
 #echo "zipping up the posterior results"
