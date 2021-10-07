@@ -8,22 +8,7 @@ glottolog_tree <- ape::read.tree(file.path("data", "trees", "glottolog_tree_newi
 
 root_edge <- glottolog_tree$root.edge
 glottolog_tree_rerooted <- castor::root_in_edge(glottolog_tree, root_edge)
-# 
-# df_rerotted_disstips <-glottolog_tree_rerooted %>% distTips(method = "patristic") %>% 
-#   as.matrix() %>% 
-#   reshape2::melt() %>% 
-#   rename(reroot_dists = value)
-# 
-# df_first_rott_disstips <-glottolog_tree %>% distTips(method = "patristic") %>% 
-#   as.matrix() %>% 
-#   reshape2::melt() %>% 
-#   rename(first_root_dists = value)
-# 
-# df_combined <- df_rerotted_disstips %>% full_join(df_first_rott_disstips)
-# 
-# df_combined %>% 
-#   ggplot() +
-#   geom_point(aes(x = reroot_dists, y = first_root_dists))
+
 
 #reading in GB
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
