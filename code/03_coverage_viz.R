@@ -130,7 +130,7 @@ lapply(X = as.character(GB_df_desc$ID), map_feature_distribution)
 gray_tree_tip_value_df <- gray_tree$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  left_join(glottolog_df_tip_values) 
+  left_join(glottolog_df_tip_values, by = "Glottocode") 
 
 gray_tree$tip.label <- gray_tree_tip_value_df$Name
 
@@ -192,8 +192,25 @@ island_groups_table <- island_groups_df %>%
 
 island_groups_table[is.na(island_groups_table)] <- 0
 
-colnames <- island_groups_table %>% colnames()
+island_groups_table <-   island_groups_table %>% 
+  janitor::adorn_totals("row") %>% 
+  column_to_rownames("Island group")
 
 xtable(island_groups_table, digits = 0)
+
+#summary table for gray et all tree tips
+island_groups_table_gray <- gray_tree_tip_value_df %>% 
+  left_join(island_groups_df) %>%
+  group_by(`Island group`, tip_value) %>% 
+  summarise(n = n()) %>% 
+  reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
+
+island_groups_table_gray[is.na(island_groups_table_gray)] <- 0
+
+island_groups_table_gray <-   island_groups_table_gray %>% 
+  janitor::adorn_totals("row") %>% 
+  column_to_rownames("Island group")
+
+xtable(island_groups_table_gray, digits = 0)
 
 
