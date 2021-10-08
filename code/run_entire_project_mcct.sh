@@ -8,7 +8,6 @@
 
 #Step 1
 echo first step, installing necessary packages
-mkdir rlib
 Rscript 01_requirements.R 
 
 #Step 2
