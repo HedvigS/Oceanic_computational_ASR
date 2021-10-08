@@ -119,27 +119,6 @@ plot_title <- GB_df_desc %>%
 lapply(X = as.character(GB_df_desc$ID), map_feature_distribution)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###COVERAGE PLOT: TREES
 
 ##Gray et al
