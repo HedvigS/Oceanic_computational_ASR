@@ -15,25 +15,25 @@ if (!suppressPackageStartupMessages(require("pacman"))) {
 pacman::p_load(
   tidyverse,
   reshape2,
-  viridis,
-  rlang,
+#  viridis,
+#  rlang,
   readODS,
 #  lazyeval,
-  gplots,
-  MASS, 
-  ggridges,
+#  gplots,
+ # MASS, 
+#  ggridges,
   ggplot2,
-  ggthemes,
-  readxl,
-  glue,
-  broom, 
-  ggrepel,
+#  ggthemes,
+#  readxl,
+# glue,
+#  broom, 
+#  ggrepel,
   jsonlite, #reading json files
-  ggpubr,
+#  ggpubr,
 #  psych,
 #  fuzzyjoin,
 #  infotheo,
-  rlist,
+#  rlist,
   data.table,
 
     #making maps
@@ -51,10 +51,10 @@ pacman::p_load(
   phytools,
 #  nloptr, 
 #  GenSA,
-  #phangorn, #for acctran
+  phangorn, #for acctran and dep of phytools
   xtable,
   broom, 
-  sf,
+#  sf,
 #  raster, 
   scales
 )
