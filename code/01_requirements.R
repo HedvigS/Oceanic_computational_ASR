@@ -58,7 +58,8 @@ pacman::p_load(
   broom, 
 #  sf,
 #  raster, 
-  scales
+  scales, 
+janitor
 )
 
 
@@ -74,6 +75,9 @@ if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
 #quieting down tidyverse
 options(tidyverse.quiet = TRUE)
 options(readr.show_col_types = FALSE)
+
+#setting options for graphics (necessary for the cluster)
+options(bitmapType='cairo')
 
 #setting up cut-off numbers for tree tips
 
