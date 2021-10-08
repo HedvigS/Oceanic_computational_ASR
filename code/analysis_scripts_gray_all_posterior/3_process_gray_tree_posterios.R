@@ -12,6 +12,8 @@ Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn,"phylogenies/gray_et_a
 
 Gray_et_al_trees <- read.nexus(Gray_et_al_trees_fn)
 
+Gray_et_al_trees <- sample(Gray_et_al_trees, size=100)
+
 #reading in taxa data
 taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>% 
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere 
@@ -26,7 +28,7 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
   dplyr::select(Glottocode, Language_level_ID, level, classification) 
 
 ##remove duplicates manually
-# For each set of tips which have the same glottocode or are dialects of the same languagaes (and are in GB and in the Oceanic subbgranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed within the different dialect clusters.
+# For each set of tips which have the same glottocode or are dialects of the same languages (and are in GB and in the Oceanic subbranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed within the different dialect clusters.
 dup_to_remove <- c("Sisingga", 
                    "Carolinian",
                    "Futuna", 
