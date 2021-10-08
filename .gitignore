@@ -3,6 +3,7 @@
 
 #r things
 *Rproj*
+*rlib*
 *.rds*
 *.pdf*
 *.toc*
