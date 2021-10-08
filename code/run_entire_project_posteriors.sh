@@ -1,10 +1,7 @@
 #!/bin/bash
 #SBATCH --cpus-per-task 15
 #SBATCH --mem 20G
-#SBATCH -J Hedvig_Oceanic_ASR_mcct
-
-##1w:code skirgard$ chmod 755 run_entire_project_mcct.sh 
-##lingn01w:code skirgard$ ./run_entire_project_mcct.sh 
+#SBATCH -J Hedvig_Oceanic_ASR_posteriors
 
 #Step 1
 echo first step, installing necessary packages
@@ -38,12 +35,12 @@ fi
 ## 3. prep trees
 echo third step, prep trees
 
-FILE=data/trees/gray_et_al_tree_pruned_newick_mmct.txt
+FILE=data/trees/gray_et_al_2009_posterior_trees_pruned/gray_et_al_2009_posterior_tree_pruned_1.txt
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
-    echo "Gray et al 2009 MCCT already exists, won't bother making it."
+    echo "Gray et al 2009 posterior trees already exists, won't bother making them."
 else 
-Rscript analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R #pruning tree and changing tip names to glottocodes. removing duplicates and merges dialects
+Rscript analysis_scripts_gray_all_posterior/03_process_gray_tree_posterios.R
 fi
 
 #to avoid people having to redo the glottolog-tree, i'm asking if the file already exists (I uploaded it to the repos) and if it does it doesn't run the python script.
@@ -64,7 +61,7 @@ Rscript 03_coverage_viz.R
 
 echo fourth step, run the max parsimony ancestral state reconstruction analysis on the glottolog tree and the MCCT tree from Gray et al 2009.
 
-Rscript analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mmct.R
+Rscript analysis_scripts_gray_all_posterior/04_ASR_parsimony_gray_posteriors.R
 Rscript 04_ASR_parsimony_glottolog.R
 
 ## 5 run ASR analysis - Maximum Likelihood
@@ -72,7 +69,7 @@ Rscript 04_ASR_parsimony_glottolog.R
 #step_5: max_likelihood
 
 echo "fifth step, run the max liklihood (marginal) ancestral state reconstruction analysis  on the glottolog tree and the MCCT tree from Gray et al 2009."
-Rscript analysis_scripts_gray_mcct/05_ASR_ML_gray_mcct.R
+Rscript analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R
 Rscript 05_ASR_ML_glottolog.R
 
 ## 6 run ASR analysis - SIMMAP
@@ -88,17 +85,15 @@ Rscript 07a_get_ancestral_states_parsimony_glottolog.R
 Rscript 07b_get_ancestral_states_ML_glottolog.R
 #Rscript 07c_get_ancestral_states_SCM_glottolog.R
 
-echo "Gray et al tree (MCCT)"
-Rscript analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R
-Rscript analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R
-#Rscrpt 07c_get_ancestral_states_SCM_mcct.R
+echo "Gray et al posterior trees"
+Rscript analysis_scripts_gray_all_posterior/07a_get_ancestral_states_parsimony_gray_posteriors.R
+Rscript analysis_scripts_gray_all_posterior/07b_get_ancestral_states_ML_gray_posteriors.R
 
+echo "zipping up the posterior results"
+tar czfv parsimony_posteriors.tar.gz output/gray_et_al_2009/parsimony/results_by_tree
+tar czfv ML_posteriors.tar.gz output/gray_et_al_2009/ML/results_by_tree
 
-echo "I'm all finished with the MCCT analysis!"
-#echo "zipping up the posterior results"
-#tar czfv parsimony_posteriors.tar.gz output/gray_et_al_2009/parsimony/results_by_tree
-#tar czfv ML_posteriors.tar.gz output/gray_et_al_2009/ML/results_by_tree
-
+echo "I'm all finished with the posterior analysis!"
 ## 8 compare to HL
 
 #echo eigth step, compate to classical historical linguistics
