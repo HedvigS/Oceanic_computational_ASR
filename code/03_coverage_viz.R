@@ -70,6 +70,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
   xlim(c(110, 255)) +
   ylim(c(-56, 27))
 
+png("output/coverage_plots/maps/coverage_map_oceanic.png", height = 8, width = 15)
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
@@ -79,7 +80,7 @@ basemap +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
-ggsave("output/coverage_plots/maps/coverage_map_oceanic.png", height = 8, width = 15)
+dev.off()
 
 
 ###Maps per feature
@@ -104,15 +105,18 @@ plot_title <- GB_df_desc %>%
     mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, "_", " ")) %>% 
     as.matrix() %>% 
     as.vector()
-  
+
+FN <- paste0("output/coverage_plots/maps/map_", feature, ".png")
+
+png(FN,  height = 5, width = 7 )
+
   basemap + 
     geom_jitter(data = df_for_plot, aes(x=Longitude, y=Latitude, fill = Value),  size = 1.5 , alpha = 0.8, shape = 21, stroke = 0.2) +
     scale_discrete_manual(aesthetics = "fill", values = color_vector) +
     ggtitle(plot_title) +
     theme(legend.title = element_blank())
-  
-  FN <- paste0("output/coverage_plots/maps/map_", feature, ".png")
-  ggsave(FN,  height = 5, width = 7 )
+
+    dev.off()
   cat("Done with map plot for", feature, ".\n")
 }
 
