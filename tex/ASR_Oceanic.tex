@@ -120,7 +120,7 @@ Linguistic history offers us a unique and insightful window into our human past.
 
 In recent years, linguists have applied methods from biology to the reconstruction of linguistic history. Biologist have, similarly to linguists, been interested in inferring trees, previous states and the tempo and mode of evolution. <insert bit from simon about how they borrowed trees back and forth>. Examples of linguists who have borrowed from these methods are for example \citet{jager2018using} and \citet{carling2021reconstructing}. 
 
-Computational approaches to reconstruction not only allows us to effectivize the process by inferring the prior states of thousands of features or cognates in a short span of time, but it also allows us to apply exactly the same well-defined principles in exactly the same way. This is much harder to do manually, since different scholars may use slightly different parameters and principles when applying the Comparative Method. This paper addresses the methodologies of reconstruction of states of proto-languages by comparing results from classical historical linguistics, carried out by the Comparative Method, and three computational approaches (Maximum Parsimony, Marginal Maximal Likelihood and Stochastic Character Mapping). Through comparing them, we can learn which one is most similar to classical historical linguistics and what further insights we can learn from that by looking at features that haven't yet been studied by 
+Computational approaches to reconstruction not only allows us to effectivize the process by inferring the prior states of thousands of features or cognates in a short span of time, but it also allows us to apply exactly the same well-defined principles in exactly the same way. This is much harder to do manually, since different scholars may use slightly different parameters and principles when applying the Comparative Method. This paper addresses the methodologies of reconstruction of states of proto-languages by comparing results from classical historical linguistics, carried out by the Comparative Method, and two computational approaches (Maximum Parsimony and Maximal Likelihood). Through comparing them, we can learn which one is most similar to classical historical linguistics and what further insights we can learn from that by looking at features that haven't yet been studied by 
 
 These approaches are applied to the Oceanic language subgroup of the Austronesian family using the Grambank dataset \citep{grambankwebsite} and two published trees of Oceanic, Glottolog 4.0 and \citet{grayetal_2009}. Findings from the historical linguistics literature have been translated into datapoints in the Grambank format for four proto-languages: Proto-Oceanic, Proto-Central Pacific, Proto-Polynesian and Proto-Eastern Polynesian. The computation methods are supplied with the language-level data points in the Oceanic subgroups, and the inferred grammatical states of these four proto-languages are extracted for each tree and method and compared to the coding from classical historical linguistics.
 
@@ -157,7 +157,7 @@ The Comparative Method in historical linguistics relies on knowledge of probable
 
 %\footnote{In order to estimate what semantic shifts are reasonable, linguists can study colexifications in contemporary languages. These are instances of different meanings that are expressed by the same word. In the Database of Cross-Linguistic Colexifications (CLICS), users can explore clusters of colexifications, for example: the concept ``sun'' is more closely linked to ``day (not night)'' than it is linked to ``name'' ) \cite{list2018clics2}.}
 
-Reconstruction of words, phonemes and grammatical features of proto-languages is in historical linguistics guided by three principles (c.f. \citet[17-22]{clark1976aspects}):
+Reconstruction of words, phonemes and grammatical features of proto-languages is in historical linguistics guided by three principles \citep[17-22]{clark1976aspects}:
 
 \begin{enumerate}[label=(\roman*)]
 \item number of changes posited
@@ -165,9 +165,9 @@ Reconstruction of words, phonemes and grammatical features of proto-languages is
 \item plausibility of the changes posited
 \end{enumerate}
 
-The first of these principles is the same as what is known in phylogenetics as ``Maximum Parsimony''. The idea is to reconstruct states in proto-languages such that there are as few changes as possible in the entire tree. \citet[17-22]{clark1976aspects} explains how this works by positing an example of seven languages where there is a majority of one feature, X, and fewer of another, Y (Fig.~\ref{fig:clark_tree}). However, upon knowing the tree structure by which these languages are related and applying Maximum Parsimony, we should still reconstruct Y for the proto-node . There are three subgroups of this tree that attach directly to the root, two of which only consists of one language each and the other which has five member languages. Despite the majority of the values at the tips of the tree (the languages) being ``X'', the appropriate reconstruction for the root (the proto-language), according to Clark and the Maximum Parsimony approach, is ``Y''. This is the most parsimonious reconstruction since it would only posit one change along the tree (just before the subgroup "PC-G"). Positing ``X'' at the root would mean positing two changes in order to get to the known states of the tips. 
+The first of these principles is the same as what is known in phylogenetics as reconstruction by ``Maximum Parsimony''. The idea is to reconstruct states in proto-languages such that there are as few changes as possible in the entire tree. \citet[17-22]{clark1976aspects} explains how this works by positing an example of seven languages where there is a majority of one feature, X, and fewer of another, Y (Fig.~\ref{fig:clark_tree}). However, upon knowing the tree structure by which these languages are related and applying Maximum Parsimony, we should still reconstruct Y for the proto-node. There are three subgroups of this tree that attach directly to the root, two of which only consists of one language each and the other which has five member languages. Despite the majority of the values at the tips of the tree (the languages) being ``X'', the appropriate reconstruction for the root (the proto-language), according to Clark and the Maximum Parsimony approach, is ``Y''. This is the most parsimonious reconstruction since it would only posit one change along the tree (just before the subgroup "PC-G"). Positing ``X'' at the root would mean positing two changes in order to get to the known states of the tips. 
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[width=8cm]{illustrations/Clark_1977_tree.png}
 \caption{{Tree from \citet[19]{clark1976aspects} illustrating Maximum Parsimony.}}
@@ -260,7 +260,7 @@ In contrast, the corresponding feature in Grambank is `GB022: \emph{Are there pr
 
 \begin{figure}
 \centering
-\includegraphics[width=12cm]{illustrations/plots_from_R/map_GB022.png}
+\includegraphics[width=20cm]{../code/output/coverage_plots/maps/map_GB022.png}
 \caption{{Map of Austronesian languages for GB022 \emph{Are there prenominal articles?} Yellow = "yes", purple = "no".}}
 \label{fig:gb022_map}
 \end{figure}
@@ -290,25 +290,26 @@ In summary, the comparative method of historical linguistics involves Maximum Pa
 \subsection{Computational phylogenetic methods}
 \label{sec:asr_methods}
 
-In this study, we will be reconstructing the presence or absence of structural features in Proto-Oceanic using Maximum Parsimony, Maximum Likelihood and Stochastic Character mapping. This section gives a brief overview of the methods, further technical details concerning the precise application can be found in the supplementary material \ref{supp:tech_details}. For an extensive comparison of different methods of ancestral state reconstruction and their advantages, see \citet{joy2016ancestral}.
+In this study, we will be reconstructing the presence or absence of structural features in proto-languages of the Oceanic subgroup using Maximum Parsimony and Maximum Likelihood. This section gives a brief overview of the methods, further technical details concerning the precise application can be found in the supplementary material \ref{supp:tech_details}. For an extensive comparison of different methods of ancestral state reconstruction and their advantages, see \citet{joy2016ancestral}.
 
-As discussed earlier in section \ref{sec:ars:metod:hist}, \textbf{Maximum Parsimony} finds the set of ancestral states that result in the fewest number of changes per node. Maximum Parsimony is intuitively simple. We saw in the previous section an example of how it can play out in a small tree. While the principle of ``Maximum Parsimony'' is practiced in traditional historical linguistics as a part of the Comparative Method, it should be noted that they rarely use the term but rather the description of ``fewest number of changes along the tree''.
+As discussed earlier in section \ref{sec:ars:metod:hist}, \textbf{Maximum Parsimony} finds the set of ancestral states that result in the fewest number of changes per node. Maximum Parsimony is intuitively simple. We saw in the previous section an example of how it can play out in a small tree. While the principle of ``Maximum Parsimony'' is practiced in traditional historical linguistics as a part of the Comparative Method, it should be noted that they rarely use the term \emph{per se} but rather the description of ``fewest number of changes along the tree'' (along with the other two principle of plausbility of the reconstructed language and of the changes).
 
-Maximum Parsimony may be simple and intuitive, but it is not without its critique. Part of the critique is that it does not take into account branch lengths in the tree (the distance between splitting events), only the change from one node to another. Furthermore, Maximum Parsimony necessarily assumes that the solution that posits the slowest possible rate of change is the most probable one. This is not necessarily a valid assumption, some features may evolve at a faster rate than Maximum Parsimony predicts.
+Maximum Parsimony may be simple and intuitive, but it is not without its critique. Part of the critique is that it does not take into account branch lengths in the tree (the distance between splitting events). Furthermore, Maximum Parsimony necessarily assumes that the solution that posits the slowest possible rate of change is also the most probable one. This is not necessarily a valid assumption, some features may evolve at a faster rate than Maximum Parsimony predicts. Both of these disadvantages are addressed in the second method we will be applying, Maximum Likelihood.
 
-The second method which will be applied in this study is that of \textbf{Maximum Likelihood}. Ancestral state reconstruction using Maximum Likelihood posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different profiles, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing unknown ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions differently given branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximal Likelihood allows us to use a model of change where we do not assume that the rates of changes are the same for a loss (1$\rightarrow$0) as for a gain (0$\rightarrow$ 1). In this case, we are using an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different. 
+%The second method which will be applied in this study is that of \textbf{Maximum Likelihood}. 
+Ancestral state reconstruction using Maximum Likelihood posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different profiles, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing unknown ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions based on branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximal Likelihood allows us to use a model of change where we do not assume that the rates for losses (1$\rightarrow$0) are euqal to the rate of gains (0$\rightarrow$ 1). In this case, we use an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different. 
 
-It is not possible for the computational implementation of Maximum Parsimony to take into account branch lengths, assume anything but the slowest rate of change or posit different rates for gain and loss. It is however possible that the Comparative Method in historical linguistics estimates something similar when they take into account the ``plausibility of the changes posited''. It is possible that scholars of historical linguistics take length of time into account, for example, or assume that a loss is more likely than a gain for a given feature. However, these assumptions are often not made explicit. In this study, we compare Maximum Parsimony and Maximal likelihood reconstructions to the Comparative Method. If the results from the Comparative Method are more similar to that of Maximum Likelihood then that is is possible that the ``plausibility of changes posited'' is indeed operating along similar lines as Maximum Likelihood by taking branch length into account and assuming varying rates of change.
+It is not possible for the computational implementation of Maximum Parsimony to take into account branch lengths, nor can it assume anything but the slowest rate of change or posit different rates for losses and gains. It is however possible that the Comparative Method in historical linguistics estimates something similar when they take into account the ``plausibility of the changes posited''. It is possible that scholars of historical linguistics take length of time into account, for example, or assume that a loss is more likely than a gain for a given feature. However, these assumptions are often not made explicit. In this study, we compare Maximum Parsimony and Maximal likelihood reconstructions to the Comparative Method. If the results from the Comparative Method are more similar to that of Maximum Likelihood then that is is possible that the ``plausibility of changes posited'' is indeed operating along similar lines as Maximum Likelihood by taking branch length into account and assuming varying rates of change.
 
 %The third method employed is \textbf{Stochastic Character mapping}. This method was proposed by \citet{huelsenbeck2003stochastic} and is an extension of an approach suggested by \citet{nielsen2002mapping}. 
 
-\citet{jager2018using} compared three different methods of ancestral state reconstruction for lexical data (cognate classes): Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks. They found that reconstructions using Maximum Likelihood performed ``better'', in the sense that it more often predicted the same values as their gold standard than the other two methods. The gold standard consisted of reconstructions by historical linguists, and it should be noted that it is possible that this standard may contain errors as well.
+\citet{jager2018using} compared three different methods of ancestral state reconstruction for lexical data (cognate classes): Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks. They found that reconstructions using Maximum Likelihood performed ``better'', in the sense that it more often predicted the same values as their gold standard compared to the other two methods\footnote{ The gold standard consisted of reconstructions by historical linguists, and it should be noted that it is possible that this standard may contain errors as well.}. 
 
-\citet{jager2018using} describe the general performance of all the computational reconstruction methods they used as ``poor''. They evaluated the methods with F1-scores, which is a harmonic mean of the precision and recall\footnote{Precision is true positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} of the result of each method as compared to the gold standard \citep[133]{van1979information}. 0 is the worst possible score, and 1 the best. The highest F1-score was 0.79 (Austronesian language sample, Maximum Likelihood), and the worst was 0.44 (Indo-European, Minimal Lateral Networks). We will also assess the performance of Maximum Parsimony and Maximum Likelihood with F1-scores and compare to theirs.
+\citet{jager2018using} describe the general performance of all the computational reconstruction methods they used as ``poor''. They evaluated the methods with F1-scores, which is a harmonic mean of the precision and recall\footnote{Precision is true positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} of the result of each method as compared to the gold standard \citep[133]{van1979information}. 0 is the worst possible score, and 1 the best. The highest F1-score was 0.79 (Austronesian language sample, Maximum Likelihood), and the worst was 0.44 (Indo-European, Minimal Lateral Networks). We will also assess the performance of Maximum Parsimony and Maximum Likelihood with F1-scores and compare to their results.
 
 \subsection{Data}
 
-\subsubsection{Data on Oceanic languages from Grambank}
+\subsubsection{The Grambank-dataset}
 \label{asr:sec:GBcoverage}
 
 The data for the study is taken from the Grambank-project \citep{grambankwebsite}. The Grambank dataset consists of 195 structural features which have been coded by a large group of research assistants for over 2,000 languages. This dataset includes 276 Oceanic languages. 
@@ -317,39 +318,21 @@ The data for the study is taken from the Grambank-project \citep{grambankwebsite
 
 %The aim of Grambank is to provide a consistently coded set of structural features of the world's languages for research questions relating to history, complexity and more. The dataset will be published openly. 
  
-The Grambank dataset builds on previous typological work by \citet{dunnetal2005, dunn2008, reesinketal2009, dunnreesink2012} and \citet{ntswebsite}. The Grambank project has a global focus and the aim is to include all languages in the world that are described for their core grammatical structure. 
+%The Grambank dataset builds on previous typological work by \citet{dunnetal2005, dunn2008, reesinketal2009, dunnreesink2012} and \citet{ntswebsite}. The project has a global focus and the aim is to include all languages in the world that are described for their core grammatical structure. 
 
 % In the work by Dunn, Reesink and colleagues, they were particularly focussed on languages of Oceania and Australia and the prehistory of migrations and contact there. The Nijmegen Typological Survey-project \citep{nts2014, ntswebsite} on the other hand was focussed on African languages.
 
-The questionnaire contains 195 questions and covers what are often called the ``core domains'' of traditional grammatical description: word order, possession, negation, tense, aspect, mood, deixis, interrogation, comparatives and more. Features are included in the questionnaire if it is likely that it is possible to answer them for the majority of the world's languages which are at least described in a grammar sketch (approx 4.000 languages). This means that rarer features are not included. For more details on the coding workflow of Grambank, see \citet{slingerland2020coding}
+The questionnaire contains 195 questions and covers what are often called the ``core domains'' of traditional grammatical description: word order, possession, negation, tense, aspect, mood, deixis, interrogation, comparatives and more. Features are included in the questionnaire if it is likely that it is possible to answer them for the majority of the world's languages which are at least described in a grammar sketch (approx 4.000 languages). This means that rarer features are not included. The full questionnaire is found in appendix \ref{Grambank_features}. 
+
+The Grambank dataset is coded by student and research assistants under the supervision of expert linguists. For more details on the coding workflow of Grambank, see \citet{slingerland2020coding}. For further details on the dataset, see Supplementary Material ~\ref{supp:dataset_details}.
 
 %It is crucial in a cross-linguistic survey of this kind that the features are applied consistently across all languages of the sample. Within the Grambank-project, we strive towards a high level of consistency between coders. There are many coders employed and we have established work-flows to ensure that the features are applied consistently across languages. New coders are trained in the workflow and linguistic definitions through collaborative coding. Each feature in the questionnaire is accompanied by a helpful and pragmatic definition in a wiki-page. Each feature is also associated with a ``patron'', an expert linguist assigned to a set of features who has the final word should any further clarification be needed or disagreements arise. There are seven patrons in the project: Alena Witzlack-Makarevich, Harald Hammarström, Hannah Haynie, Jeremy Collins, Jay Latarche, Jakob Lesage and myself. All coders in the project are able to converse with each other and patrons through GitHub, an online platform for project coordination and code collaboration. When we are unable to make a coding decision with sufficient confidence, the data-point is marked as ``?''.
 
-The full questionnaire is found in appendix \ref{Grambank_features}. Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). The dataset does \emph{not} include information on phonological traits. Phonological features can instead found in the associated database PHOIBLE \citep{phoible}.
-
-For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. Table~\ref{GB_example_features} contains examples of features; originally binary, multi-state and binarised multi-state features. The binarization results in a total of 201 features. 
-
-\begin{table}[H]
-\caption{{Examples of Grambank structural features.}}
-\label{GB_example_features}
-\centering
-\begin{tabular}{?p{2cm}?p{2cm}?p{3cm}?p{4cm}?p{2cm}?}
-\hline 
-
-Binary & \textbf{GB058} & \textbf{POSSClassifier} & Are there possessive classifiers? & 1 = Yes, 0 = No\\
-\hline 
-Multistate & \textbf{GB025} &\textbf{DEMOrder} &  What is the order of adnominal demonstrative and noun? & 1) Dem-N, 2) N-Dem, 3) Both \\
-\hline 
-GB025 binarised  & \textbf{GB025a} & \textbf{OrderDEMN} & 	Is the order of adnominal demonstratives and nouns Dem-N?& 1 = Yes, 0 = No\\
-GB025 binarised & \textbf{GB025b} & \textbf{OrderNDEM} &	Is the order of adnominal demonstratives and nouns N-Dem?& 1 = Yes, 0 = No\\
-\hline 
-
-\end{tabular}
-\end{table}
 
 \subsubsection{Data coverage} 
+This study is focussed on the Oceanic subgroup of the Australasian language family. The Oceanic subgroup covers almost all languages in Remote Oceania, with the exceptions of Chamorro and Palauan, and large parts of Near Oceania. Fig.~\ref{Oceanic_map} from \citet[2]{protooceanicvol5} shows the extent of the major subgroups of the Austronesian language family, with Oceanic covering the largest surface area. Following the language classification of Glottolog 4.0 \citep{glottolog40}, there are 522 languages in the Oceanic subgroup.
 
-The Oceanic subgroup covers almost all languages in Remote Oceania, with the exceptions of Chamorro and Palauan, and large parts of Near Oceania. Fig.~\ref{Oceanic_map} from \citet[2]{protooceanicvol5} shows the extent of the major subgroups of the Austronesian language family, with Oceanic covering the largest surface area. For the purposes of this study, we have used the definition of the Oceanic subgroup from Glottolog 4.0 \citep{glottolog40}. This gives a total of 521 Oceanic languages.
+%For the purposes of this study, we have used the definition of the Oceanic subgroup from Glottolog 4.0  This gives a total of 521 Oceanic languages.
 
 \begin{figure}[h]
 \centering
@@ -358,7 +341,33 @@ The Oceanic subgroup covers almost all languages in Remote Oceania, with the exc
 \label{Oceanic_map}
 \end{figure} 
 
-Table~\ref{GB_coverage_table} shows the number of languages in the Oceanic subgroup that are covered in the Grambank dataset, and which ones are possible to cover in future. Of all the languages in the subgroup, there are 261 languages that have been documented in descriptive works such that we are able to answer our questionnaire. 241 languages are currently too poorly described for us to include them in the database. As has been discussed before, it is not always possible to fill in all the features for every language. Nineteen of the Oceanic languages that are included to date are less than 50\% completed. This can be due to lack of access to descriptive work, or that the content of the descriptive work doesn't cover the necessary domains in enough detail for our coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information for the languages of the region (including a few non-Oceanic Austronesian languages as well). 
+Not all languages of the Oceanic subgroup are described grammatically, but out of those that are nearly all are coded for the Grambank typological questionnaire. Table~\ref{GB_coverage_table} shows the coverage of Oceanic languages in the dataset. Of all the languages in the subgroup, there are 261 languages that have been documented in descriptive works such that we are able to answer our questionnaire. 241 languages are currently too poorly described for us to include them in the database. As has been discussed before, it is not always possible to fill in all the features for every language. Nineteen of the Oceanic languages that are included to date are less than 50\% completed. This can be due to lack of access to descriptive work, or that the content of the descriptive work doesn't cover the necessary domains in enough detail for the coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information, with languages coded for their data coverage status.
+
+
+\begin{table}[h]
+\caption{{Table showing coverage of Oceanic languages in Grambank per island group, total Oceanic languages}}
+\label{GB_coverage_table_island_group}
+\centering
+\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
+  \hline
+\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
+  \hline
+Bismarck & 5 & 0 & 7 & 43 \\ 
+  Central Pacific & 11 & 0 & 1 & 33 \\ 
+  Central Vanuatu & 42 & 0 & 1 & 48 \\ 
+  Interior New Guinea & 11 & 1 & 0 & 3 \\ 
+  Micronesia & 6 & 0 & 1 & 16 \\ 
+  N Coast New Guinea & 77 & 5 & 3 & 16 \\ 
+  New Caledonia & 18 & 1 & 0 & 14 \\ 
+  Northern Vanuatu & 9 & 0 & 0 & 5 \\ 
+  S New Guinea & 36 & 8 & 1 & 21 \\ 
+  Solomons and Bougainville & 25 & 1 & 4 & 30 \\ 
+  Southern Vanuatu & 1 & 0 & 0 & 8 \\ 
+  Temotu & 3 & 0 & 2 & 5 \\ 
+  Total & 244 & 16 & 20 & 242 \\   
+\end{tabular}
+
+\end{table}
 
 \begin{sidewaysfigure}
 \centering
@@ -367,132 +376,84 @@ Table~\ref{GB_coverage_table} shows the number of languages in the Oceanic subgr
 \label{GB_austro_coverage}
 \end{sidewaysfigure} %#update
 
-\begin{table}[h]
-\caption{{Table showing coverage of Oceanic languages in Grambank per island group}}
-\label{GB_coverage_table_island_group}
-\centering
-\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
-  \hline
-\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
-  \hline
- Bismarck & 5 & 0 & 7 & 43 \\ \hline
- N Coast New Guinea & 77 & 5 & 3 & 19 \\ \hline
-Interior New Guinea & 11 & 1 & 0 & 3 \\ \hline
- S New Guinea & 36 & 8 & 1 & 21 \\ \hline
- Solomons and Bougainville & 25 & 1 & 4 & 30 \\ \hline
- Temotu & 3 & 0 & 2 & 5 \\    \hline
- Northern Vanuatu & 9 & 0 & 0 & 5 \\ \hline
-Central Vanuatu & 42 & 0 & 1 & 48 \\ \hline
- Southern Vanuatu & 1 & 0 & 0 & 8 \\ \hline
- New Caledonia & 18 & 1 & 0 & 14 \\ \hline
-Central Pacific & 11 & 0 & 1 & 33 \\ \hline
-Micronesia & 6 & 0 & 1 & 16 \\ \hline
-\textbf{Total} &\textbf{277}&\textbf{16} &\textbf{20} &\textbf{256} \\  \hline
-\end{tabular}
+The coverage of Grambank data for the Oceanic subgroup is in general better in the east than in the west. However, since we control for genealogical relatedness through the distance control approach, this is less of a problem for our methodology than if we were using traditional probability sampling (c.f. \citet{ross2004morphosyntactic}).
 
-\end{table}
-
-
-The coverage of Grambank data for the Oceanic subgroup is in general better in the east than in the west. However, since we control for genealogical relatedness through the distance control approach, this is less of a problem for our methodology than if we were using traditional probability sampling.
-
-\subsubsection{The trees}
-In this study, we will be using both the Maximum Clade Credibility Tree (MCCT) and posterior trees from \citet{grayetal_2009} as well as the tree from Glottolog 4.0 \footnote{The tree of Glottolog 4.0 is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. This section outlines the data coverage per tree and 
 
 
 
-The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language is included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate languages were reduced to one, and only one dialect per language retained if there was more than one. 
+\subsubsection{The trees}
+The tree phylogenies used in this study are: a) the Maximum Clade Credibility Tree (MCCT) from \citet{grayetal_2009} b) a random sample of 100 posterior trees from the same source and c) the tree from Glottolog 4.0 \footnote{The tree of Glottolog 4.0 is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. 
 
-Figure \ref{tree_coverage_oceanic_gray} shows the Grambank coverage of languages over the MCCT-tree .
+Figure ~\ref{tree_coverage_oceanic_gray} and Figure ~\ref{tree_coverage_oceanic_glottolog} shows the Grambank coverage of languages over the phylogenies from the Gray et al 2009-MCCT-tree and the Glottolog-tree respectively. 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../code/output/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png}
-\caption{{Tree of Oceanic from \citet{grayetal_2009}, with languages coloured for coverage in Grambank.}}
+\includegraphics[width=\textwidth]{../code/output/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png}
+\caption{{Maximum Clade Credibility Tree of Oceanic from \citet{grayetal_2009}, with languages coloured for coverage in Grambank.}}
 \label{tree_coverage_oceanic_gray}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../code/output/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png}
+\includegraphics[width=\textwidth]{../code/output/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png}
 \caption{\textbf{Tree of Oceanic from Glottolog, with languages coloured for coverage in Grambank.}}
 \label{tree_coverage_oceanic_glottolog}
 \end{figure}
 
+One of the major differences between the trees is that the Glottolog-tree does not contain any information about branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_gray} where the first has varying lengths of branches but the latter all have a uniform length. This has the consequence that some tips in the Glottolog-tree are much further from the root than others. Further technical details of the trees can be found in Supplementary Material ~\ref{supp:tree_details}.
 
-For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank. For the further Maximum Parsimony analysis, tips representing languages where the data for a particular feature was missing were dropped for the analysis of that feature. For the Maximum Likelihood analysis, the value at such tips was converted to ambiguous. This is necessary because otherwise the rate of change across the different features would not be comparable in the Maximum Likelihood analysis.
+The Glottolog-tree contains, per definition, all the languages in the Oceanic subgroup in the Glottolog-dataset. Therefore the coverage per island group that is summarised in table ~\ref{GB_coverage_table_island_group} in the previous section applies to the Glottolog-tree as well. However, the \cite{grayetal_2009}-trees do not contain all Oceanic languages, but rather 155. Out of these 128 also occur in the Grambank dataset. A breakdown of coverage for the\cite{grayetal_2009}-trees per island group is found in table ~\ref{GB_coverage_table_island_group_gray}.
+
+\begin{table}[h]
+\caption{{Table showing coverage of Oceanic languages in Grambank per island group with matches to the Gray et al 2009-tree}}
+\label{GB_coverage_table_island_group_gray}
+\centering
+\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
+  \hline
+\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
+  \hline
+  Central Pacific & 2 & 0 & 1 & 28 \\ 
+  Central Vanuatu & 1 & 0 & 1 & 16 \\ 
+  Interior New Guinea & 0 & 0 & 0 & 0 \\ 
+  Micronesia & 0 & 0 & 0 & 12 \\ 
+  N Coast New Guinea & 6 & 2 & 2 & 3 \\ 
+  New Caledonia & 1 & 0 & 0 & 5 \\ 
+  Northern Vanuatu & 0 & 0 & 0 & 2 \\ 
+  S New Guinea & 5 & 3 & 0 & 5 \\ 
+  Solomons and Bougainville & 4 & 0 & 3 & 17 \\ 
+  Southern Vanuatu & 0 & 0 & 0 & 6 \\ 
+  Temotu & 3 & 0 & 1 & 5 \\ 
+  Total & 22 & 5 & 10 & 118 \\ 
+\end{tabular}
+\end{table}
+
+Finally, we are also using a sample of the posterior trees from \cite{grayetal_2009}. Their study yielded 4,200 posterior trees. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{illustrations/gray_et_al_2009_100_sample_densitree.png}
+\caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior.}}
+\label{densitree_plot}
+\end{figure}
+
+
 
 
 
 \subsubsection{Data from historical linguistics on Oceanic proto-language grammar}
 \label{sec:POC_lit_review}
 
-The Proto-language of the Oceanic subbranch of the Austronesian language family is well researched in terms of its lexicon and phonology (see the book series on the Proto-Oceanic lexicon \citep{protooceanicvol1, protooceanicvol2, protooceanicvol3, protooceanicvol4, protooceanicvol5}, among other publications). There is also substantial work done on the grammar of Proto-Oceanic using the comparative method in historical linguistics. In this chapter I have summarised several major works in the field and distilled their research into testable hypotheses given the Grambank data and our methods. This section gives an overview of the works included and examples of how they have been incorporated into the study. Table~\ref{HL_prediction_table_summary} lists the publications used for the reconstruction of proto-Oceanic by historical linguists in this dissertation. This aggregated reconstruction is also used in paper \ref{paper_distances}.
+The proto-languages of the Oceanic subbranch of the Austronesian language family are generally well researched in terms of their lexicon and phonology (see the book series on the Proto-Oceanic lexicon \citep{protooceanicvol1, protooceanicvol2, protooceanicvol3, protooceanicvol4, protooceanicvol5}, among other publications). There is also substantial work done on the grammar of Proto-Oceanic using the comparative method in historical linguistics. In this chapter I have summarised several major works in the field and distilled their research into testable hypotheses given the Grambank data and our methods. This section gives an overview of the works included and examples of how they have been incorporated into the study. Table~\ref{HL_prediction_table_summary} lists the publications used for the reconstruction of proto-Oceanic by historical linguists in this dissertation. 
 
-\begin{longtable}{|p{3cm}|  p{5cm}| p{4cm} | p{3cm}  | p{3cm} |}
-\caption{{Table of historical linguistics publications used in this dissertation for Proto-Oceanic grammar}}
-\label{HL_prediction_table_summary} \\
-\hline
-\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
-\endfirsthead
-
-\hline
-\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
-\endhead
+13
 
 
-\citet{pawley1970change} & Grammatical reconstruction and change on Polynesia and Fiji & Proto-Central Pacific  &Verbal markers and aspect particles \\ \hline
 
-\citet{pawley1973some} & Some problems in Proto-Oceanic & Proto-Oceanic and Proto-Polynesian  & Possession, noun phrase marking, negation, verbal markers, clusivity, word order  \\ \hline
-
-\citet{clark1976aspects} & Aspects of Proto-Polynesian syntax & Proto-Oceanic and Proto-Polynesian  & Alignment, negation, word order, possession, noun phrase marking, voice \\ \hline
-
-\citet{chung1978}  & Case marking and grammatical relations in Polynesian languages & Proto-Polynesian  & Alignment, word order, voice, noun phrase marking \\ \hline
-
-\citet{crowley1985common}  & Common noun phrase marking in Proto-Oceanic & Proto-Oceanic &  noun phrase marking, clusivity  \\ \hline
-
-\citet{jonsson1998} & Det polynesiska verbmorfemet \emph{-Cia}; om dess funktion i Samoanska & Proto-Polynesian & Verbal marker \\ \hline
-
-\citet{marck2000_encyclo} & Polynesian languages (in Facts About the World's Languages: An encyclopaedia of the world's major languages, past and present)& Proto-Central Pacific and Proto-Polynesian & Word order, verbal markers, possession, clusivity \\ \hline
-
-\citet{evans2003study} & A study of valency-changing devices in Proto Oceanic & Proto-Oceanic & Verbal markers \\ \hline
-
-\citet{ball2007ergativity} & On ergativity and accusativity in Proto-Polynesian and proto-Central Pacific&Proto-Polynesian & Alignment, voice \\ \hline
-
-\citet{kikusawa2001rotuman} & Rotuman and Fijian case-marking strategies and their historical development  & Proto-Oceanic & Possession, pronominal number \\ \hline
-
-\citet{kikusawa2002proto}  & Proto Central Pacific ergativity: Its reconstruction and development in the Fijian, Rotuman and Polynesian languages & Proto-Central Pacific   & Alignment, word order \\ \hline
-
-\citet{lynchrosscrowley_proto_grammar_oceanic} & The Oceanic Languages, paper 4: Proto-Oceanic & Proto-Oceanic, Proto-Central Pacific and Proto-Polynesian & Negation, word order, verbal markers, clusivity, possession, pronominal number, polar interrogation, nominalisations and more \\ \hline
-
-\citet{ross2004morphosyntactic}\footnote{This paper makes statements about ``canonical'' Oceanic languages, which is technically different from \emph{reconstruction} of Proto-Oceanic. However, the author does state that the ``canonic type is probably also a reflection of the morphosyntax of Proto Oceanic'' \citep[492]{ross2004morphosyntactic} and has given personal approval for the paper to be included in this study in this manner.}  & The morphosyntactic typology of Oceanic languages &  Proto-Oceanic and Proto-Polynesian  & alignment, word order, verbal markers, possession, noun phrase marking \\ \hline
-\end{longtable}
-
-For each of these publications, findings have been extracted that support a certain state of a Grambank feature at a certain node. For example, \citet[4]{marck2000_encyclo} writes that a causative prefix has been reconstructed for Proto-Polynesian (\emph{*faka-}). In the Grambank questionnaire we have the feature GB155 `\emph{Are causatives formed by affixes or clitics on verbs?}'. For the ancestral node that connects all the Polynesian languages, we should expect that for GB155 the state is either wholly or overwhelmingly ``yes'' (presence). For simplicity, I have only considered four ancestral languages: Proto-Oceanic, Proto-Central Pacific, Proto-Polynesian and Proto-Eastern Polynesian. The choice to focus on these four in particular was because they were the most well-researched in the literature. 
+For each of these publications, findings have been extracted that support a certain state of a Grambank feature at a certain node. For example, \citet[4]{marck2000_encyclo} writes that a causative prefix has been reconstructed for Proto-Polynesian (\emph{*faka-}). In the Grambank questionnaire we have the feature GB155 `\emph{Are causatives formed by affixes or clitics on verbs?}'. For the ancestral node that connects all the Polynesian languages, we should expect that for GB155 the state is either wholly or overwhelmingly ``1'' (yes/presence). For simplicity, I have only considered four ancestral languages: Proto-Oceanic, Proto-Central Pacific, Proto-Polynesian and Proto-Eastern Polynesian. The choice to focus on these four in particular was based on the fact that they are the most well-researched proto-languages in the literature. 
 
 %For example,  (an ancestral language of Rotuman and Fijian separately from  Polynesian, Samoan and Northern Outliers excluding Eastern Polynesian). 
 
-Another example of how information in the publications was turned into Grambank feature predictions relates to verbal markers encoding subjects and objects, as proposed by \citet{lynchrosscrowley_proto_grammar_oceanic} among others. In their book, there is a paper on reconstructions of grammar for Proto-Oceanic and in the section on the basic verb phrase we find the statement below:
-
-\begin{quotation}
-\noindent\emph{Attached to the verb root were a subject proclitic and, if the verb had a non-generic object, an object enclitic.} \end{quotation} \begin{flushright} \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \end{flushright}
-
-This statement, together with a verb schema provided in the section, support the notion that Proto-Oceanic had subject proclitics and object enclitics. We can also infer from this publication as a whole that the authors believe Proto-Oceanic in fact did \emph{not} have subject \emph{en}clitics and object \emph{pro}clitics. This second prediction relies on absence of evidence and is less strong than the first, but given that the whole paper is void of any description of object proclitics or subject enclitics being a possibility (including the verb schema) and argument structure is well-discussed, we may dare to make this leap. This information can be translated into the Grambank questionnaire by positing absence and presence for the six relevant features that concern argument marking on the verb (where S stands for subject of intransitive, A for subject of transitive and O for object; see table~\ref{example_HL_prediction_table}).
-
-\begin{table}[H] %one of ste's favourite tables
-\centering
-\caption{Example of predictions from historical linguistics as rendered in Grambank features.}
-\label{example_HL_prediction_table}
-\begin{tabular}{|l| p{3cm}|  p{3cm}| p{3cm} | p{3cm} |}
-\hline
-\textbf{Grambank ID} & \textbf{Question} & \textbf{Proto-language} & \textbf{Expert prediction}& \textbf{Reference} \\ \hline
-GB089  &Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent & \citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
-GB090 &Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}  \\ \hline
-GB091 &Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
-GB092  &Can the A argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}  \\ \hline
-GB093  &Can the P argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
-GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Absent & \citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
-\end{tabular}
-\end{table}
 
 The literature suggests that Proto-Oceanic was a language with a pre-nominal definite/specific article \citep[136]{crowley1985common}, a distinction between inclusive and exclusive first person pronouns (\citet[112]{pawley1973some}, \citet[184]{crowley1985common}, \citet[500]{ross2004morphosyntactic}, \citet[67, 75]{lynchrosscrowley_proto_grammar_oceanic}), no gender distinctions in pronouns \citep[498]{ross2004morphosyntactic}, a dual number category in pronouns (\citet[498]{ross2004morphosyntactic}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic} and \citet[173]{pawley1973some}), a distinction between alienable and inalienable possession\footnote{A distinction can be made between three different kinds of possessive classification: alienable/inalienable, direct/indirect and dominant/inactive. For the purposes of Grambank and this study, these are treated as similar enough to be included into the same category.} \citep[69]{lynchrosscrowley_proto_grammar_oceanic}, prepositions (\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}), subject proclitics and object enclitics on the verb (\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}), possessive suffixes on the possessed noun (\citet[495]{ross2004morphosyntactic}, \citet[155]{pawley1973some}) and a transitivising suffix on verbs (\citet[352]{pawley1970change}, \citet[171]{pawley1973some}, \citet[80, 92]{lynchrosscrowley_proto_grammar_oceanic}). More reconstructions have been made, the full table is found in the appendix \ref{asr_table_appendic}. The reconstructions regarding ergativity will be presented separately.
 
@@ -577,7 +538,7 @@ Many of the features that have been reconstructed for proto-languages of the Oce
 \newpage
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/ML_gray_-GB133.png}
+%\includegraphics[width=\textwidth]{illustrations/plots_from_R/ML_gray_-GB133.png}
 \caption[Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood.]{\textbf{Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood. Yellow = presence, purple = absence.)}}
 \label{GB133_tree_ML_gray}
 \end{figure}
@@ -950,6 +911,105 @@ Concerning missing data generally, for both methods the trees from Glottolog and
 
 For both Maximum Parsimony and Maximum Likelihood it is possible for a structural feature to appear and disappear several times along a lineage. This is different from cognate data where a cognate class cannot re-appear.
 
+\subsection{Further details on the dataset}
+\label{supp:dataset_details}
+Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. Table~\ref{GB_example_features} contains examples of features; originally binary, multi-state and binarised multi-state features. The binarization results in a total of 201 features. 
+
+%The dataset does \emph{not} include information on phonological traits. %Phonological features can instead found in the associated database PHOIBLE \citep{phoible}.
+
+\begin{table}[H]
+\caption{{Examples of Grambank structural features.}}
+\label{GB_example_features}
+\centering
+\begin{tabular}{?p{2cm}?p{2cm}?p{3cm}?p{4cm}?p{2cm}?}
+\hline 
+
+Binary & \textbf{GB058} & \textbf{POSSClassifier} & Are there possessive classifiers? & 1 = Yes, 0 = No\\
+\hline 
+Multistate & \textbf{GB025} &\textbf{DEMOrder} &  What is the order of adnominal demonstrative and noun? & 1) Dem-N, 2) N-Dem, 3) Both \\
+\hline 
+GB025 binarised  & \textbf{GB025a} & \textbf{OrderDEMN} & 	Is the order of adnominal demonstratives and nouns Dem-N?& 1 = Yes, 0 = No\\
+GB025 binarised & \textbf{GB025b} & \textbf{OrderNDEM} &	Is the order of adnominal demonstratives and nouns N-Dem?& 1 = Yes, 0 = No\\
+\hline 
+
+\end{tabular}
+\end{table}
+
+\subsection{Further details on the tree phylogeny}
+\label{supp:tree_details}
+
+The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language is included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate languages were reduced to one, and only one dialect per language retained if there was more than one. 
+
+
+For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank. For the further Maximum Parsimony analysis, tips representing languages where the data for a particular feature was missing were dropped for the analysis of that feature. For the Maximum Likelihood analysis, the value at such tips was converted to ambiguous. This is necessary because otherwise the rate of change across the different features would not be comparable in the Maximum Likelihood analysis.
+
+
+\subsection{Further details on the Grambank coding of proto-languages }
+\label{supp:proto_lg_coding}
+Another example of how information in the publications was turned into Grambank feature coding relates to verbal markers encoding subjects and objects, as proposed by \citet{lynchrosscrowley_proto_grammar_oceanic} among others. In their book, there is a paper on reconstructions of grammar for Proto-Oceanic and in the section on the basic verb phrase we find the statement below:
+
+\begin{quotation}
+\noindent\emph{Attached to the verb root were a subject proclitic and, if the verb had a non-generic object, an object enclitic.} \end{quotation} \begin{flushright} \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \end{flushright}
+
+This statement, together with a verb schema provided in the section, support the notion that Proto-Oceanic had subject proclitics and object enclitics. We can also infer from this publication as a whole that the authors believe Proto-Oceanic in fact did \emph{not} have subject \emph{en}clitics and object \emph{pro}clitics. This second prediction relies on absence of evidence and is less strong than the first, but given that the whole paper is void of any description of object proclitics or subject enclitics being a possibility (including the verb schema) and argument structure is well-discussed, we may dare to make this leap. This information can be translated into the Grambank questionnaire by positing absence and presence for the six relevant features that concern argument marking on the verb (where S stands for subject of intransitive, A for subject of transitive and O for object; see table~\ref{example_HL_prediction_table}).
+
+\begin{table}[H] %one of ste's favourite tables
+\centering
+\caption{Example of predictions from historical linguistics as rendered in Grambank features.}
+\label{example_HL_prediction_table}
+\begin{tabular}{|l| p{3cm}|  p{3cm}| p{3cm} | p{3cm} |}
+\hline
+\textbf{Grambank ID} & \textbf{Question} & \textbf{Proto-language} & \textbf{Expert prediction}& \textbf{Reference} \\ \hline
+GB089  &Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent & \citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
+GB090 &Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}  \\ \hline
+GB091 &Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
+GB092  &Can the A argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}  \\ \hline
+GB093  &Can the P argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
+GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Absent & \citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Table of historical}
+\label{supp:proto_lg_coding_table}
+
+\begin{longtable}{|p{3cm}|  p{5cm}| p{4cm} | p{3cm}  | p{3cm} |}
+\caption{{Table of historical linguistics publications used in this dissertation for Proto-Oceanic grammar}}
+\label{HL_prediction_table_summary} \\
+\hline
+\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
+\endfirsthead
+
+\hline
+\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
+\endhead
+
+
+\citet{pawley1970change} & Grammatical reconstruction and change on Polynesia and Fiji & Proto-Central Pacific  &Verbal markers and aspect particles \\ \hline
+
+\citet{pawley1973some} & Some problems in Proto-Oceanic & Proto-Oceanic and Proto-Polynesian  & Possession, noun phrase marking, negation, verbal markers, clusivity, word order  \\ \hline
+
+\citet{clark1976aspects} & Aspects of Proto-Polynesian syntax & Proto-Oceanic and Proto-Polynesian  & Alignment, negation, word order, possession, noun phrase marking, voice \\ \hline
+
+\citet{chung1978}  & Case marking and grammatical relations in Polynesian languages & Proto-Polynesian  & Alignment, word order, voice, noun phrase marking \\ \hline
+
+\citet{crowley1985common}  & Common noun phrase marking in Proto-Oceanic & Proto-Oceanic &  noun phrase marking, clusivity  \\ \hline
+
+\citet{jonsson1998} & Det polynesiska verbmorfemet \emph{-Cia}; om dess funktion i Samoanska & Proto-Polynesian & Verbal marker \\ \hline
+
+\citet{marck2000_encyclo} & Polynesian languages (in Facts About the World's Languages: An encyclopaedia of the world's major languages, past and present)& Proto-Central Pacific and Proto-Polynesian & Word order, verbal markers, possession, clusivity \\ \hline
+
+\citet{evans2003study} & A study of valency-changing devices in Proto Oceanic & Proto-Oceanic & Verbal markers \\ \hline
+
+\citet{ball2007ergativity} & On ergativity and accusativity in Proto-Polynesian and proto-Central Pacific&Proto-Polynesian & Alignment, voice \\ \hline
+
+\citet{kikusawa2001rotuman} & Rotuman and Fijian case-marking strategies and their historical development  & Proto-Oceanic & Possession, pronominal number \\ \hline
+
+\citet{kikusawa2002proto}  & Proto Central Pacific ergativity: Its reconstruction and development in the Fijian, Rotuman and Polynesian languages & Proto-Central Pacific   & Alignment, word order \\ \hline
+
+\citet{lynchrosscrowley_proto_grammar_oceanic} & The Oceanic Languages, paper 4: Proto-Oceanic & Proto-Oceanic, Proto-Central Pacific and Proto-Polynesian & Negation, word order, verbal markers, clusivity, possession, pronominal number, polar interrogation, nominalisations and more \\ \hline
+
+\citet{ross2004morphosyntactic}\footnote{This paper makes statements about ``canonical'' Oceanic languages, which is technically different from \emph{reconstruction} of Proto-Oceanic. However, the author does state that the ``canonic type is probably also a reflection of the morphosyntax of Proto Oceanic'' \citep[492]{ross2004morphosyntactic} and has given personal approval for the paper to be included in this study in this manner.}  & The morphosyntactic typology of Oceanic languages &  Proto-Oceanic and Proto-Polynesian  & alignment, word order, verbal markers, possession, noun phrase marking \\ \hline
+\end{longtable}
 
 
 
@@ -960,33 +1020,33 @@ We will be using two different trees of Austronesian languages, one from Glottol
 
 We can modify the Glottolog tree so that it is more appropriate for our analysis. I used the functions \texttt{multi2di} and \texttt{compute.brlen} in the R-package \texttt{ape} by \citet{paradis2004ape} to binarise and compute branch lengths respectively. Fig.~\ref{fig:branch_lengths} illustrates the process using languages of the Nuclear Polynesian subgroup in Glottolog. The tree as stored in Glottolog only contains information about subgrouping; there is no data on tree depth and therefore no branch lengths (Fig. \ref{glottolog_example_poly}.). The trees also contain non-binary splits. Fig.~\ref{fig:branch_lengths}a shows a part of this tree . The function \texttt{multi2di} randomly resolves non-binary splits until only binary ones remain, this can be seen in (b). We use Grafen's transform \citep{grafen1989phylogenetic} as implemented in \texttt{ape} to ``pull down'' all tips so that they all have the same length to the root (this is known as an `ultrametric' tree), this can be seen in (c). The final result is accomplished by first binarising the tree and then computing branch lengths (d). 
 
-    \begin{figure}[!ht]
-\centering
-    \begin{subfigure}{0.45\linewidth}
-      \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_multi.png}
-    \caption{Non-binary splits occur, all branches have the same length.}
-    \label{glottolog_example_poly}
-    \end{subfigure}
-\hfil
-    \begin{subfigure}{0.45\linewidth}
-          \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_di.png}
-     \caption{Non-binary splits have been resolved to binary, all branches same length}
-    \end{subfigure}
-
-    \begin{subfigure}{0.45\linewidth}
-     \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_multi.png}
-    \caption{Non-binary splits occur, all branches have been scaled so that the length from the tip to the root is the same}
-    \end{subfigure}
-\hfil
-    \begin{subfigure}{0.45\linewidth}
-      \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_di.png}
-    \caption{First, non-binary splits have been resolved to binary; second, all branches have been scaled so that the length from the tip to the root is the same.}
-    \end{subfigure}
-
-\caption[Four trees of Nuclear Polynesian demonstrating binarisation and imputing branch lengths.]{Four trees of Nuclear Polynesian languages from Glottolog, illustrating the process of binarization and imputing branch lengths.}
-    \label{fig:branch_lengths}
-    \end{figure}
-    
+%    \begin{figure}[!ht]
+%\centering
+%    \begin{subfigure}{0.45\linewidth}
+%      \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_multi.png}
+%    \caption{Non-binary splits occur, all branches have the same length.}
+%    \label{glottolog_example_poly}
+%    \end{subfigure}
+%\hfil
+%    \begin{subfigure}{0.45\linewidth}
+%          \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_di.png}
+%     \caption{Non-binary splits have been resolved to binary, all branches same length}
+%    \end{subfigure}
+%
+%    \begin{subfigure}{0.45\linewidth}
+%     \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_multi.png}
+%    \caption{Non-binary splits occur, all branches have been scaled so that the length from the tip to the root is the same}
+%    \end{subfigure}
+%\hfil
+%    \begin{subfigure}{0.45\linewidth}
+%      \includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_di.png}
+%    \caption{First, non-binary splits have been resolved to binary; second, all branches have been scaled so that the length from the tip to the root is the same.}
+%    \end{subfigure}
+%
+%\caption[Four trees of Nuclear Polynesian demonstrating binarisation and imputing branch lengths.]{Four trees of Nuclear Polynesian languages from Glottolog, illustrating the process of binarization and imputing branch lengths.}
+%    \label{fig:branch_lengths}
+%    \end{figure}
+%    
 Family trees in historical linguistics are often under-specified for branch lengths. For example, the publications that underlie the Glottolog tree (\citet{blust_2009, blust_2014} and \citet{blust_chen_2017}) do not contain information on the relative branch lengths, only which languages are in which subgroup. It has been said that ``linguist don't do dates'' (\citet{mcmahon2006linguists} and \citet{gray2011language}). This reflects the disappointment with early lexicostatistics which included failures at predicting language splitting events in time. However, it is possible to do relative branch lengths without dates. Given that all languages we now observe exist in the present, it seems fair to assume that an equal amount of time has passed from each of them to the proto-language. This supports the transformation as shown in Fig \ref{fig:branch_lengths} from the subgrouping-only tree in Glottolog (a) to an ultrametric tree (c and d).
 
 The Gray et al 2009-tree incorporates information from archaeology (c.f. \citet[92]{lynchrosscrowleyinternalsubgroupingoceanic}), this is one of the reasons why it has branch lengths.
