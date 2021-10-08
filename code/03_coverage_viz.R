@@ -13,16 +13,17 @@ gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newi
 Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_all_oceanic.txt")
 
 #reading in GB
-GB_df <- read_tsv("data/GB/GB_wide_binarised.tsv") %>% 
-  column_to_rownames("Language_ID")
+GB_df <- read_tsv("data/GB/GB_wide_binarised.tsv") 
+
+GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+  filter(Binary_Multistate != "Multi")
 
 #making na_prop col
 GB_df$na_prop <- apply(GB_df, 1, function(x) mean(is.na(x)))
 
 #marking tip values in glottolog df
 glottolog_df_tip_values <- GB_df %>% 
-  rownames_to_column("Glottocode") %>% 
-  dplyr::select(Glottocode, na_prop) %>% 
+  dplyr::select(Glottocode = Language_ID, na_prop) %>% 
   mutate(tip_value = if_else(na_prop < 0.5 , "More than half of features covered in GB", "Less than half of features covered in GB")) %>% 
   full_join(glottolog_df, by = "Glottocode") %>% 
   mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "grammar exists (not in GB, yet)", tip_value)) %>% 
@@ -79,6 +80,64 @@ basemap +
   theme(legend.position= c(0.8, 0.3))
 
 ggsave("output/coverage_plots/maps/coverage_map_oceanic.png", height = 8, width = 15)
+
+
+###Maps per feature
+
+###MAPS PER FEATURE
+#Basemap
+
+color_vector <- c("#8856a7", "#ffffbf", "#c9c9c9")
+
+map_feature_distribution <- function(feature){
+  #feature <- "GB022"
+  
+df_for_plot <- GB_df %>%
+    rename(Glottocode = Language_ID) %>% 
+    left_join(glottolog_df, by = "Glottocode") %>% 
+    dplyr::select(Glottocode, Value = {{feature}}, Longitude, Latitude) %>% 
+    mutate(Value = as.character(Value))
+  
+plot_title <- GB_df_desc %>%
+    filter(ID == {{feature}}) %>%
+    dplyr::select(Grambank_ID_desc) %>% 
+    mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, "_", " ")) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+  basemap + 
+    geom_jitter(data = df_for_plot, aes(x=Longitude, y=Latitude, fill = Value),  size = 1.5 , alpha = 0.8, shape = 21, stroke = 0.2) +
+    scale_discrete_manual(aesthetics = "fill", values = color_vector) +
+    ggtitle(plot_title) +
+    theme(legend.title = element_blank())
+  
+  FN <- paste0("output/coverage_plots/maps/map_", feature, ".png")
+  ggsave(FN,  height = 5, width = 7 )
+  cat("Done with map plot for", feature, ".\n")
+}
+
+lapply(X = as.character(GB_df_desc$ID), map_feature_distribution)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###COVERAGE PLOT: TREES
