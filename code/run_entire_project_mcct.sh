@@ -13,7 +13,7 @@ Rscript 01_requirements.R
 
 #Step 2
 echo second step, fecthing data
-FILE=data/glottolog_language_table_wide_df
+FILE=data/glottolog_language_table_wide_df.tsv
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
     echo "Glottolog-cldf table file already exists, won't bother remaking it."
