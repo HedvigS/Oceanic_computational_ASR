@@ -48,6 +48,8 @@ dup_to_remove <- c("Sisingga",
 
 
 index <- 0
+multiPhylo_obj <- ""
+class(multiPhylo_obj) <- "multiPhylo"
 
 for(tree in 1:length(Gray_et_al_trees)){
 index <- index +1
@@ -82,4 +84,8 @@ tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
 
 ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned", tree_fn))
 cat("I'm done with tree ", index, ".\n", sep = "")
+multiPhylo_obj <- c(multiPhylo_obj,tree_pruned)
 }
+
+multiPhylo_obj[-1] %>% 
+  ape::write.tree(file = file.path("data", "trees", "posterios_pruned_multiPhylo.txt"))
