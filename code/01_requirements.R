@@ -51,8 +51,8 @@ pacman::p_load(
 #  fields,
   phytools,
   phylobase,
-#  nloptr, 
-#  GenSA,
+  nloptr, 
+  GenSA,
   phangorn, #for acctran and dep of phytools
   xtable,
   broom, 
@@ -73,6 +73,7 @@ if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
 
 #quieting down tidyverse
 options(tidyverse.quiet = TRUE)
+options(readr.show_col_types = FALSE)
 
 #setting up cut-off numbers for tree tips
 
