@@ -6,7 +6,7 @@ source("01_requirements.R")
 glottolog_tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #root_edge <- glottolog_tree$root.edge
-#glottolog_tree_rerooted <- castor::root_in_edge(glottolog_tree, root_edge)
+#glottolog_tree <- castor::root_in_edge(glottolog_tree, root_edge)
 
 #reading in glottolog language table (to be used for Names)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
@@ -40,7 +40,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   
   filter_criteria <- paste0("!is.na(", feature, ")")
   
-  to_keep <- glottolog_tree_rerooted$tip.label %>% 
+  to_keep <- glottolog_tree$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 
     left_join(GB_df_all, by = "Glottocode") %>% 
@@ -49,7 +49,7 @@ fun_GB_ASR_Parsimony <- function(feature){
     sample_n(1) %>% #removing all duplicate tips. This is done randomly for each iteration, i.e. everytime the function is run on each feature.
     dplyr::select(Glottocode, {{feature}})
   
-  Glottolog_tree_full_pruned <- keep.tip(glottolog_tree_rerooted, to_keep$Glottocode)  
+  Glottolog_tree_full_pruned <- keep.tip(glottolog_tree, to_keep$Glottocode)  
   Glottolog_tree_full_pruned <- compute.brlen(Glottolog_tree_full_pruned, method = 1)
 
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values

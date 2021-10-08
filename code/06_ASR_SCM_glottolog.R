@@ -6,8 +6,8 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types 
 
 glottolog_tree <- ape::read.tree(file.path("data", "trees", "glottolog_tree_newick_GB_pruned.txt"))
 
-root_edge <- glottolog_tree$root.edge
-glottolog_tree_rerooted <- castor::root_in_edge(glottolog_tree, root_edge)
+#root_edge <- glottolog_tree$root.edge
+#glottolog_tree <- castor::root_in_edge(glottolog_tree, root_edge)
 
 
 #reading in GB
@@ -34,7 +34,7 @@ fun_GB_ASR_SCM <- function(feature) {
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Language_ID, {{feature}})
   
-  glottolog_tree_pruned <- drop.tip(glottolog_tree_rerooted, "kele1258")
+  glottolog_tree_pruned <- drop.tip(glottolog_tree, "kele1258")
 
  glottolog_tree_pruned <- compute.brlen(  glottolog_tree_pruned , method = 1) #making all branch lengths one
 
