@@ -1,779 +1,116 @@
-Feature_ID	Proto-language	Language_ID	Prediction	Historical Linguistics sources
-GB409	Proto-Central Pacific	cent2060	1	\citet[1]{kikusawa2002proto}
-GB071	Proto-Central Pacific	cent2060	0	\citet[1]{kikusawa2002proto}
-GB073	Proto-Central Pacific	cent2060	0	\citet[1]{kikusawa2002proto}
-GB133	Proto-Central Pacific	cent2060	0	\citet[122]{kikusawa2002proto}
-GB131	Proto-Central Pacific	cent2060	1	\citet[122]{kikusawa2002proto}
-GB130	Proto-Central Pacific	cent2060	2	\citet[122]{kikusawa2002proto}
-GB132	Proto-Central Pacific	cent2060	0	\citet[122]{kikusawa2002proto}
-GB410	Proto-Central Pacific	cent2060	1	\citet[147]{kikusawa2002proto}
-GB520	Proto-Central Pacific	cent2060	1	\citet[347]{pawley1970change}
-GB521	Proto-Central Pacific	cent2060	1	\citet[347]{pawley1970change}
-GB079	Proto-Central Pacific	cent2060	1	\citet[352]{pawley1970change}
-GB155	Proto-Central Pacific	cent2060	1	\citet[352]{pawley1970change}
-GB113	Proto-Central Pacific	cent2060	1	\citet[352]{pawley1970change}, \citet[4]{marck2000_encyclo}
-GB115	Proto-Central Pacific	cent2060	1	\citet[352]{pawley1970change}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB020	Proto-Central Pacific	cent2060	NA	NA
-GB021	Proto-Central Pacific	cent2060	NA	NA
-GB022	Proto-Central Pacific	cent2060	NA	NA
-GB023	Proto-Central Pacific	cent2060	NA	NA
-GB024	Proto-Central Pacific	cent2060	NA	NA
-GB025	Proto-Central Pacific	cent2060	NA	NA
-GB026	Proto-Central Pacific	cent2060	NA	NA
-GB027	Proto-Central Pacific	cent2060	NA	NA
-GB028	Proto-Central Pacific	cent2060	NA	NA
-GB030	Proto-Central Pacific	cent2060	NA	NA
-GB031	Proto-Central Pacific	cent2060	NA	NA
-GB035	Proto-Central Pacific	cent2060	NA	NA
-GB036	Proto-Central Pacific	cent2060	NA	NA
-GB037	Proto-Central Pacific	cent2060	NA	NA
-GB038	Proto-Central Pacific	cent2060	NA	NA
-GB039	Proto-Central Pacific	cent2060	NA	NA
-GB041	Proto-Central Pacific	cent2060	NA	NA
-GB042	Proto-Central Pacific	cent2060	NA	NA
-GB043	Proto-Central Pacific	cent2060	NA	NA
-GB044	Proto-Central Pacific	cent2060	NA	NA
-GB046	Proto-Central Pacific	cent2060	NA	NA
-GB047	Proto-Central Pacific	cent2060	NA	NA
-GB048	Proto-Central Pacific	cent2060	NA	NA
-GB049	Proto-Central Pacific	cent2060	NA	NA
-GB051	Proto-Central Pacific	cent2060	NA	NA
-GB052	Proto-Central Pacific	cent2060	NA	NA
-GB053	Proto-Central Pacific	cent2060	NA	NA
-GB054	Proto-Central Pacific	cent2060	NA	NA
-GB057	Proto-Central Pacific	cent2060	NA	NA
-GB058	Proto-Central Pacific	cent2060	NA	NA
-GB059	Proto-Central Pacific	cent2060	NA	NA
-GB065	Proto-Central Pacific	cent2060	NA	NA
-GB068	Proto-Central Pacific	cent2060	NA	NA
-GB069	Proto-Central Pacific	cent2060	NA	NA
-GB070	Proto-Central Pacific	cent2060	NA	NA
-GB072	Proto-Central Pacific	cent2060	NA	NA
-GB074	Proto-Central Pacific	cent2060	NA	NA
-GB075	Proto-Central Pacific	cent2060	NA	NA
-GB080	Proto-Central Pacific	cent2060	NA	NA
-GB081	Proto-Central Pacific	cent2060	NA	NA
-GB082	Proto-Central Pacific	cent2060	NA	NA
-GB083	Proto-Central Pacific	cent2060	NA	NA
-GB084	Proto-Central Pacific	cent2060	NA	NA
-GB086	Proto-Central Pacific	cent2060	NA	NA
-GB089	Proto-Central Pacific	cent2060	NA	NA
-GB090	Proto-Central Pacific	cent2060	NA	NA
-GB091	Proto-Central Pacific	cent2060	NA	NA
-GB092	Proto-Central Pacific	cent2060	NA	NA
-GB093	Proto-Central Pacific	cent2060	NA	NA
-GB094	Proto-Central Pacific	cent2060	NA	NA
-GB095	Proto-Central Pacific	cent2060	NA	NA
-GB096	Proto-Central Pacific	cent2060	NA	NA
-GB098	Proto-Central Pacific	cent2060	NA	NA
-GB099	Proto-Central Pacific	cent2060	NA	NA
-GB103	Proto-Central Pacific	cent2060	NA	NA
-GB104	Proto-Central Pacific	cent2060	NA	NA
-GB105	Proto-Central Pacific	cent2060	NA	NA
-GB107	Proto-Central Pacific	cent2060	NA	NA
-GB108	Proto-Central Pacific	cent2060	NA	NA
-GB109	Proto-Central Pacific	cent2060	NA	NA
-GB110	Proto-Central Pacific	cent2060	NA	NA
-GB111	Proto-Central Pacific	cent2060	NA	NA
-GB114	Proto-Central Pacific	cent2060	NA	NA
-GB116	Proto-Central Pacific	cent2060	NA	NA
-GB117	Proto-Central Pacific	cent2060	NA	NA
-GB118	Proto-Central Pacific	cent2060	NA	NA
-GB119	Proto-Central Pacific	cent2060	NA	NA
-GB120	Proto-Central Pacific	cent2060	NA	NA
-GB121	Proto-Central Pacific	cent2060	NA	NA
-GB122	Proto-Central Pacific	cent2060	NA	NA
-GB123	Proto-Central Pacific	cent2060	NA	NA
-GB124	Proto-Central Pacific	cent2060	NA	NA
-GB126	Proto-Central Pacific	cent2060	NA	NA
-GB127	Proto-Central Pacific	cent2060	NA	NA
-GB129	Proto-Central Pacific	cent2060	NA	NA
-GB134	Proto-Central Pacific	cent2060	NA	NA
-GB135	Proto-Central Pacific	cent2060	NA	NA
-GB136	Proto-Central Pacific	cent2060	NA	NA
-GB137	Proto-Central Pacific	cent2060	NA	NA
-GB138	Proto-Central Pacific	cent2060	NA	NA
-GB139	Proto-Central Pacific	cent2060	NA	NA
-GB140	Proto-Central Pacific	cent2060	NA	NA
-GB146	Proto-Central Pacific	cent2060	NA	NA
-GB147	Proto-Central Pacific	cent2060	NA	NA
-GB148	Proto-Central Pacific	cent2060	NA	NA
-GB149	Proto-Central Pacific	cent2060	NA	NA
-GB150	Proto-Central Pacific	cent2060	NA	NA
-GB151	Proto-Central Pacific	cent2060	NA	NA
-GB152	Proto-Central Pacific	cent2060	NA	NA
-GB156	Proto-Central Pacific	cent2060	NA	NA
-GB158	Proto-Central Pacific	cent2060	NA	NA
-GB159	Proto-Central Pacific	cent2060	NA	NA
-GB160	Proto-Central Pacific	cent2060	NA	NA
-GB165	Proto-Central Pacific	cent2060	NA	NA
-GB166	Proto-Central Pacific	cent2060	NA	NA
-GB167	Proto-Central Pacific	cent2060	NA	NA
-GB170	Proto-Central Pacific	cent2060	NA	NA
-GB171	Proto-Central Pacific	cent2060	NA	NA
-GB172	Proto-Central Pacific	cent2060	NA	NA
-GB177	Proto-Central Pacific	cent2060	NA	NA
-GB184	Proto-Central Pacific	cent2060	NA	NA
-GB185	Proto-Central Pacific	cent2060	NA	NA
-GB186	Proto-Central Pacific	cent2060	NA	NA
-GB187	Proto-Central Pacific	cent2060	NA	NA
-GB188	Proto-Central Pacific	cent2060	NA	NA
-GB192	Proto-Central Pacific	cent2060	NA	NA
-GB193	Proto-Central Pacific	cent2060	NA	NA
-GB196	Proto-Central Pacific	cent2060	NA	NA
-GB197	Proto-Central Pacific	cent2060	NA	NA
-GB198	Proto-Central Pacific	cent2060	NA	NA
-GB203	Proto-Central Pacific	cent2060	NA	NA
-GB204	Proto-Central Pacific	cent2060	NA	NA
-GB250	Proto-Central Pacific	cent2060	NA	NA
-GB252	Proto-Central Pacific	cent2060	NA	NA
-GB253	Proto-Central Pacific	cent2060	NA	NA
-GB254	Proto-Central Pacific	cent2060	NA	NA
-GB256	Proto-Central Pacific	cent2060	NA	NA
-GB257	Proto-Central Pacific	cent2060	NA	NA
-GB260	Proto-Central Pacific	cent2060	NA	NA
-GB262	Proto-Central Pacific	cent2060	NA	NA
-GB263	Proto-Central Pacific	cent2060	NA	NA
-GB264	Proto-Central Pacific	cent2060	NA	NA
-GB265	Proto-Central Pacific	cent2060	NA	NA
-GB266	Proto-Central Pacific	cent2060	NA	NA
-GB270	Proto-Central Pacific	cent2060	NA	NA
-GB273	Proto-Central Pacific	cent2060	NA	NA
-GB275	Proto-Central Pacific	cent2060	NA	NA
-GB276	Proto-Central Pacific	cent2060	NA	NA
-GB285	Proto-Central Pacific	cent2060	NA	NA
-GB286	Proto-Central Pacific	cent2060	NA	NA
-GB291	Proto-Central Pacific	cent2060	NA	NA
-GB296	Proto-Central Pacific	cent2060	NA	NA
-GB297	Proto-Central Pacific	cent2060	NA	NA
-GB298	Proto-Central Pacific	cent2060	NA	NA
-GB299	Proto-Central Pacific	cent2060	NA	NA
-GB300	Proto-Central Pacific	cent2060	NA	NA
-GB301	Proto-Central Pacific	cent2060	NA	NA
-GB302	Proto-Central Pacific	cent2060	NA	NA
-GB303	Proto-Central Pacific	cent2060	NA	NA
-GB304	Proto-Central Pacific	cent2060	NA	NA
-GB305	Proto-Central Pacific	cent2060	NA	NA
-GB306	Proto-Central Pacific	cent2060	NA	NA
-GB309	Proto-Central Pacific	cent2060	NA	NA
-GB312	Proto-Central Pacific	cent2060	NA	NA
-GB313	Proto-Central Pacific	cent2060	NA	NA
-GB314	Proto-Central Pacific	cent2060	NA	NA
-GB315	Proto-Central Pacific	cent2060	NA	NA
-GB316	Proto-Central Pacific	cent2060	NA	NA
-GB317	Proto-Central Pacific	cent2060	NA	NA
-GB318	Proto-Central Pacific	cent2060	NA	NA
-GB319	Proto-Central Pacific	cent2060	NA	NA
-GB320	Proto-Central Pacific	cent2060	NA	NA
-GB321	Proto-Central Pacific	cent2060	NA	NA
-GB322	Proto-Central Pacific	cent2060	NA	NA
-GB323	Proto-Central Pacific	cent2060	NA	NA
-GB324	Proto-Central Pacific	cent2060	NA	NA
-GB325	Proto-Central Pacific	cent2060	NA	NA
-GB326	Proto-Central Pacific	cent2060	NA	NA
-GB327	Proto-Central Pacific	cent2060	NA	NA
-GB328	Proto-Central Pacific	cent2060	NA	NA
-GB329	Proto-Central Pacific	cent2060	NA	NA
-GB330	Proto-Central Pacific	cent2060	NA	NA
-GB331	Proto-Central Pacific	cent2060	NA	NA
-GB333	Proto-Central Pacific	cent2060	NA	NA
-GB334	Proto-Central Pacific	cent2060	NA	NA
-GB335	Proto-Central Pacific	cent2060	NA	NA
-GB336	Proto-Central Pacific	cent2060	NA	NA
-GB400	Proto-Central Pacific	cent2060	NA	NA
-GB401	Proto-Central Pacific	cent2060	NA	NA
-GB402	Proto-Central Pacific	cent2060	NA	NA
-GB403	Proto-Central Pacific	cent2060	NA	NA
-GB408	Proto-Central Pacific	cent2060	NA	NA
-GB415	Proto-Central Pacific	cent2060	NA	NA
-GB421	Proto-Central Pacific	cent2060	NA	NA
-GB422	Proto-Central Pacific	cent2060	NA	NA
-GB430	Proto-Central Pacific	cent2060	NA	NA
-GB431	Proto-Central Pacific	cent2060	NA	NA
-GB432	Proto-Central Pacific	cent2060	NA	NA
-GB433	Proto-Central Pacific	cent2060	NA	NA
-GB519	Proto-Central Pacific	cent2060	NA	NA
-GB522	Proto-Central Pacific	cent2060	NA	NA
-GB408	Proto-Eastern Polynesian	east2449	1	\citet[106-107]{clark1976aspects}
-GB409	Proto-Eastern Polynesian	east2449	0	\citet[106-107]{clark1976aspects}
-GB147	Proto-Eastern Polynesian	east2449	1	\citet[108]{clark1976aspects}, \citet[139]{pawley1973some}, \citet[350]{pawley1970change}
-GB140	Proto-Eastern Polynesian	east2449	0	\citet[130]{clark1976aspects}
-GB020	Proto-Eastern Polynesian	east2449	NA	NA
-GB021	Proto-Eastern Polynesian	east2449	NA	NA
-GB022	Proto-Eastern Polynesian	east2449	NA	NA
-GB023	Proto-Eastern Polynesian	east2449	NA	NA
-GB024	Proto-Eastern Polynesian	east2449	NA	NA
-GB025	Proto-Eastern Polynesian	east2449	NA	NA
-GB026	Proto-Eastern Polynesian	east2449	NA	NA
-GB027	Proto-Eastern Polynesian	east2449	NA	NA
-GB028	Proto-Eastern Polynesian	east2449	NA	NA
-GB030	Proto-Eastern Polynesian	east2449	NA	NA
-GB031	Proto-Eastern Polynesian	east2449	NA	NA
-GB035	Proto-Eastern Polynesian	east2449	NA	NA
-GB036	Proto-Eastern Polynesian	east2449	NA	NA
-GB037	Proto-Eastern Polynesian	east2449	NA	NA
-GB038	Proto-Eastern Polynesian	east2449	NA	NA
-GB039	Proto-Eastern Polynesian	east2449	NA	NA
-GB041	Proto-Eastern Polynesian	east2449	NA	NA
-GB042	Proto-Eastern Polynesian	east2449	NA	NA
-GB043	Proto-Eastern Polynesian	east2449	NA	NA
-GB044	Proto-Eastern Polynesian	east2449	NA	NA
-GB046	Proto-Eastern Polynesian	east2449	NA	NA
-GB047	Proto-Eastern Polynesian	east2449	NA	NA
-GB048	Proto-Eastern Polynesian	east2449	NA	NA
-GB049	Proto-Eastern Polynesian	east2449	NA	NA
-GB051	Proto-Eastern Polynesian	east2449	NA	NA
-GB052	Proto-Eastern Polynesian	east2449	NA	NA
-GB053	Proto-Eastern Polynesian	east2449	NA	NA
-GB054	Proto-Eastern Polynesian	east2449	NA	NA
-GB057	Proto-Eastern Polynesian	east2449	NA	NA
-GB058	Proto-Eastern Polynesian	east2449	NA	NA
-GB059	Proto-Eastern Polynesian	east2449	NA	NA
-GB065	Proto-Eastern Polynesian	east2449	NA	NA
-GB068	Proto-Eastern Polynesian	east2449	NA	NA
-GB069	Proto-Eastern Polynesian	east2449	NA	NA
-GB070	Proto-Eastern Polynesian	east2449	NA	NA
-GB071	Proto-Eastern Polynesian	east2449	NA	NA
-GB072	Proto-Eastern Polynesian	east2449	NA	NA
-GB073	Proto-Eastern Polynesian	east2449	NA	NA
-GB074	Proto-Eastern Polynesian	east2449	NA	NA
-GB075	Proto-Eastern Polynesian	east2449	NA	NA
-GB079	Proto-Eastern Polynesian	east2449	NA	NA
-GB080	Proto-Eastern Polynesian	east2449	NA	NA
-GB081	Proto-Eastern Polynesian	east2449	NA	NA
-GB082	Proto-Eastern Polynesian	east2449	NA	NA
-GB083	Proto-Eastern Polynesian	east2449	NA	NA
-GB084	Proto-Eastern Polynesian	east2449	NA	NA
-GB086	Proto-Eastern Polynesian	east2449	NA	NA
-GB089	Proto-Eastern Polynesian	east2449	NA	NA
-GB090	Proto-Eastern Polynesian	east2449	NA	NA
-GB091	Proto-Eastern Polynesian	east2449	NA	NA
-GB092	Proto-Eastern Polynesian	east2449	NA	NA
-GB093	Proto-Eastern Polynesian	east2449	NA	NA
-GB094	Proto-Eastern Polynesian	east2449	NA	NA
-GB095	Proto-Eastern Polynesian	east2449	NA	NA
-GB096	Proto-Eastern Polynesian	east2449	NA	NA
-GB098	Proto-Eastern Polynesian	east2449	NA	NA
-GB099	Proto-Eastern Polynesian	east2449	NA	NA
-GB103	Proto-Eastern Polynesian	east2449	NA	NA
-GB104	Proto-Eastern Polynesian	east2449	NA	NA
-GB105	Proto-Eastern Polynesian	east2449	NA	NA
-GB107	Proto-Eastern Polynesian	east2449	NA	NA
-GB108	Proto-Eastern Polynesian	east2449	NA	NA
-GB109	Proto-Eastern Polynesian	east2449	NA	NA
-GB110	Proto-Eastern Polynesian	east2449	NA	NA
-GB111	Proto-Eastern Polynesian	east2449	NA	NA
-GB113	Proto-Eastern Polynesian	east2449	NA	NA
-GB114	Proto-Eastern Polynesian	east2449	NA	NA
-GB115	Proto-Eastern Polynesian	east2449	NA	NA
-GB116	Proto-Eastern Polynesian	east2449	NA	NA
-GB117	Proto-Eastern Polynesian	east2449	NA	NA
-GB118	Proto-Eastern Polynesian	east2449	NA	NA
-GB119	Proto-Eastern Polynesian	east2449	NA	NA
-GB120	Proto-Eastern Polynesian	east2449	NA	NA
-GB121	Proto-Eastern Polynesian	east2449	NA	NA
-GB122	Proto-Eastern Polynesian	east2449	NA	NA
-GB123	Proto-Eastern Polynesian	east2449	NA	NA
-GB124	Proto-Eastern Polynesian	east2449	NA	NA
-GB126	Proto-Eastern Polynesian	east2449	NA	NA
-GB127	Proto-Eastern Polynesian	east2449	NA	NA
-GB129	Proto-Eastern Polynesian	east2449	NA	NA
-GB130	Proto-Eastern Polynesian	east2449	NA	NA
-GB131	Proto-Eastern Polynesian	east2449	NA	NA
-GB132	Proto-Eastern Polynesian	east2449	NA	NA
-GB133	Proto-Eastern Polynesian	east2449	NA	NA
-GB134	Proto-Eastern Polynesian	east2449	NA	NA
-GB135	Proto-Eastern Polynesian	east2449	NA	NA
-GB136	Proto-Eastern Polynesian	east2449	NA	NA
-GB137	Proto-Eastern Polynesian	east2449	NA	NA
-GB138	Proto-Eastern Polynesian	east2449	NA	NA
-GB139	Proto-Eastern Polynesian	east2449	NA	NA
-GB146	Proto-Eastern Polynesian	east2449	NA	NA
-GB148	Proto-Eastern Polynesian	east2449	NA	NA
-GB149	Proto-Eastern Polynesian	east2449	NA	NA
-GB150	Proto-Eastern Polynesian	east2449	NA	NA
-GB151	Proto-Eastern Polynesian	east2449	NA	NA
-GB152	Proto-Eastern Polynesian	east2449	NA	NA
-GB155	Proto-Eastern Polynesian	east2449	NA	NA
-GB156	Proto-Eastern Polynesian	east2449	NA	NA
-GB158	Proto-Eastern Polynesian	east2449	NA	NA
-GB159	Proto-Eastern Polynesian	east2449	NA	NA
-GB160	Proto-Eastern Polynesian	east2449	NA	NA
-GB165	Proto-Eastern Polynesian	east2449	NA	NA
-GB166	Proto-Eastern Polynesian	east2449	NA	NA
-GB167	Proto-Eastern Polynesian	east2449	NA	NA
-GB170	Proto-Eastern Polynesian	east2449	NA	NA
-GB171	Proto-Eastern Polynesian	east2449	NA	NA
-GB172	Proto-Eastern Polynesian	east2449	NA	NA
-GB177	Proto-Eastern Polynesian	east2449	NA	NA
-GB184	Proto-Eastern Polynesian	east2449	NA	NA
-GB185	Proto-Eastern Polynesian	east2449	NA	NA
-GB186	Proto-Eastern Polynesian	east2449	NA	NA
-GB187	Proto-Eastern Polynesian	east2449	NA	NA
-GB188	Proto-Eastern Polynesian	east2449	NA	NA
-GB192	Proto-Eastern Polynesian	east2449	NA	NA
-GB193	Proto-Eastern Polynesian	east2449	NA	NA
-GB196	Proto-Eastern Polynesian	east2449	NA	NA
-GB197	Proto-Eastern Polynesian	east2449	NA	NA
-GB198	Proto-Eastern Polynesian	east2449	NA	NA
-GB203	Proto-Eastern Polynesian	east2449	NA	NA
-GB204	Proto-Eastern Polynesian	east2449	NA	NA
-GB250	Proto-Eastern Polynesian	east2449	NA	NA
-GB252	Proto-Eastern Polynesian	east2449	NA	NA
-GB253	Proto-Eastern Polynesian	east2449	NA	NA
-GB254	Proto-Eastern Polynesian	east2449	NA	NA
-GB256	Proto-Eastern Polynesian	east2449	NA	NA
-GB257	Proto-Eastern Polynesian	east2449	NA	NA
-GB260	Proto-Eastern Polynesian	east2449	NA	NA
-GB262	Proto-Eastern Polynesian	east2449	NA	NA
-GB263	Proto-Eastern Polynesian	east2449	NA	NA
-GB264	Proto-Eastern Polynesian	east2449	NA	NA
-GB265	Proto-Eastern Polynesian	east2449	NA	NA
-GB266	Proto-Eastern Polynesian	east2449	NA	NA
-GB270	Proto-Eastern Polynesian	east2449	NA	NA
-GB273	Proto-Eastern Polynesian	east2449	NA	NA
-GB275	Proto-Eastern Polynesian	east2449	NA	NA
-GB276	Proto-Eastern Polynesian	east2449	NA	NA
-GB285	Proto-Eastern Polynesian	east2449	NA	NA
-GB286	Proto-Eastern Polynesian	east2449	NA	NA
-GB291	Proto-Eastern Polynesian	east2449	NA	NA
-GB296	Proto-Eastern Polynesian	east2449	NA	NA
-GB297	Proto-Eastern Polynesian	east2449	NA	NA
-GB298	Proto-Eastern Polynesian	east2449	NA	NA
-GB299	Proto-Eastern Polynesian	east2449	NA	NA
-GB300	Proto-Eastern Polynesian	east2449	NA	NA
-GB301	Proto-Eastern Polynesian	east2449	NA	NA
-GB302	Proto-Eastern Polynesian	east2449	NA	NA
-GB303	Proto-Eastern Polynesian	east2449	NA	NA
-GB304	Proto-Eastern Polynesian	east2449	NA	NA
-GB305	Proto-Eastern Polynesian	east2449	NA	NA
-GB306	Proto-Eastern Polynesian	east2449	NA	NA
-GB309	Proto-Eastern Polynesian	east2449	NA	NA
-GB312	Proto-Eastern Polynesian	east2449	NA	NA
-GB313	Proto-Eastern Polynesian	east2449	NA	NA
-GB314	Proto-Eastern Polynesian	east2449	NA	NA
-GB315	Proto-Eastern Polynesian	east2449	NA	NA
-GB316	Proto-Eastern Polynesian	east2449	NA	NA
-GB317	Proto-Eastern Polynesian	east2449	NA	NA
-GB318	Proto-Eastern Polynesian	east2449	NA	NA
-GB319	Proto-Eastern Polynesian	east2449	NA	NA
-GB320	Proto-Eastern Polynesian	east2449	NA	NA
-GB321	Proto-Eastern Polynesian	east2449	NA	NA
-GB322	Proto-Eastern Polynesian	east2449	NA	NA
-GB323	Proto-Eastern Polynesian	east2449	NA	NA
-GB324	Proto-Eastern Polynesian	east2449	NA	NA
-GB325	Proto-Eastern Polynesian	east2449	NA	NA
-GB326	Proto-Eastern Polynesian	east2449	NA	NA
-GB327	Proto-Eastern Polynesian	east2449	NA	NA
-GB328	Proto-Eastern Polynesian	east2449	NA	NA
-GB329	Proto-Eastern Polynesian	east2449	NA	NA
-GB330	Proto-Eastern Polynesian	east2449	NA	NA
-GB331	Proto-Eastern Polynesian	east2449	NA	NA
-GB333	Proto-Eastern Polynesian	east2449	NA	NA
-GB334	Proto-Eastern Polynesian	east2449	NA	NA
-GB335	Proto-Eastern Polynesian	east2449	NA	NA
-GB336	Proto-Eastern Polynesian	east2449	NA	NA
-GB400	Proto-Eastern Polynesian	east2449	NA	NA
-GB401	Proto-Eastern Polynesian	east2449	NA	NA
-GB402	Proto-Eastern Polynesian	east2449	NA	NA
-GB403	Proto-Eastern Polynesian	east2449	NA	NA
-GB410	Proto-Eastern Polynesian	east2449	NA	NA
-GB415	Proto-Eastern Polynesian	east2449	NA	NA
-GB421	Proto-Eastern Polynesian	east2449	NA	NA
-GB422	Proto-Eastern Polynesian	east2449	NA	NA
-GB430	Proto-Eastern Polynesian	east2449	NA	NA
-GB431	Proto-Eastern Polynesian	east2449	NA	NA
-GB432	Proto-Eastern Polynesian	east2449	NA	NA
-GB433	Proto-Eastern Polynesian	east2449	NA	NA
-GB519	Proto-Eastern Polynesian	east2449	NA	NA
-GB520	Proto-Eastern Polynesian	east2449	NA	NA
-GB521	Proto-Eastern Polynesian	east2449	NA	NA
-GB522	Proto-Eastern Polynesian	east2449	NA	NA
-GB133	Proto-Polynesian	poly1242	0	\cite[15]{chung1978}, \citet[118]{pawley1973some}, \citet[122]{kikusawa2002proto}
-GB132	Proto-Polynesian	poly1242	0	\cite[15]{chung1978}, \citet[118]{pawley1973some}, \citet[122]{kikusawa2002proto}
-GB147	Proto-Polynesian	poly1242	1	\cite[261-261]{chung1978}
-GB070	Proto-Polynesian	poly1242	0	\cite[261-261]{chung1978}
-GB130	Proto-Polynesian	poly1242	2	\citet[122]{kikusawa2002proto}
-GB299	Proto-Polynesian	poly1242	1	\citet[130]{clark1976aspects}
-GB139	Proto-Polynesian	poly1242	1	\citet[142]{pawley1973some}, \citet[292]{ross2007two}, \citet[xiii, 125]{clark1976aspects}, \citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB519	Proto-Polynesian	poly1242	1	\citet[20]{chung1978}
-GB520	Proto-Polynesian	poly1242	1	\citet[20]{chung1978}
-GB020	Proto-Polynesian	poly1242	1	\citet[23]{chung1978}, \citet[53]{clark1976aspects}
-GB021	Proto-Polynesian	poly1242	1	\citet[23]{chung1978}, \citet[53]{clark1976aspects}, \citet[73]{lynchrosscrowley_proto_grammar_oceanic}
-GB074	Proto-Polynesian	poly1242	1	\citet[26]{chung1978}, \citet[24, 43]{clark1976aspects}
-GB522	Proto-Polynesian	poly1242	1	\citet[30]{chung1978}
-GB028	Proto-Polynesian	poly1242	1	\citet[4]{marck2000 encyclo}
-GB031	Proto-Polynesian	poly1242	1	\citet[4]{marck2000 encyclo}
-GB115	Proto-Polynesian	poly1242	1	\citet[4]{marck2000 encyclo}
-GB131	Proto-Polynesian	poly1242	1	\citet[4]{marck2000 encyclo}, \citet[15]{chung1978}, \citet[118]{pawley1973some}, \citet[122]{kikusawa2002proto}
-GB059	Proto-Polynesian	poly1242	1	\citet[4]{marck2000 encyclo}, \citet[47]{clark1976aspects}
-GB113	Proto-Polynesian	poly1242	1	\citet[4]{marck2000_encyclo}, \citet[57]{jonsson1998}, \citet[352]{pawley1970change}
-GB193	Proto-Polynesian	poly1242	2	\citet[495]{ross2004morphosyntactic}; \citet[xiv]{clark1976aspects}
-GB318	Proto-Polynesian	poly1242	1	\citet[59]{clark1976aspects}
-GB327	Proto-Polynesian	poly1242	1	\citet[74]{clark1976aspects}
-GB328	Proto-Polynesian	poly1242	0	\citet[74]{clark1976aspects}
-GB035	Proto-Polynesian	poly1242	1	\citet[77]{clark1976aspects}
-GB022	Proto-Polynesian	poly1242	1	\citet[xiv]{clark1976aspects}, \citet[23]{chung1978}, \citet[53]{clark1976aspects} , \citet[136]{crowley1985common}
-GB023	Proto-Polynesian	poly1242	NA	NA
-GB024	Proto-Polynesian	poly1242	NA	NA
-GB025	Proto-Polynesian	poly1242	NA	NA
-GB026	Proto-Polynesian	poly1242	NA	NA
-GB027	Proto-Polynesian	poly1242	NA	NA
-GB030	Proto-Polynesian	poly1242	NA	NA
-GB036	Proto-Polynesian	poly1242	NA	NA
-GB037	Proto-Polynesian	poly1242	NA	NA
-GB038	Proto-Polynesian	poly1242	NA	NA
-GB039	Proto-Polynesian	poly1242	NA	NA
-GB041	Proto-Polynesian	poly1242	NA	NA
-GB042	Proto-Polynesian	poly1242	NA	NA
-GB043	Proto-Polynesian	poly1242	NA	NA
-GB044	Proto-Polynesian	poly1242	NA	NA
-GB046	Proto-Polynesian	poly1242	NA	NA
-GB047	Proto-Polynesian	poly1242	NA	NA
-GB048	Proto-Polynesian	poly1242	NA	NA
-GB049	Proto-Polynesian	poly1242	NA	NA
-GB051	Proto-Polynesian	poly1242	NA	NA
-GB052	Proto-Polynesian	poly1242	NA	NA
-GB053	Proto-Polynesian	poly1242	NA	NA
-GB054	Proto-Polynesian	poly1242	NA	NA
-GB057	Proto-Polynesian	poly1242	NA	NA
-GB058	Proto-Polynesian	poly1242	NA	NA
-GB065	Proto-Polynesian	poly1242	NA	NA
-GB068	Proto-Polynesian	poly1242	NA	NA
-GB069	Proto-Polynesian	poly1242	NA	NA
-GB071	Proto-Polynesian	poly1242	NA	NA
-GB072	Proto-Polynesian	poly1242	NA	NA
-GB073	Proto-Polynesian	poly1242	NA	NA
-GB075	Proto-Polynesian	poly1242	NA	NA
-GB079	Proto-Polynesian	poly1242	NA	NA
-GB080	Proto-Polynesian	poly1242	NA	NA
-GB081	Proto-Polynesian	poly1242	NA	NA
-GB082	Proto-Polynesian	poly1242	NA	NA
-GB083	Proto-Polynesian	poly1242	NA	NA
-GB084	Proto-Polynesian	poly1242	NA	NA
-GB086	Proto-Polynesian	poly1242	NA	NA
-GB089	Proto-Polynesian	poly1242	NA	NA
-GB090	Proto-Polynesian	poly1242	NA	NA
-GB091	Proto-Polynesian	poly1242	NA	NA
-GB092	Proto-Polynesian	poly1242	NA	NA
-GB093	Proto-Polynesian	poly1242	NA	NA
-GB094	Proto-Polynesian	poly1242	NA	NA
-GB095	Proto-Polynesian	poly1242	NA	NA
-GB096	Proto-Polynesian	poly1242	NA	NA
-GB098	Proto-Polynesian	poly1242	NA	NA
-GB099	Proto-Polynesian	poly1242	NA	NA
-GB103	Proto-Polynesian	poly1242	NA	NA
-GB104	Proto-Polynesian	poly1242	NA	NA
-GB105	Proto-Polynesian	poly1242	NA	NA
-GB107	Proto-Polynesian	poly1242	NA	NA
-GB108	Proto-Polynesian	poly1242	NA	NA
-GB109	Proto-Polynesian	poly1242	NA	NA
-GB110	Proto-Polynesian	poly1242	NA	NA
-GB111	Proto-Polynesian	poly1242	NA	NA
-GB114	Proto-Polynesian	poly1242	NA	NA
-GB116	Proto-Polynesian	poly1242	NA	NA
-GB117	Proto-Polynesian	poly1242	NA	NA
-GB118	Proto-Polynesian	poly1242	NA	NA
-GB119	Proto-Polynesian	poly1242	NA	NA
-GB120	Proto-Polynesian	poly1242	NA	NA
-GB121	Proto-Polynesian	poly1242	NA	NA
-GB122	Proto-Polynesian	poly1242	NA	NA
-GB123	Proto-Polynesian	poly1242	NA	NA
-GB124	Proto-Polynesian	poly1242	NA	NA
-GB126	Proto-Polynesian	poly1242	NA	NA
-GB127	Proto-Polynesian	poly1242	NA	NA
-GB129	Proto-Polynesian	poly1242	NA	NA
-GB134	Proto-Polynesian	poly1242	NA	NA
-GB135	Proto-Polynesian	poly1242	NA	NA
-GB136	Proto-Polynesian	poly1242	NA	NA
-GB137	Proto-Polynesian	poly1242	NA	NA
-GB138	Proto-Polynesian	poly1242	NA	NA
-GB140	Proto-Polynesian	poly1242	NA	NA
-GB146	Proto-Polynesian	poly1242	NA	NA
-GB148	Proto-Polynesian	poly1242	NA	NA
-GB149	Proto-Polynesian	poly1242	NA	NA
-GB150	Proto-Polynesian	poly1242	NA	NA
-GB151	Proto-Polynesian	poly1242	NA	NA
-GB152	Proto-Polynesian	poly1242	NA	NA
-GB155	Proto-Polynesian	poly1242	NA	NA
-GB156	Proto-Polynesian	poly1242	NA	NA
-GB158	Proto-Polynesian	poly1242	NA	NA
-GB159	Proto-Polynesian	poly1242	NA	NA
-GB160	Proto-Polynesian	poly1242	NA	NA
-GB165	Proto-Polynesian	poly1242	NA	NA
-GB166	Proto-Polynesian	poly1242	NA	NA
-GB167	Proto-Polynesian	poly1242	NA	NA
-GB170	Proto-Polynesian	poly1242	NA	NA
-GB171	Proto-Polynesian	poly1242	NA	NA
-GB172	Proto-Polynesian	poly1242	NA	NA
-GB177	Proto-Polynesian	poly1242	NA	NA
-GB184	Proto-Polynesian	poly1242	NA	NA
-GB185	Proto-Polynesian	poly1242	NA	NA
-GB186	Proto-Polynesian	poly1242	NA	NA
-GB187	Proto-Polynesian	poly1242	NA	NA
-GB188	Proto-Polynesian	poly1242	NA	NA
-GB192	Proto-Polynesian	poly1242	NA	NA
-GB196	Proto-Polynesian	poly1242	NA	NA
-GB197	Proto-Polynesian	poly1242	NA	NA
-GB198	Proto-Polynesian	poly1242	NA	NA
-GB203	Proto-Polynesian	poly1242	NA	NA
-GB204	Proto-Polynesian	poly1242	NA	NA
-GB250	Proto-Polynesian	poly1242	NA	NA
-GB252	Proto-Polynesian	poly1242	NA	NA
-GB253	Proto-Polynesian	poly1242	NA	NA
-GB254	Proto-Polynesian	poly1242	NA	NA
-GB256	Proto-Polynesian	poly1242	NA	NA
-GB257	Proto-Polynesian	poly1242	NA	NA
-GB260	Proto-Polynesian	poly1242	NA	NA
-GB262	Proto-Polynesian	poly1242	NA	NA
-GB263	Proto-Polynesian	poly1242	NA	NA
-GB264	Proto-Polynesian	poly1242	NA	NA
-GB265	Proto-Polynesian	poly1242	NA	NA
-GB266	Proto-Polynesian	poly1242	NA	NA
-GB270	Proto-Polynesian	poly1242	NA	NA
-GB273	Proto-Polynesian	poly1242	NA	NA
-GB275	Proto-Polynesian	poly1242	NA	NA
-GB276	Proto-Polynesian	poly1242	NA	NA
-GB285	Proto-Polynesian	poly1242	NA	NA
-GB286	Proto-Polynesian	poly1242	NA	NA
-GB291	Proto-Polynesian	poly1242	NA	NA
-GB296	Proto-Polynesian	poly1242	NA	NA
-GB297	Proto-Polynesian	poly1242	NA	NA
-GB298	Proto-Polynesian	poly1242	NA	NA
-GB300	Proto-Polynesian	poly1242	NA	NA
-GB301	Proto-Polynesian	poly1242	NA	NA
-GB302	Proto-Polynesian	poly1242	NA	NA
-GB303	Proto-Polynesian	poly1242	NA	NA
-GB304	Proto-Polynesian	poly1242	NA	NA
-GB305	Proto-Polynesian	poly1242	NA	NA
-GB306	Proto-Polynesian	poly1242	NA	NA
-GB309	Proto-Polynesian	poly1242	NA	NA
-GB312	Proto-Polynesian	poly1242	NA	NA
-GB313	Proto-Polynesian	poly1242	NA	NA
-GB314	Proto-Polynesian	poly1242	NA	NA
-GB315	Proto-Polynesian	poly1242	NA	NA
-GB316	Proto-Polynesian	poly1242	NA	NA
-GB317	Proto-Polynesian	poly1242	NA	NA
-GB319	Proto-Polynesian	poly1242	NA	NA
-GB320	Proto-Polynesian	poly1242	NA	NA
-GB321	Proto-Polynesian	poly1242	NA	NA
-GB322	Proto-Polynesian	poly1242	NA	NA
-GB323	Proto-Polynesian	poly1242	NA	NA
-GB324	Proto-Polynesian	poly1242	NA	NA
-GB325	Proto-Polynesian	poly1242	NA	NA
-GB326	Proto-Polynesian	poly1242	NA	NA
-GB329	Proto-Polynesian	poly1242	NA	NA
-GB330	Proto-Polynesian	poly1242	NA	NA
-GB331	Proto-Polynesian	poly1242	NA	NA
-GB333	Proto-Polynesian	poly1242	NA	NA
-GB334	Proto-Polynesian	poly1242	NA	NA
-GB335	Proto-Polynesian	poly1242	NA	NA
-GB336	Proto-Polynesian	poly1242	NA	NA
-GB400	Proto-Polynesian	poly1242	NA	NA
-GB401	Proto-Polynesian	poly1242	NA	NA
-GB402	Proto-Polynesian	poly1242	NA	NA
-GB403	Proto-Polynesian	poly1242	NA	NA
-GB410	Proto-Polynesian	poly1242	NA	NA
-GB415	Proto-Polynesian	poly1242	NA	NA
-GB421	Proto-Polynesian	poly1242	NA	NA
-GB422	Proto-Polynesian	poly1242	NA	NA
-GB430	Proto-Polynesian	poly1242	NA	NA
-GB431	Proto-Polynesian	poly1242	NA	NA
-GB432	Proto-Polynesian	poly1242	NA	NA
-GB433	Proto-Polynesian	poly1242	NA	NA
-GB521	Proto-Polynesian	poly1242	NA	NA
-GB028	Proto-Oceanic	ocea1241	1	\citet[112]{pawley1973some}, \citet[184]{crowley1985common}, \citet[500]{ross2004morphosyntactic}, \citet[67, 75]{lynchrosscrowley_proto_grammar_oceanic}
-GB023	Proto-Oceanic	ocea1241	0	\citet[112]{pawley1973some}, \citet[498]{ross2004morphosyntactic}
-GB431	Proto-Oceanic	ocea1241	0	\citet[117]{pawley1973some}, \citet[494, 497]{ross2004morphosyntactic}
-GB105	Proto-Oceanic	ocea1241	0	\citet[118]{pawley1973some}
-GB133	Proto-Oceanic	ocea1241	1	\citet[118]{pawley1973some}
-GB131	Proto-Oceanic	ocea1241	1	\citet[118]{pawley1973some}, \citet[86]{lynchrosscrowley_proto_grammar_oceanic}
-GB079	Proto-Oceanic	ocea1241	1	\citet[142]{pawley1973some}, \citet[292]{ross2007two}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB140	Proto-Oceanic	ocea1241	0	\citet[143-6]{pawley1973some}, \citet[88]{lynchrosscrowley_proto_grammar_oceanic}
-GB058	Proto-Oceanic	ocea1241	1	\citet[154]{pawley1973some}, \citet[498]{ross2004morphosyntactic}, \citet[69, 77]{lynchrosscrowley_proto_grammar_oceanic}
-GB065	Proto-Oceanic	ocea1241	3	\citet[155-156]{pawley1973some}, \citet[512]{ross2004morphosyntactic}, \citet[77]{lynchrosscrowley_proto_grammar_oceanic}; \citet[76]{lynchrosscrowley_proto_grammar_oceanic}, \citet[155-156]{pawley1973some}
-GB408	Proto-Oceanic	ocea1241	1	\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}
-GB074	Proto-Oceanic	ocea1241	1	\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}
-GB113	Proto-Oceanic	ocea1241	1	\citet[171]{pawley1973some}, \citet[123]{wilson1982proto}, \citet[80, 92]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}
-GB115	Proto-Oceanic	ocea1241	1	\citet[172]{pawley1973some}, \citet[495, 513]{ross2004morphosyntactic}
-GB059	Proto-Oceanic	ocea1241	1	\citet[492, 511-512]{ross2004morphosyntactic}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic}
-GB522	Proto-Oceanic	ocea1241	1	\citet[495]{ross2004morphosyntactic}
-GB433	Proto-Oceanic	ocea1241	1	\citet[495]{ross2004morphosyntactic}, \citet[155]{pawley1973some}
-GB409	Proto-Oceanic	ocea1241	0	\citet[496]{ross2004morphosyntactic}
-GB132	Proto-Oceanic	ocea1241	1	\citet[497]{ross2004morphosyntactic}, \citet[117]{pawley1973some}
-GB193	Proto-Oceanic	ocea1241	2	\citet[497]{ross2004morphosyntactic}, \citet[74]{lynchrosscrowley_proto_grammar_oceanic};
-GB091	Proto-Oceanic	ocea1241	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB094	Proto-Oceanic	ocea1241	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB092	Proto-Oceanic	ocea1241	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB090	Proto-Oceanic	ocea1241	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB089	Proto-Oceanic	ocea1241	0	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}
-GB093	Proto-Oceanic	ocea1241	1	\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}
-GB030	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB051	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB054	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB170	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB172	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB192	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB198	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB432	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB052	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB053	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB171	Proto-Oceanic	ocea1241	0	\citet[498]{ross2004morphosyntactic}
-GB031	Proto-Oceanic	ocea1241	1	\citet[498]{ross2004morphosyntactic}, \citet[109]{kikusawa2001rotuman}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic}, \citet[173]{pawley1973some}
-GB075	Proto-Oceanic	ocea1241	0	\citet[500]{ross2004morphosyntactic}
-GB430	Proto-Oceanic	ocea1241	0	\citet[511]{ross2004morphosyntactic}
-GB147	Proto-Oceanic	ocea1241	0	\citet[533]{ross2004morphosyntactic}
-GB068	Proto-Oceanic	ocea1241	1	\citet[63, 74]{lynchrosscrowley_proto_grammar_oceanic}, \citet[113]{pawley1973some}
-GB047	Proto-Oceanic	ocea1241	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}
-GB159	Proto-Oceanic	ocea1241	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}
-GB049	Proto-Oceanic	ocea1241	1	\citet[70]{lynchrosscrowley_proto_grammar_oceanic}
-GB333	Proto-Oceanic	ocea1241	1	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}
-GB025	Proto-Oceanic	ocea1241	2	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}
-GB035	Proto-Oceanic	ocea1241	1	\citet[72]{lynchrosscrowley_proto_grammar_oceanic}
-GB155	Proto-Oceanic	ocea1241	1	\citet[74, 83]{lynchrosscrowley_proto_grammar_oceanic}, \citet[130]{pawley1973some}, \citet[344]{evans2003study}
-GB082	Proto-Oceanic	ocea1241	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB521	Proto-Oceanic	ocea1241	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB083	Proto-Oceanic	ocea1241	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB084	Proto-Oceanic	ocea1241	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB121	Proto-Oceanic	ocea1241	0	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB312	Proto-Oceanic	ocea1241	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB086	Proto-Oceanic	ocea1241	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}
-GB158	Proto-Oceanic	ocea1241	1	\citet[84]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{evans2003study}
-GB117	Proto-Oceanic	ocea1241	0	\citet[86]{lynchrosscrowley_proto_grammar_oceanic}
-GB299	Proto-Oceanic	ocea1241	1	\citet[88]{lynchrosscrowley_proto_grammar_oceanic}
-GB260	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB264	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB285	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB286	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB291	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB262	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB297	Proto-Oceanic	ocea1241	0	\citet[89]{lynchrosscrowley_proto_grammar_oceanic}
-GB022	Proto-Oceanic	ocea1241	1	\citet{crowley1985common}, \citet[70]{lynchrosscrowley_proto_grammar_oceanic}, \citet[112]{pawley1973some}
-GB020	Proto-Oceanic	ocea1241	NA	NA
-GB021	Proto-Oceanic	ocea1241	NA	NA
-GB024	Proto-Oceanic	ocea1241	NA	NA
-GB026	Proto-Oceanic	ocea1241	NA	NA
-GB027	Proto-Oceanic	ocea1241	NA	NA
-GB036	Proto-Oceanic	ocea1241	NA	NA
-GB037	Proto-Oceanic	ocea1241	NA	NA
-GB038	Proto-Oceanic	ocea1241	NA	NA
-GB039	Proto-Oceanic	ocea1241	NA	NA
-GB041	Proto-Oceanic	ocea1241	NA	NA
-GB042	Proto-Oceanic	ocea1241	NA	NA
-GB043	Proto-Oceanic	ocea1241	NA	NA
-GB044	Proto-Oceanic	ocea1241	NA	NA
-GB046	Proto-Oceanic	ocea1241	NA	NA
-GB048	Proto-Oceanic	ocea1241	NA	NA
-GB057	Proto-Oceanic	ocea1241	NA	NA
-GB069	Proto-Oceanic	ocea1241	NA	NA
-GB070	Proto-Oceanic	ocea1241	NA	NA
-GB071	Proto-Oceanic	ocea1241	NA	NA
-GB072	Proto-Oceanic	ocea1241	NA	NA
-GB073	Proto-Oceanic	ocea1241	NA	NA
-GB080	Proto-Oceanic	ocea1241	NA	NA
-GB081	Proto-Oceanic	ocea1241	NA	NA
-GB095	Proto-Oceanic	ocea1241	NA	NA
-GB096	Proto-Oceanic	ocea1241	NA	NA
-GB098	Proto-Oceanic	ocea1241	NA	NA
-GB099	Proto-Oceanic	ocea1241	NA	NA
-GB103	Proto-Oceanic	ocea1241	NA	NA
-GB104	Proto-Oceanic	ocea1241	NA	NA
-GB107	Proto-Oceanic	ocea1241	NA	NA
-GB108	Proto-Oceanic	ocea1241	NA	NA
-GB109	Proto-Oceanic	ocea1241	NA	NA
-GB110	Proto-Oceanic	ocea1241	NA	NA
-GB111	Proto-Oceanic	ocea1241	NA	NA
-GB114	Proto-Oceanic	ocea1241	NA	NA
-GB116	Proto-Oceanic	ocea1241	NA	NA
-GB118	Proto-Oceanic	ocea1241	NA	NA
-GB119	Proto-Oceanic	ocea1241	NA	NA
-GB120	Proto-Oceanic	ocea1241	NA	NA
-GB122	Proto-Oceanic	ocea1241	NA	NA
-GB123	Proto-Oceanic	ocea1241	NA	NA
-GB124	Proto-Oceanic	ocea1241	NA	NA
-GB126	Proto-Oceanic	ocea1241	NA	NA
-GB127	Proto-Oceanic	ocea1241	NA	NA
-GB129	Proto-Oceanic	ocea1241	NA	NA
-GB130	Proto-Oceanic	ocea1241	NA	NA
-GB134	Proto-Oceanic	ocea1241	NA	NA
-GB135	Proto-Oceanic	ocea1241	NA	NA
-GB136	Proto-Oceanic	ocea1241	NA	NA
-GB137	Proto-Oceanic	ocea1241	NA	NA
-GB138	Proto-Oceanic	ocea1241	NA	NA
-GB139	Proto-Oceanic	ocea1241	NA	NA
-GB146	Proto-Oceanic	ocea1241	NA	NA
-GB148	Proto-Oceanic	ocea1241	NA	NA
-GB149	Proto-Oceanic	ocea1241	NA	NA
-GB150	Proto-Oceanic	ocea1241	NA	NA
-GB151	Proto-Oceanic	ocea1241	NA	NA
-GB152	Proto-Oceanic	ocea1241	NA	NA
-GB156	Proto-Oceanic	ocea1241	NA	NA
-GB160	Proto-Oceanic	ocea1241	NA	NA
-GB165	Proto-Oceanic	ocea1241	NA	NA
-GB166	Proto-Oceanic	ocea1241	NA	NA
-GB167	Proto-Oceanic	ocea1241	NA	NA
-GB177	Proto-Oceanic	ocea1241	NA	NA
-GB184	Proto-Oceanic	ocea1241	NA	NA
-GB185	Proto-Oceanic	ocea1241	NA	NA
-GB186	Proto-Oceanic	ocea1241	NA	NA
-GB187	Proto-Oceanic	ocea1241	NA	NA
-GB188	Proto-Oceanic	ocea1241	NA	NA
-GB196	Proto-Oceanic	ocea1241	NA	NA
-GB197	Proto-Oceanic	ocea1241	NA	NA
-GB203	Proto-Oceanic	ocea1241	NA	NA
-GB204	Proto-Oceanic	ocea1241	NA	NA
-GB250	Proto-Oceanic	ocea1241	NA	NA
-GB252	Proto-Oceanic	ocea1241	NA	NA
-GB253	Proto-Oceanic	ocea1241	NA	NA
-GB254	Proto-Oceanic	ocea1241	NA	NA
-GB256	Proto-Oceanic	ocea1241	NA	NA
-GB257	Proto-Oceanic	ocea1241	NA	NA
-GB263	Proto-Oceanic	ocea1241	NA	NA
-GB265	Proto-Oceanic	ocea1241	NA	NA
-GB266	Proto-Oceanic	ocea1241	NA	NA
-GB270	Proto-Oceanic	ocea1241	NA	NA
-GB273	Proto-Oceanic	ocea1241	NA	NA
-GB275	Proto-Oceanic	ocea1241	NA	NA
-GB276	Proto-Oceanic	ocea1241	NA	NA
-GB296	Proto-Oceanic	ocea1241	NA	NA
-GB298	Proto-Oceanic	ocea1241	NA	NA
-GB300	Proto-Oceanic	ocea1241	NA	NA
-GB301	Proto-Oceanic	ocea1241	NA	NA
-GB302	Proto-Oceanic	ocea1241	NA	NA
-GB303	Proto-Oceanic	ocea1241	NA	NA
-GB304	Proto-Oceanic	ocea1241	NA	NA
-GB305	Proto-Oceanic	ocea1241	NA	NA
-GB306	Proto-Oceanic	ocea1241	NA	NA
-GB309	Proto-Oceanic	ocea1241	NA	NA
-GB313	Proto-Oceanic	ocea1241	NA	NA
-GB314	Proto-Oceanic	ocea1241	NA	NA
-GB315	Proto-Oceanic	ocea1241	NA	NA
-GB316	Proto-Oceanic	ocea1241	NA	NA
-GB317	Proto-Oceanic	ocea1241	NA	NA
-GB318	Proto-Oceanic	ocea1241	NA	NA
-GB319	Proto-Oceanic	ocea1241	NA	NA
-GB320	Proto-Oceanic	ocea1241	NA	NA
-GB321	Proto-Oceanic	ocea1241	NA	NA
-GB322	Proto-Oceanic	ocea1241	NA	NA
-GB323	Proto-Oceanic	ocea1241	NA	NA
-GB324	Proto-Oceanic	ocea1241	NA	NA
-GB325	Proto-Oceanic	ocea1241	NA	NA
-GB326	Proto-Oceanic	ocea1241	NA	NA
-GB327	Proto-Oceanic	ocea1241	NA	NA
-GB328	Proto-Oceanic	ocea1241	NA	NA
-GB329	Proto-Oceanic	ocea1241	NA	NA
-GB330	Proto-Oceanic	ocea1241	NA	NA
-GB331	Proto-Oceanic	ocea1241	NA	NA
-GB334	Proto-Oceanic	ocea1241	NA	NA
-GB335	Proto-Oceanic	ocea1241	NA	NA
-GB336	Proto-Oceanic	ocea1241	NA	NA
-GB400	Proto-Oceanic	ocea1241	NA	NA
-GB401	Proto-Oceanic	ocea1241	NA	NA
-GB402	Proto-Oceanic	ocea1241	NA	NA
-GB403	Proto-Oceanic	ocea1241	NA	NA
-GB410	Proto-Oceanic	ocea1241	NA	NA
-GB415	Proto-Oceanic	ocea1241	NA	NA
-GB421	Proto-Oceanic	ocea1241	NA	NA
-GB422	Proto-Oceanic	ocea1241	NA	NA
-GB519	Proto-Oceanic	ocea1241	NA	NA
-GB520	Proto-Oceanic	ocea1241	NA	NA
+Proto-language	Feature_ID	Prediction
+Proto-Polynesian	GB020	1
+Proto-Polynesian	GB021	1
+Proto-Oceanic	GB022	1
+Proto-Polynesian	GB022	1
+Proto-Oceanic	GB023	0
+Proto-Oceanic	GB028	1
+Proto-Polynesian	GB028	1
+Proto-Oceanic	GB030	0
+Proto-Oceanic	GB031	1
+Proto-Polynesian	GB031	1
+Proto-Oceanic	GB035	1
+Proto-Polynesian	GB035	1
+Proto-Oceanic	GB047	1
+Proto-Oceanic	GB049	1
+Proto-Oceanic	GB051	0
+Proto-Oceanic	GB052	0
+Proto-Oceanic	GB053	0
+Proto-Oceanic	GB054	0
+Proto-Oceanic	GB058	1
+Proto-Oceanic	GB059	1
+Proto-Polynesian	GB059	1
+Proto-Oceanic	GB068	1
+Proto-Polynesian	GB070	0
+Proto-Central Pacific	GB071	0
+Proto-Central Pacific	GB073	0
+Proto-Oceanic	GB074	1
+Proto-Polynesian	GB074	1
+Proto-Oceanic	GB075	0
+Proto-Central Pacific	GB079	1
+Proto-Oceanic	GB079	1
+Proto-Oceanic	GB082	0
+Proto-Oceanic	GB083	0
+Proto-Oceanic	GB084	0
+Proto-Oceanic	GB086	1
+Proto-Oceanic	GB089	0
+Proto-Oceanic	GB090	1
+Proto-Oceanic	GB091	0
+Proto-Oceanic	GB092	1
+Proto-Oceanic	GB093	1
+Proto-Oceanic	GB094	0
+Proto-Oceanic	GB105	0
+Proto-Central Pacific	GB113	1
+Proto-Oceanic	GB113	1
+Proto-Polynesian	GB113	1
+Proto-Central Pacific	GB115	1
+Proto-Oceanic	GB115	1
+Proto-Polynesian	GB115	1
+Proto-Oceanic	GB117	0
+Proto-Oceanic	GB121	0
+Proto-Central Pacific	GB131	1
+Proto-Oceanic	GB131	1
+Proto-Polynesian	GB131	1
+Proto-Central Pacific	GB132	0
+Proto-Oceanic	GB132	1
+Proto-Polynesian	GB132	0
+Proto-Central Pacific	GB133	0
+Proto-Oceanic	GB133	1
+Proto-Polynesian	GB133	0
+Proto-Polynesian	GB139	1
+Proto-Eastern Polynesian	GB140	0
+Proto-Oceanic	GB140	0
+Proto-Eastern Polynesian	GB147	1
+Proto-Oceanic	GB147	0
+Proto-Polynesian	GB147	1
+Proto-Central Pacific	GB155	1
+Proto-Oceanic	GB155	1
+Proto-Oceanic	GB158	1
+Proto-Oceanic	GB159	1
+Proto-Oceanic	GB170	0
+Proto-Oceanic	GB171	0
+Proto-Oceanic	GB172	0
+Proto-Oceanic	GB192	0
+Proto-Oceanic	GB198	0
+Proto-Oceanic	GB260	0
+Proto-Oceanic	GB262	0
+Proto-Oceanic	GB264	0
+Proto-Oceanic	GB285	0
+Proto-Oceanic	GB286	0
+Proto-Oceanic	GB291	0
+Proto-Oceanic	GB297	0
+Proto-Oceanic	GB299	1
+Proto-Polynesian	GB299	1
+Proto-Oceanic	GB312	1
+Proto-Polynesian	GB318	1
+Proto-Polynesian	GB327	1
+Proto-Polynesian	GB328	0
+Proto-Oceanic	GB333	1
+Proto-Eastern Polynesian	GB408	1
+Proto-Oceanic	GB408	1
+Proto-Eastern Polynesian	GB409	0
+Proto-Oceanic	GB409	0
+Proto-Central Pacific	GB410	1
+Proto-Oceanic	GB430	0
+Proto-Oceanic	GB431	0
+Proto-Oceanic	GB432	0
+Proto-Oceanic	GB433	1
+Proto-Polynesian	GB519	1
+Proto-Central Pacific	GB520	1
+Proto-Polynesian	GB520	1
+Proto-Central Pacific	GB521	1
+Proto-Oceanic	GB521	0
+Proto-Oceanic	GB522	1
+Proto-Polynesian	GB522	1
+Proto-Oceanic	GB025a	0
+Proto-Oceanic	GB025b	1
+Proto-Oceanic	GB065a	1
+Proto-Oceanic	GB065b	1
+Proto-Central Pacific	GB130a	0
+Proto-Polynesian	GB130a	0
+Proto-Central Pacific	GB130b	1
+Proto-Polynesian	GB130b	1
+Proto-Oceanic	GB193a	0
+Proto-Polynesian	GB193a	0
+Proto-Oceanic	GB193b	1
+Proto-Polynesian	GB193b	1
