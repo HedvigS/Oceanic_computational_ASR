@@ -36,8 +36,8 @@ df_lik_anc_ML_gray <- lapply(GB_ASR_RDS_ML_gray$content, get_node_positions_ML) 
 df_lik_anc_ML_gray$gray_ML_prediction <- if_else(df_lik_anc_ML_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_gray$`1` > 0.6, "Present", "Half")) 
 
 automatic_predctions <- df_lik_anc_ML_gray %>% 
-  mutate(`0` = round(`0` ,2)) %>% 
-  mutate(`1` = round(`1` ,2)) %>% 
+#  mutate(`0` = round(`0` ,2)) %>% 
+#  mutate(`1` = round(`1` ,2)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_ML_prediction,gray_ML_prediction_0 = `0`, gray_ML_prediction_1 = `1`)
 
 ##############################################################################

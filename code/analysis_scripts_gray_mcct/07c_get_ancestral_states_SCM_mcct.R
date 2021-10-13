@@ -35,8 +35,8 @@ cat("I'm done with finding the SCM proto-language states for all featres.\n", se
 df_lik_anc_SCM_gray$gray_mcct_scm_prediction <- if_else(df_lik_anc_SCM_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_SCM_gray$`1` > 0.6, "Present", "Half")) 
 
 df_lik_anc_SCM_gray  <- df_lik_anc_SCM_gray %>% 
-  mutate(`0` = round(`0`)) %>% 
-  mutate(`1` = round(`1`)) %>% 
+#  mutate(`0` = round(`0`)) %>% 
+#  mutate(`1` = round(`1`)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_mcct_scm_prediction,gray_mcct_scm_prediction_0 = `0`, gray_mcct_scm_prediction_1 = `1`)
 
 df <- HL_findings_sheets %>% 

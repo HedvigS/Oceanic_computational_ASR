@@ -30,8 +30,8 @@ df_lik_anc_parsimony_gray <- lapply(GB_ACR_all_parsimony$content, get_node_posit
 df_lik_anc_parsimony_gray$gray_parsimony_prediction <- if_else(df_lik_anc_parsimony_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_parsimony_gray$`1` > 0.6, "Present", "Half")) 
 
 df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>% 
-  mutate(`0` = round(`0`)) %>% 
-  mutate(`1` = round(`1`)) %>% 
+#  mutate(`0` = round(`0`)) %>% 
+#  mutate(`1` = round(`1`)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_parsimony_prediction,gray_parsimony_prediction_0 = `0`, gray_parsimony_prediction_1 = `1`)
 
 cat("Done with retreiving the particular states for 4 proto-languages for all for the mcct tree and parsimony.")
