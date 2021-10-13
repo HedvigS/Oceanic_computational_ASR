@@ -77,7 +77,7 @@ options(tidyverse.quiet = TRUE)
 options(readr.show_col_types = FALSE)
 
 #setting options for graphics (necessary for the cluster)
-options(bitmapType='cairo')
+#options(bitmapType='cairo')
 
 #setting up cut-off numbers for tree tips
 
