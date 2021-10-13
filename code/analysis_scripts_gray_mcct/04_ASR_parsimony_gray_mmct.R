@@ -90,6 +90,23 @@ GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
 
 saveRDS(GB_ASR_Parsimony_all_df, file = file.path(output_dir, "GB_parsimony_gray_tree.rds"))
 
+
+###Making a summary results table for easy comparison
+
+source("fun_custom_parsimony_results_table.R")
+
+df_parsimony_gray <- as.data.frame(do.call(rbind,(lapply(GB_ASR_Parsimony_all_df$Feature_ID, 
+                                                         fun_extract_tip_counts_parsimony_cost, ASR_tibble = GB_ASR_Parsimony_all_df))))
+
+
+df_parsimony_gray$ntips <- df_parsimony_gray$`1` + df_parsimony_gray$`2`
+
+df_parsimony_gray %>% 
+  rename(`0`= `1`) %>% 
+  rename(`1`= `2`) %>% 
+  write_csv(file = file.path(output_dir,"results.csv"))
+
+
 ####PLOTTING TIME
 
 #colors for piecharts
@@ -111,7 +128,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- file.path(output_dir, paste0("parsimony_gray_tree_", feature, ".png"))
+  FN_ACR <- file.path(output_dir, paste0("tree_plots/parsimony_gray_tree_", feature, ".png"))
 
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
@@ -131,18 +148,3 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 }
 
 lapply(X = GB_ASR_Parsimony_all_df$content, ACR_plot)
-
-###Making a summary results table for easy comparison
-
-source("fun_custom_parsimony_results_table.R")
-
-df_parsimony_gray <- as.data.frame(do.call(rbind,(lapply(GB_ASR_Parsimony_all_df$Feature_ID, 
-                                                         fun_extract_tip_counts_parsimony_cost, ASR_tibble = GB_ASR_Parsimony_all_df))))
-
-
-df_parsimony_gray$ntips <- df_parsimony_gray$`1` + df_parsimony_gray$`2`
-
-df_parsimony_gray %>% 
-  rename(`0`= `1`) %>% 
-  rename(`1`= `2`) %>% 
-  write_csv(file = file.path(output_dir,"results.csv"))
