@@ -88,43 +88,43 @@ values_multi <- values %>%
 
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
 if("GB024" %in% colnames(values_multi)){
-  values_multi$GB024a <- if_else(values_multi$GB024 == "1"|values_multi$GB024 == "3", "1", ifelse(values_multi$GB024 == "2", "0", NA)) 
+  values_multi$GB024a <- ifelse(values_multi$GB024 == "1"|values_multi$GB024 == "3", "1", ifelse(values_multi$GB024 == "2", "0", NA)) 
   
-  values_multi$GB024b <- if_else(values_multi$GB024 == "2"|values_multi$GB024 == "3", "1", ifelse(values_multi$GB024 == "1", "0", NA)) 
+  values_multi$GB024b <- ifelse(values_multi$GB024 == "2"|values_multi$GB024 == "3", "1", ifelse(values_multi$GB024 == "1", "0", NA)) 
 }
 
 #GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
 if("GB025" %in% colnames(values_multi)){
-  values_multi$GB025a <- if_else(values_multi$GB025 == "1"|values_multi$GB025 == "3", "1", ifelse(values_multi$GB025 == "2", "0", NA)) 
+  values_multi$GB025a <- ifelse(values_multi$GB025 == "1"|values_multi$GB025 == "3", "1", ifelse(values_multi$GB025 == "2", "0", NA)) 
   
   values_multi$GB025b <- ifelse(values_multi$GB025 == "2"|values_multi$GB025 == "3", "1", ifelse(values_multi$GB025 == "1", "0", NA)) 
 }
 
 #GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
 if("GB065" %in% colnames(values_multi)){
-  values_multi$GB065a <- if_else(values_multi$GB065 == "1"|values_multi$GB065 == "3", "1", ifelse(values_multi$GB065 == "2", "0", NA)) 
+  values_multi$GB065a <- ifelse(values_multi$GB065 == "1"|values_multi$GB065 == "3", "1", ifelse(values_multi$GB065 == "2", "0", NA)) 
   
-  values_multi$GB065b <- if_else(values_multi$GB065 == "2"|values_multi$GB065 == "3", "1", ifelse(values_multi$GB065 == "1", "0", NA)) 
+  values_multi$GB065b <- ifelse(values_multi$GB065 == "2"|values_multi$GB065 == "3", "1", ifelse(values_multi$GB065 == "1", "0", NA)) 
 }
 
 #GB130 multistate 1: SV; 2: VS; 3: both
 if("GB130" %in% colnames(values_multi)){
-  values_multi$GB130a <- if_else(values_multi$GB130 == "1"|values_multi$GB130 == "3", "1", ifelse(values_multi$GB130 == "2", "0", NA)) 
+  values_multi$GB130a <- ifelse(values_multi$GB130 == "1"|values_multi$GB130 == "3", "1", ifelse(values_multi$GB130 == "2", "0", NA)) 
   
-  values_multi$GB130b <- if_else(values_multi$GB130 == "2"|values_multi$GB130 == "3", "1", ifelse(values_multi$GB130 == "1", "0", NA)) 
+  values_multi$GB130b <- ifelse(values_multi$GB130 == "2"|values_multi$GB130 == "3", "1", ifelse(values_multi$GB130 == "1", "0", NA)) 
 }
 
 #GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
 if("GB193" %in% colnames(values_multi)){
-  values_multi$GB193a <- if_else(values_multi$GB193 == "1"|values_multi$GB193 == "3", "1", ifelse(values_multi$GB193 == "2"|values_multi$GB193 == "0", "0", NA)) 
+  values_multi$GB193a <- ifelse(values_multi$GB193 == "1"|values_multi$GB193 == "3", "1", ifelse(values_multi$GB193 == "2"|values_multi$GB193 == "0", "0", NA)) 
   
-  values_multi$GB193b <- if_else(values_multi$GB193 == "2"|values_multi$GB193 == "3", "1", ifelse(values_multi$GB193 == "1"|values_multi$GB193 == "0", "0", NA)) 
+  values_multi$GB193b <- ifelse(values_multi$GB193 == "2"|values_multi$GB193 == "3", "1", ifelse(values_multi$GB193 == "1"|values_multi$GB193 == "0", "0", NA)) 
 }
 #GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
 if("GB203" %in% colnames(values_multi)){
-  values_multi$GB203a <- if_else(values_multi$GB203 == "1"|values_multi$GB203 == "3", "1", ifelse(values_multi$GB203 == "2"|values_multi$GB203 == "0", "0", NA)) 
+  values_multi$GB203a <- ifelse(values_multi$GB203 == "1"|values_multi$GB203 == "3", "1", ifelse(values_multi$GB203 == "2"|values_multi$GB203 == "0", "0", NA)) 
   
-  values_multi$GB203b <- if_else(values_multi$GB203 == "2"|values_multi$GB203 == "3", "1", ifelse(values_multi$GB203 == "1"|values_multi$GB203 == "0", "0", NA)) 
+  values_multi$GB203b <- ifelse(values_multi$GB203 == "2"|values_multi$GB203 == "3", "1", ifelse(values_multi$GB203 == "1"|values_multi$GB203 == "0", "0", NA)) 
 }
 
 values_multi_only_binarized <- values_multi %>% 
@@ -146,7 +146,7 @@ GB_wide <- values %>%
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv",col_types = cols(.default = "c"))  %>% 
   dplyr::select(Language_ID= Glottocode, Language_level_ID, level, classification) %>% 
-  mutate(Language_level_ID = if_else(is.na(Language_level_ID), Language_ID, Language_level_ID))
+  mutate(Language_level_ID = ifelse(is.na(Language_level_ID), Language_ID, Language_level_ID))
 
 #One of the reasons this makes sense to do is because there are no dialect to dialect matches between the Grambank data and the gray et al 2009-tree. Let's just double check that though in case you added new coding. If there is a match, we should do things differently. The code flow to the next scripts will break if there is a match.
 config_json <- jsonlite::read_json("config.json")
