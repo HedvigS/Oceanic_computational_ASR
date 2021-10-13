@@ -57,8 +57,8 @@ for(dir in dirs){
   df_lik_anc_SCM_gray$gray_SCM_prediction <- if_else(df_lik_anc_SCM_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_SCM_gray$`1` > 0.6, "Present", "Half")) 
   
   df_lik_anc_SCM_gray <- df_lik_anc_SCM_gray %>% 
-    mutate(`0` = round(`0`)) %>% 
-    mutate(`1` = round(`1`)) %>% 
+#    mutate(`0` = round(`0`, digits = 2)) %>% 
+#    mutate(`1` = round(`1`, digits = 2)) %>% 
     dplyr::select(Feature_ID, "Proto-language", gray_SCM_prediction,gray_SCM_prediction_0 = `0`, gray_SCM_prediction_1 = `1`)
   
   df <- HL_findings_sheets %>% 

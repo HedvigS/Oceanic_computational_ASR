@@ -36,9 +36,9 @@ df_lik_anc_ML_glottolog <- lapply(GB_ASR_RDS_ML_glottolog$content, get_node_posi
 df_lik_anc_ML_glottolog$glottolog_ML_prediction <- if_else(df_lik_anc_ML_glottolog$`0` > 0.6, "Absent", if_else(df_lik_anc_ML_glottolog$`1` > 0.6, "Present", "Half")) 
 
 automatic_predctions<- df_lik_anc_ML_glottolog %>% 
-  dplyr::select(Feature_ID, "Proto-language", glottolog_ML_prediction,glottolog_ML_prediction_0 = `0`, glottolog_ML_prediction_1 = `1` ) %>%
-  mutate(glottolog_ML_prediction_0 = round(glottolog_ML_prediction_0 ,2)) %>% 
-  mutate(glottolog_ML_prediction_0 = round(glottolog_ML_prediction_0 ,2)) 
+  dplyr::select(Feature_ID, "Proto-language", glottolog_ML_prediction,glottolog_ML_prediction_0 = `0`, glottolog_ML_prediction_1 = `1` ) #%>%
+#  mutate(glottolog_ML_prediction_0 = round(glottolog_ML_prediction_0 ,2)) %>% 
+#  mutate(glottolog_ML_prediction_0 = round(glottolog_ML_prediction_0 ,2)) 
 
 df <- HL_findings_sheets %>% 
   right_join(automatic_predctions, by = c("Feature_ID", "Proto-language")) 

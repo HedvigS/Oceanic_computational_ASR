@@ -32,8 +32,8 @@ df_lik_anc_parsimony_glottolog <- lapply(GB_ACR_all_parsimony$content, get_node_
 df_lik_anc_parsimony_glottolog$glottolog_parsimony_prediction <- if_else(df_lik_anc_parsimony_glottolog$`0` > 0.6, "Absent", if_else(df_lik_anc_parsimony_glottolog$`1` > 0.6, "Present", "Half")) 
 
 df_lik_anc_parsimony_glottolog <- df_lik_anc_parsimony_glottolog %>% 
-  mutate(`0` = round(`0`)) %>% 
-  mutate(`1` = round(`1`)) %>% 
+#  mutate(`0` = round(`0`)) %>% 
+#  mutate(`1` = round(`1`)) %>% 
   dplyr::select(Feature_ID, "Proto-language", glottolog_parsimony_prediction,glottolog_parsimony_prediction_0 = `0`, glottolog_parsimony_prediction_1 = `1`)
 
 df <- HL_findings_sheets %>% 

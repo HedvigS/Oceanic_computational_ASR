@@ -30,7 +30,7 @@ dirs <- list.dirs("output/gray_et_al_2009/parsimony/results_by_tree/", recursive
 for(dir in dirs){
 #start
 
-#  dir <- dirs[1]  
+#  dir <- dirs[92]  
 
   
   ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
@@ -47,8 +47,6 @@ for(dir in dirs){
   mutate(min_percent_parsimony_gray = min / (`0`+ `1`)) %>%
   dplyr::select(Feature_ID, ntips_parsimony_gray = ntips, zeroes_parsimony_gray = `0`, ones_parsimony_gray = `1`, min_percent_parsimony_gray)
 
-
-
 ###Gray parsimony
 GB_ACR_all_parsimony <- readRDS(file.path(dir, "GB_parsimony_gray_tree.rds"))
 
@@ -57,8 +55,8 @@ df_lik_anc_parsimony_gray <- lapply(GB_ACR_all_parsimony$content, get_node_posit
 df_lik_anc_parsimony_gray$gray_parsimony_prediction <- if_else(df_lik_anc_parsimony_gray$`0` > 0.6, "Absent", if_else(df_lik_anc_parsimony_gray$`1` > 0.6, "Present", "Half")) 
 
 df_lik_anc_parsimony_gray <- df_lik_anc_parsimony_gray %>% 
-  mutate(`0` = round(`0`)) %>% 
-  mutate(`1` = round(`1`)) %>% 
+ # mutate(`0` = round(`0`, digits = 2)) %>% 
+#  mutate(`1` = round(`1`, digits = 2)) %>% 
   dplyr::select(Feature_ID, "Proto-language", gray_parsimony_prediction,gray_parsimony_prediction_0 = `0`, gray_parsimony_prediction_1 = `1`)
 
 df <- HL_findings_sheets %>% 
