@@ -4,10 +4,6 @@ GB_df_long <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>%
   reshape2::melt(id.vars = "Language_ID") %>% 
   filter(!is.na(value))
 
-GB_df_long %>% 
-  group_by(variable) %>% 
-  summarise(n = n()) %>% View()
-
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Language_ID = Glottocode, classification)
 
