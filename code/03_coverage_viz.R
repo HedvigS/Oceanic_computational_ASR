@@ -77,7 +77,7 @@ basemap +
                                                   color = tip_value),
               #colour = glottolog_df_tip_values$tip_color, 
               alpha = 0.5, shape = 17, width = 1) +
-  scale_discrete_manual(aesthetics = c("color"), values = color_vector_map) +
+  scale_discrete_manual(aesthetics = c("color"), values = color_vector_tree) +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
@@ -146,9 +146,6 @@ par(fg="black")
 colors<-setNames(color_vector_tree[1:length(ss)],ss)
 add.simmap.legend(colors=colors,vertical=T,x=-4.5,
                   y=-5.1,prompt=F)
-#colors<-sapply(x,function(x,y) y[which(names(y)==x)], y=colors)
-#tt<-gsub("_"," ",tree_pruned_Oceanic$tip.label)
-#text(lastPP$xx[1:length(tt)],lastPP$yy[1:length(tt)], tt,cex=0.6,col=colors,pos=4,offset=0.1 , font = 2)
 
 title("Coverage of the Oceanic subgroup in Grambank (Gray et al 2009 MCCT tree)", cex.main = 1, line = 1)
 
