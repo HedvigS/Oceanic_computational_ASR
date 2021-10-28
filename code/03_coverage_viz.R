@@ -36,7 +36,8 @@ glottolog_df_tip_values <- GB_df %>%
   filter(Glottocode != "east2449") %>% 
   filter(Glottocode != "cent2060") 
   
-color_vector <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
+color_vector_tree <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
+color_vector_map <- c("#8856a7", "#ffffbf", "#c9c9c9")
 
 ###COVERAGE PLOT: MAP
 
@@ -76,7 +77,7 @@ basemap +
                                                   color = tip_value),
               #colour = glottolog_df_tip_values$tip_color, 
               alpha = 0.5, shape = 17, width = 1) +
-  scale_discrete_manual(aesthetics = c("color"), values = color_vector) +
+  scale_discrete_manual(aesthetics = c("color"), values = color_vector_map) +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
@@ -88,7 +89,6 @@ dev.off()
 ###MAPS PER FEATURE
 #Basemap
 
-color_vector <- c("#8856a7", "#ffffbf", "#c9c9c9")
 
 map_feature_distribution <- function(feature){
   #feature <- "GB022"
@@ -112,7 +112,7 @@ png(FN,  height = 5, width = 7 )
 
   basemap + 
     geom_jitter(data = df_for_plot, aes(x=Longitude, y=Latitude, fill = Value),  size = 1.5 , alpha = 0.8, shape = 21, stroke = 0.2) +
-    scale_discrete_manual(aesthetics = "fill", values = color_vector) +
+    scale_discrete_manual(aesthetics = "fill", values = color_vector_map) +
     ggtitle(plot_title) +
     theme(legend.title = element_blank())
 
@@ -143,7 +143,7 @@ plot.phylo(ladderize(gray_tree , right = F), col="grey", tip.color = gray_tree_t
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
 ss<-sort(unique(x))
 par(fg="black")
-colors<-setNames(color_vector[1:length(ss)],ss)
+colors<-setNames(color_vector_tree[1:length(ss)],ss)
 add.simmap.legend(colors=colors,vertical=T,x=-4.5,
                   y=-5.1,prompt=F)
 #colors<-sapply(x,function(x,y) y[which(names(y)==x)], y=colors)
@@ -173,7 +173,7 @@ plot.phylo(ladderize(Glottolog_tree_full , right = F), col="grey", tip.color = g
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
 ss<-sort(unique(x))
 par(fg="black")
-colors<-setNames(color_vector[1:length(ss)],ss)
+colors<-setNames(color_vector_tree[1:length(ss)],ss)
 add.simmap.legend(colors=colors,
                   vertical=T,
                   x=-11.5,
