@@ -173,7 +173,7 @@ par(fg="black")
 colors<-setNames(color_vector_tree[1:length(ss)],ss)
 add.simmap.legend(colors=colors,
                   vertical=T,
-                  x=-11.5,
+                  x=-10.5,
                   y=-10.1,prompt=F)
 title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.4-tree)", cex.main = 1, line = 1)
 
