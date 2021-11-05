@@ -8,40 +8,48 @@ HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
   distinct(Feature_ID, Prediction, `Proto-language`)
 
 most_common_values_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
-  dplyr::select(most_common_value = value, `Proto-language`, Feature_ID)
+  dplyr::select(most_common_value = value, `Proto-language`, Feature_ID) %>% 
+  distinct() %>% 
+  filter(most_common_value != "Not enough languages")
 
 #reading in the results from each method and tree and calculating the number of true negatives etc
 
 parsimony_glottolog_df <- read_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv") %>% 
-  dplyr::select(Feature_ID, `Proto-language`, glottolog_parsimony_prediction) %>% 
-  distinct()
+  dplyr::select(Feature_ID, `Proto-language`, glottolog_parsimony_prediction)  %>% 
+  distinct() %>% 
+  filter(glottolog_parsimony_prediction != "Not enough languages")
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`, gray_mcct_parsimony_prediction = gray_parsimony_prediction)%>% 
-  distinct()
+  distinct() %>% 
+  filter(gray_mcct_parsimony_prediction != "Not enough languages")
 
 parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/results_by_tree/all_reconstructions_aggregate.tsv")   %>% 
   dplyr::select(Feature_ID, `Proto-language`, gray_posteriors_parsimony_prediction)%>% 
-  distinct()
+  distinct() %>% 
+  filter(gray_posteriors_parsimony_prediction != "Not enough languages")
 
 ML_glottolog_df <- read_tsv("output/glottolog_tree_binary/ML/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`, glottolog_ML_prediction) %>% 
   full_join(most_common_values_df) %>% 
   mutate(glottolog_ML_prediction = ifelse(is.na(glottolog_ML_prediction),most_common_value , glottolog_ML_prediction)) %>% #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
-  distinct()
+  distinct() %>% 
+  filter(glottolog_ML_prediction != "Not enough languages")
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`,gray_mcct_ML_prediction = gray_ML_prediction) %>% 
   full_join(most_common_values_df) %>% 
   mutate(gray_mcct_ML_prediction = ifelse(is.na(gray_mcct_ML_prediction),most_common_value , gray_mcct_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
-  distinct()
+  distinct() %>% 
+filter(gray_mcct_ML_prediction != "Not enough languages")
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all_reconstructions_aggregate.tsv") %>% 
   filter(is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, `Proto-language`,gray_posteriors_ML_prediction) %>% 
   full_join(most_common_values_df) %>% 
   mutate(gray_posteriors_ML_prediction = ifelse(is.na(gray_posteriors_ML_prediction),most_common_value , gray_posteriors_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
-  distinct()
+  distinct() %>% 
+  filter(gray_posteriors_ML_prediction != "Not enough languages")
   
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df) %>% 
@@ -56,8 +64,7 @@ full_df <- parsimony_glottolog_df %>%
                 most_common_value, HL_prediction = Prediction, everything()) 
 
 df_for_daisy <- full_df %>% 
-  dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, most_common_value, HL_prediction) %>% 
-  filter(gray_mcct_parsimony_prediction != "Not enough languages")
+  dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, most_common_value, HL_prediction) 
 
 df_for_daisy[df_for_daisy == "Present"] <- "1"
 df_for_daisy[df_for_daisy == "Absent"] <- "0"
@@ -68,9 +75,6 @@ dist_matrix <- df_for_daisy %>%
   t() %>% 
   cluster::daisy(metric = "gower") %>% 
   as.matrix() 
-
-library(gplots)
-library(viridis)
 
 dist_matrix %>% 
   heatmap.2(  key = F, symm = T,
