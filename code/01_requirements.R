@@ -15,11 +15,11 @@ if (!suppressPackageStartupMessages(require("pacman"))) {
 pacman::p_load(
   tidyverse,
   reshape2,
-#  viridis,
+  viridis,
 #  rlang,
   readODS,
 #  lazyeval,
-#  gplots,
+  gplots,
  # MASS, 
 #  ggridges,
   ggplot2,
