@@ -63,16 +63,10 @@ df$gray_ML_prediction <- if_else(df$ntips_ML_gray <  ntips_half_gray, "Not enoug
 df$gray_ML_prediction_1 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_1)
 df$gray_ML_prediction_0 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_0)
 
-#Counting up trues per feature
-df$countTruePos <- rowSums(df == "True Positive", na.rm = T)
-df$countTrueNeg <- rowSums(df == "True Negative", na.rm = T)
-df$countTrue <- df$countTruePos + df$countTrueNeg
-
 #parameter description
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
-  arrange(-countTrue) %>% 
   left_join(GB_df_desc, by = "Feature_ID") %>% 
   write_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv")
