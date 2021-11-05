@@ -82,7 +82,7 @@ options(readr.show_col_types = FALSE)
 #setting up cut-off numbers for tree tips
 
 ntips_half_gray <- 62 #half of gray et al tree tips that can be matched to GB
-ntips_half_glottolog <- 117 #half of glottolog tree tips that can be matched to GB
+ntips_half_glottolog <- 131 #half of glottolog tree tips that can be matched to GB
 
 ##setting up folder structure 
 
