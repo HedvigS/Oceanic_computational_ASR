@@ -5,9 +5,6 @@ source("01_requirements.R")
 #reading in glottolog tree
 glottolog_tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
 
-#root_edge <- glottolog_tree$root.edge
-#glottolog_tree <- castor::root_in_edge(glottolog_tree, root_edge)
-
 #reading in glottolog language table (to be used for Names)
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
