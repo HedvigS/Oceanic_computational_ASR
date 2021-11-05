@@ -102,5 +102,5 @@ all_df  %>%
   left_join(not_enough_languages_df) %>% 
   mutate(value = ifelse(not_enough == "Not enough languages", "Not enough languages", value)) %>% 
   mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
-  dplyr::select(-Prediction, -not_enough, -n) %>%
+  dplyr::select(-not_enough, -n) %>%
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
