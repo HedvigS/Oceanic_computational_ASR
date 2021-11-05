@@ -81,6 +81,8 @@ all_df <- oceanic_df  %>%
 
 
 HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv") %>% 
+  full_join(read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+              rename(Prediction = Value)) %>% 
   filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, Prediction, `Proto-language`)
 
