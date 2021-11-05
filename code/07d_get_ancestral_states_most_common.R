@@ -7,6 +7,12 @@ GB_df_long <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>%
 glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Language_ID = Glottocode, classification)
 
+not_enough_languages_df <- GB_df_long %>% 
+  group_by(variable) %>% 
+  summarise(n = n()) %>%
+  mutate(not_enough = ifelse(n <= ntips_half_glottolog , "Not enough languages", "")) %>% 
+  rename(Feature_ID = variable)
+
 east_polynesian_df <- GB_df_long %>% 
   left_join(glottolog_df) %>% 
   filter(str_detect(classification, "east2449")) %>% 
@@ -16,7 +22,7 @@ east_polynesian_df <- GB_df_long %>%
   group_by(variable, value) %>% 
   dplyr::summarise(n = n()) %>% 
   dplyr::top_n(1, wt = n) %>% 
-  mutate(dup = duplicated(variable) + duplicated(variable, fromLast = T)) %>% 
+  mutate(dup = duplicated(variable) + duplicated(variable, fromLast = T)) %>% #if there are equal amounts that are "top", top_n() will keep both. All of these are per definition states where there are the same amount of languages that are 1 and 0. 
   mutate(value = ifelse(dup >= 1,"Half", value )) %>% 
   distinct(variable, value) %>% 
   mutate(`Proto-language` = "Proto-Eastern Polynesian")
@@ -88,7 +94,11 @@ values_df$result_most_common <- ifelse(values_df$value == "Present" & values_df$
                                                      ifelse(values_df$value == "Present" & values_df$Prediction == 0, "False Positive",
                                                             
                                                             ifelse(values_df$value == "Half", "Half", NA)))))
+
 all_df  %>% 
   left_join(values_df) %>% 
-  dplyr::select(-Prediction) %>% 
+  left_join(not_enough_languages_df) %>% 
+  mutate(value = ifelse(not_enough == "Not enough languages", "Not enough languages", value)) %>% 
+  mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
+  dplyr::select(-Prediction, -not_enough, -n) %>%
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
