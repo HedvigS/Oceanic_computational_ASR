@@ -52,21 +52,20 @@ ML_glottolog_df <- read_tsv("output/glottolog_tree_binary/ML/all_reconstructions
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   right_join(values_df) %>% 
   left_join(most_common_df) %>% 
-  mutate(`ML result (Gray et al 2009-tree)` = if_else(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "Absent", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
+  mutate(`ML result (Gray et al 2009-tree)` = ifelse(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
                                dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
-  summarise(ML_gray_mcct = n()) %>% 
-  filter(!is.na(variable))
+  summarise(ML_gray_mcct = n()) 
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all_reconstructions_aggregate.tsv") %>% 
   dplyr::select(-Prediction) %>% 
   right_join(values_df) %>% 
   left_join(most_common_df) %>% 
-  mutate(`ML result (Gray et al 2009-tree)` = if_else(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "Absent", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
+  mutate(`ML result (Gray et al 2009-tree)` = if_else(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
   dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
-  summarise(ML_gray_posteriors = n()) %>% 
-  filter(!is.na(variable))
+  summarise(ML_gray_posteriors = n()) 
+
 
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df) %>% 
