@@ -71,10 +71,16 @@ df_for_daisy[df_for_daisy == "Absent"] <- "0"
 df_for_daisy[df_for_daisy == "Half"] <- "0.5"
 df_for_daisy <- mutate_all(df_for_daisy, function(x) as.numeric(as.character(x)))
 
-dist_matrix <- df_for_daisy %>% 
-  t() %>% 
-  cluster::daisy(metric = "gower") %>% 
-  as.matrix() 
+mdat <- df_for_daisy %>% 
+  t() 
+
+dist_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(abs((mdat[i,]-mdat[j,])), na.rm = T) }))
+
+colnames(dist_matrix) <- colnames(df_for_daisy)
+rownames(dist_matrix) <- colnames(df_for_daisy)
+
+new <- df_for_daisy$gray_posteriors_ML_prediction - df_for_daisy$HL_prediction
+
 
 dist_matrix %>% 
   heatmap.2(  key = F, symm = T,
