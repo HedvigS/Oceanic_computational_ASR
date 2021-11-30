@@ -87,11 +87,31 @@ accuracy_tables <- full_df %>%
        Agree = sum(`True Negative` , `True Positive`, na.rm = T), 
        reconstructions_non_half = sum(Agree, Disagree, na.rm = T),
        reconstructions_all= sum(Agree, Disagree, Half, na.rm = T)) %>% 
-  mutate(Accuracy = Agree / reconstructions_non_half, 
+  mutate(Accuracy = Agree / reconstructions_all, 
          Accuracy_incl_half = ((Agree + (Half/2)) / reconstructions_all), 
-         Precision = `True Positive` / (`True Positive` + `False Positive`), 
-         Recall = `True Positive` / (`True Positive` + `False Negative`)) %>%
-  mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall))) %>% 
+         Accurancy_incl_half_ste_style =  ((Agree + (Half*0.5)) / reconstructions_all),
+         Precision = `True Positive` / (`True Positive` + `False Positive` + Half), 
+         Precision_incl_half = (`True Positive` + (Half*0.5)) / (`True Positive` + `False Positive`+ Half), 
+         Recall = `True Positive` / (`True Positive` + `False Negative` + Half),
+        Recall_incl_half = (`True Positive`+ (Half*0.5) )/ (`True Positive` + `False Negative` + Half)) %>%
+    mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall)), 
+           F1_score_incl_half = 2 * ((Precision_incl_half *Recall_incl_half)/(Precision_incl_half + Recall_incl_half)) )%>% 
   mutate(across(where(is.numeric), round, 3)) %>% 
   column_to_rownames("variable") %>% 
   t() 
+
+accuracy_tables %>% 
+  as.data.frame() %>% 
+  write_tsv("output/HL_comparison/accuracy_tables.tsv")
+
+accuracy_tables[10:18,] %>% 
+  heatmap.2( key = F,
+              dendrogram = "none",
+              revC = T,
+              trace = "none", 
+             Rowv = F,
+             Colv = F,
+            cellnote = round(accuracy_tables[10:18,] , 2),
+              margin=c(20,20), col=viridis(15, direction = -1))
+
+
