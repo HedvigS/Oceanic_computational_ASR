@@ -12,7 +12,7 @@
 
 #plots
 *.png
-*GB*.pdf
+*.pdf
 
 #folders
 *output
@@ -38,5 +38,5 @@
 *gray_et_al_2009_posterior_trees_pruned*
 
 .Rproj.user
-tex/ASR_Oceanic.pdf
+*tex/ASR_Oceanic.pdf
 tex/ASR_Oceanic.toc
