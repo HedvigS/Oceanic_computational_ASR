@@ -89,7 +89,6 @@ accuracy_tables <- full_df %>%
        reconstructions_all= sum(Agree, Disagree, Half, na.rm = T)) %>% 
   mutate(Accuracy = Agree / reconstructions_all, 
          Accuracy_incl_half = ((Agree + (Half/2)) / reconstructions_all), 
-         Accurancy_incl_half_ste_style =  ((Agree + (Half*0.5)) / reconstructions_all),
          Precision = `True Positive` / (`True Positive` + `False Positive` + Half), 
          Precision_incl_half = (`True Positive` + (Half*0.5)) / (`True Positive` + `False Positive`+ Half), 
          Recall = `True Positive` / (`True Positive` + `False Negative` + Half),
@@ -102,6 +101,7 @@ accuracy_tables <- full_df %>%
 
 accuracy_tables %>% 
   as.data.frame() %>% 
+  rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/accuracy_tables.tsv")
 
 accuracy_tables[10:18,] %>% 

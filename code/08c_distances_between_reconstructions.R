@@ -79,16 +79,29 @@ dist_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { 
 colnames(dist_matrix) <- colnames(df_for_daisy)
 rownames(dist_matrix) <- colnames(df_for_daisy)
 
-dist_matrix %>% 
+count_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(!is.na(mdat[i,]) & !is.na(mdat[j,]), na.rm = T) }))
+
+colnames(count_matrix) <- colnames(df_for_daisy)
+rownames(count_matrix) <- colnames(df_for_daisy)
+
+new_dist <- dist_matrix / count_matrix
+
+
+new_dist %>% 
   heatmap.2(  key = F, symm = T,
    dendrogram = "none",
    revC = T,
-   trace = "none", cellnote = round(dist_matrix, 2),
+   trace = "none", cellnote = round(new_dist, 2),
    margin=c(20,20), col=viridis(15, direction = -1))
-
 
 dist_matrix %>% 
   as.data.frame() %>% 
-  rownames_to_column("Method") %>% 
+  rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/dist_hl_comparison.tsv")
+
+
+new_dist %>% 
+  as.data.frame() %>% 
+  rownames_to_column("score") %>% 
+  write_tsv("output/HL_comparison/dist_hl_comparison_new.tsv")
 
