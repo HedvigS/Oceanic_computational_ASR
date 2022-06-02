@@ -1,68 +1,59 @@
 # Please run this script first to make sure you have all the necessary packages 
 # installed for running the rest of the scripts in this R project
 
-.libPaths(c("rlib/", .libPaths()))
+source("fun_def_h_load.R")
 
-r = getOption("repos")
-r["CRAN"] = "http://cran.us.r-project.org"
-options(repos = r)
-
-if (!suppressPackageStartupMessages(require("pacman"))) { 
-  install.packages("pacman", lib="./rlib/") 
-  require("pacman")
-  }
-
-pacman::p_load(
-  tidyverse,
-  reshape2,
-  viridis,
-#  rlang,
-  readODS,
-#  lazyeval,
-  gplots,
- # MASS, 
-#  ggridges,
-  ggplot2,
- grDevices,
-#  ggthemes,
-#  readxl,
-# glue,
-#  broom, 
-#  ggrepel,
-  jsonlite, #reading json files
-#  ggpubr,
-#  psych,
-#  fuzzyjoin,
-#  infotheo,
-#  rlist,
-  data.table,
+h_load(dependencies = F, pkg = c(
+  "tidyverse",
+  "reshape2",
+  "viridis",
+#  rlang",
+  "readODS",
+#  lazyeval",
+  "gplots",
+ # MASS", 
+#  ggridges",
+  "ggplot2",
+ "grDevices",
+#  ggthemes",
+#  readxl",
+# glue",
+#  broom", 
+#  ggrepel",
+  "jsonlite", #reading json files
+#  ggpubr",
+#  psych",
+#  fuzzyjoin",
+#  infotheo",
+#  rlist",
+  "data.table",
 
     #making maps
-  mapdata,
-  maptools,
-  maps,
-  mapproj,
-#  ggmap,
-  glue,
-  stringi,
-  ape, 
-  castor,
-  naniar, 
-#  fields,
-  phytools,
-  phylobase,
-  nloptr, 
-  GenSA,
-  phangorn, #for acctran and dep of phytools
-  xtable,
-  broom, 
-#  sf,
-#  raster, 
-  scales, 
-janitor
+  "mapdata",
+  "maptools",
+  "maps",
+  "mapproj",
+#  ggmap",
+  "glue",
+  "stringi",
+  "ape", 
+  "castor",
+  "naniar", 
+#  fields",
+  "phytools",
+  "phylobase",
+  "nloptr", 
+  "GenSA",
+  "phangorn", #for acctran and dep of phytools
+  "xtable",
+  "broom", 
+#  sf",
+#  raster", 
+  "scales", 
+"janitor")
 )
 
-
+h_load("Rmpfr")
 
 #installing pacakge corHMM from specific website
 if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
@@ -99,7 +90,7 @@ if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.crea
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
-if (!dir.exists(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("output", "gray_et_al_2009")) }
+if (!dir.exists(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned")) }
 
 
 #dirs for glottolog-tree
