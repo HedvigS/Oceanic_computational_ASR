@@ -8,11 +8,11 @@
     "zenodo_url":"https://zenodo.org/record/4061162/files/glottolog/glottolog-v4.3.zip"
   },
   "grambank_cldf":{
-    "location":"../part_of_data_not_for_cluster/grambank-cldf/cldf",
+    "location":"../grambank-cldf/cldf",
     "git_url":"https://github.com/glottobank/grambank-cldf"
   },
   "d_place_gray_et_al_2009_tree":{
-    "location":"../part_of_data_not_for_cluster/git/dplace-data/",
+    "location":"../dplace-data/",
     "git_url":"https://github.com/D-PLACE/dplace-data"
   }
 },

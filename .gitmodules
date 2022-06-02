@@ -1,3 +1,9 @@
 [submodule "glottolog-cldf"]
 	path = glottolog-cldf
 	url = https://github.com/glottolog/glottolog-cldf
+[submodule "grambank-cldf"]
+	path = grambank-cldf
+	url = https://github.com/glottobank/grambank-cldf/
+[submodule "dplace-data"]
+	path = dplace-data
+	url = https://github.com/D-PLACE/dplace-data
