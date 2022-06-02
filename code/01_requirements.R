@@ -100,5 +100,8 @@ if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { di
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony", "tree_plots")) }
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
 
+#dir for plots
 
-
+if (!dir.exists(file.path("output", "coverage_plots"))) { dir.create(file.path("output", "coverage_plots")) }
+if (!dir.exists(file.path("output", "coverage_plots", "maps"))) { dir.create(file.path("output", "coverage_plots", "maps")) }
+if (!dir.exists(file.path("output", "coverage_plots", "tree"))) { dir.create(file.path("output", "coverage_plots", "tree")) }
