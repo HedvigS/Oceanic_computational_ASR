@@ -1,7 +1,7 @@
 {"data_sources":{
   "glottolog_cldf":{
-    "location":"../part_of_data_not_for_cluster/zenodo/glottolog-glottolog-cldf-ac0d616",
-    "zenodo_url": "https://zenodo.org/record/4061165/files/glottolog/glottolog-cldf-v4.3.zip"
+    "location":"../glottolog-cldf",
+    "github_url": "https://github.com/glottolog/glottolog-cldf"
   },
   "glottolog_tree":{
     "location": "../part_of_data_not_for_cluster/zenodo/glottolog-glottolog-1ff8114",
