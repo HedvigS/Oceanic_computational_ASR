@@ -163,7 +163,7 @@ dialect_matches_gray_et_al_tree_grambank <- GB_wide %>%
   filter(level == "dialect") %>% 
   inner_join(taxa, by = "Language_ID") %>% nrow()
 
-if(dialect_matches_gray_et_al_tree_grambank == 0){
+#if(dialect_matches_gray_et_al_tree_grambank == 0){
   cat("There were no matches of dialect to dialect between the Gray et al 2009-tree and Grambank, therefore it makes sense to generally aggregate to language-level for both trees. \n")
 
 GB_wide %>% 
@@ -266,4 +266,4 @@ Parameter_desc_binary %>%
 
 cat("Grambank made wide and binarised. Wide table and parameters table written.\n")
 
-} else{message("Stop the presses!!! There was a match of dialect to dialect between the Gray et al 2009-tree and Grambank! Let's have a rethink!")}
+#} else{message("Stop the presses!!! There was a match of dialect to dialect between the Gray et al 2009-tree and Grambank! Let's have a rethink!")}
