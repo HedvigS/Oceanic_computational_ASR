@@ -7,7 +7,11 @@ glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv") %>%
   mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))
 
 ##TREE gray et al mcct
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
+gray_tree_fn <- file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt")
+if(!file.exists(gray_tree_fn)){
+  source("analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R")
+  }
+gray_tree <- ape::read.tree(gray_tree_fn) 
 
 ##TREE glottolog tree
 Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_all_oceanic.txt")
