@@ -43,15 +43,12 @@ else
 Rscript analysis_scripts_gray_all_posterior/03_process_gray_tree_posterios.R
 fi
 
-#to avoid people having to redo the glottolog-tree, i'm asking if the file already exists (I uploaded it to the repos) and if it does it doesn't run the python script.
-
 FILE=data/trees/glottolog_tree_newick_GB_pruned.txt
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
     echo "Glottolog-tree file already exists, won't bother remaking it."
 else 
-python3 -m pip install -r 01_requirements.txt
-python3 03_create_glottolog_tree_bottom_up.py #	will create a tree based on glottolog phylogeny of Oceanic languages where the tips are languoids in grambank
+Rscript 02_prune_glottolog_tree.R
 fi
 
 #visualise coverage

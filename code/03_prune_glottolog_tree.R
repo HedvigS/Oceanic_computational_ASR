@@ -2,15 +2,14 @@
 cat("Installing and loading necessary packages. If hiccup occurs, see comment in script.")
 
 source("01_requirements.R")
-p_load("devtools")
-install_github("SimonGreenhill/rcldf", dependencies = TRUE)
-p_load(rcldf)
 
-if("glottoTrees" %in% rownames(installed.packages()) == FALSE) {source("install_glottotrees.R")}
-library(glottoTrees)
+if(!("rcldf" %in% rownames(installed.packages()))){
+p_load("devtools")
+install_github("SimonGreenhill/rcldf", dependencies = TRUE)}
+library(rcldf)
 
 #if something happens and you can't install glottoTrees for whatever reason, run the next line. It will load a similar function to glottoTrees::keep_as_tip() but homemade by Hedvig and a bit slower than Eric Round's solution in glottoTrees. But! Better than nothing :)
-#source("fun_keep_as_tip.R")
+source("fun_keep_as_tip.R")
 
 #reading in and evaluating glottolog-cldf
 glottolog_cldf_json <- "../glottolog-cldf/cldf/cldf-metadata.json"
