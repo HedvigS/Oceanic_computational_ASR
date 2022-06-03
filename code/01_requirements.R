@@ -75,7 +75,7 @@ options(readr.show_col_types = FALSE)
 ntips_half_gray <- 62 #half of gray et al tree tips that can be matched to GB
 ntips_half_glottolog <- 131 #half of glottolog tree tips that can be matched to GB
 
-##setting up folder structure 
+##setting up folder structure for output
 
 #dirs for gray_et_al_tree
 if (!dir.exists("output")) { dir.create("output") }
@@ -101,7 +101,15 @@ if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { di
 if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
 
 #dir for plots
+#this project is meant to be working in tandem with tex code. To make that process easier, if there is a tex file one level up plots will be deposited there directly. However, if this code has been moved to somewhere else and no longer next to the tex folder, plots will just be straight in the output dir inside this dir.
 
-if (!dir.exists(file.path("output", "coverage_plots"))) { dir.create(file.path("output", "coverage_plots")) }
-if (!dir.exists(file.path("output", "coverage_plots", "maps"))) { dir.create(file.path("output", "coverage_plots", "maps")) }
-if (!dir.exists(file.path("output", "coverage_plots", "tree"))) { dir.create(file.path("output", "coverage_plots", "tree")) }
+if(dir.exists("../tex")){
+ OUTPUTDIR_plots <- "../tex/illustrations/plots_from_R/"
+}else{
+   OUTPUTDIR_plots<- "output"
+  }
+
+if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots")) }
+if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "maps"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "maps")) }
+if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "tree"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "tree")) }
+if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "tables"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "tables")) }
