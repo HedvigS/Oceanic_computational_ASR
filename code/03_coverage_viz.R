@@ -16,14 +16,14 @@ gray_tree <- ape::read.tree(gray_tree_fn)
 ##TREE glottolog tree
 Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_all_oceanic.txt")
 
-#reading in GB
-GB_df <- read_tsv("data/GB/GB_wide_binarised.tsv") 
-
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   filter(Binary_Multistate != "Multi")
 
 #making na_prop col
 GB_df$na_prop <- apply(GB_df, 1, function(x) mean(is.na(x)))
+
+#reading in GB
+GB_df <- read_tsv("data/GB/GB_wide_binarised.tsv") 
 
 #marking tip values in glottolog df
 glottolog_df_tip_values <- GB_df %>% 
@@ -39,7 +39,7 @@ glottolog_df_tip_values <- GB_df %>%
   filter(Glottocode != "poly1242") %>% #remove proto-languages to reduce confusion 
   filter(Glottocode != "east2449") %>% 
   filter(Glottocode != "cent2060") 
-  
+
 color_vector_tree <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
 color_vector_map <- c("#8856a7", "#ffffbf", "#c9c9c9")
 
@@ -75,7 +75,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
   xlim(c(110, 255)) +
   ylim(c(-56, 27))
 
-png("output/coverage_plots/maps/coverage_map_oceanic.png", height = 8, width = 15)
+png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 15)
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
@@ -110,7 +110,7 @@ plot_title <- GB_df_desc %>%
     as.matrix() %>% 
     as.vector()
 
-FN <- paste0("output/coverage_plots/maps/map_", feature, ".png")
+FN <- paste0(OUTPUTDIR_plots, "/coverage_plots/maps/map_", feature, ".png")
 
 png(FN,  height = 5, width = 7 )
 
@@ -140,7 +140,7 @@ gray_tree$tip.label <- gray_tree_tip_value_df$Name
 
 x <- gray_tree_tip_value_df$tip_value
 
-png(file = "output/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png", width = 8.27, height = 10.69, units = "in", res = 600)
+png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
 plot.phylo(ladderize(gray_tree , right = F), col="grey", tip.color = gray_tree_tip_value_df$tip_color, type = "fan", cex = 0.7,label.offset = 0.1)
 
@@ -167,7 +167,7 @@ x <- glottolog_tree_tip_value_df$tip_value
 
 Glottolog_tree_full <- compute.brlen(Glottolog_tree_full, method = 1)
 
-png(file = "output/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png", width = 8.27, height = 10.69, units = "in", res = 600)
+png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
 plot.phylo(ladderize(Glottolog_tree_full , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
 
@@ -197,7 +197,10 @@ island_groups_table <-   island_groups_table %>%
   janitor::adorn_totals("row") %>% 
   column_to_rownames("Island group")
 
-xtable(island_groups_table, digits = 0)
+  island_groups_table %>% 
+    xtable::xtable(digits = 0, caption = "test", label = "test") %>% 
+    xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"))
+                
 
 #summary table for gray et all tree tips
 island_groups_table_gray <- gray_tree_tip_value_df %>% 
