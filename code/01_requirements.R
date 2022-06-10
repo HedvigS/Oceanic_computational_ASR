@@ -3,6 +3,9 @@
 
 source("fun_def_h_load.R")
 
+#depdencies for castor
+h_load(c("naturalsort", "RSpectra"))
+
 h_load(dependencies = F, pkg = c(
   "tidyverse",
   "reshape2",
@@ -58,9 +61,9 @@ h_load("Rmpfr")
 #installing pacakge corHMM from specific website
 if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
   install.packages("corHMM", repo = 'https://mac.R-project.org')
-  library("corHMM")
-  
-}else{library("corHMM")}
+
+}
+library("corHMM")
 
 
 #quieting down tidyverse
