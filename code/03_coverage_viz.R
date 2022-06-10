@@ -187,6 +187,7 @@ island_groups_df <-   read_tsv("data/island_groups.tsv") %>%
   right_join(  glottolog_df_tip_values) 
 
 island_groups_table <- island_groups_df %>% 
+  filter(!is.na(`Island group`)) %>% 
   group_by(`Island group`, tip_value) %>% 
   summarise(n = n()) %>% 
   reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
@@ -194,14 +195,18 @@ island_groups_table <- island_groups_df %>%
 island_groups_table[is.na(island_groups_table)] <- 0
 
 island_groups_table <-   island_groups_table %>% 
-  janitor::adorn_totals("row") %>% 
-  column_to_rownames("Island group")
+  janitor::adorn_totals("row") 
 
-#%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language 
+#%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
+#% \hline
 
   island_groups_table %>% 
-    xtable::xtable(digits = 0, caption = "test", label = "test") %>% 
-    xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"))
+#    rename("\\textbf{\\cellcolor{hedvig_orange!50}{No grammar}}" = "grammar doesn't exist" ) %>% 
+#    rename("\\textbf{\\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}}" =   "grammar exists (not in GB, yet)") %>% 
+ #   rename("\\textbf{\\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}}" = "Less than half of features covered in GB") %>% 
+#    rename("\\textbf{\\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} }" = "More than half of features covered in GB") %>%
+    xtable::xtable(digits = 0, caption = "Table showing coverage of Oceanic languages in Grambank per island group with matches to the Gray et al 2009-tree", label = "GB_coverage_table_island_group_gray", align = c("p{5cm}", "p{5cm}","p{2.7cm}", "p{2.7cm}", "p{2.7cm}", "p{2.7cm}")) %>% 
+    xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), include.rownames = F, math.style.negative = F)
                 
 
 #summary table for gray et all tree tips
