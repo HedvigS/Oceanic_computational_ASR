@@ -19,11 +19,11 @@ Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_all_oceanic.t
 GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
   filter(Binary_Multistate != "Multi")
 
+#reading in GB
+GB_df <- read_tsv("data/GB/GB_wide_binarized.tsv") 
+
 #making na_prop col
 GB_df$na_prop <- apply(GB_df, 1, function(x) mean(is.na(x)))
-
-#reading in GB
-GB_df <- read_tsv("data/GB/GB_wide_binarised.tsv") 
 
 #marking tip values in glottolog df
 glottolog_df_tip_values <- GB_df %>% 
@@ -196,6 +196,8 @@ island_groups_table[is.na(island_groups_table)] <- 0
 island_groups_table <-   island_groups_table %>% 
   janitor::adorn_totals("row") %>% 
   column_to_rownames("Island group")
+
+#%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language 
 
   island_groups_table %>% 
     xtable::xtable(digits = 0, caption = "test", label = "test") %>% 
