@@ -1,7 +1,0 @@
-Feature_ID,Feature,Value,Source (Latex),Source,Comment,Language_ID,Proto-language
-GB408,Is there any accusative alignment of flagging?,1,"\cite[261-261]{chung1978}, \{ball2007ergativity}","Chung (1978:261-262), Ball (2007)",,poly1242,Proto-Polynesian
-GB408,Is there any accusative alignment of flagging?,0,\citet[106-107]{clark1976aspects},Clark (1976:106-107),,poly1242,Proto-Polynesian
-GB409,Is there any ergative alignment of flagging?,0,\cite[261-261]{chung1978},Chung (1978:261-262),,poly1242,Proto-Polynesian
-GB409,Is there any ergative alignment of flagging?,1,\citet[106-107]{clark1976aspects},Clark (1976:106-107),,poly1242,Proto-Polynesian
-GB409,Is there any ergative alignment of flagging?,1,\citet[1]{kikusawa2002proto},Kikusawa (2002:1),,cent2060,Proto-Central Pacific
-GB409,Is there any ergative alignment of flagging?,0,\{ball2007ergativity},Ball (2007),,cent2060,Proto-Central Pacific
