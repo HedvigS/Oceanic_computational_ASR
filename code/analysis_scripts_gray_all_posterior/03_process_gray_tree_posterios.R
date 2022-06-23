@@ -19,12 +19,12 @@ taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>%
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere 
 
 #reading in grambank data
-grambank_df <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
+grambank_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
   dplyr::select(Glottocode = Language_ID) %>% 
   mutate(in_GB = "Yes") 
 
 #reading in glottolog language table (to be used for aggregating to Language_level_ID)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification) 
 
 ##remove duplicates manually
@@ -52,10 +52,10 @@ multiPhylo_obj <- ""
 class(multiPhylo_obj) <- "multiPhylo"
 
 for(tree in 1:length(Gray_et_al_trees)){
-index <- index +1
-
+  index <- index +1
+#  tree <- 1
+  
 tree <- Gray_et_al_trees[[tree]]
-
 tree_removed_dups <- drop.tip(tree, tip = dup_to_remove)
 
 #renaming tips in the tree to glottocodes. Keeping dialect glottocodes if they are also represented in grambank
@@ -82,10 +82,10 @@ tree_pruned$edge.length <- tree_pruned$edge.length + 1e-6 #add a tiny branch len
 
 tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
 
-ape::write.tree(tree_pruned, file = file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned", tree_fn))
+ape::write.tree(tree_pruned, paste0("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/gray_et_al_2009_posterior_trees_pruned", tree_fn))
 cat("I'm done with tree ", index, ".\n", sep = "")
 multiPhylo_obj <- c(multiPhylo_obj,tree_pruned)
 }
 
 multiPhylo_obj[-1] %>% 
-  ape::write.tree(file = file.path("data", "trees", "posterios_pruned_multiPhylo.txt"))
+  ape::write.tree(file = "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/posterios_pruned_multiPhylo.txt")
