@@ -1,29 +1,27 @@
 source("01_requirements.R")
 
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv") %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv") %>% 
   dplyr::select(Glottocode, classification, Name, level, med, Language_level_ID, Longitude, Latitude, Countries) %>% 
   filter(str_detect(classification, "ocea1241")) %>% 
   filter(level == "language") %>% 
-  mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))
+  mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude)) %>% 
+  mutate(Language_level_ID = ifelse(is.na(Language_level_ID), Language_ID, Language_level_ID))
 
 ##TREE gray et al mcct
-gray_tree_fn <- file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt")
+gray_tree_fn <-"output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt"
 if(!file.exists(gray_tree_fn)){
   source("analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R")
   }
 gray_tree <- ape::read.tree(gray_tree_fn) 
 
 ##TREE glottolog tree
-Glottolog_tree_full <- read.tree("data/trees/glottolog_tree_newick_all_oceanic.txt")
+Glottolog_tree_full <- read.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")
 
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
   filter(Binary_Multistate != "Multi")
 
 #reading in GB
-GB_df <- read_tsv("data/GB/GB_wide_binarized.tsv") 
-
-#making na_prop col
-GB_df$na_prop <- apply(GB_df, 1, function(x) mean(is.na(x)))
+GB_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv")
 
 #marking tip values in glottolog df
 glottolog_df_tip_values <- GB_df %>% 
@@ -47,7 +45,6 @@ color_vector_map <- c("#8856a7", "#ffffbf", "#c9c9c9")
 
 #rendering a worldmap that is pacific centered
 world <- map_data('world', wrap=c(-25,335), ylim=c(-56,80), margin=T)
-
 lakes <- map_data("lakes", wrap=c(-25,335), col="white", border="gray", ylim=c(-55,65), margin=T)
 
 #Basemap
@@ -76,16 +73,16 @@ basemap <- ggplot(glottolog_df_tip_values) +
   ylim(c(-56, 27))
 
 png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 15)
+
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
-              #colour = glottolog_df_tip_values$tip_color, 
               alpha = 0.5, shape = 17, width = 1) +
   scale_discrete_manual(aesthetics = c("color"), values = color_vector_tree) +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
-dev.off()
+x <- dev.off()
 
 
 ###Maps per feature
@@ -93,13 +90,17 @@ dev.off()
 ###MAPS PER FEATURE
 #Basemap
 
+#check if maps already exists, if so don't make 'em again
+FN <- paste0(OUTPUTDIR_plots, "coverage_plots/maps/map_", GB_df_desc$ID[sample(1:nrow(GB_df_desc), size = 1)], ".png")
+if(!file.exists(FN)){
 
-map_feature_distribution <- function(feature){
-  #feature <- "GB022"
+  for(feature in GB_df_desc$ID){
+
+#  feature <- GB_df_desc$ID[1]
   
 df_for_plot <- GB_df %>%
     rename(Glottocode = Language_ID) %>% 
-    left_join(glottolog_df, by = "Glottocode") %>% 
+    inner_join(glottolog_df, by = "Glottocode") %>% 
     dplyr::select(Glottocode, Value = {{feature}}, Longitude, Latitude) %>% 
     mutate(Value = as.character(Value))
   
@@ -110,25 +111,24 @@ plot_title <- GB_df_desc %>%
     as.matrix() %>% 
     as.vector()
 
-FN <- paste0(OUTPUTDIR_plots, "/coverage_plots/maps/map_", feature, ".png")
+FN <- paste0(OUTPUTDIR_plots, "coverage_plots/maps/map_", feature, ".png")
+
+plot <-   basemap + 
+  geom_jitter(data = df_for_plot, aes(x=Longitude, y=Latitude, fill = Value),  size = 1.5 , alpha = 0.8, shape = 21, stroke = 0.2) +
+  scale_discrete_manual(aesthetics = "fill", values = color_vector_map) +
+  ggtitle(plot_title) +
+  theme(legend.title = element_blank())
+
 
 png(FN,  height = 5, width = 7 )
+plot(plot)
+x <- dev.off()
 
-  basemap + 
-    geom_jitter(data = df_for_plot, aes(x=Longitude, y=Latitude, fill = Value),  size = 1.5 , alpha = 0.8, shape = 21, stroke = 0.2) +
-    scale_discrete_manual(aesthetics = "fill", values = color_vector_map) +
-    ggtitle(plot_title) +
-    theme(legend.title = element_blank())
-
-    dev.off()
-  cat("Done with map plot for", feature, ".\n")
+  cat(paste0("Done with map plot for ", feature, ".\n"))
+}
 }
 
-lapply(X = as.character(GB_df_desc$ID), map_feature_distribution)
-
-
 ###COVERAGE PLOT: TREES
-
 ##Gray et al
 
 gray_tree_tip_value_df <- gray_tree$tip.label %>% 
@@ -153,7 +153,7 @@ add.simmap.legend(colors=colors,vertical=T,x=-4.5,
 
 title("Coverage of the Oceanic subgroup in Grambank (Gray et al 2009 MCCT tree)", cex.main = 1, line = 1)
 
-dev.off()
+x <- dev.off()
 
 ###Glottolog_tree
 glottolog_tree_tip_value_df <- Glottolog_tree_full$tip.label%>% 
@@ -181,10 +181,10 @@ add.simmap.legend(colors=colors,
                   y=-10.1,prompt=F)
 title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.4-tree)", cex.main = 1, line = 1)
 
-dev.off()
+x <- dev.off()
 
 island_groups_df <-   read_tsv("data/island_groups.tsv") %>% 
-  right_join(  glottolog_df_tip_values) 
+  right_join(  glottolog_df_tip_values, by = "Glottocode") 
 
 island_groups_table <- island_groups_df %>% 
   filter(!is.na(`Island group`)) %>% 
@@ -210,18 +210,18 @@ island_groups_table <-   island_groups_table %>%
                 
 
 #summary table for gray et all tree tips
-island_groups_table_gray <- gray_tree_tip_value_df %>% 
-  left_join(island_groups_df) %>%
-  group_by(`Island group`, tip_value) %>% 
-  summarise(n = n()) %>% 
-  reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
+#island_groups_table_gray <- gray_tree_tip_value_df %>% 
+#  left_join(island_groups_df) %>%
+#  group_by(`Island group`, tip_value) %>% 
+#  summarise(n = n()) %>% 
+#  reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
 
-island_groups_table_gray[is.na(island_groups_table_gray)] <- 0
+#island_groups_table_gray[is.na(island_groups_table_gray)] <- 0
 
-island_groups_table_gray <-   island_groups_table_gray %>% 
-  janitor::adorn_totals("row") %>% 
-  column_to_rownames("Island group")
+#island_groups_table_gray <-   island_groups_table_gray %>% 
+#  janitor::adorn_totals("row") %>% 
+#  column_to_rownames("Island group")
 
-xtable(island_groups_table_gray, digits = 0)
+#xtable(island_groups_table_gray, digits = 0)
 
 
