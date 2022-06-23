@@ -80,7 +80,7 @@ HL_findings_sheet_wide %>%
   reshape2::melt(id.vars = "Proto-language") %>% 
   rename(Feature_ID = variable, Prediction = value) %>% 
   filter(!is.na(Prediction)) %>% 
-  inner_join(GB_df_desc) %>% #filter out multivalue features
+  inner_join(GB_df_desc, by = "Feature_ID") %>% #filter out multivalue features
    write_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
 
 ####
