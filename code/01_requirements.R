@@ -93,7 +93,12 @@ if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.crea
 if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
 if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
-if (!dir.exists(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("data", "trees", "gray_et_al_2009_posterior_trees_pruned")) }
+
+#processed data dirs
+if (!dir.exists(file.path("output","processed_data"))) { dir.create(file.path("output","processed_data")) }
+if (!dir.exists(file.path("output","processed_data", "HL_findings"))) { dir.create(file.path("output","processed_data", "HL_findings")) }
+if (!dir.exists(file.path("output","processed_data", "trees"))) { dir.create(file.path("output","processed_data", "trees")) }
+if (!dir.exists(file.path("output","processed_data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("output","processed_data", "trees", "gray_et_al_2009_posterior_trees_pruned")) }
 
 
 #dirs for glottolog-tree
