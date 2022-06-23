@@ -208,7 +208,6 @@ island_groups_table <-   island_groups_table %>%
     xtable::xtable(digits = 0, caption = "Table showing coverage of Oceanic languages in Grambank per island group with matches to the Gray et al 2009-tree", label = "GB_coverage_table_island_group_gray", align = c("p{5cm}", "p{5cm}","p{2.7cm}", "p{2.7cm}", "p{2.7cm}", "p{2.7cm}")) %>% 
     xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), include.rownames = F, math.style.negative = F)
                 
-
 #summary table for gray et all tree tips
 #island_groups_table_gray <- gray_tree_tip_value_df %>% 
 #  left_join(island_groups_df) %>%
@@ -223,5 +222,3 @@ island_groups_table <-   island_groups_table %>%
 #  column_to_rownames("Island group")
 
 #xtable(island_groups_table_gray, digits = 0)
-
-
