@@ -1,11 +1,11 @@
 source("01_requirements.R")
 h_load("phangorn")
 
-if(!file.exists(file.path("data", "trees", "posterios_pruned_multiPhylo.txt"))){
+FN_multiphylo <- "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/posterios_pruned_multiPhylo.txt"
+if(!file.exists(FN_multiphylo)){
   source("analysis_scripts_gray_all_posterior/03_process_gray_tree_posterios.R")}
+trees <- read.tree(file = FN_multiphylo)
 
-trees <- read.tree(file = file.path("data", "trees", "posterios_pruned_multiPhylo.txt"))
-
-png("output/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png", width = 10.69, height = 10.69, units = "in", res = 600)
+png(filename = paste0(OUTPUTDIR_plots, "coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png"), width = 10.69, height = 10.69, units = "in", res = 600)
 phangorn::densiTree(trees, col="chartreuse3",  tip.color = "white", scale.bar = F)
 x <- dev.off()
