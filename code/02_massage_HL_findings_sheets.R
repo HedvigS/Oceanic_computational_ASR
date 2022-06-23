@@ -67,7 +67,7 @@ if("GB203" %in% colnames(HL_findings_sheet_wide)){
   HL_findings_sheet_wide$GB203b <- ifelse(HL_findings_sheet_wide$GB203 == "2"|HL_findings_sheet_wide$GB203 == "3", "1", ifelse(HL_findings_sheet_wide$GB203 == "1"|HL_findings_sheet_wide$GB203 == "0", "0", NA)) 
 }
 
-GB_df_desc <-  data.table::fread("data/GB/parameters_binary.tsv" ,
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv" ,
                                  encoding = 'UTF-8', 
                                  quote = "\"", 
                                  fill = T, 
@@ -81,7 +81,7 @@ HL_findings_sheet_wide %>%
   rename(Feature_ID = variable, Prediction = value) %>% 
   filter(!is.na(Prediction)) %>% 
   inner_join(GB_df_desc, by = "Feature_ID") %>% #filter out multivalue features
-   write_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+   write_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
 
 ####
 
