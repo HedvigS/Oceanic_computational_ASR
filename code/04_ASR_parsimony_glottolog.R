@@ -1,14 +1,14 @@
 source("01_requirements.R")
 
 #reading in glottolog tree
-glottolog_tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
+glottolog_tree <- read.tree("output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #reading in glottolog language table (to be used for Names)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
 #reading in GB
-GB_df_desc <-  data.table::fread("data/GB/parameters_binary.tsv" ,
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
                     encoding = 'UTF-8', 
                     quote = "\"", 
                     fill = T, 
@@ -19,7 +19,7 @@ GB_df_desc <-  data.table::fread("data/GB/parameters_binary.tsv" ,
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
-GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
   rename(Glottocode = Language_ID) %>% 
   dplyr::select(Glottocode, GB_df_desc$ID) %>% 
   reshape2::melt(id.vars = "Glottocode") %>%
@@ -76,7 +76,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   ntips <- phylobase::nTips(Glottolog_tree_full_pruned)
   ntips_table <- feature_vec %>% table() %>% as.matrix()
   
-  cat("I've finished Parsimony ASR with glottolog-tree for  ", feature, ". \n", sep = "")
+  cat(paste0("I've finished Parsimony ASR with glottolog-tree for  ", feature, ". \n", sep = ""))
   output <- list(feature, castor_parsimony, feature_vec, Glottolog_tree_full_pruned, plot_title, ntips, ntips_table)
   output
 }
@@ -113,7 +113,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- paste0("output/glottolog_tree_binary/parsimony/tree_plots/parsimony_glottolog_tree_", feature, ".png")
+  FN_ACR <- paste0(OUTPUTDIR_plots, "glottolog_tree_binary", "parsimony", "tree_plots", "parsimony_glottolog_tree_", feature, ".png")
   
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
@@ -127,7 +127,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
   title(plot_title, cex.main = 1, line = -1)
 
-  dev.off()
+  x <-  dev.off()
   
   cat("I've finished the tree plot for ", feature, ", given glottolog-tree. \n", sep = "")
   
@@ -152,5 +152,3 @@ df_parsimony_glottolog %>%
   write_csv("output/glottolog_tree_binary/parsimony/results.csv")
 
 cat("ASR with parsimony and Glottolog-tree all done.")
-
-
