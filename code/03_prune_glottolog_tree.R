@@ -8,7 +8,7 @@ source("fun_keep_as_tip.R")
 
 #reading in and evaluating glottolog-cldf
 
-glottolog_cldf_value_table <- read.delim("data/glottolog_language_table_wide_df.tsv", sep = "\t")
+glottolog_cldf_value_table <- read.delim("output/processed_data/glottolog_language_table_wide_df.tsv", sep = "\t")
 
 oceanic_tree_full <- glottolog_cldf_value_table %>% 
   filter(Language_ID == "ocea1241") %>% 
@@ -25,7 +25,7 @@ oceanic_all_labels_df <- c(oceanic_tip_labels, oceanic_node_labels) %>%
   rename(Language_ID = ".")
 
 #read in GB
-GB_df <- read.delim("data/GB/GB_wide_binarized.tsv", sep = "\t") %>% 
+GB_df <- read.delim("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", sep = "\t") %>% 
   dplyr::select(Language_ID) %>% 
   filter(Language_ID != "cent2060") %>% #removing proto-languages
   filter(Language_ID != "east2449") %>% #removing proto-languages
@@ -33,7 +33,7 @@ GB_df <- read.delim("data/GB/GB_wide_binarized.tsv", sep = "\t") %>%
   filter(Language_ID != "ocea1241") #removing proto-languages
 
 #make df of only things that are languages and oceanic
-oceanic_lgs <- read_tsv("data/glottolog_oceanic_languages_df.tsv", show_col_types = F) %>% 
+oceanic_lgs <- read_tsv("output/processed_data/glottolog_oceanic_languages_df.tsv", show_col_types = F) %>% 
   dplyr::select("Language_ID") %>% 
   as.matrix() %>% 
   as.vector()
@@ -45,9 +45,9 @@ overlap <- inner_join(GB_df, oceanic_all_labels_df, by = "Language_ID") %>%
 
 pruned_tree <-keep_as_tip(oceanic_tree_full, overlap)
 
-pruned_tree  %>% ape::write.tree( "data/trees/glottolog_tree_newick_GB_pruned.txt")
+pruned_tree  %>% ape::write.tree( "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
 
 #prune tree to only languages
 languages_only_tree <-keep_as_tip(oceanic_tree_full, oceanic_lgs)
 
-languages_only_tree  %>% ape::write.tree("data/trees/glottolog_tree_newick_all_oceanic.txt")
+languages_only_tree  %>% ape::write.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")

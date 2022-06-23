@@ -14,7 +14,7 @@ setwd("../../code/")
 glottolog_language_table_wide_df <- read_tsv("../grambank-analysed/R_grambank/output/non_GB_datasets/glottolog-cldf_wide_df.tsv") %>% 
   mutate(Language_level_ID = ifelse(level == "language", Language_ID, Language_level_ID))
 
-write_tsv(glottolog_language_table_wide_df, "data/glottolog_language_table_wide_df.tsv")
+write_tsv(glottolog_language_table_wide_df, "output/processed_data/glottolog_language_table_wide_df.tsv")
 
 #The languages-table from glottolog-cldf contains a paramter called "Language_ID" which is NOT the same as the parameter "Language_ID" in the values tables. This parameter is in fact the language leveled parent of a dialect. In order to avoid confusion, let's rename the parameter in the languages tables to the more transparent "Language_level_ID". This set-up first test if this is indeed a problem (i.e. if this is glottolog-cldf) and only does the renaming then.
 
@@ -24,4 +24,4 @@ cat("glottolog-cldf table created.\n")
 glottolog_language_table_wide_df %>% 
   filter(str_detect(classification, "ocea1241")) %>% 
   filter(level =="language") %>% 
-  write_tsv( "data/glottolog_oceanic_languages_df.tsv")
+  write_tsv( "output/processed_data/glottolog_oceanic_languages_df.tsv")
