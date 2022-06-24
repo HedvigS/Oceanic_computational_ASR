@@ -1,27 +1,27 @@
 source("01_requirements.R")
 
-
-#reading in glottolog language table (for names of tips)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Name)
-
 #reading in glottolog tree
-glottolog_tree <- read.tree("data/trees/glottolog_tree_newick_GB_pruned.txt")
+glottolog_tree <- read.tree("output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
 
-#root_edge <- glottolog_tree$root.edge
-#glottolog_tree <- castor::root_in_edge(glottolog_tree, root_edge)
+#reading in glottolog language table (to be used for Names)
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
-#reading in Grambank
-GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
-
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
+#reading in GB
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
+                                 encoding = 'UTF-8', 
+                                 quote = "\"", 
+                                 fill = T, 
+                                 header = TRUE, 
+                                 sep = "\t") %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
+#reading in Grambank
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) 
+
 ##ASR function
-
-
 fun_GB_ASR_ML <- function(feature) {
   
   #feature <- "GB109"
@@ -101,7 +101,7 @@ results_df <- data.frame(
                         feature, corHMM_result_direct$loglik,
                         corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                       ),
-                      file = sprintf("output/glottolog_tree_binary/ML/tree_plots/ML_glottolog_-%s.pdf", feature),
+                      file = paste0(OUTPUTDIR_plots, "glottolog_tree_binary", "parsimony", "tree_plots","ML_glottolog_-", feature, ".pdf"),
                       width=8, height=16
     )
     
@@ -113,11 +113,9 @@ results_df <- data.frame(
   }
 }
 
-
 GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                         content = purrr::map(GB_df_desc$ID,
                                              fun_GB_ASR_ML ))
-
 #beepr::beep(3)
 
 saveRDS(GB_ASR_ML_all, "output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
