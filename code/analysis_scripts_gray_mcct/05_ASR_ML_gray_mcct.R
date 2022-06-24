@@ -1,23 +1,28 @@
 source("01_requirements.R")
 
-#reading in glottolog language table (for names of tips)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Name)
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
+
+#reading in GB
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
+                                 encoding = 'UTF-8', 
+                                 quote = "\"", 
+                                 fill = T, 
+                                 header = TRUE, 
+                                 sep = "\t") %>% 
+  filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
+  dplyr::select(ID, Grambank_ID_desc) %>% 
+  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
+
+#reading in Grambank
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) 
 
 output_dir <- file.path("output", "gray_et_al_2009", "ML", "mcct")
 if (!dir.exists(output_dir)) { dir.create(output_dir) }
 if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) } #dir for tree plot images
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
-
-#reading in GB
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
-  filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
-  dplyr::select(ID, Grambank_ID_desc) %>% 
-  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_")) 
-
-GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
+gray_tree <- read.newick("output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt")
 
 ###ASR FUNCTION
 
@@ -100,7 +105,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                     feature, corHMM_result_direct$loglik,
                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                   ),
-                  file = file.path(output_dir, "tree_plots", paste0("ML_gray_-", feature, ".pdf")),
+                  file = paste0(OUTPUTDIR_plots, "/tree_plots", "ML_gray_-", feature, ".pdf"),
                   width=8, height=16
 )
 
