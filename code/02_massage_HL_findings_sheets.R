@@ -82,11 +82,3 @@ HL_findings_sheet_wide %>%
   filter(!is.na(Prediction)) %>% 
   inner_join(GB_df_desc, by = "Feature_ID") %>% #filter out multivalue features
    write_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
-
-####
-
-##reading in old sheet with HL-predictions - ergative section
-#HL_findings_sheet_conflict <- read_csv("data/HL_findings/HL_findings_conflicts.csv")%>%   
-#  dplyr::select(Feature_ID, "Proto-language", Language_ID, Prediction = Value, "Historical Linguistics sources" = "Source (Latex)") 
-
-  
