@@ -3,9 +3,9 @@ source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
 
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
@@ -21,7 +21,7 @@ value_count_df <- read_csv("output/glottolog_tree_binary/parsimony/results.csv")
   
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, classification, Name)
 
 ###Glottolog parsimony
@@ -60,9 +60,9 @@ df$glottolog_parsimony_prediction_1 <- ifelse(df$ntips_parsimony_glottolog <  nt
 df$glottolog_parsimony_prediction_0 <- ifelse(df$ntips_parsimony_glottolog <  ntips_half_glottolog, NA, df$glottolog_parsimony_prediction_0)
 
 #parameter description
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
-  left_join(GB_df_desc) %>%
+  left_join(GB_df_desc, by = "Feature_ID") %>%
   write_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv")  
