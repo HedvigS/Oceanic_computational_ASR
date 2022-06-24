@@ -366,34 +366,13 @@ This study is focussed on the Oceanic subgroup of the Australasian language fami
 
 Not all languages of the Oceanic subgroup have a grammatical description, but out of those that have it nearly all are included in Grambank. Table~\ref{GB_coverage_table} shows the coverage of Oceanic languages in the entire dataset. According to Glottolog, there are 261 Oceanic languages that have a grammar or grammar sketch which means that they can be included in Grambank at all. It is not always possible to fill in all the features for every language. Nineteen of the Oceanic languages that are included to date are less than 50\% completed for Grambank questions. This can be due to lack of access to descriptive work, or that the content of the descriptive work doesn't cover the necessary domains in enough detail for the coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information, with languages coded for their data coverage status.
 
-\begin{table}[h]
-\caption{{Table showing coverage of Oceanic languages in Grambank per island group, total Oceanic languages}}
-\label{GB_coverage_table_island_group}
-\centering
-\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
-  \hline
-\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
-  \hline
-Bismarck & 5 & 0 & 7 & 43 \\ 
-  Central Pacific & 11 & 0 & 1 & 33 \\ 
-  Central Vanuatu & 42 & 0 & 1 & 48 \\ 
-  Interior New Guinea & 11 & 1 & 0 & 3 \\ 
-  Micronesia & 6 & 0 & 1 & 16 \\ 
-  N Coast New Guinea & 77 & 5 & 3 & 16 \\ 
-  New Caledonia & 18 & 1 & 0 & 14 \\ 
-  Northern Vanuatu & 9 & 0 & 0 & 5 \\ 
-  S New Guinea & 36 & 8 & 1 & 21 \\ 
-  Solomons and Bougainville & 25 & 1 & 4 & 30 \\ 
-  Southern Vanuatu & 1 & 0 & 0 & 8 \\ 
-  Temotu & 3 & 0 & 2 & 5 \\ 
-  Total & 244 & 16 & 20 & 242 \\   
-\end{tabular}
-
-\end{table}
+%\newpage
+\input{"illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex"}
+%\newpage
 
 \begin{sidewaysfigure}
 \centering
-%\includegraphics[width=\textwidth]{../code/output/coverage_plots/maps/coverage_map_oceanic.png}
+\includegraphics[width=\textwidth]{illustrations/plots_from_R/coverage_plots/maps/coverage_map_oceanic.png}
 \caption{{Map of Oceania, with Oceanic languages coloured for their coverage in Grambank.}}
 \label{GB_austro_coverage}
 \end{sidewaysfigure} %#update
@@ -422,38 +401,6 @@ Figure ~\ref{tree_coverage_oceanic_gray} and Figure ~\ref{tree_coverage_oceanic_
 One of the major differences between the trees is that the Glottolog-tree does not contain \emph{any} information about branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_gray} where the first has varying lengths of branches but the latter all have a uniform length. This has the consequence that some tips in the Glottolog-tree are much further from the root than others. This is a big disadvantage with this type of tree. Further technical details of the trees can be found in Supplementary Material ~\ref{supp:tree_details}.
 
 The Glottolog-tree contains all the languages in the Oceanic subgroup. Therefore the coverage per island group that is summarised in table ~\ref{GB_coverage_table_island_group} in the previous section applies to the Glottolog-tree as well. However, the \cite{grayetal_2009}-trees do not contain all Oceanic languages, but rather 155. Out of these 128 also occur in the Grambank dataset. A breakdown of coverage for the\cite{grayetal_2009}-trees per island group is found in table ~\ref{GB_coverage_table_island_group_gray}.
-%
-%\begin{table}[h]
-%\caption{{Table showing coverage of Oceanic languages in Grambank per island group with matches to the Gray et al 2009-tree}}
-%\label{GB_coverage_table_island_group_gray}
-%\centering
-%\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
-%  \hline
-%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
-%  \hline
-%  Central Pacific & 2 & 0 & 1 & 28 \\ 
-%  Central Vanuatu & 1 & 0 & 1 & 16 \\ 
-%  Interior New Guinea & 0 & 0 & 0 & 0 \\ 
-%  Micronesia & 0 & 0 & 0 & 12 \\ 
-%  N Coast New Guinea & 6 & 2 & 2 & 3 \\ 
-%  New Caledonia & 1 & 0 & 0 & 5 \\ 
-%  Northern Vanuatu & 0 & 0 & 0 & 2 \\ 
-%  S New Guinea & 5 & 3 & 0 & 5 \\ 
-%  Solomons and Bougainville & 4 & 0 & 3 & 17 \\ 
-%  Southern Vanuatu & 0 & 0 & 0 & 6 \\ 
-%  Temotu & 3 & 0 & 1 & 5 \\ 
-%  Total & 22 & 5 & 10 & 118 \\ 
-%\end{tabular}
-%\end{table}
-
-\newpage
-\input{"illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex"}
-\newpage
-
-%\begin{tabular}{|l| p{2.7cm}| p{2.7cm} | p{2.7cm} |p{2.7cm} |}
-  %\hline
-%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
- % \hline
 
 Finally, we are also using a sample of the posterior trees from \cite{grayetal_2009}. Their study yielded 4,200 posterior trees. Tree topologies that are more probable occur more often, but less probable trees also appear in the posterior. By using a set of possible trees instead of just one we can include other possible histories into our analysis, which could for example estimate contact events as well as inheritance. Figure ~\ref{densitree_plot} shows a visualisation of the 100 trees which are used in this study.
 
