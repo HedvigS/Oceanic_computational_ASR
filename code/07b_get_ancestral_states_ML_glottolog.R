@@ -3,9 +3,9 @@ source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
 
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
