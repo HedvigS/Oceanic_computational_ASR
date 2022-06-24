@@ -15,7 +15,7 @@ if(!file.exists(gray_tree_fn)){
 gray_tree <- ape::read.tree(gray_tree_fn) 
 
 ##TREE glottolog tree
-Glottolog_tree_full <- read.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")
+Glottolog_tree_full <- read.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt") 
 
 GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
   filter(Binary_Multistate != "Multi")
@@ -27,7 +27,7 @@ GB_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binari
 glottolog_df_tip_values <- GB_df %>% 
   dplyr::select(Glottocode = Language_ID, na_prop) %>% 
   mutate(tip_value = if_else(na_prop < 0.5 , "More than half of features covered in GB", "Less than half of features covered in GB")) %>% 
-  full_join(glottolog_df, by = "Glottocode") %>% 
+  right_join(glottolog_df, by = "Glottocode") %>% 
   mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "grammar exists (not in GB, yet)", tip_value)) %>% 
   mutate(tip_value = if_else(!str_detect(med, "grammar") & is.na(tip_value), "grammar doesn't exist", tip_value)) %>% 
   mutate(tip_color = if_else(tip_value == "More than half of features covered in GB", "#0b8c1f", "NA")) %>% 
@@ -68,22 +68,22 @@ basemap <- ggplot(glottolog_df_tip_values) +
         axis.text.y = element_blank(),  
         axis.ticks = element_blank())   +
   coord_map(projection = "vandergrinten") +
-  #  coord_map(projection = "vandergrinten", xlim = c(130, 255), ylim = c(-56, 27)) +
   xlim(c(110, 255)) +
   ylim(c(-56, 27))
 
-png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 15)
+
+#map plot for coverage of oceanic languages
+png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 15, units = "in", res = 300)
 
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
-              alpha = 0.5, shape = 17, width = 1) +
+              alpha = 0.5, shape = 17, width = 2) +
   scale_discrete_manual(aesthetics = c("color"), values = color_vector_tree) +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3))
 
 x <- dev.off()
-
 
 ###Maps per feature
 
@@ -102,6 +102,7 @@ df_for_plot <- GB_df %>%
     rename(Glottocode = Language_ID) %>% 
     inner_join(glottolog_df, by = "Glottocode") %>% 
     dplyr::select(Glottocode, Value = {{feature}}, Longitude, Latitude) %>% 
+    filter(!is.na(Value)) %>% 
     mutate(Value = as.character(Value))
   
 plot_title <- GB_df_desc %>%
@@ -120,7 +121,7 @@ plot <-   basemap +
   theme(legend.title = element_blank())
 
 
-png(FN,  height = 5, width = 7 )
+png(FN,  height = 5, width = 7, units = "in" , res = 300)
 plot(plot)
 x <- dev.off()
 
@@ -159,7 +160,7 @@ x <- dev.off()
 glottolog_tree_tip_value_df <- Glottolog_tree_full$tip.label%>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  left_join(glottolog_df_tip_values) 
+  left_join(glottolog_df_tip_values, by = "Glottocode") 
 
 Glottolog_tree_full$tip.label <- glottolog_tree_tip_value_df$Name
 
@@ -169,7 +170,7 @@ Glottolog_tree_full <- compute.brlen(Glottolog_tree_full, method = 1)
 
 png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-plot.phylo(ladderize(Glottolog_tree_full , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
+plot.phylo(ladderize(ape::compute.brlen(Glottolog_tree_full) , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
 
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
 ss<-sort(unique(x))
@@ -182,6 +183,9 @@ add.simmap.legend(colors=colors,
 title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.4-tree)", cex.main = 1, line = 1)
 
 x <- dev.off()
+
+
+#table with coverage stats
 
 island_groups_df <-   read_tsv("data/island_groups.tsv") %>% 
   right_join(  glottolog_df_tip_values, by = "Glottocode") 
@@ -197,16 +201,26 @@ island_groups_table[is.na(island_groups_table)] <- 0
 island_groups_table <-   island_groups_table %>% 
   janitor::adorn_totals("row") 
 
-#%\textbf{Island group} & \textbf{\cellcolor{hedvig_orange!50}{No grammar}}  & \textbf{\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}} &\textbf{\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}} & \textbf{\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} } \\ 
-#% \hline
+#xtable making
 
-  island_groups_table %>% 
-#    rename("\\textbf{\\cellcolor{hedvig_orange!50}{No grammar}}" = "grammar doesn't exist" ) %>% 
-#    rename("\\textbf{\\cellcolor{hedvig_blue!50}{Grammar exists, but language not in Grambank (yet)}}" =   "grammar exists (not in GB, yet)") %>% 
- #   rename("\\textbf{\\cellcolor{hedvig_lightgreen!50}{Less than half of the features covered in Grambank}}" = "Less than half of features covered in GB") %>% 
-    rename("\\textbf{\\cellcolor{hedvig_darkgreen!50}{More than half of the features covered in Grambank} }" = "More than half of features covered in GB") %>%
-    xtable::xtable(digits = 0, caption = "Table showing coverage of Oceanic languages in Grambank per island group with matches to the Gray et al 2009-tree", label = "GB_coverage_table_island_group_gray", align = c("p{5cm}", "p{5cm}","p{2.7cm}", "p{2.7cm}", "p{2.7cm}", "p{2.7cm}")) %>% 
-    xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), include.rownames = F, math.style.negative = F)
+cap <- "Table showing coverage of Oceanic languages in Grambank per island group."
+lbl <- "GB_coverage_table_island_group_gray"
+align <- c("r", "l","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ") 
+
+island_groups_table_latex_formatting <- island_groups_table %>%
+      rename("$\\textbf{\\cellcolor{hedvig_orange!50}{No grammar}}$" = "grammar doesn't exist" ) %>% 
+    rename("$\\textbf{\\cellcolor{hedvig_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
+   rename("$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
+    rename("$\\textbf{\\cellcolor{hedvig_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB")
+
+island_groups_table_latex_formatting  %>% 
+    xtable(caption = cap, label = lbl,
+           digits = 0, 
+           align = align) %>% 
+  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
+          include.rownames = FALSE, math.style.negative = FALSE,
+          booktabs = TRUE) 
+
                 
 #summary table for gray et all tree tips
 #island_groups_table_gray <- gray_tree_tip_value_df %>% 
