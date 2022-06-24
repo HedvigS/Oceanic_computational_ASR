@@ -1,19 +1,25 @@
 source("01_requirements.R")
 
-#reading in glottolog language table (for names of tips)
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
-  dplyr::select(Glottocode, Name)
-
-#reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_trees_fns <- list.files("data/trees/gray_et_al_2009_posterior_trees_pruned", pattern = "*.txt", full.names = T)
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
 #reading in GB
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
+                                 encoding = 'UTF-8', 
+                                 quote = "\"", 
+                                 fill = T, 
+                                 header = TRUE, 
+                                 sep = "\t") %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
-  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_")) 
+  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) 
+#reading in Grambank
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) 
+
+
+#reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
+gray_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)
 
 ###ASR FUNCTION
 
@@ -96,7 +102,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                     feature, corHMM_result_direct$loglik,
                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                   ),
-                  file = file.path(output_dir, "tree_plots", paste0(feature, ".pdf")),
+                  file = paste0(OUTPUTDIR_plots, "gray_et_al_2009_posteriors_sample/tree_plots/", feature, ".pdf"),
                   width=8, height=16
 )
 
