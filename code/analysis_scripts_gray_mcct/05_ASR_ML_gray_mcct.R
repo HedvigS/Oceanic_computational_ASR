@@ -105,7 +105,7 @@ corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
                     feature, corHMM_result_direct$loglik,
                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                   ),
-                  file = paste0(OUTPUTDIR_plots, "/tree_plots", "ML_gray_-", feature, ".pdf"),
+                  file = paste0(OUTPUTDIR_plots, "/tree_plots/", "ML_gray_mcct_-", feature, ".pdf"),
                   width=8, height=16
 )
 

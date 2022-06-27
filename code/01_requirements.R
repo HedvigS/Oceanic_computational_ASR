@@ -79,34 +79,87 @@ ntips_half_gray <- 62 #half of gray et al tree tips that can be matched to GB
 ntips_half_glottolog <- 131 #half of glottolog tree tips that can be matched to GB
 
 ##setting up folder structure for output
+if (!dir.exists("output")) { dir.create("output") }
 
 #dirs for gray_et_al_tree
-if (!dir.exists("output")) { dir.create("output") }
-if (!dir.exists(file.path("output", "gray_et_al_2009"))) { dir.create(file.path("output", "gray_et_al_2009")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML")) } 
-if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "mcct")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "mcct", "tree_plots")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "ML"))) { dir.create(file.path("output", "gray_et_al_2009", "ML", "results_by_tree")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "mcct")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "mcct", "tree_plots")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "parsimony"))) { dir.create(file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM")) }
-if (!dir.exists(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree"))) { dir.create(file.path("output", "gray_et_al_2009", "SCM", "results_by_tree")) }
+fn <- "output/gray_et_al_2009"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/ML"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/ML/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/ML/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/parsimony/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/parsimony/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/parsimony/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/scm/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/scm/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/gray_et_al_2009/scm/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
 
 #processed data dirs
-if (!dir.exists(file.path("output","processed_data"))) { dir.create(file.path("output","processed_data")) }
-if (!dir.exists(file.path("output","processed_data", "HL_findings"))) { dir.create(file.path("output","processed_data", "HL_findings")) }
-if (!dir.exists(file.path("output","processed_data", "trees"))) { dir.create(file.path("output","processed_data", "trees")) }
-if (!dir.exists(file.path("output","processed_data", "trees", "gray_et_al_2009_posterior_trees_pruned"))) { dir.create(file.path("output","processed_data", "trees", "gray_et_al_2009_posterior_trees_pruned")) }
+fn <- "output/processed_data"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/processed_data/HL_findings/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/processed_data/trees"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned"
+if (!dir.exists(fn)) { dir.create(fn) }
+
 
 
 #dirs for glottolog-tree
-if (!dir.exists(file.path("output", "glottolog_tree_binary"))) { dir.create(file.path("output", "glottolog_tree_binary")) }
-if (!dir.exists(file.path("output", "glottolog_tree_binary", "ML"))) { dir.create(file.path("output", "glottolog_tree_binary", "ML")) }
-if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony")) }
-if (!dir.exists(file.path("output", "glottolog_tree_binary", "parsimony"))) { dir.create(file.path("output", "glottolog_tree_binary", "parsimony", "tree_plots")) }
-if (!dir.exists(file.path("output", "glottolog_tree_binary", "SCM"))) { dir.create(file.path("output", "glottolog_tree_binary", "SCM")) }
+fn <- "output/glottolog-tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/ML"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/ML/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/ML/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/parsimony/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/parsimony/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/parsimony/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/scm/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/scm/mcct"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- "output/glottolog-tree/scm/results_by_tree"
+if (!dir.exists(fn)) { dir.create(fn) }
+
+
 
 #dir for plots
 #this project is meant to be working in tandem with tex code. To make that process easier, if there is a tex file one level up plots will be deposited there directly. However, if this code has been moved to somewhere else and no longer next to the tex folder, plots will just be straight in the output dir inside this dir.
@@ -115,15 +168,28 @@ if(dir.exists("../tex")){
  OUTPUTDIR_plots <- "../tex/illustrations/plots_from_R/"
 }else{
    OUTPUTDIR_plots<- "output"
-  }
+}
 
-if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots")) }
-if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "maps"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "maps")) }
-if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "tree"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "tree")) }
-if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "tables"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "tables")) }
+fn <- file.path( OUTPUTDIR_plots , "coverage_plots")
+if (!dir.exists(fn)) { dir.create(fn) }
 
-if (!dir.exists(file.path( OUTPUTDIR_plots , "coverage_plots", "tables"))) { dir.create(file.path( OUTPUTDIR_plots , "coverage_plots", "tables")) }
+fn <- file.path( OUTPUTDIR_plots , "tree_plots")
+if (!dir.exists(fn)) { dir.create(fn) }
 
-if (!dir.exists(file.path( OUTPUTDIR_plots , "glottolog_tree_binary"))) { dir.create(file.path( OUTPUTDIR_plots , "glottolog_tree_binary")) }
-if (!dir.exists(file.path( OUTPUTDIR_plots , "glottolog_tree_binary", "parsimony"))) { dir.create(file.path( OUTPUTDIR_plots , "glottolog_tree_binary", "parsimony")) }
-if (!dir.exists(file.path( OUTPUTDIR_plots , "glottolog_tree_binary", "parsimony", "tree_plots/"))) { dir.create(file.path( OUTPUTDIR_plots , "glottolog_tree_binary", "parsimony", "tree_plots/")) }
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "glottolog-tree")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "parsimony")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "coverage_plots", "maps")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "coverage_plots", "tree")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "coverage_plots", "tables")
+if (!dir.exists(fn)) { dir.create(fn) }

@@ -40,7 +40,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   to_keep <- gray_tree$tip.label %>% 
     as.data.frame() %>% 
     rename(Glottocode = ".") %>% 
-    left_join(GB_df_all, by = "Glottocode") %>% 
+    inner_join(GB_df_all, by = "Glottocode") %>% 
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Glottocode, {{feature}})
   
@@ -128,7 +128,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- file.path(output_dir, paste0("tree_plots/parsimony_gray_tree_", feature, ".png"))
+  FN_ACR <- file.path(OUTPUTDIR_plots, paste0("tree_plots/parsimony_gray_tree_mcct_", feature, ".png"))
 
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   

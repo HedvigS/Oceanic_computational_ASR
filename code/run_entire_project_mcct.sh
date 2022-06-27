@@ -28,31 +28,14 @@ else
 Rscript 02_get_grambank_data.R 
 fi
 
-FILE=data/HL_findings/HL_findings_for_comparison.tsv
-if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-else
 Rscript 02_massage_HL_findings_sheets.R
-fi
 
 ## 3. prep trees
 echo third step, prep trees
 
-FILE=data/trees/gray_et_al_tree_pruned_newick_mmct.txt
-if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-    echo "Gray et al 2009 MCCT already exists, won't bother making it."
-else 
 Rscript analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R #pruning tree and changing tip names to glottocodes. removing duplicates and merges dialects
-fi
 
-FILE=data/trees/glottolog_tree_newick_GB_pruned.txt
-if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-    echo "Glottolog-tree file already exists, won't bother remaking it."
-else 
 Rscript 02_prune_glottolog_tree.R
-fi
 
 #visualise coverage
 Rscript 03_coverage_viz.R

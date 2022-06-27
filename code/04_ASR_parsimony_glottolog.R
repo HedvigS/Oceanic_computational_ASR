@@ -76,7 +76,7 @@ fun_GB_ASR_Parsimony <- function(feature){
   ntips <- phylobase::nTips(Glottolog_tree_full_pruned)
   ntips_table <- feature_vec %>% table() %>% as.matrix()
   
-  cat(paste0("I've finished Parsimony ASR with glottolog-tree for  ", feature, ". \n", sep = ""))
+  cat(paste0("I've finished Parsimony ASR with glottolog-tree for ", feature, ". \n", sep = ""))
   output <- list(feature, castor_parsimony, feature_vec, Glottolog_tree_full_pruned, plot_title, ntips, ntips_table)
   output
 }
@@ -90,7 +90,7 @@ GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
                                    content = purrr::map(GB_parameters,
                                                         fun_GB_ASR_Parsimony))
 
-saveRDS(GB_ASR_Parsimony_all_df, "output/glottolog_tree_binary/parsimony/GB_parsimony_Glottolog_tree_full.rds")
+saveRDS(GB_ASR_Parsimony_all_df, "output/glottolog-tree/parsimony/GB_parsimony_Glottolog_tree_full.rds")
 
 ####PLOTTING TIME
 
@@ -113,7 +113,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- paste0(OUTPUTDIR_plots, "glottolog_tree_binary", "parsimony", "tree_plots", "parsimony_glottolog_tree_", feature, ".png")
+  FN_ACR <- file.path(OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "parsimony",paste0( "parsimony_glottolog_tree_", feature, ".png"))
   
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
@@ -149,6 +149,6 @@ df_parsimony_glottolog$ntips <- df_parsimony_glottolog$`1` + df_parsimony_glotto
 df_parsimony_glottolog %>% 
   rename(`0`= `1`) %>% 
   rename(`1`= `2`) %>% 
-  write_csv("output/glottolog_tree_binary/parsimony/results.csv")
+  write_csv("output/glottolog-tree/parsimony/results.csv")
 
 cat("ASR with parsimony and Glottolog-tree all done.")

@@ -101,7 +101,7 @@ results_df <- data.frame(
                         feature, corHMM_result_direct$loglik,
                         corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
                       ),
-                      file = paste0(OUTPUTDIR_plots, "glottolog_tree_binary", "parsimony", "tree_plots","ML_glottolog_-", feature, ".pdf"),
+                      file = file.path(OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML",paste0( "ML_glottolog_tree_", feature, ".pdf")),
                       width=8, height=16
     )
     
@@ -118,8 +118,8 @@ GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                                              fun_GB_ASR_ML ))
 #beepr::beep(3)
 
-saveRDS(GB_ASR_ML_all, "output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
-#GB_ASR_ML_all <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds")
+saveRDS(GB_ASR_ML_all, "output/glottolog-tree/ML/GB_ML_glottolog_tree.rds")
+#GB_ASR_ML_all <- readRDS("output/glottolog-tree/ML/GB_ML_glottolog_tree.rds")
 
 ##unraveling the output into a summary table
 
@@ -153,4 +153,4 @@ for(row in GB_ASR_ML_all_split$results_df){
   results <- rbind(results, row)
 }
 
-write_csv( results, "output/glottolog_tree_binary/ML/results.csv")
+write_csv( results, "output/glottolog-tree/ML/results.csv")
