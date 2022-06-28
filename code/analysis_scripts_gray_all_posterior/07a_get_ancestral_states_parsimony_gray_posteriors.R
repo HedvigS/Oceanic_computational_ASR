@@ -4,26 +4,22 @@ source("fun_get_ASR_nodes.R")
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
-
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn ) %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
-HL_findings_sheets <- HL_findings_sheet %>% 
-  full_join(HL_findings_sheet_conflicts)
+HL_findings_sheets <-read_tsv(HL_findings_sheet_fn, show_col_types = F)   %>% 
+  full_join(HL_findings_sheet_conflicts, by = c("Proto-language", "Feature_ID", "Prediction"))
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv(glottolog_df_fn, show_col_types = F)  %>% 
   dplyr::select(Glottocode, classification, Name)
 
 #parameter description
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn, show_col_types = F) %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 #Function for getting ancestral states for 4 specific nodes out of castor parsimony objects
-
-
 
 dirs <- list.dirs("output/gray_et_al_2009/parsimony/results_by_tree/", recursive = F)
 
