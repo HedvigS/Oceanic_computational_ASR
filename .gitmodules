@@ -1,3 +1,6 @@
 [submodule "dplace-data"]
 	path = dplace-data
 	url = https://github.com/D-PLACE/dplace-data
+[submodule "grambank-analysed"]
+	path = grambank-analysed
+	url = https://github.com/grambank/grambank-analysed
