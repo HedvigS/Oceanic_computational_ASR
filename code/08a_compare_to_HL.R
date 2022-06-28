@@ -1,48 +1,48 @@
 source("01_requirements.R")
 
 #First we make a df with the basic counts for all oceanic languages per feature and what the distribution at the tips are. This will help us identify cases where all tips where of the same kind. These cases are currently excluded from the ML workflow since corHMM doesn't accept trees where the values are the same at all tips. The parsimony function however accepts such cases, so in order to make them comparable we need to put them back in to the results. We can use the basic summary table from the parsimony glottolog analysis for this since that per definition includes all lgs. Note that the total distribution over all lgs isn't the same as the distribution in the gray tree, which may be missing specific tips which have the divergent value.
-values_df <- read_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv") %>% 
+values_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
   distinct(Feature_ID, ntips = ntips_parsimony_glottolog, zeroes_total= zeroes_parsimony_glottolog ,ones_total=  ones_parsimony_glottolog, min_percent = min_percent_parsimony_glottolog)
 
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv") %>% 
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, Prediction, `Proto-language`)
 
 values_df <- values_df %>% 
-  right_join(HL_findings_sheet) %>% 
-  distinct(Feature_ID, zeroes_total, ones_total, `Proto-language`, Prediction)
+  right_join(HL_findings_sheet, by = "Feature_ID") %>% 
+  distinct(Feature_ID, zeroes_total, ones_total, "Proto-language", Prediction)
 
 most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv")
 
 most_common_df_summarised <- most_common_df %>% 
-  inner_join(values_df) %>% 
+  inner_join(values_df, by = "Feature_ID") %>% 
   dplyr::rename(variable = `result_most_common`) %>% 
   group_by(variable) %>% 
   summarise(most_common = n())
 
 #reading in the results from each method and tree and calculating the number of true negatives etc
 
-parsimony_glottolog_df <- read_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv") %>% 
-  inner_join(values_df) %>% 
+parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
+  inner_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
   dplyr::rename(variable = `Parsimony result (Glottolog-tree)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_glottolog = n())
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
-  inner_join(values_df) %>% 
+  inner_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
   dplyr::rename(variable = `Parsimony result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_gray_mcct = n())
 
 parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/results_by_tree/all_reconstructions_aggregate.tsv")   %>% 
   filter(!is.na(Prediction)) %>% 
-  right_join(values_df) %>% 
+  right_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
   dplyr::rename(variable = `parsimony result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_gray_posteriors = n())
 
-ML_glottolog_df <- read_tsv("output/glottolog_tree_binary/ML/all_reconstructions.tsv") %>% 
+ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
   right_join(values_df) %>% 
   dplyr::rename(variable = `ML result (Glottolog-tree)`) %>% 
