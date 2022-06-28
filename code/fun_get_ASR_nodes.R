@@ -1,6 +1,6 @@
 
 #Function for getting ancestral states for 4 specific nodes out of castor parsimony objects
-get_node_positions_parsimony <- function(GB_asr_object_parsimony){
+get_node_positions_parsimony <- function(GB_asr_object_parsimony, verbose = F){
   
   #  GB_asr_object_parsimony <- GB_ACR_all_parsimony$content[[187]]
   
@@ -57,13 +57,14 @@ get_node_positions_parsimony <- function(GB_asr_object_parsimony){
     left_join(df_lik_anc, by = "Node") %>% 
     mutate(Feature_ID = feature)
   
-  cat("I'm done with finding the parsimony proto-language states for feature ", feature, ".\n", sep = "")
+  if(verbose == T){
+  cat("I'm done with finding the parsimony proto-language states for feature ", feature, ".\n", sep = "") }
   
   df
 }
 
 
-get_node_positions_ML <- function(GB_asr_object_ml){
+get_node_positions_ML <- function(GB_asr_object_ml, verbose = F ){
   
   #GB_asr_object_ml <- GB_ASR_RDS_ML_gray$content[[1]]
   
@@ -121,12 +122,13 @@ get_node_positions_ML <- function(GB_asr_object_ml){
     mutate(Feature_ID = feature) %>% 
     rename(`0`= "(1,R1)" , `1` = "(2,R1)")
   
-  cat("I'm done with finding the ML proto-language states for feature ", feature, ".\n", sep = "")
+  if(verbose == T){
+  cat("I'm done with finding the ML proto-language states for feature ", feature, ".\n", sep = "") }
   df
 }
 
 
-get_node_positions_SCM <- function(GB_asr_object_SCM){
+get_node_positions_SCM <- function(GB_asr_object_SCM, verbose = F){
   
   #GB_asr_object_SCM <- GB_ASR_RDS_SCM_gray$content[[1]]
   
@@ -186,8 +188,9 @@ get_node_positions_SCM <- function(GB_asr_object_SCM){
     mutate(Node = as.character(Node)) %>% 
     left_join(df_lik_anc, by = "Node") %>% 
     mutate(Feature_ID = feature)
-  
-  cat("I'm done with finding the SCM proto-language states for feature ", feature, ".\n", sep = "")
+
+    if(verbose == T){
+  cat("I'm done with finding the SCM proto-language states for feature ", feature, ".\n", sep = "") }
   df
 }
 
