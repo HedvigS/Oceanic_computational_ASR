@@ -69,10 +69,10 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all
 
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df) %>% 
-  full_join(parsimon_gray_posteriors_df) %>% 
+#  full_join(parsimon_gray_posteriors_df) %>% 
   full_join(ML_glottolog_df) %>% 
   full_join(ML_gray_mcct) %>% 
-  full_join(ML_gray_posteriors_df) %>% 
+#  full_join(ML_gray_posteriors_df) %>% 
  full_join(most_common_df_summarised)
 
 full_df[is.na(full_df)] <- 0
