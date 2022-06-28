@@ -1,7 +1,7 @@
 source("01_requirements.R")
 h_load("phangorn")
 
-FN_multiphylo <- "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/posterios_pruned_multiPhylo.txt"
+FN_multiphylo <- "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt"
 if(!file.exists(FN_multiphylo)){
   source("analysis_scripts_gray_all_posterior/03_process_gray_tree_posterios.R")}
 trees <- read.tree(file = FN_multiphylo)
