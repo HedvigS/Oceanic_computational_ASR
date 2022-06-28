@@ -3,9 +3,9 @@ source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
-HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
+HL_findings_sheet <- read_tsv(HL_findings_sheet_fn)
 
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
@@ -14,20 +14,20 @@ HL_findings_sheets <- HL_findings_sheet %>%
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
-value_count_df<- read_csv("output/glottolog_tree_binary/ML/results.csv") %>%
+value_count_df<- read_csv("output/glottolog-tree/ML/results.csv") %>%
   mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
   mutate(min_percent_ML_glottolog = min / nTips) %>%
   dplyr::select(Feature_ID, ntips_ML_glottolog = nTips, zeroes_ML_glottolog =  nTips_state_0, ones_ML_glottolog =  nTips_state_1, min_percent_ML_glottolog)
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv(glottolog_df_fn, show_col_types = F)  %>% 
   dplyr::select(Glottocode, classification, Name)
 
 ##Glottolog ML
 #rds object with all the output of ML on the glottolog tree
 
-GB_ASR_RDS_ML_glottolog <- readRDS("output/glottolog_tree_binary/ML/GB_ML_glottolog_tree.rds") %>% 
+GB_ASR_RDS_ML_glottolog <- readRDS("output/glottolog-tree/ML/GB_ML_glottolog_tree.rds") %>% 
   left_join(value_count_df, by = "Feature_ID") %>% 
   filter(!is.na(ntips_ML_glottolog))
 
@@ -69,4 +69,4 @@ GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>%
 
 df %>% 
   left_join(GB_df_desc) %>% 
-  write_tsv("output/glottolog_tree_binary/ML/all_reconstructions.tsv")  
+  write_tsv("output/glottolog-tree/ML/all_reconstructions.tsv")  
