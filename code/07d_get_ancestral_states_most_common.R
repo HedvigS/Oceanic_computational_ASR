@@ -1,10 +1,11 @@
 source("01_requirements.R")
 
-GB_df_long <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
+GB_df_long <- read_tsv(GB_binary_fn, show_col_types = F) %>% 
+  dplyr::select(-na_prop) %>% 
   reshape2::melt(id.vars = "Language_ID") %>% 
   filter(!is.na(value))
 
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv(glottolog_df_fn, show_col_types = F)  %>% 
   dplyr::select(Language_ID = Glottocode, classification)
 
 not_enough_languages_df <- GB_df_long %>% 
@@ -14,7 +15,7 @@ not_enough_languages_df <- GB_df_long %>%
   rename(Feature_ID = variable)
 
 east_polynesian_df <- GB_df_long %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   filter(str_detect(classification, "east2449")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
@@ -31,7 +32,7 @@ east_polynesian_df <- GB_df_long %>%
 east_polynesian_df$most_common_prediction <- if_else(east_polynesian_df$`0` > 0.6, "Absent", if_else(east_polynesian_df$`1` > 0.6, "Present", "Half")) 
 
 polynesian_df <- GB_df_long %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   filter(str_detect(classification, "poly1242")) %>%
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
@@ -48,7 +49,7 @@ polynesian_df <- GB_df_long %>%
 polynesian_df$most_common_prediction <- if_else(polynesian_df$`0` > 0.6, "Absent", if_else(polynesian_df$`1` > 0.6, "Present", "Half")) 
 
 central_pacific_df <- GB_df_long %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   filter(str_detect(classification, "cent2060")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
@@ -65,7 +66,7 @@ central_pacific_df <- GB_df_long %>%
 central_pacific_df$most_common_prediction <- if_else(central_pacific_df$`0` > 0.6, "Absent", if_else(central_pacific_df$`1` > 0.6, "Present", "Half")) 
 
 oceanic_df <- GB_df_long %>% 
-  left_join(glottolog_df) %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
   filter(str_detect(classification, "ocea1241")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
@@ -87,9 +88,9 @@ all_df <- oceanic_df  %>%
   full_join(east_polynesian_df) %>% 
   dplyr::rename(Feature_ID = variable)
 
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv") %>% 
-  full_join(read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
-              rename(Prediction = Value)) %>% 
+HL_findings_sheet <- read_tsv(HL_findings_sheet_fn) %>% 
+  full_join(read_csv(HL_findings_sheet_conflicts_fn) %>% 
+              rename(Prediction = Value), by = c("Proto-language", "Feature_ID", "Prediction")          ) %>% 
   filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, Prediction, `Proto-language`)
 

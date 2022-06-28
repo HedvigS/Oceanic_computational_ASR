@@ -203,3 +203,5 @@ HL_findings_sheet_conflicts_fn <- "data/HL_findings_conflicts.csv"
 GB_df_desc_fn <- "../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv"
 
 glottolog_df_fn <- "output/processed_data/glottolog_language_table_wide_df.tsv"
+
+GB_binary_fn <- "../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv"

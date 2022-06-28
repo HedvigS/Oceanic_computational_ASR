@@ -12,7 +12,8 @@ values_df <- values_df %>%
   right_join(HL_findings_sheet, by = "Feature_ID") %>% 
   distinct(Feature_ID, zeroes_total, ones_total, "Proto-language", Prediction)
 
-most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv")
+most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
+  filter(!is.na(`result_most_common`))
 
 most_common_df_summarised <- most_common_df %>% 
   inner_join(values_df, by = "Feature_ID") %>% 
@@ -35,12 +36,12 @@ parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_re
   group_by(variable) %>% 
   summarise(Parsimony_gray_mcct = n())
 
-parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/results_by_tree/all_reconstructions_aggregate.tsv")   %>% 
-  filter(!is.na(Prediction)) %>% 
-  right_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
-  dplyr::rename(variable = `parsimony result (Gray et al 2009-tree)`) %>% 
-  group_by(variable) %>% 
-  summarise(Parsimony_gray_posteriors = n())
+#parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/results_by_tree/all_reconstructions_aggregate.tsv")   %>% 
+#  filter(!is.na(Prediction)) %>% 
+#  right_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
+#  dplyr::rename(variable = `parsimony result (Gray et al 2009-tree)`) %>% 
+#  group_by(variable) %>% 
+#  summarise(Parsimony_gray_posteriors = n())
 
 ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
@@ -50,30 +51,31 @@ ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") 
   summarise(ML_glottolog = n()) 
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
-  right_join(values_df) %>% 
+  filter(!is.na(gray_ML_prediction)) %>% 
+  inner_join(values_df) %>% 
   left_join(most_common_df) %>% 
   mutate(`ML result (Gray et al 2009-tree)` = ifelse(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
                                dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
   summarise(ML_gray_mcct = n()) 
 
-ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all_reconstructions_aggregate.tsv") %>% 
-  dplyr::select(-Prediction) %>% 
-  right_join(values_df) %>% 
-  left_join(most_common_df) %>% 
-  mutate(`ML result (Gray et al 2009-tree)` = if_else(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
-  dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
-  group_by(variable) %>% 
-  summarise(ML_gray_posteriors = n()) 
+#ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all_reconstructions_aggregate.tsv") %>% 
+#  dplyr::select(-Prediction) %>% 
+#  right_join(values_df) %>% 
+#  left_join(most_common_df) %>% 
+#  mutate(`ML result (Gray et al 2009-tree)` = if_else(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
+#  dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
+#  group_by(variable) %>% 
+#  summarise(ML_gray_posteriors = n()) 
 
 
 full_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df) %>% 
-#  full_join(parsimon_gray_posteriors_df) %>% 
-  full_join(ML_glottolog_df) %>% 
-  full_join(ML_gray_mcct) %>% 
-#  full_join(ML_gray_posteriors_df) %>% 
- full_join(most_common_df_summarised)
+  full_join(parsimony_gray_mcct_df, by = "variable") %>% 
+#  full_join(parsimon_gray_posteriors_df, by = "variable") %>% 
+  full_join(ML_glottolog_df, by = "variable") %>% 
+  full_join(ML_gray_mcct, by = "variable") %>% 
+#  full_join(ML_gray_posteriors_df, by = "variable") %>% 
+ full_join(most_common_df_summarised, by = "variable")
 
 full_df[is.na(full_df)] <- 0
 

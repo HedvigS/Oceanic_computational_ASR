@@ -64,9 +64,9 @@ df$glottolog_ML_prediction_1 <- ifelse(df$ntips_ML_glottolog <  ntips_half_glott
 df$glottolog_ML_prediction_0 <- ifelse(df$ntips_ML_glottolog <  ntips_half_glottolog, NA, df$glottolog_ML_prediction_0 )
 
 #parameter description
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
-  left_join(GB_df_desc) %>% 
+  left_join(GB_df_desc, by = "Feature_ID") %>% 
   write_tsv("output/glottolog-tree/ML/all_reconstructions.tsv")  
