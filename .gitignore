@@ -48,4 +48,4 @@ code/data/glottolog_language_table_wide_df.tsv
 code/data/trees/glottolog_tree_newick_all_oceanic.txt
 code/data/trees/glottolog_tree_newick_GB_pruned.txt
 tex/illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex
-grambank-analysed/
+
