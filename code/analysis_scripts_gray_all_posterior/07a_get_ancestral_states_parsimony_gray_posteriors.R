@@ -13,8 +13,6 @@ HL_findings_sheets <-read_tsv(HL_findings_sheet_fn, show_col_types = F)   %>%
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-
-#parameter description
 glottolog_df <- read_tsv(glottolog_df_fn, show_col_types = F)  %>% 
   dplyr::select(Glottocode, classification, Name)
 
