@@ -2,9 +2,9 @@ source("01_requirements.R")
 source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
-HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
+HL_findings_sheet <- read_tsv(HL_findings_sheet_fn)
 
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
@@ -20,7 +20,7 @@ value_count_df <- read_csv("output/gray_et_al_2009/parsimony/mcct/results.csv") 
   
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv(glottolog_df_fn, col_types = cols())  %>% 
   dplyr::select(Glottocode, classification, Name)
 
 GB_ACR_all_parsimony <- readRDS("output/gray_et_al_2009/parsimony/mcct/GB_parsimony_gray_tree.rds")
@@ -67,10 +67,10 @@ df$countTrueNeg <- rowSums(df == "True Negative", na.rm = T)
 df$countTrue <- df$countTruePos + df$countTrueNeg
 
 #parameter description
-GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
   arrange(-countTrue) %>% 
-  left_join(GB_df_desc) %>% 
+  left_join(GB_df_desc, by = "Feature_ID") %>% 
   write_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv")

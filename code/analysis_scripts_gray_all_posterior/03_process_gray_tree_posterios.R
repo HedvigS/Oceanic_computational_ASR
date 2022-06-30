@@ -88,4 +88,4 @@ multiPhylo_obj <- c(multiPhylo_obj,tree_pruned)
 }
 
 multiPhylo_obj[-1] %>% 
-  ape::write.tree(file = "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/posterios_pruned_multiPhylo.txt")
+  ape::write.tree(file = "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt")
