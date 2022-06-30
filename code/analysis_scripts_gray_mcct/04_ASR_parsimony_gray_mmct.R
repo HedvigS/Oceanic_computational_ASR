@@ -6,20 +6,20 @@ source("01_requirements.R")
 output_dir <- file.path("output", "gray_et_al_2009", "parsimony", "mcct")
 
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, level, classification, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was invidually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick(file.path("data", "trees", "gray_et_al_tree_pruned_newick_mmct.txt"))
+gray_tree <- read.newick("output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt")
 
 #reading in GB
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv", col_types = cols()) %>% 
+GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv", col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
-GB_df_all <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
   rename(Glottocode = Language_ID) %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
   filter(str_detect(classification, "ocea1241")) %>% #we'll make life easier for the below script as well and tease out only the Oceanic languages as well
@@ -128,7 +128,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   FN_obj <- ACR_object[[5]]
   plot_title <- str_replace_all(FN_obj, "_", " ")
   
-  FN_ACR <- file.path(OUTPUTDIR_plots, paste0("tree_plots/parsimony_gray_tree_mcct_", feature, ".png"))
+  FN_ACR <- file.path(OUTPUTDIR_plots, paste0("/tree_plots/gray_et_al_2009/parsimony/parsimony_gray_tree_mcct_", feature, ".png"))
 
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
@@ -143,7 +143,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   title(plot_title, cex.main = 1, line = -1)
   
   dev.off()
-  cat("I've finished the tree plot for ", feature, ", given Gray et al-tree. \n", sep = "")
+  cat("I've finished the tree plot for ", feature, ", given the Gray et al 2009-tree. \n", sep = "")
   
 }
 

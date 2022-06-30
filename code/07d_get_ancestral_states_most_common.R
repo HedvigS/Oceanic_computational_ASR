@@ -1,10 +1,10 @@
 source("01_requirements.R")
 
-GB_df_long <- read_tsv("data/GB/GB_wide_binarised.tsv", col_types = cols()) %>% 
+GB_df_long <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
   reshape2::melt(id.vars = "Language_ID") %>% 
   filter(!is.na(value))
 
-glottolog_df <- read_tsv("data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols()) %>% 
   dplyr::select(Language_ID = Glottocode, classification)
 
 not_enough_languages_df <- GB_df_long %>% 
@@ -87,8 +87,8 @@ all_df <- oceanic_df  %>%
   full_join(east_polynesian_df) %>% 
   dplyr::rename(Feature_ID = variable)
 
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv") %>% 
-  full_join(read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>% 
+  full_join(read_csv("data/HL_findings_conflicts.csv") %>% 
               rename(Prediction = Value)) %>% 
   filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, Prediction, `Proto-language`)

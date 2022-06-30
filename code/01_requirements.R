@@ -120,6 +120,9 @@ if (!dir.exists(fn)) { dir.create(fn) }
 fn <- "output/processed_data/HL_findings/"
 if (!dir.exists(fn)) { dir.create(fn) }
 
+fn <- "output/HL_comparison/"
+if (!dir.exists(fn)) { dir.create(fn) }
+
 fn <- "output/processed_data/trees"
 if (!dir.exists(fn)) { dir.create(fn) }
 
@@ -184,6 +187,16 @@ if (!dir.exists(fn)) { dir.create(fn) }
 
 fn <- file.path( OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML")
 if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "gray_et_al_2009")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "gray_et_al_2009", "parsimony")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+fn <- file.path( OUTPUTDIR_plots , "tree_plots", "gray_et_al_2009", "ML")
+if (!dir.exists(fn)) { dir.create(fn) }
+
 
 fn <- file.path( OUTPUTDIR_plots , "coverage_plots", "maps")
 if (!dir.exists(fn)) { dir.create(fn) }

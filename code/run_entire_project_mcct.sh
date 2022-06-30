@@ -11,23 +11,8 @@ echo first step, installing necessary packages
 Rscript 01_requirements.R 
 
 #Step 2
-echo second step, fecthing data
-FILE=data/glottolog_language_table_wide_df.tsv
-if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-    echo "Glottolog-cldf table file already exists, won't bother remaking it."
-else 
 Rscript 02_get_glottolog_language_table.R
-fi
-
-FILE=data/GB/GB_wide_binarised.tsv
-if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-    echo "Grambank cldf wide table already exists, won't bother remaking it."
-else 
 Rscript 02_get_grambank_data.R 
-fi
-
 Rscript 02_massage_HL_findings_sheets.R
 
 ## 3. prep trees
@@ -72,7 +57,6 @@ echo "Gray et al tree (MCCT)"
 Rscript analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R
 Rscript analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R
 #Rscrpt 07c_get_ancestral_states_SCM_mcct.R
-
 
 echo "I'm all finished with the MCCT analysis!"
 #echo "zipping up the posterior results"

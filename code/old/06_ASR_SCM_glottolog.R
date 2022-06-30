@@ -1,0 +1,139 @@
+source("01_requirements.R")
+
+
+#reading in glottolog tree
+glottolog_tree <- read.tree("output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
+
+#reading in glottolog language table (to be used for Names)
+glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
+  dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
+
+#reading in GB
+GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
+                                 encoding = 'UTF-8', 
+                                 quote = "\"", 
+                                 fill = T, 
+                                 header = TRUE, 
+                                 sep = "\t") %>% 
+  filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
+  dplyr::select(ID, Grambank_ID_desc) %>% 
+  mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
+
+#reading in Grambank
+GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) 
+
+###ASR FUNCTION
+
+fun_GB_ASR_SCM <- function(feature) {
+  
+  #feature <- "GB020"
+  cat("I've started ASR SCM on ", feature, " with the glottolog-tree.\n", sep = "")
+  
+  filter_criteria <- paste0("!is.na(", feature, ")")
+  
+  to_keep <- glottolog_tree$tip.label %>% 
+    as.data.frame() %>% 
+    rename(Language_ID = ".") %>% 
+    left_join(GB_df_all, by = "Language_ID") %>% 
+    filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
+    dplyr::select(Language_ID, {{feature}})
+  
+  glottolog_tree_pruned <- drop.tip(glottolog_tree, "kele1258")
+
+ glottolog_tree_pruned <- compute.brlen(  glottolog_tree_pruned , method = 1) #making all branch lengths one
+
+  feature_vec <-  glottolog_tree_pruned$tip.label %>% 
+    as.data.frame() %>% 
+    rename(Language_ID = ".") %>% 
+    left_join(GB_df_all, by = "Language_ID") %>% 
+    dplyr::select(Language_ID, {{feature}}) %>% 
+    tibble::deframe()
+
+states <-   feature_vec %>% table() %>% length()
+    
+if(states >1) {
+
+  result_all_maps <- phytools::make.simmap(tree = glottolog_tree_pruned, 
+                                  x = feature_vec, 
+                                  model = "ARD", 
+                                  nsim = 10,
+                                  pi = "estimated", 
+                                  method = "optim")
+
+result <-   result_all_maps %>% summary()
+  
+    results_df <- data.frame(
+    Feature_ID = feature,
+    LogLikelihood = NA,
+    q01 = NA,
+    q10 = NA,
+    nTips = glottolog_tree_pruned$tip.label %>% length(),
+    nTips_state_0 =  feature_vec %>% table() %>% as.matrix() %>% .[1,1],
+    nTips_state_1 = feature_vec %>% table() %>% as.matrix() %>% .[2,1])
+  
+    output <- list(result, results_df, result_all_maps, glottolog_tree_pruned )
+output  
+  
+}else{
+  message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+  
+  result <- NULL
+  result_all_maps <- NULL
+  
+  results_df <- data.frame(
+    Feature_ID = feature,
+    LogLikelihood = NA,
+    #    AICc = NA,
+    #    pRoot0 = NA,
+    #    pRoot1 = NA,
+    q01 = NA,
+    q10 = NA,
+    nTips = NA,
+    nTips_state_0 =  NA,
+    nTips_state_1 = NA)
+  
+  output <- list(result, results_df, result_all_maps, glottolog_tree_pruned )
+    output  
+    
+
+  }
+}
+
+GB_ASR_SCM_all <- tibble(Feature_ID = GB_df_desc$ID,
+                        content = purrr::map(GB_df_desc$ID,
+                                             fun_GB_ASR_SCM))
+
+saveRDS(GB_ASR_SCM_all, "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
+#GB_ASR_SCM_all <- readRDS( "output/glottolog_tree_binary/SCM/GB_SCM_glottolog_tree.rds")
+
+GB_ASR_SCM_all_split  <- GB_ASR_SCM_all %>%
+  unnest(content) %>% 
+  group_by(Feature_ID) %>% 
+  mutate(col=seq_along(Feature_ID)) %>%
+  spread(key=col, value=content) %>% 
+  rename(SIMMAP_result = "1", results_df = "2") %>% 
+  ungroup()
+
+
+#making empty df to rbind to
+
+results <- data.frame(
+  Feature_ID = NULL,
+  LogLikelihood = NULL,
+  AICc = NULL,
+  pRoot0 = NULL,
+  pRoot1 = NULL,
+  q01 = NULL,
+  q10 = NULL,
+  nTips = NULL,
+  nTips_state_0 =  NULL,
+  nTips_state_1 = NULL
+)
+
+
+for(row in GB_ASR_SCM_all_split$results_df){
+  print(row)
+  results <- rbind(results, row)
+}
+
+write_csv( results, "output/glottolog_tree_binary/SCM/results.csv")

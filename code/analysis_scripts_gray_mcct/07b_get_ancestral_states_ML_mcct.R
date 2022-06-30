@@ -2,9 +2,10 @@ source("01_requirements.R")
 source("fun_get_ASR_nodes.R")
 
 #reading in old sheet with HL-predictions
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv")
+#reading in old sheet with HL-predictions
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
 
-HL_findings_sheet_conflicts <- read_csv("data/HL_findings/HL_findings_conflicts.csv") %>% 
+HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>% 
   mutate(conflict = "Yes") %>% 
   rename(Prediction = Value)
 
@@ -64,7 +65,8 @@ df$gray_ML_prediction_1 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gr
 df$gray_ML_prediction_0 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_0)
 
 #parameter description
-GB_df_desc <- read_tsv("data/GB/parameters_binary.tsv") %>% 
+#parameter description
+GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 

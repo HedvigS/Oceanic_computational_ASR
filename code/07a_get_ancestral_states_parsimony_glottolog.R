@@ -14,7 +14,7 @@ HL_findings_sheets <- HL_findings_sheet %>%
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
-value_count_df <- read_csv("output/glottolog_tree_binary/parsimony/results.csv") %>% 
+value_count_df <- read_csv("output/glottolog-tree/parsimony/results.csv") %>% 
   mutate(min = pmin(`0`, `1`)) %>% 
   mutate(min_percent_parsimony_glottolog = min / (`0`+ `1`)) %>%
   dplyr::select(Feature_ID, ntips_parsimony_glottolog = ntips, zeroes_parsimony_glottolog = `0`, ones_parsimony_glottolog = `1`, min_percent_parsimony_glottolog)
@@ -25,7 +25,7 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
   dplyr::select(Glottocode, classification, Name)
 
 ###Glottolog parsimony
-GB_ACR_all_parsimony <- readRDS("output/glottolog_tree_binary/parsimony/GB_parsimony_Glottolog_tree_full.rds")
+GB_ACR_all_parsimony <- readRDS("output/glottolog-tree/parsimony/GB_parsimony_Glottolog_tree_full.rds")
 
 df_lik_anc_parsimony_glottolog <- lapply(GB_ACR_all_parsimony$content, get_node_positions_parsimony) %>% bind_rows()
 
@@ -65,4 +65,4 @@ GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameter
 
 df %>% 
   left_join(GB_df_desc, by = "Feature_ID") %>%
-  write_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv")  
+  write_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv")  
