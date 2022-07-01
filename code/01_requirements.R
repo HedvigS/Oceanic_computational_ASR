@@ -169,9 +169,11 @@ if (!dir.exists(fn)) { dir.create(fn) }
 
 if(dir.exists("../tex")){
  OUTPUTDIR_plots <- "../tex/illustrations/plots_from_R/"
-}else{
+ }else{
    OUTPUTDIR_plots<- "output"
 }
+if (!dir.exists(OUTPUTDIR_plots)) { dir.create(OUTPUTDIR_plots) }
+
 
 fn <- file.path( OUTPUTDIR_plots , "coverage_plots")
 if (!dir.exists(fn)) { dir.create(fn) }
