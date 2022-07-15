@@ -16,7 +16,7 @@ most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv
   filter(!is.na(`result_most_common`))
 
 most_common_df_summarised <- most_common_df %>% 
-  inner_join(values_df, by = "Feature_ID") %>% 
+  inner_join(values_df, by = c("Feature_ID", "Proto-language")) %>%
   dplyr::rename(variable = `result_most_common`) %>% 
   group_by(variable) %>% 
   summarise(most_common = n())
@@ -24,50 +24,48 @@ most_common_df_summarised <- most_common_df %>%
 #reading in the results from each method and tree and calculating the number of true negatives etc
 
 parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
-  inner_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language", "Prediction") ) %>% 
   dplyr::rename(variable = `Parsimony result (Glottolog-tree)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_glottolog = n())
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
-  inner_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language", "Prediction") ) %>% 
   dplyr::rename(variable = `Parsimony result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_gray_mcct = n())
 
 parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
   filter(!is.na(Prediction)) %>% 
-  right_join(values_df, by = c("Feature_ID", "Prediction")    ) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language", "Prediction") ) %>% 
   dplyr::rename(variable = `Parsimony result (Gray et al 2009-tree posteriors)`) %>% 
   group_by(variable) %>% 
   summarise(Parsimony_gray_posteriors = n())
 
 ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
-  right_join(values_df) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language", "Prediction") ) %>% 
   dplyr::rename(variable = `ML result (Glottolog-tree)`) %>% 
   group_by(variable) %>% 
   summarise(ML_glottolog = n()) 
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   filter(!is.na(gray_ML_prediction)) %>% 
-  inner_join(values_df) %>% 
-  left_join(most_common_df) %>% 
-  mutate(`ML result (Gray et al 2009-tree)` = ifelse(is.na(`ML result (Gray et al 2009-tree)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree)`) ) %>% 
-                               dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language", "Prediction") ) %>%            
+  dplyr::rename(variable = `ML result (Gray et al 2009-tree)`) %>% 
   group_by(variable) %>% 
-  summarise(ML_gray_mcct = n()) 
+  summarise(ML_gray_mcct = n()) %>% 
+  filter(!is.na(variable))
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
   filter(!is.na(`ML result (Gray et al 2009-tree posteriors)`)) %>% 
   dplyr::select(-Prediction) %>% 
-  right_join(values_df) %>% 
-  left_join(most_common_df) %>% 
-  mutate(`ML result (Gray et al 2009-tree posteriors)` = if_else(is.na(`ML result (Gray et al 2009-tree posteriors)`) & Prediction == 0 & result_most_common == "True Negative", "True Negative", `ML result (Gray et al 2009-tree posteriors)`) ) %>% 
+  right_join(values_df, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::rename(variable = `ML result (Gray et al 2009-tree posteriors)`) %>% 
   group_by(variable) %>% 
-  summarise(ML_gray_posteriors = n()) 
+  summarise(ML_gray_posteriors = n()) %>% 
+  filter(!is.na(variable))
 
 #combining all
 full_df <- parsimony_glottolog_df %>% 
@@ -108,7 +106,6 @@ accuracy_tables %>%
   write_tsv("output/HL_comparison/accuracy_tables.tsv")
 
 accuracy_tables[1:9,]
-
 
 accuracy_tables[10:17,] %>% 
   heatmap.2( key = F,
