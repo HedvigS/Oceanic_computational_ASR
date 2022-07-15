@@ -107,14 +107,17 @@ accuracy_tables %>%
   rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/accuracy_tables.tsv")
 
-accuracy_tables[10:18,] %>% 
+accuracy_tables[1:9,]
+
+
+accuracy_tables[10:17,] %>% 
   heatmap.2( key = F,
               dendrogram = "none",
               revC = T,
               trace = "none", 
              Rowv = F,
              Colv = F,
-            cellnote = round(accuracy_tables[10:18,] , 2),
+            cellnote = round(accuracy_tables[10:17,] , 2),
               margin=c(20,20), col=viridis(15, direction = -1))
 
 
