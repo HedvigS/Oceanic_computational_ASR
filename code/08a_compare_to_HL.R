@@ -97,13 +97,49 @@ accuracy_tables <- full_df %>%
     mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall)), 
            F1_score_incl_half = 2 * ((Precision_incl_half *Recall_incl_half)/(Precision_incl_half + Recall_incl_half)) )%>% 
   mutate(across(where(is.numeric), round, 3)) %>% 
-  column_to_rownames("variable") %>% 
-  t() 
+  column_to_rownames("variable") 
 
 accuracy_tables %>% 
+  t() %>% 
   as.data.frame() %>% 
   rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/accuracy_tables.tsv")
+
+
+#OUTPUTTING XTABLES
+OUTPUT_DIR <- file.path( OUTPUTDIR_plots , "results")
+if(!dir.exists(OUTPUT_DIR)){
+  dir.create(OUTPUT_DIR)}
+
+#outputting xtable of false pos, negative etc values
+cap <- "Table showing the amount of False Negative, False Positive, Hald, True Negative and True Positive results."
+lbl <- "True_post_results_table"
+align <- c("r", "p{4cm}","l", "l", "l","l", "l", "l") 
+
+accuracy_tables %>% 
+  dplyr::select("False Negative", "False Positive", "Half", "True Negative", "True Positive", "$$\\textbf{Total}$$" = "reconstructions_all" ) %>%
+  rename("$$\\textbf{\\cellcolor{hedvig_red!50}{\\parbox{1.8cm}{\\raggedright False Positive}}}$$" = "False Positive" ) %>% 
+  rename("$$\\textbf{\\cellcolor{hedvig_red!50}{\\parbox{1.8cm}{\\raggedright False Negative}}}$$" = "False Negative" ) %>% 
+  rename("$$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Positive}}}$$" = "True Positive" ) %>% 
+  rename("$$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Negative}}}$$" = "True Negative" ) %>% 
+  rename("$$\\textbf{\\cellcolor{hedvig_yellow!50}{\\parbox{1.8cm}{\\raggedright Half}}}$$" = "Half" ) %>% 
+  rownames_to_column("Method") %>% 
+  mutate("Method" = str_replace_all(`Method`, "_", " ")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "gray mcct", "Gray et al (2009) - MCCT ")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "gray posteriors", "Gray et al (2009) - posteriors ")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog (4.4)")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "most common", "Most common")) %>% 
+  rename("$$\\textbf{\\parbox{1.8cm}{\\raggedright Method}}$$" = "Method") %>% 
+        xtable(caption = cap, label = lbl,
+         digits = 0, 
+         align = align) %>% 
+  xtable::print.xtable(file = file.path(OUTPUT_DIR , "table_false_pos_etc.tex"), sanitize.colnames.function = function(x){x},
+                       include.rownames = FALSE, math.style.negative = FALSE,
+                       booktabs = TRUE, table.placement = "") 
+
+
+
+"/accuracy_tables.tsv"
 
 accuracy_tables[1:9,]
 
