@@ -129,28 +129,26 @@ accuracy_tables %>%
   mutate("Method" = str_replace_all(`Method`, "gray posteriors", "Gray et al (2009) - posteriors ")) %>% 
   mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog (4.4)")) %>% 
   mutate("Method" = str_replace_all(`Method`, "most common", "Most common")) %>% 
-  rename("$$\\textbf{\\parbox{1.8cm}{\\raggedright Method}}$$" = "Method") %>% 
+  rename("$$\\textbf{\\parbox{2cm}{\\raggedright Method}}$$" = "Method") %>% 
         xtable(caption = cap, label = lbl,
          digits = 0, 
          align = align) %>% 
   xtable::print.xtable(file = file.path(OUTPUT_DIR , "table_false_pos_etc.tex"), sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, math.style.negative = FALSE,
-                       booktabs = TRUE, table.placement = "") 
+                       booktabs = TRUE) 
 
 
 
-"/accuracy_tables.tsv"
 
-accuracy_tables[1:9,]
 
-accuracy_tables[10:17,] %>% 
-  heatmap.2( key = F,
-              dendrogram = "none",
-              revC = T,
-              trace = "none", 
-             Rowv = F,
-             Colv = F,
-            cellnote = round(accuracy_tables[10:17,] , 2),
-              margin=c(20,20), col=viridis(15, direction = -1))
+#accuracy_tables[10:17,] %>% 
+#  heatmap.2( key = F,
+#              dendrogram = "none",
+#              revC = T,
+#              trace = "none", 
+#             Rowv = F,
+#             Colv = F,
+#            cellnote = round(accuracy_tables[10:17,] , 2),
+#              margin=c(20,20), col=viridis(15, direction = -1))
 
 
