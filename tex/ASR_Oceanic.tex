@@ -439,31 +439,32 @@ All results have been calculated in \texttt{R} \citep{R} using the packages \tex
 
 The full table of all predictions (excluding those relating to conflicts) and all results per feature, tree and method can be found in table~\ref{asr_table_appendic} in appendix \ref{ASR_comparison_table}. The summary results for the concordance with reconstructions by experts from historical linguistics are presented in table \ref{reconstruction_summary_table}. There are different ways of calculating concordance
  
-\begin{table}[H]
-\centering
-\caption{Comparison of how often the computational ancestral state reconstruction agrees with reconstruction from historical linguistics literature.}
-\label{reconstruction_summary_table}
-\begin{tabular}{|p{5cm}| p{2cm}|  p{2cm}| p{2cm} | p{2cm} |}
-\hline
-& \multicolumn{2}{c|}{Gray et al (2009)-tree}\\ \cline{2-3}
-& \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
+%\begin{table}[H]
+%\centering
+%\caption{Comparison of how often the computational ancestral state reconstruction agrees with reconstruction from historical linguistics literature.}
+%\label{reconstruction_summary_table}
+%\begin{tabular}{|p{5cm}| p{2cm}|  p{2cm}| p{2cm} | p{2cm} |}
+%\hline
+%& \multicolumn{2}{c|}{Gray et al (2009)-tree}\\ \cline{2-3}
+%& \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
+%
+% \cellcolor{hedvig_lightgreen!50}{Agree} & 95 & 91 \\ \hline
+%\cellcolor{hedvig_red!50}{Disagree} &13&10\\ \hline
+% \cellcolor{hedvig_yellow!50}{Half / Half} &7&13\\ \hline
+%
+% \textbf{Accuracy score (incl Half/Half)} &0.857& 0.855 \\ \hline
+% \textbf{Accuracy score (excl Half/Half)} &0.88&0.901\\ \hline
+%\cellcolor{hedvig_red!50}{False Negatives} &8 &8  \\ \hline
+% \cellcolor{hedvig_lightgreen!50}{True Negatives} &42 &41\\ \hline
+%\cellcolor{hedvig_red!50}{False Positives} &5&2\\ \hline
+% \cellcolor{hedvig_lightgreen!50}{True Positives} &53&50\\ \hline
+%\textbf{F1-score} & \textbf{0.891} & \textbf{0.909} \\ \hline
+%
+%
+%\end{tabular}
+%\end{table}
 
- \cellcolor{hedvig_lightgreen!50}{Agree} & 95 & 91 \\ \hline
-\cellcolor{hedvig_red!50}{Disagree} &13&10\\ \hline
- \cellcolor{hedvig_yellow!50}{Half / Half} &7&13\\ \hline
-
- \textbf{Accuracy score (incl Half/Half)} &0.857& 0.855 \\ \hline
- \textbf{Accuracy score (excl Half/Half)} &0.88&0.901\\ \hline
-\cellcolor{hedvig_red!50}{False Negatives} &8 &8  \\ \hline
- \cellcolor{hedvig_lightgreen!50}{True Negatives} &42 &41\\ \hline
-\cellcolor{hedvig_red!50}{False Positives} &5&2\\ \hline
- \cellcolor{hedvig_lightgreen!50}{True Positives} &53&50\\ \hline
-\textbf{F1-score} & \textbf{0.891} & \textbf{0.909} \\ \hline
-
-
-\end{tabular}
-\end{table}
-
+\input{"illustrations/plots_from_R/results/table_false_pos_etc.tex"}
 
 
 One of the most striking features of these results is the number of Half/Half predictions in the ML results. The ML approach takes into account the overall likelihood of the entire data, and for our dataset and trees this leads to more Half/Half results compared to the parsimony approach. One way of interpreting this is that the ML is more careful, it makes fewer confident predictions (more than 60\% either way), but it also disagrees less often with the findings from historical linguistics.
