@@ -431,13 +431,13 @@ In the Grambank project, research assistants read published grammatical descript
 
 \subsection{Concordance between traditional historical linguistics and computational methods}
 
-We are examining results from four approaches in total: a) the traditional Comparative Method, b) Maximum Parsimony, c) Maximum Likelihood and d) most common value in daughter languages. For (b) and (c) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCCT tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 2 results, i.e. 8.
+We are examining results from three approaches in total: a) Maximum Parsimony, b) Maximum Likelihood and c) most common value in daughter languages. For (a) and (b) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCCT tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 1 results, i.e. 7.
 
 %The match between languages in Grambank and the Gray et al-tree is 112, meaning that results with less than 56 tips are ignored.  %#update
 
 All results have been calculated in \texttt{R} \citep{R} using the packages \texttt{castor} (Parsimony, \citet{louca2017efficient}, \texttt{phangorn} (Parsimony, \citet{phangorn}) and \texttt{corHMM} (Maximum Likelihood, \citet{corHMM}). The packages \texttt{ape} \citep{paradis2004ape}, \texttt{adephylo} \citep{jombart2017package}, and phytools \citep{revell2012phytools} and tidyverse \citep{tidyverse13} were also used for data wrangling, analysis, summarising and visualising.
 
-The full table of all predictions (excluding those relating to conflicts) and all results per feature, tree and method can be found in table~\ref{asr_table_appendic} in appendix \ref{ASR_comparison_table}. The summary results for the concordance with reconstructions by experts from historical linguistics are presented in table \ref{reconstruction_summary_table}. 
+The full table of all predictions (excluding those relating to conflicts) and all results per feature, tree and method can be found in table~\ref{asr_table_appendic} in appendix \ref{ASR_comparison_table}. The summary results for the concordance with reconstructions by experts from historical linguistics are presented in table \ref{reconstruction_summary_table}. There are different ways of calculating concordance
  
 \begin{table}[H]
 \centering
@@ -463,6 +463,8 @@ The full table of all predictions (excluding those relating to conflicts) and al
 
 \end{tabular}
 \end{table}
+
+
 
 One of the most striking features of these results is the number of Half/Half predictions in the ML results. The ML approach takes into account the overall likelihood of the entire data, and for our dataset and trees this leads to more Half/Half results compared to the parsimony approach. One way of interpreting this is that the ML is more careful, it makes fewer confident predictions (more than 60\% either way), but it also disagrees less often with the findings from historical linguistics.
 
