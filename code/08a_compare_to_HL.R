@@ -137,8 +137,28 @@ accuracy_tables %>%
                        include.rownames = FALSE, math.style.negative = FALSE,
                        booktabs = TRUE) 
 
+df_for_bar_plot <- accuracy_tables %>%
+  rownames_to_column("Method") %>% 
+  mutate(Method =str_replace_all(Method, "_", " ")) %>% 
+  mutate(Method =str_replace_all(Method, "gray", "Gray")) %>% 
+  mutate(Method =str_replace_all(Method, "mcct", "(MCCT)")) %>% 
+  mutate(Method =str_replace_all(Method, "posteriors", "(posteriors)")) %>% 
+  mutate(Method =str_replace_all(Method, "most common", "Most Common"))
 
+df_for_bar_plot$Method <- factor(df_for_bar_plot$Method, levels = c("Parsimony glottolog", "Parsimony Gray (MCCT)", "Parsimony Gray (posteriors)", "ML glottolog" , "ML Gray (MCCT)"  , "ML Gray (posteriors)", "Most Common" ))
 
+df_for_bar_plot %>% 
+      ggplot() +
+  geom_bar(aes(x = Method, y = Accuracy_incl_half, fill = Accuracy_incl_half), stat = "identity") +
+  coord_cartesian(ylim=c(0.7, 1)) +
+  theme_classic(base_size = 20) +
+  theme(legend.position = "None", 
+        axis.text.x = element_text(angle = 50, hjust=1), 
+        axis.title.x = element_blank()) +
+  geom_text(aes(x = `Method`, y = 0.8, label = round(Accuracy_incl_half, 2)), size=8, colour = "white") +
+  ylab("\"Accuracy\" including half")
+
+ggsave(file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"))
 
 
 #accuracy_tables[10:17,] %>% 
