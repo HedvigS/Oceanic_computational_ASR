@@ -208,31 +208,17 @@ lbl <- "GB_coverage_table_island_group_gray"
 align <- c("r", "l","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
+  dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "grammar doesn't exist") %>% 
       rename("$\\textbf{\\cellcolor{hedvig_orange!50}{No grammar}}$" = "grammar doesn't exist" ) %>% 
     rename("$\\textbf{\\cellcolor{hedvig_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
    rename("$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
-    rename("$\\textbf{\\cellcolor{hedvig_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB")
+    rename("$\\textbf{\\cellcolor{hedvig_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB") %>% 
+  rename("$\\textbf{\\parbox{2.7cm}{\\raggedright Island group}}$" = "Island group")
 
 island_groups_table_latex_formatting  %>% 
     xtable(caption = cap, label = lbl,
            digits = 0, 
            align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
-          include.rownames = FALSE, math.style.negative = FALSE,
-          booktabs = TRUE) 
-
-                
-#summary table for gray et all tree tips
-#island_groups_table_gray <- gray_tree_tip_value_df %>% 
-#  left_join(island_groups_df) %>%
-#  group_by(`Island group`, tip_value) %>% 
-#  summarise(n = n()) %>% 
-#  reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
-
-#island_groups_table_gray[is.na(island_groups_table_gray)] <- 0
-
-#island_groups_table_gray <-   island_groups_table_gray %>% 
-#  janitor::adorn_totals("row") %>% 
-#  column_to_rownames("Island group")
-
-#xtable(island_groups_table_gray, digits = 0)
+          include.rownames = FALSE, math.style.negative = F,
+          booktabs = TRUE, hline.after = c(-1, 0, nrow(island_groups_table_latex_formatting)-1, nrow(island_groups_table_latex_formatting))) 
