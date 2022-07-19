@@ -1,4 +1,5 @@
 source("01_requirements.R")
+h_load("wesanderson")
 
 #First we make a df with the basic counts for all oceanic languages per feature and what the distribution at the tips are. This will help us identify cases where all tips where of the same kind. These cases are currently excluded from the ML workflow since corHMM doesn't accept trees where the values are the same at all tips. The parsimony function however accepts such cases, so in order to make them comparable we need to put them back in to the results. We can use the basic summary table from the parsimony glottolog analysis for this since that per definition includes all lgs. Note that the total distribution over all lgs isn't the same as the distribution in the gray tree, which may be missing specific tips which have the divergent value.
 values_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
@@ -149,26 +150,51 @@ df_for_bar_plot$Method <- factor(df_for_bar_plot$Method, levels = c("Parsimony g
 
 df_for_bar_plot %>% 
       ggplot() +
-  geom_bar(aes(x = Method, y = Accuracy_incl_half, fill = Accuracy_incl_half), stat = "identity") +
+  geom_bar(aes(x = Method, y = Accuracy_incl_half, alpha = Accuracy_incl_half), fill = wes_palette("Zissou1", n = 4)[1], stat = "identity") +
   coord_cartesian(ylim=c(0.7, 1)) +
   theme_classic(base_size = 20) +
+  scale_alpha(range = c(0.7, 1)) +
+#  scale_fill_viridis(option = "D", begin = 0, end = 0.3) +
   theme(legend.position = "None", 
         axis.text.x = element_text(angle = 50, hjust=1), 
         axis.title.x = element_blank()) +
-  geom_text(aes(x = `Method`, y = 0.8, label = round(Accuracy_incl_half, 2)), size=8, colour = "white") +
+  geom_text(aes(x = `Method`, y = Accuracy_incl_half +0.02, label = round(Accuracy_incl_half, 2)), size=8, colour = "black") +
   ylab("\"Accuracy\" including half")
 
 ggsave(file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"))
 
 
-#accuracy_tables[10:17,] %>% 
-#  heatmap.2( key = F,
-#              dendrogram = "none",
-#              revC = T,
-#              trace = "none", 
-#             Rowv = F,
-#             Colv = F,
-#            cellnote = round(accuracy_tables[10:17,] , 2),
-#              margin=c(20,20), col=viridis(15, direction = -1))
+df_for_bar_plot %>% 
+  ggplot() +
+  geom_bar(aes(x = Method, y = F1_score, alpha = F1_score), fill = wes_palette("Zissou1", n = 4)[3], stat = "identity") +
+  coord_cartesian(ylim=c(0.7, 1)) +
+  scale_alpha(range = c(0.5, 1)) +
+  theme_classic(base_size = 20) +
+  scale_fill_viridis() +
+  theme(legend.position = "None", 
+        axis.text.x = element_text(angle = 50, hjust=1), 
+        axis.title.x = element_blank()) +
+  geom_text(aes(x = `Method`, y =F1_score+0.02, label = round(F1_score, 2)), size=8, colour = "black") +
+  ylab("F1 score")
+
+ggsave(file.path(OUTPUT_DIR ,"/barplot_F1_score.png"))
 
 
+df_for_bar_plot %>%
+  dplyr::select(Method, Accuracy, Accuracy_incl_half, F1_score, F1_score_incl_half) %>% 
+  reshape2::melt(id.vars = "Method") %>%
+  mutate(variable = str_replace_all(variable, "_", " ")) %>% 
+  mutate(variable = str_replace_all(variable, "incl half", "(incl half) ")) %>% 
+    ggplot() +
+  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity") +
+  coord_cartesian(ylim=c(0.7, 1)) +
+  theme_classic(base_size = 20) +
+  theme(legend.position = "None", 
+        axis.text.x = element_text(angle = 50, hjust=1), 
+        axis.title = element_blank()) +
+  geom_text(aes(x = `Method`, y =value+0.03, label = round(value, 2)), size=8, colour = "black") +
+  scale_fill_manual(values= wes_palette("Zissou1", n = 4)) +
+  theme(plot.margin = unit(c(0.2,0.2,0.2,1), "cm")) +
+  facet_wrap(~variable, ncol = 1)
+
+ggsave(file.path(OUTPUT_DIR ,"/barplot_facet_scores.png"), width = 7, height = 12)
