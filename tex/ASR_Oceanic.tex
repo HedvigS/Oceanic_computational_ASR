@@ -1,5 +1,5 @@
-%\documentclass[a4paper,10pt]{article} % Artikel med 12pt text och A4 storlek.
-\documentclass[draft,10pt]{article} % Artikel med 12pt text och A4 storlek.
+\documentclass[a4paper,10pt]{article} % Artikel med 12pt text och A4 storlek.
+%\documentclass[draft,10pt]{article} % Artikel med 12pt text och A4 storlek.
 \usepackage[english]{babel} % Svensk avstavning istället för engelsk
 %\usepackage[pdflatex]{graphicx}% De här två behövs för svenska
 \usepackage[utf8]{inputenc} % UTF-8 encodad fil. Kan bytas ut mot latin1 om en vill...
@@ -518,38 +518,9 @@ Grambank has two features that pertain to this argument:
 
 It is entirely possible for a language to be entered into the database as ``yes'' for several of these, i.e., from the perspective of Grambank languages aren't ``ergative'' or ``accusative'' --- they can have both ergative and accusative flagging simultaneously. This makes it possible for us to prove both Chung and Clark ``right'', the results can come out such that Proto-Polynesian had both accusative \emph{and} ergative alignment flagging. However, the results do come out strongly in favour of the proposal by Clark. Table \ref{proto_poly_erg_table} shows that both methods reconstruct ergative alignment for Proto-Polynesian, and only one method predicts a half/half chance of a nominative/accusative system. This lends support to Clark's suggestion that Proto-Polynesian was ergative.
 
-\begin{table}[H]
-\centering
-\caption{Table showing the results for the alignment system of Proto-Polynesian}
-\label{proto_poly_erg_table}
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
-\hline
-Feature & \textbf{Parsimony}& \textbf{Max Likelihood} \\ \hline
-GB408 \emph{Is there any accusative alignment of flagging?} &Absent & half \\
-GB409 \emph{Is there any ergative alignment of flagging?} & Present & Present \\
-\end{tabular}
-\end{table}
+\newcommand{\pb}[1]{\parbox[t][][t]{1\linewidth}{#1} \vspace{3.5pt}}
+\input{"illustrations/plots_from_R/results/table_conflicts.tex"}
 
-
-% latex table generated in R 4.1.0 by xtable 1.8-4 package
-% Thu Oct 14 12:48:01 2021
-\begin{table}[ht]
-\caption{Table showing the results for the conflcts}
-\label{conflict_table}
-\centering
-\begin{tabular}{rllrllllllll}
-  \hline
- & Feature\_ID & Proto-language & Prediction & Source & Parsimony result (Glottolog-tree) & Parsimony result (Gray et al 2009-tree) mcct & Parsimony result (Gray et al 2009-tree) posteriors & ML result (Glottolog-tree) & ML result (Gray et al 2009-tree) mcct & ML result (Gray et al 2009-tree) posteriors & result\_most\_common \\ 
-  \hline
-1 & GB408 & Proto-Polynesian & 1.00 & Chung (1978:261-262), Ball (2007) & False Negative & False Negative & False Negative & False Negative & False Negative & Half & False Negative \\ 
-  2 & GB408 & Proto-Polynesian & 0.00 & Clark (1976:106-107) & True Negative & True Negative & True Negative & True Negative & True Negative & Half & True Negative \\ 
-  3 & GB409 & Proto-Polynesian & 0.00 & Chung (1978:261-262) & False Positive & False Positive & False Positive & False Positive & False Positive & False Positive & True Negative \\ 
-  4 & GB409 & Proto-Polynesian & 1.00 & Clark (1976:106-107) & True Positive & True Positive & True Positive & True Positive & True Positive & True Positive & False Negative \\ 
-  5 & GB409 & Proto-Central Pacific & 1.00 & Kikusawa (2002:1) & False Negative & False Negative & False Negative & False Negative & False Negative & False Negative & False Negative \\ 
-  6 & GB409 & Proto-Central Pacific & 0.00 & Ball (2007) & True Negative & True Negative & True Negative & True Negative & True Negative & True Negative & True Negative \\ 
-   \hline
-\end{tabular}
-\end{table}
 
 
 As was noted earlier, the computational reconstructions differ from those arrived at through the comparative method primarily because the data used in this study is abstract presences or absences of structural features whereas historical linguists use specific concrete forms instead (c.f. \citet{crowley1985common}). In the case of alignment systems, the matter of concrete markers is less of an issue. However, besides the parsimony principle (as laid out by \citet[19]{clark1976aspects} for example), expert historical linguists also take into account the plausibility of the proposed proto-language and the chain of changes posited \citep{chung1977aspects}. It is not possible for the computational reconstructions to take these assumptions into account without having them formally described and introduced into the model, which is not possible at this time. This may be the reason for the lack of support for Chung's theory; the crucial information that underpins it is not accounted for in this study.
