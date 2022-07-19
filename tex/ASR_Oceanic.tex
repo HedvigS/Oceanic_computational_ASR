@@ -8,6 +8,7 @@
 \usepackage{bibentry}
 \usepackage{subcaption}
 \usepackage{boldline} 
+\usepackage{amsmath}
 %\usepackage[allfiguresdraft]{draftfigure}
 \usepackage{float}
 \usepackage[margin=2.5cm]{geometry}
@@ -302,7 +303,7 @@ It is not possible for the computational implementation of Maximum Parsimony to 
  
 
 \subsection{Evaluation of methods}
-We will evaluate the computational methods by comparing them to a ``gold standard'' of reconstructions done by historical linguists using the classical Comparative Method approach. Concordance is measured both by the number of agreements between each method divided by the total amount of reconstructions (``accuracy'') and F1-scores. A F1-score is the harmonic mean of the precision and recall\footnote{Precision is True Positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} of the result of each method as compared to a gold standard \citep[133]{van1979information}. For both measures of concordance, 0 is the worst possible score and 1 the best. 
+We will evaluate the computational methods by comparing them to a ``gold standard'' of reconstructions done by historical linguists using the classical Comparative Method approach. Concordance is measured both by the number of agreements between each method divided by the total amount of reconstructions (also known as ``accuracy'') and F1-scores. A F1-score is the harmonic mean of the precision and recall\footnote{Precision is True Positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} of the result of each method as compared to a gold standard \citep[133]{van1979information}. For both measures of concordance, 0 is the worst possible score and 1 the best. 
 
 In a similar study of ancestral states of cognate classes, \citet{jager2018using} compared three different methods of ancestral state reconstruction for lexical data (cognate classes): Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks. They found that reconstructions using Maximum Likelihood performed ``better'', in the sense that it more often predicted the same values as their gold standard compared to the other two methods\footnote{ The gold standard consisted of reconstructions by historical linguists, and it should be noted that it is possible that this standard may contain errors as well meaning that ``better'' here does not necessarily mean ``more true''.}. 
 
@@ -331,6 +332,13 @@ Presence & 40-60\% Presence/Absence & Half/Half\\ \hline
 In order to evaluate the results, we need to calculate a concordance score per method and tree. \citet{jager2018using} use the F1-score (harmonic mean between precision and recall) in their study of how computationally reconstructed lexical proto-forms compare to those reconstructed by historical linguists.  For example, if for a given proto-language there are 60 features reconstructed by experts and the algorithm result is 10 True Positives, 10 False Positives, 10 True Negatives, 10 False Negatives and 20 ``Half/Half'' then the F1-score is 0.5 (recall = 10 / (10+10) = 0.5, precision = 10 / (10+10) = 0.5 and F1-score = 2 *((0.5*0.5) / (0.5 + 0.5) = 0.5)). Note that the F1-score disregards True Negatives and Half /Half-results.
 
 F1-scores will be reported because they are insightful and have been used in similar studies. However, the F1-formula ignores the amount of True Negatives and Half/Half results. Therefore, in addition we will also calculate a simpler concordance score; how many concordant predictions did the algorithm make given all the predictions it made (aka ``accuracy'')? For example, if for a given proto-language there are 60 features predicted by experts with the same distribution of results as in the example above, then the concordance score would be (10 + 10)/40 = 0.5. We can also include the Half/Half-predictions, awarding 0.5 points for at least not strongly predicting a false value. In that case, this example has a concordance score of 0.5 ((10 + 10 + (20/2)) / 60). These scores all reflect different ways of assessing concordance and will give different perspectives on our results and how our algorithms are performing. %Features where there were more than half of the data-points missing in the tree were not to be included. hankfully there were no occurrences of this.
+
+
+text \eqref{accuracy_incl_half}.
+
+\begin{equation} \label{accuracy_incl_half}
+\frac{\text{agree} + \frac{\text{half}}{2}}{\text{all reconstructions}}
+\end{equation}
 
 \subsection{Data}
 
