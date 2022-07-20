@@ -136,7 +136,7 @@ Historical linguistics is founded on the Comparative Method, which is a set of p
 
 Applying computational methods of ancestral state reconstruction to linguistic data is becoming more common. \citet{jager2018using} applies three different methods (Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks) to cognate class reconstruction in three different language families. The aim of that study was primarily to evaluate how often the methods reconstructed the same state as what the authors label ``the Gold Standard'' (reconstructions by traditional historical linguists using the Comparative Method). The data that serves as input to the computational machinery was annotated by ``hand'' for cognacy by historical linguists, meaning that the identification of cognate classes is still a human affair --- it was the reconstruction itself given that information that was being evaluated. Their overall result was that Maximal Likelihood performed the ``best'', but that there were still several shortcomings. Most notable of these are the handling of horizontal transfer/reticulation, variation within languages and parallelled independent shifts. In this paper, we address horizontal transfer by using sets of trees from a Bayesian posterior, some of which may represent horizontal transfer history.
 
-There are also two recent studies of Indo-European grammatical history, one by \citet{carling2021reconstructing} and another by \citet{goldstein_2022}. \citet{carling2021reconstructing} evaluates different theories of the history of morphosyntax of Indo-European by comparing to the product of computational Bayesian phylogenetic modelling. They find support for the ``canonical'' model of Indo-European syntax and illustrate clearly with case examples how their model works. Goldstein in his paper challenges a commonly applied principle in the reconstruction of Indo-European syntax; the ``frequency heuristic'' which holds that \emph{if the number of homologous elements (e.g., lexical cognates) in the daughter languages meets a minimum threshold (canonically three), their ancestor is reconstructed to the root of the tree}\citep[1/71]{goldstein_2022}. This is done because scholars argue that the true tree is unknown, and that this is an appropriate method in lack of the true tree. Goldstein argues that the appropriate action is instead to carry out reconstruction on many different trees that represent possible histories, a Bayesian posterior tree sample. He argues that this is methodologically more sound and the results of his approach are in accord with the consensus in historical linguistics, thus strengthening their validity.
+There are also two recent studies of Indo-European grammatical history: \citet{carling2021reconstructing} and \citet{goldstein_2022}. \citet{carling2021reconstructing} evaluates different theories of the history of morphosyntax of Indo-European by comparing to the product of computational Bayesian phylogenetic modelling. They find support for the ``canonical'' model of Indo-European syntax and illustrate clearly with case examples how their model works. Goldstein in his paper challenges a commonly applied principle in the reconstruction of Indo-European syntax; the ``frequency heuristic'' which holds that \emph{if the number of homologous elements (e.g., lexical cognates) in the daughter languages meets a minimum threshold (canonically three), their ancestor is reconstructed to the root of the tree}\citep[1/71]{goldstein_2022}. This is done because scholars argue that the true tree is unknown, and that this is an appropriate method in lack of the true tree. Goldstein argues that the appropriate action is instead to carry out reconstruction on many different trees that represent possible histories, a Bayesian posterior tree sample. He argues that this is methodologically more sound and the results of his approach are in accord with the consensus in historical linguistics, thus strengthening their validity.
 
 Both \citet{carling2021reconstructing} and \citet{goldstein_2022} use a Bayesian method of ancestral state known as Continuous-Time Markov Chain (CTMC)\footnote{The main difference between the methods of \citet{carling2021reconstructing} and \citet{chang2015ancestry} is that \citet{carling2021reconstructing} uses a tree structure informed by \citet{chang2015ancestry} and comparative-historical \emph{communis opinio} and vary the branch lengths 10,0000 times in a principled and informed manner times to generate 10,000 different trees while \citet{goldstein_2022} takes 100 random samples directly from the posterior of \citet{chang2015ancestry}.}. This approach comes with certain important assumptions, to quote from \citet{goldstein_2022}:
 
@@ -205,12 +205,12 @@ Reconstruction in historical linguistics includes judgements of plausibility. Th
 
 Plausibility is important in reconstruction, both in linguistics and in biology. However, this principle is sensitive to differing assumptions and theories. What is more plausible as a reconstructed language or species may differ from scholar to scholar. Besides debates over precise sub-groupings, many arguments in historical linguistics boil down to disagreements about plausibility. This is also true of the different reconstructions of the alignment system of Proto-Polynesian.
 
-\citet{clark1976aspects} disagrees with \citet{hale_1968}, \citet{hohepa_1969}, and \citet{chung1978} on the state of Proto-Polynesian syntax on these grounds. Chung, Hale and Hohepa argue for a theory that is technically less parsimonious, but which they say is more plausible. They posit that Proto-Polynesian had a nominative-accusative case marking system\footnote{Hale, Hohepa and Chung actually suggest three different specific theories for this reconstruction. For a summary of the differences between the proposals, see \citet[247-249]{chung1978}.}. If this was the case, that would mean positing more changes along the tree than if we assumed, as \citet{clark1976aspects} does, that the Proto-Polynesian language was ergative-absolutive. This is due to S\={a}moan and Tongan both having ergative-absolutive marking and both splitting off early (in most accounts of the polynesian tree) from proto-polynesian compared to the rest of the group which most often lacks ergative-absolutive marking. Fig. \ref{poly_GB409_tree} show the Polynesian tree with Grambank feature GB409 values marked out. Grambank feature GB409 asks if \emph{any} ergative flagging is present. In some instances, the system is not wholly or primarily ergative, but ergative marking is present. It is possible that the scholars involved in the debate would not classify such languages as ``ergative-absolute'' languages. 
+\citet{clark1976aspects} disagrees with \citet{hale_1968}, \citet{hohepa_1969}, and \citet{chung1978} on the state of Proto-Polynesian syntax on these grounds. Chung, Hale and Hohepa argue for a theory that is technically less parsimonious, but which they say is more plausible. They posit that Proto-Polynesian had a nominative-accusative case marking system\footnote{Hale, Hohepa and Chung actually suggest three different specific theories for this reconstruction. For a summary of the differences between the proposals, see \citet[247-249]{chung1978}.}. If this was the case, that would mean positing more changes along the tree than if we assumed, as \citet{clark1976aspects} does, that the Proto-Polynesian language was ergative-absolutive. This is due to S\={a}moan and Tongan both having ergative-absolutive marking and both splitting off early (in most accounts of the Polynesian tree) from proto-polynesian compared to the rest of the group which most often lacks ergative-absolutive marking. Fig. \ref{poly_GB409_tree} show the Polynesian tree with Grambank feature GB409 values marked out\footnote{Grambank feature GB409 asks if \emph{any} ergative flagging is present. In some instances, the system is not wholly or primarily ergative, but ergative marking is present. It is possible that the scholars involved in the debate would not classify such languages as ``ergative-absolute'' languages.}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R//tree_plots/poly_tree_example.png}
-\caption{{The Polynesian languages in the \citet{grayetal2009} MCCT-tree, with the coding of Grambank feature GB409 ``Is there any ergative alignment of flagging?'' marked out. Purple = Yes, Yellow = No and white = Not enough information/not clear.}}
+\includegraphics[width=9cm]{illustrations/plots_from_R//tree_plots/poly_tree_example.png}
+\caption{{The Polynesian languages in the \citet{grayetal_2009} MCCT-tree, with the coding of Grambank feature GB409 ``Is there any ergative alignment of flagging?'' marked out. Purple = Yes, Yellow = No and white = Not enough information/not clear.}}
 \label{poly_GB409_tree}
 \end{figure} 
 
@@ -228,16 +228,16 @@ In a review of \citet{clark1976aspects}, Chung writes:
 \end{quotation}
 \begin{flushright} \citet[539]{chung1977aspects}  \end{flushright}
 
-This debate contains more twists and turns, with each side arguing for the plausibility of their accounts. In our analysis, we will be using trees that represents the history of the languages in a similar way to Clark, which means the results are sensitive to the same critique by Chung (i.e. not taking into account horizontal transfer between S\={a}moan and Tongan). We are also not able to use plausibility in our computational reconstructions since we do not have access to formalised data on what plausible language profiles or changes are. This is a key difference between computational reconstruction and traditional approaches to reconstruction. Knowledge of plausibility and how to weigh different kinds of evidence against each other is not formalised and cannot be taken into account.
+This debate contains more twists and turns, with each side arguing for the plausibility of their accounts. In our analysis, we will be using trees that represents the history of the languages in a similar way to Clark, which means the results are sensitive to the same critique by Chung (i.e. not taking into account horizontal transfer between S\={a}moan and Tongan). We are also not able to use plausibility in our computational reconstructions since we do not have access to formalised data on what plausible language profiles or changes are. This is a key difference between computational reconstruction and traditional approaches to reconstruction. Knowledge of plausibility and how to weigh different kinds of evidence against each other is not formalised and therefore cannot be taken into account.
 
 It is possible that with the added information on rates of change and branch length that comes with the Maximum Likelihood approach we are able to approximate some parts of historical linguists' knowledge of plausibility. In that case, we would expect the Maximum Likelihood results to concur more with the predictions by expert linguists. If historical linguists mainly do operate on the same principles of Maximum Parsimony, and/or Maximum Likelihood is not able to approximate plausibility, we would expect the results of Maximum Parsimony to concur more with findings in traditional historical linguistics.
 
-In this study, any instances of conflicting data from historical linguists concerning proto-languages are evaluated separately from the overall results and will be reported in a separate section. 
+In this study, any instances of conflicting data from historical linguists concerning proto-languages are evaluated separately from the overall results and will be reported in a separate section. There are three instances of this: two features related to the alignment of Proto-Polynesian (GB408 Is there any accusative alignment of flagging? and GB409: Is there any ergative alignment of flagging?) and one feature for Proto-Central Pacific, where \citet{kikusawa2002proto} and \citet{ball2007ergativity} disagree on the alignment as well.
 
 %can fall short of reconstructions carried out by classical historical linguists because they are able to take these plausibility considerations into account.
 
 \subsubsection{Reconstruction and subgrouping in tandem}
-The processes of subgrouping and reconstruction are done in tandem in historical linguistics. Subgroups are proposed based on shared innovations. In order to determine what is and what is not an innovation, a certain amount of reconstruction is necessary. In order to make reconstructions, some of the tree structure needs to be approximated. Pawley (personal correspondence) notes that most of the subgrouping done in historical linguistics tends to be at the lower level. 
+The processes of subgrouping and reconstruction are done in tandem in historical linguistics; they are estimated simultaneously. Subgroups are proposed based on shared innovations. In order to determine what is and what is not an innovation, a certain amount of reconstruction is necessary. In order to make reconstructions, some of the tree structure needs to be approximated. Pawley (personal correspondence) notes that most of the subgrouping done in historical linguistics tends to be at the lower level. 
 %This can be seen later in this paper in the difference between the Glottolog tree (Fig. \ref{tree_coverage_oceanic_glottolog}), which is based on classical historical linguistics,  and the Gray et al 2009-tree (Fig. \ref{tree_coverage_oceanic_gray}), which is inferred with Bayesian phylogenetic methods using basic vocabulary data. Most of the splits in the Glottolog tree occur close to the tips, whereas the splits are more spread out over the distance between the root and the tips in the Gray et al 2009-tree.
 
 Besides parsimony and plausibility, it is also important to know how to weight evidence when conducting historical linguistics research, in particular when it comes to subgrouping. This is less often discussed explicitly, but it is related to issues of plausibility and is likewise a source of disagreement. It is for example possible that certain data-points are more susceptible to contact-induced change than others, and should therefore carry less weight if we are trying to infer a family tree. This is why items and features that are thought to be particularly stable and unlikely to be borrowed are used in reconstruction and subgrouping (c.f. \citet{pawley_2009_solomons}).
@@ -263,15 +263,15 @@ In this paper we are not proposing any new subgroupings, so the problem of weigh
 \subsection{Characteristics of language structure as data}
 \label{diff_lexi_str}
 
-The Comparative Method is most often applied to vocabulary, but it can also be applied to grammatical morphemes and features. \citet{crowley1985common} for example traces the history of a common noun phrase marker \emph{*na/*a} in Oceanic languages using the Comparative Method. 
+The Comparative Method is most often applied to lexical words and sounds, but it can also be applied to grammatical morphemes and features. \citet{crowley1985common} for example traces the history of a common noun phrase marker \emph{*na/*a} in Oceanic languages using the Comparative Method. 
 
-The data in this paper does not track specific forms, as is common when reconstructing proto-languages in historical linguistics (c.f \citet{pawley1973some, crowley1985common, evans2003study}). Instead we use binary features of a typological questionnaire which tracks large part of ``core" grammar (see section \ref{asr:sec:GBcoverage}). This section outlines some crucial differences between structural data and the kind of data that is typically used in historical linguistics in relation to the present study.
+The data in this paper does not track specific forms, as is common when reconstructing proto-languages in historical linguistics (c.f \citet{pawley1973some, crowley1985common, evans2003study}). Instead we use binary features of a typological questionnaire which tracks large part of ``core" grammar --- the Grambank dataset. This section outlines some crucial differences between structural data and the kind of data that is typically used in historical linguistics in relation to the present study.
 
-The kind of data used in grammatical reconstruction in historical linguistics differs from what we find in linguistic typological questionnaires such as Grambank. \citet{crowley1985common}, \citet{clark1976aspects}, and other scholars whose work we will compare to our results in this paper, typically apply the comparative method to specific formal expressions of structural features (the \emph{na} article, \emph{-Cia} suffix, \emph{faka-} prefix etc). They take into account fossilised forms (the common noun marker \emph{-a} fusing to roots in Paamese \citep[141]{crowley1985common}) and related meanings (the hypothesis of \emph{-Cia} changing from a transitivising suffix to a marker of passive voice (\citet{hale_1968, hohepa_1967, hohepa_1969, chung1978} and \citet{jonsson1998}). The Grambank dataset, however, (as many other typological surveys) only considers productive patterns and does not include information on specific formal expressions of grammatical phenomena or fossils.
+The kind of data used in grammatical reconstruction in historical linguistics differs from what we find in linguistic typological questionnaires such as Grambank. \citet{crowley1985common}, \citet{clark1976aspects}, and other scholars whose work we will compare to our results in this paper, typically apply the comparative method to specific formal expressions of structural features (the \emph{na} article, \emph{-Cia} suffix, \emph{faka-} prefix etc). They take into account fossilised forms (the common noun marker \emph{-a} fusing to roots in Paamese \citep[141]{crowley1985common}) and related meanings (the hypothesis of \emph{-Cia} changing from a transitivising suffix to a marker of passive voice (\citet{hale_1968, hohepa_1967, hohepa_1969, chung1978} and \citet{jonsson1998}). The Grambank dataset, however, (as many other typological surveys) only considers productive patterns and does not include information on specific formal expressions of grammatical phenomena or so called fossils which no longer participate in the function productively.
 
-Two languages can be coded identically for a structural feature in a typological questionnaire due to entirely different reasons and without being related. For example, Koasati [koas1236] of Louisiana, USA, and Mokilese [moki1238] on Mwoakilloa in the Federated States of Micronesia are both coded as having a construction for predicative possession of the type ``Topic'' by \citet{wals-2011-117}. However, they belong to entirely different language families and different parts of the world. Their similarity does not necessarily imply shared inheritance. This is unlike cognacy data, where the fact that two languages have cognates in common is direct evidence of relatedness.
+Surveys of this kind do not track forms, but abstract features such as ``Does the language mark passive voice?''. This means that two languages can be coded identically due to entirely different reasons and without being related. For example, Koasati [koas1236] of Louisiana, USA, and Mokilese [moki1238] on Mwoakilloa in the Federated States of Micronesia are both coded as having a construction for predicative possession of the type ``Topic'' by \citet{wals-2011-117}. However, they belong to entirely different language families and different parts of the world. Their similarity does not necessarily imply shared inheritance. This is unlike cognacy data, where the fact that two languages have cognates in common is direct evidence of relatedness.
 
-An example of the differences between the structural data used in classical historical linguistics and typological questionnaires is the definite marker in Oceanic. \citet{crowley1985common} investigates common noun phrase markers\footnote{This term is more or less identical to a pre-nominal definite/specific article.} in Oceanic and finds that in many languages there is a reflex of proto-Oceanic \emph{*na/*a}, but that in some languages there is another marker with a different origin (M\={a}ori \emph{te} for example). In Crowley's study, languages where there is no common noun phrase marking whatsoever and those with a marker which is not cognate with \emph{*na/*a} are both included in type 1 (see Fig.~\ref{fig:crowley_map}). These languages are contrasted with those that have retained some kind of reflex of \emph{*na/*a} (type 2-4 in Fig.~\ref{fig:crowley_map}). This means that we can distinguish languages which have retained the proto-form from those that have not, but not languages which have a common noun phrase marker from those that do not.
+As an example of this difference, let's consider definite markers in Oceanic languages.\citet{crowley1985common} investigates ``common noun phrase markers''\footnote{This term is more or less identical to a pre-nominal definite/specific article.} in Oceanic and finds that in many languages there is a reflex of proto-Oceanic \emph{*na/*a}, but that in some languages there is another marker with a different origin (M\={a}ori \emph{te} for example). In Crowley's study, languages where there is no common noun phrase marking whatsoever and those with a marker which is not cognate with \emph{*na/*a} are both included in type 1 (see Fig.~\ref{fig:crowley_map}). These languages are contrasted with those that have retained some kind of reflex of \emph{*na/*a} (type 2-4 in Fig.~\ref{fig:crowley_map}). This means that we can distinguish languages which have retained the proto-form from those that have not, but not languages which have a common noun phrase marker from those that do not.
 
 \begin{figure}
 \centering
@@ -289,7 +289,7 @@ In contrast, the corresponding feature in Grambank is `GB022: \emph{Are there pr
 \label{fig:gb022_map}
 \end{figure}
 
-While reconstruction in traditional historical linguistics often relies on particular grammatical morphemes, the data in this study is composed of abstract features such as ``is a grammatical distinction made between X and Y?". This could be a disadvantage, but it should also be noted that it is possible that such abstract features track something beyond the particular forms. \citet[503]{ross2004morphosyntactic} notes that a particular structure of the pronominal system of Mokilese is maintained, despite the formal markers being continuously replaced. He argues that there are discourse related reasons for maintaining this system and that the interaction between this construction and the rest of the grammar is such that the distinction is maintained. When particular markers are lost in this system, new ones appear in their place\footnote{He also notes that Goddard has observed similar patterns in Algonquian languages \citep{goddard1993algonquian}.}.
+The data in this study is composed of abstract features such as ``is a grammatical distinction made between X and Y?". This makes it different from most studies of grammatical features in historical linguistics. As was noted earlier, it is possible for two languages to be coded alike but not share ancestry. It is also possible that such abstract features track something beyond the particular forms. \citet[503]{ross2004morphosyntactic} notes that a particular structure of the pronominal system of Mokilese is maintained, despite the formal markers being continuously replaced. He argues that there are discourse related reasons for maintaining this system and that the interaction between this construction and the rest of the grammar is such that the distinction is maintained. When particular markers are lost in this system, new ones appear in their place\footnote{He also notes that Goddard has observed similar patterns in Algonquian languages \citep{goddard1993algonquian}.}. This may be true of more features, and in such cases languages can share a grammatical feature but not have the same particular expression, and this could be due to inheritance. In addition, in many instances --- particularly within families --- abstract features such as GB022: \emph{Are there prenominal articles?'} are in fact correlated with specific forms even if it is not tracking it explicitly.
 
 %Furthermore, it is possible that due to the interconnectedness of structural features related languages can develop similarily without 
 %Related languages may also show similarity due to inheritance, even if the relevant state was not present in the ancestor, as the quote from \citet{chung1977aspects} earlier continues:
@@ -311,30 +311,33 @@ While reconstruction in traditional historical linguistics often relies on parti
 \subsection{Computational phylogenetic methods}
 \label{sec:asr_methods}
 
-In this study, we will be reconstructing the presence or absence of structural features in proto-languages of the Oceanic subgroup using Maximum Parsimony and Maximum Likelihood. This section gives a brief overview of the methods, further technical details concerning the precise application can be found in the supplementary material \ref{supp:tech_details}. For an extensive comparison of different methods of ancestral state reconstruction and their advantages, see \citet{joy2016ancestral}.
+In this study, we will be reconstructing the presence or absence of structural features in proto-languages of the Oceanic subgroup using Maximum Parsimony and Maximum Likelihood. This section gives a brief overview of the methods. Further technical details concerning the precise application can be found in the supplementary material \ref{supp:tech_details}. For an extensive comparison of different methods of ancestral state reconstruction and their advantages, see \citet{joy2016ancestral}.
 
 As discussed earlier in section \ref{sec:ars:metod:hist}, \textbf{Maximum Parsimony} finds the set of ancestral states that result in the fewest number of changes between nodes. Maximum Parsimony is intuitively simple. We saw in the previous section an example of how it can play out in a small tree. While the principle of ``Maximum Parsimony'' is practised in traditional historical linguistics as a part of the Comparative Method, it should be noted that they rarely use the term \emph{per se}, but rather the description of ``fewest number of changes along the tree''.
 
 Maximum Parsimony may be simple and intuitive, but it is not without its critique. Part of the critique is that it does not take into account branch lengths in the tree (the distance between splitting events). Furthermore, Maximum Parsimony necessarily assumes that the solution that posits the slowest possible rate of change is also the most probable one. This is not necessarily a valid assumption, some features may evolve at a faster rate than Maximum Parsimony predicts. Both of these disadvantages are addressed in the second method we will be applying: Maximum Likelihood.
 
 %The second method which will be applied in this study is that of \textbf{Maximum Likelihood}. 
-Ancestral state reconstruction using \textbf{Maximum Likelihood} posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different values, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions based on branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximal Likelihood allows us to use a model of change where we do not assume that the rates for losses (1$\rightarrow$0) are equal to the rate of gains (0$\rightarrow$ 1). In this study, we use an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different. 
+Ancestral state reconstruction using \textbf{Maximum Likelihood} posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different values, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions based on branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximal Likelihood allows us to use a model of change where we do not assume that the rates for losses (1$\rightarrow$0) are equal to the rate of gains (0$\rightarrow$ 1). In this study, we use an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different\footnote{
+Similarly to the studies by \citet{carling2021reconstructing} and \citet{goldstein_2022}, rates cannot vary within the tree.}. 
 
 It is not possible for the computational implementation of Maximum Parsimony to take into account branch lengths, nor can it assume anything but the slowest rate of change or posit different rates for losses and gains. It is however possible that the Comparative Method in historical linguistics estimates something similar when they take into account the ``plausibility of the changes posited'' and that this is picked up by the reconstruction by Maximal Likelihood. It is possible that scholars of historical linguistics take length of time into account, for example, or assume that a loss is more likely than a gain for a given feature. In this study, we compare Maximum Parsimony and Maximal likelihood reconstructions to the Comparative Method. If the results from the Comparative Method are more similar to that of Maximum Likelihood then that is is possible that the ``plausibility of changes posited'' is indeed operating along similar lines as Maximum Likelihood by taking branch length into account and assuming varying rates of change.
 
+Finally, we will also compare the results with predictions solely based on which value is the most common in the daughter languages of a given proto-langage --- entirely disregarding the tree structur\footnote{This is similar to the frequency heuristic described in \citet{goldstein_2022}.}. In the toy example in Fig. \ref{fig:clark_tree}, this approach would reconstruct that the root had feature value ``X''. Whether we prefer Maximum Parsimony, Maximal Likelihood or another approach to reconstruction it should be the case that actually taking the tree structure into account is the sounder methodology. %We expect that both methods has a higher degree of concordance with the findings in historical linguistics compared to only counting which value is most common.
+
 %The third method employed is \textbf{Stochastic Character mapping}. This method was proposed by \citet{huelsenbeck2003stochastic} and is an extension of an approach suggested by \citet{nielsen2002mapping}. 
  
+\subsection{Calculation of concordance}
+\label{result_calc_section}
+We will calculate the similarity of the predictions of historical linguists and computational means with two measures: concordance (this is also known as ``accuracy'' in machine learning) and F1-scores. Concordance is measured both by the number of agreements between each method divided by the total amount of reconstructions. F1-scores are the harmonic mean of the precision and recall\footnote{Precision is True Positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} \citep[133]{van1979information}. It is important to note that F1-scores disregard the number of True Negatives entirely, which is relevant in our case since some of the features in proto-languages are predicted to be absent. For both measures, 0 is the worst possible score and 1 the best in terms of similarity to predictions by historical linguists. 
 
-\subsection{Evaluation of methods}
-We will evaluate the computational methods by comparing them to a ``gold standard'' of reconstructions done by historical linguists using the classical Comparative Method approach. Concordance is measured both by the number of agreements between each method divided by the total amount of reconstructions (also known as ``accuracy'') and F1-scores. A F1-score is the harmonic mean of the precision and recall\footnote{Precision is True Positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} of the result of each method as compared to a gold standard \citep[133]{van1979information}. For both measures of concordance, 0 is the worst possible score and 1 the best. 
+In a similar study of ancestral states of cognate classes, \citet{jager2018using} compared three different methods of ancestral state reconstruction for lexical data (cognate classes): Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks. They found that reconstructions using Maximum Likelihood performed the most like the predictions by historical linguists. However, \citet{jager2018using} describe the general performance of all the computational reconstruction methods they used as ``poor''.  \citet{jager2018using} evaluated the methods using the F1-score. The highest F1-score was 0.79 (Austronesian language sample, Maximum Likelihood), and the worst was 0.44 (Indo-European, Minimal Lateral Networks).
 
-In a similar study of ancestral states of cognate classes, \citet{jager2018using} compared three different methods of ancestral state reconstruction for lexical data (cognate classes): Maximum Parsimony, Maximum Likelihood and Minimal Lateral Networks. They found that reconstructions using Maximum Likelihood performed ``better'', in the sense that it more often predicted the same values as their gold standard compared to the other two methods\footnote{ The gold standard consisted of reconstructions by historical linguists, and it should be noted that it is possible that this standard may contain errors as well meaning that ``better'' here does not necessarily mean ``more true''.}. 
+%In addition to these two scores we will also calculate how much better each method does compared to just counting which is the most common vale of a feature in the daughter languages. As we learned in section \ref{sec:ars:metod:hist}, simply relying on frequency and not taking the tree structure into account can lead us astray. Whether we prefer Maximum Parsimony, Maximal Likelihood or another approach to reconstruction it should be the case that actually taking the tree structure into account is the more sound methodology. We expect that both methods has a higher degree of concordance with the findings in historical linguistics compared to only counting which value is most common.
 
-\citet{jager2018using} describe the general performance of all the computational reconstruction methods they used as ``poor''. The highest F1-score was 0.79 (Austronesian language sample, Maximum Likelihood), and the worst was 0.44 (Indo-European, Minimal Lateral Networks). \citet{jager2018using} only evaluated the methods using the F1-score, but because this ignores the amount of True Negatives we will also measure a more plain accuracy score. 
+For each feature, the methods predict a distribution of the two states (presence and absence) for every ancestral node. If the distribution is majority presence (more than 60\% of the ancestral state is ``1'') it is registered in the results as ``Presence''; if less than 40\% presence it is registered as ``Absence''. If the ancestral state is between 40-60\% of either state, the prediction is registered as ``Half/Half''. This was done to highlight the amount of uncertainty the results sometimes contain, while at the same time making it a fair comparison between Maximum Parsimony and Maximum Likelihood. Comparing the raw distributions themselves is not a fair comparison because Maximum Parsimony is always more likely to suggest 0, 0.5 or 1 results whereas Maximal Likelihood rarely produces exactly 0 or 1. 
 
-In addition to these two concordance scores we will also calculate how much better each method does compared to just counting which is the most common vale of a feature in the daughter languages. As we learned in section \ref{sec:ars:metod:hist}, simply relying on frequency and not taking the tree structure into account can lead us astray. Whether we prefer Maximum Parsimony, Maximal Likelihood or another approach to reconstruction it should be the case that actually taking the tree structure into account is the more sound methodology. We expect that both methods has a higher degree of concordance with the findings in historical linguistics compared to only counting which value is most common.
-
-For each feature, the methods predict a distribution of the two states (presence and absence) for every ancestral node. If the distribution is majority presence (more than 60\% of the ancestral state is ``1'') it is registered as ``Presence''; if less than 40\% presence it is registered as ``Absence''. If the ancestral state is between 40-60\% of either state, the prediction is registered as ``Half/Half''. If the reconstruction of a feature by experts for that ancestral node was ``Presence'' and the algorithm did predict presence with over 60\%, it is a ``True positive'', and so on. Table~\ref{example_HL_prediction_table_true_positives} illustrates how the results are summarised.
+If the reconstruction of a feature by experts for that ancestral node was ``Presence'' and the algorithm did predict presence with over 60\%, it is counted as a ``True positive'', and so on. Table~\ref{example_HL_prediction_table_true_positives} illustrates how the results are summarised.
 
 \begin{table}[H]
 \centering
@@ -347,21 +350,62 @@ Absence & >60\% Absence & True Negative \\ \hline
 Absence & >60\% Presence & False Positive (type 1-error) \\ \hline
 Presence & >60\% Presence & True Positive \\ \hline
 Presence & >60\% Absence & False Negative (type 2-error) \\ \hline
-Absence & 40-60\% Presence/Absence & Half/Half \\ \hline
-Presence & 40-60\% Presence/Absence & Half/Half\\ \hline
+Absence & 40-60\% Presence/Absence & Half \\ \hline
+Presence & 40-60\% Presence/Absence & Half\\ \hline
 \end{tabular}
 \end{table}
 
-In order to evaluate the results, we need to calculate a concordance score per method and tree. \citet{jager2018using} use the F1-score (harmonic mean between precision and recall) in their study of how computationally reconstructed lexical proto-forms compare to those reconstructed by historical linguists.  For example, if for a given proto-language there are 60 features reconstructed by experts and the algorithm result is 10 True Positives, 10 False Positives, 10 True Negatives, 10 False Negatives and 20 ``Half/Half'' then the F1-score is 0.5 (recall = 10 / (10+10) = 0.5, precision = 10 / (10+10) = 0.5 and F1-score = 2 *((0.5*0.5) / (0.5 + 0.5) = 0.5)). Note that the F1-score disregards True Negatives and Half /Half-results.
+For each method, a plain concordance score and F1-score are calculated using the counts in table \ref{example_HL_prediction_table_true_positives}. These two only contains the results that are not ``Half'', see Fig \ref{accuracy} and Fig \ref{F1_score}.
 
-F1-scores will be reported because they are insightful and have been used in similar studies. However, the F1-formula ignores the amount of True Negatives and Half/Half results. Therefore, in addition we will also calculate a simpler concordance score; how many concordant predictions did the algorithm make given all the predictions it made (aka ``accuracy'')? For example, if for a given proto-language there are 60 features predicted by experts with the same distribution of results as in the example above, then the concordance score would be (10 + 10)/40 = 0.5. We can also include the Half/Half-predictions, awarding 0.5 points for at least not strongly predicting a false value. In that case, this example has a concordance score of 0.5 ((10 + 10 + (20/2)) / 60). These scores all reflect different ways of assessing concordance and will give different perspectives on our results and how our algorithms are performing. %Features where there were more than half of the data-points missing in the tree were not to be included. hankfully there were no occurrences of this.
-
-
-text \eqref{accuracy_incl_half}.
-
-\begin{equation} \label{accuracy_incl_half}
-\frac{\text{agree} + \frac{\text{half}}{2}}{\text{all reconstructions}}
+\begin{figure}[H]
+\begin{equation}
+\frac{\text{True Negative + True Positive}}{\text{True Negative + True Positive + False Negative + False Positive}}
 \end{equation}
+\label{}
+\caption{Calculation of Concordance score}
+\end{figure}
+
+\begin{figure}[H]
+\begin{equation}
+\frac{\text{True Positive} }
+{\text{True Positive} + \frac{1}{2}\times(\text{False Positive} + \text{False Negative})}
+\end{equation}
+\label{F1_score}
+\caption{F1-score}
+\end{figure}
+
+It is also important to take into account the Half-results, therefore we also calculate the scores taking these into account, see Figs. \ref{accuracy_incl_half} and \ref{F1_score_incl_half}.
+
+\begin{figure}[H]
+\begin{equation}
+\frac{\text{True Negative + True Positive} + \frac{\text{half}}{2}}{\text{True Negative + True Positive + False Negative + False Positive + Half}}
+\end{equation}
+\label{accuracy_incl_half}
+\caption{Calculation of Concordance score including Half}
+\end{figure}
+
+\begin{figure}[H]
+\begin{equation}
+\frac{\text{True Positive} +  \frac{\text{half}}{2}} 
+{\text{True Positive} + \frac{1}{2}\times(\text{False Positive} + \text{False Negative}) + \text{Half}}
+\end{equation}
+\label{F1_score_incl_half}
+\caption{F1-score including Half}
+\end{figure}
+
+
+% mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall)), 
+  %         F1_score_incl_half = 2 * ((Precision_incl_half *Recall_incl_half)/(Precision_incl_half + %Recall_incl_half)) )%>% 
+ 
+
+
+%In order to evaluate the results, we need to calculate a concordance score per method and tree. \citet{jager2018using} use the F1-score (harmonic mean between precision and recall) in their study of how computationally reconstructed lexical proto-forms compare to those reconstructed by historical linguists.  For example, if for a given proto-language there are 60 features reconstructed by experts and the algorithm result is 10 True Positives, 10 False Positives, 10 True Negatives, 10 False Negatives and 20 ``Half/Half'' then the F1-score is 0.5 (recall = 10 / (10+10) = 0.5, precision = 10 / (10+10) = 0.5 and F1-score = 2 *((0.5*0.5) / (0.5 + 0.5) = 0.5)). Note that the F1-score disregards True Negatives and Half /Half-results.
+
+%F1-scores will be reported because they are insightful and have been used in similar studies. However, the F1-formula ignores the amount of True Negatives and Half/Half results. Therefore, in addition we will also calculate a simpler concordance score; how many concordant predictions did the algorithm make given all the predictions it made (aka ``accuracy'')? For example, if for a given proto-language there are 60 features predicted by experts with the same distribution of results as in the example above, then the concordance score would be (10 + 10)/40 = 0.5. We can also include the Half/Half-predictions, awarding 0.5 points for at least not strongly predicting a false value. In that case, this example has a concordance score of 0.5 ((10 + 10 + (20/2)) / 60). These scores all reflect different ways of assessing concordance and will give different perspectives on our results and how our algorithms are performing. %Features where there were more than half of the data-points missing in the tree were not to be included. hankfully there were no occurrences of this.
+
+%\begin{equation} \label{accuracy_incl_half}
+%\frac{\text{agree} + \frac{\text{half}}{2}}{\text{all reconstructions}}
+%\end{equation}
 
 \subsection{Data}
 
@@ -424,7 +468,7 @@ Figure ~\ref{tree_coverage_oceanic_gray} and Figure ~\ref{tree_coverage_oceanic_
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=\textwidth]{illustrations/plots_from_R/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png}
+\includegraphics[width=\textwidth]{illustrations/plots_from_R/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png}
 \caption{\textbf{Tree of Oceanic from Glottolog, with languages coloured for coverage in Grambank.}}
 \label{tree_coverage_oceanic_glottolog}
 \end{figure}
@@ -464,71 +508,61 @@ In the Grambank project, research assistants read published grammatical descript
 
 \subsection{Concordance between traditional historical linguistics and computational methods}
 
-We are examining results from three approaches in total: a) Maximum Parsimony, b) Maximum Likelihood and c) most common value in daughter languages. For (a) and (b) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCCT tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 1 results, i.e. 7.
+We are examining results from three approaches in total: a) Maximum Parsimony, b) Maximum Likelihood and c) Most Common value in daughter languages. For (a) and (b) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCCT tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 1 results, i.e. 7.
 
 %The match between languages in Grambank and the Gray et al-tree is 112, meaning that results with less than 56 tips are ignored.  %#update
 
 All results have been calculated in \texttt{R} \citep{R} using the packages \texttt{castor} (Parsimony, \citet{louca2017efficient}, \texttt{phangorn} (Parsimony, \citet{phangorn}) and \texttt{corHMM} (Maximum Likelihood, \citet{corHMM}). The packages \texttt{ape} \citep{paradis2004ape}, \texttt{adephylo} \citep{jombart2017package}, and phytools \citep{revell2012phytools} and tidyverse \citep{tidyverse13} were also used for data wrangling, analysis, summarising and visualising.
 
-The full table of all predictions (excluding those relating to conflicts) and all results per feature, tree and method can be found in table~\ref{asr_table_appendic} in appendix \ref{ASR_comparison_table}. The summary results for the concordance with reconstructions by experts from historical linguistics are presented in table \ref{reconstruction_summary_table}. There are different ways of calculating concordance
- 
-%\begin{table}[H]
-%\centering
-%\caption{Comparison of how often the computational ancestral state reconstruction agrees with reconstruction from historical linguistics literature.}
-%\label{reconstruction_summary_table}
-%\begin{tabular}{|p{5cm}| p{2cm}|  p{2cm}| p{2cm} | p{2cm} |}
-%\hline
-%& \multicolumn{2}{c|}{Gray et al (2009)-tree}\\ \cline{2-3}
-%& \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
-%
-% \cellcolor{hedvig_lightgreen!50}{Agree} & 95 & 91 \\ \hline
-%\cellcolor{hedvig_red!50}{Disagree} &13&10\\ \hline
-% \cellcolor{hedvig_yellow!50}{Half / Half} &7&13\\ \hline
-%
-% \textbf{Accuracy score (incl Half/Half)} &0.857& 0.855 \\ \hline
-% \textbf{Accuracy score (excl Half/Half)} &0.88&0.901\\ \hline
-%\cellcolor{hedvig_red!50}{False Negatives} &8 &8  \\ \hline
-% \cellcolor{hedvig_lightgreen!50}{True Negatives} &42 &41\\ \hline
-%\cellcolor{hedvig_red!50}{False Positives} &5&2\\ \hline
-% \cellcolor{hedvig_lightgreen!50}{True Positives} &53&50\\ \hline
-%\textbf{F1-score} & \textbf{0.891} & \textbf{0.909} \\ \hline
-%
-%
-%\end{tabular}
-%\end{table}
+The full table of all predictions (excluding those relating to conflicts) and all results per feature, tree and method can be found in table~\ref{asr_table_appendic} in appendix \ref{ASR_comparison_table}. The summary results for the concordance with reconstructions by experts from historical linguistics are presented in Table \ref{reconstruction_summary_table}. 
 
+Table \ref{True_post_results_table} shows the number of False, Positive and Half-results for each method and tree\footnote{There was one feature for the ML method and the Gray et al 2009-trees where the computation could not be carried out because all the languages had the same value. In such cases, the function used (corHMM from \citet{corHMM} gives an error because it cannot compute the rates matrix.}. On of the most striking features in Table \ref{reconstruction_summary_table} is the large amounts of Half-results in the Most common Method --- the method where we simply counts directly what is most common in all daughters. This means that there were many instances where this approach, which we know to be unsound, would not confidently be able to predict a presence of absence.
+ 
 \input{"illustrations/plots_from_R/results/table_false_pos_etc.tex"}
 
+Given these counts, we can calculate the concordance and F1-scores (see section \ref{result_calc_section}). These are displayed in Fig \ref{barplot_facet_results}. A score of 1 means identical to the predictions of historical linguists and 0 means entirely dissimilar from it.
 
-One of the most striking features of these results is the number of Half/Half predictions in the ML results. The ML approach takes into account the overall likelihood of the entire data, and for our dataset and trees this leads to more Half/Half results compared to the parsimony approach. One way of interpreting this is that the ML is more careful, it makes fewer confident predictions (more than 60\% either way), but it also disagrees less often with the findings from historical linguistics.
+\begin{figure}[H]
+\centering
+\includegraphics[width=11cm]{illustrations/plots_from_R/results/barplot_facet_scores.png}
+\caption{\textbf{Barplots of concordance and F1-scores of each method.}}
+\label{barplot_facet_results}
+\end{figure}
 
-As was discussed earlier, there are several different ways of evaluating the performance of these approaches. If we consider how often they made a prediction that agreed with historical linguistics out of all the times they made a confident prediction (Accuracy score excl Half/Half), then ML. If we award half a point for Half/Half predictions, Parsimony does better. However, in both instances the numbers are very close to each other.
+The inclusion of the half-results have the effect of evening out the differences between the performance of the different methods. The concordance scores (including half-results) and the F1-scores (including half-results) are more similar to each other.
+
+Compared to the F1-scores of \citet{jager2018using}, all of the methods achieved higher scores. In this study, only statements about ancestral languages that could be mapped to Grambank-features were included. It is  possible that the study by \citet{jager2018using} had a greater overlap between all the reconstructions made by historical linguists and the meanings that they had data for and that the particular features we can test with Grambank data are also those that Oceanic historical linguists are the most confident about.
+
+Overall, the method that tends to preform most similarly to historical linguists is Parsimony + the Glottolog 4.4 tree. The Glottolog 4.4 tree has a big disadvantage, it has no branch lengths and the topology is composed of a combination and compromise from several different sources as opposed to a principled and systematic investigation of lexical data. Parts of the tree are suggested by different scholars. It does have an advantage as well, and that is the sheer number of languages it includes. The tree of \citet{grayetal_2009} only contains languages for which they had data --- the Glottolog 4.4 tree contains all Oceanic languages. It is possible that it is this sheer number of tips that gives it a greater concordance with historical linguists' predictions. The results also suggests that it is likely that historical linguists, in these specific studies, do not necessarily take into account branch lengths. 
+
+%As was discussed earlier, there are several different ways of evaluating the performance of these approaches. If we consider how often they made a prediction that agreed with historical linguistics out of all the times they made a confident prediction (Accuracy score excl Half/Half), then ML. If we award half a point for Half/Half predictions, Parsimony does better. However, in both instances the numbers are very close to each other.
 
 %We are comparing our computational reconstruction results to those predicted by expert linguists. The reason that the Glottolog tree is more in line with the predictions from historical linguistics is probably because it resembles the tree most historical linguists are used to more than the Gray et al-2009 tree does (the Glottolog tree is based on \citet{blust_2009,blust_2014} and \citet{blust_chen_2017}). That is not to say it is necessarily a better reflection of the true history of these languages, but rather that it may fit better with the underlying model that the field of historical linguistics has been working with in recent decades. Most of the literature on reconstructions of Proto-Oceanic does not include detailed accounts of the exact tree topologies and branch lengths used to reconstruct the ancestral languages. As was shown in section \ref{sec:asr_methods}, we had to impute branch lengths for the Glottolog-tree. The manner by which reconstructions are postulated in historical linguistics is typically by considering how well distributed the phenomena are over certain genealogical and areal subgroups. If the distribution is convincingly non-random and the comparative method can be used to reconstruct forms, predictions about the proto-language are made (c.f. \citet[109-110]{pawley1973some}).
 
 %Furthermore, there were fewer matches between languages for which there is Grambank data and the Gray et al Tree, making for more uncertainty in predicting ancestral states.
 
-In a similar study, \citet{jager2018using} attempt to reconstruct cognate classes for the proto-languages of three different language families. They used various approaches: binarising versus not binarising data; Maximum Parsimony versus Maximum Likelihood Estimation versus Minimal Lateral Networks; and using a single consensus tree versus sampling several from the tree posterior. The highest F1-score they achieved in this paper was 0.79 for the Maxmimum Likelihood Estimation reconstruction of Austronesian (using either a single tree or a sample of trees). This means that all of our results above perform ``better''. While this may be pleasing, it is not yet entirely clear why this is. 
+%In a similar study, \citet{jager2018using} attempt to reconstruct cognate classes for the proto-languages of three different language families. They used various approaches: binarising versus not binarising data; Maximum Parsimony versus Maximum Likelihood Estimation versus Minimal Lateral Networks; and using a single consensus tree versus sampling several from the tree posterior. The highest F1-score they achieved in this paper was 0.79 for the Maxmimum Likelihood Estimation reconstruction of Austronesian (using either a single tree or a sample of trees). This means that all of our results above perform ``better''. While this may be pleasing, it is not yet entirely clear why this is. 
 
-In this study, only statements about ancestral languages that could be mapped to Grambank-features were included. It is  possible that the \citet{jager2018using} study had a greater overlap between all the reconstructions made by historical linguists and the meanings that they had data for. It is also possible that the set of features that were possible to include were also somehow easier to reconstruct, and if so that would explain the higher F1-scores.
+%e were also somehow easier to reconstruct, and if so that would explain the higher F1-scores.
 %\label{sec:ars:metod:hist}
 
-Many of the features that have been reconstructed for proto-languages of the Oceanic subgroup are also very common among Oceanic languages. For example, in our dataset 223 languages have a distinction between alienable and inalienable possession, and three do not have this feature . It is perhaps no surprise that historical linguists, Maximum Parsimony and Maximum Likelihood  agree that it is likely that the proto-languages have this feature as well\footnote{There was one exception. Maximum Likelihood on the Glottolog tree did not confidently predict presence of alienablity possession for Proto-Oceanic, the result was classified as ``half''. It did however predict alienablity for Proto-Polynesian.}. However, it is not always so simple. If this was all there was to it, we could just use raw distributions to reconstruct features of proto-languages. Historical linguists stress the importance of Maximum Parsimony and plausibility in their reconstructions, and as we saw in Fig. \ref{fig:clark_tree} (section \ref{sec:ars:metod:hist}), raw distributions alone can be misleading --- it is essential to take into account the tree structure. For example, \citet[118]{pawley1973some} suggests that verb-final word orders may have been possible in proto-Oceanic. This is tracked by feature GB133 \emph{`Is a pragmatically unmarked constituent order verb-final for transitive clauses?'}, and most languages are marked as `no' for this feature. However, Maximum Likelihood and the Gray et al 2009-tree did reconstruct presence of this feature at the root. 108 of the tips of this tree were absent, and 7 present, and yet the result was presence for Proto-Oceanic. This is (partially) due to the particular tree structure, where the languages with this feature attach further up in the tree structure (see Fig. \ref{GB133_tree_ML_gray})\footnote{It should be noted that the Maximum Parsimony result for the same tree did not reconstruct presence at the root. This has to do with the way Maximum Likelihood takes into account the distribution across the tree in each reconstruction, which gives the ancestral node of Maleu-Kilenge [male1289] and Kove [kove1237] a higher change of presence than it would under Maximum Parsimony.}\textsuperscript{,}\footnote{The languages with a presence for this feature are also mostly on the island of New Guinea and it is possible that this is a result of contact with non-Austronesian languages, as anonymous examiner 3 kindly pointed out.}.
+%Many of the features that have been reconstructed for proto-languages of the Oceanic subgroup are also very common among Oceanic languages. For example, in our dataset 223 languages have a distinction between alienable and inalienable possession, and three do not have this feature . It is perhaps no surprise that historical linguists, Maximum Parsimony and Maximum Likelihood  agree that it is likely that the proto-languages have this feature as well\footnote{There was one exception. Maximum Likelihood on the Glottolog tree did not confidently predict presence of alienablity possession for Proto-Oceanic, the result was classified as ``half''. It did however predict alienablity for Proto-Polynesian.}. However, it is not always so simple. If this was all there was to it, we could just use raw distributions to reconstruct features of proto-languages. Historical linguists stress the importance of Maximum Parsimony and plausibility in their reconstructions, and as we saw in Fig. \ref{fig:clark_tree} (section \ref{sec:ars:metod:hist}), raw distributions alone can be misleading --- it is essential to take into account the tree structure. For example, \citet[118]{pawley1973some} suggests that verb-final word orders may have been possible in proto-Oceanic. This is tracked by feature GB133 \emph{`Is a pragmatically unmarked constituent order verb-final for transitive clauses?'}, and most languages are marked as `no' for this feature. However, Maximum Likelihood and the Gray et al 2009-tree did reconstruct presence of this feature at the root. 108 of the tips of this tree were absent, and 7 present, and yet the result was presence for Proto-Oceanic. This is (partially) due to the particular tree structure, where the languages with this feature attach further up in the tree structure (see Fig. \ref{GB133_tree_ML_gray})\footnote{It should be noted that the Maximum Parsimony result for the same tree did not reconstruct presence at the root. This has to do with the way Maximum Likelihood takes into account the distribution across the tree in each reconstruction, which gives the ancestral node of Maleu-Kilenge [male1289] and Kove [kove1237] a higher change of presence than it would under Maximum Parsimony.}\textsuperscript{,}\footnote{The languages with a presence for this feature are also mostly on the island of New Guinea and it is possible that this is a result of contact with non-Austronesian languages, as anonymous examiner 3 kindly pointed out.}.
 
-\newpage
-\begin{figure}
-\centering
-%%\includegraphics[width=\textwidth]{illustrations/plots_from_R/ML_gray_-GB133.png}
-\caption[Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood.]{\textbf{Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood. Yellow = presence, purple = absence.)}}
-\label{GB133_tree_ML_gray}
-\end{figure}
-
+%\newpage
+%\begin{figure}
+%\centering
+%%%\includegraphics[width=\textwidth]{illustrations/plots_from_R/ML_gray_-GB133.png}
+%\caption[Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood.]{\textbf{Ancestral state reconstruction on tree for feature GB133, Gray et al 2009-tree and Maximum Likelihood. Yellow = presence, purple = absence.)}}
+%\label{GB133_tree_ML_gray}
+%\end{figure}
+%
 
 %
 %It is often as revealing to study where the results got it ``wrong'' as where it was ``right''.Table~\ref{ASR_comparison_worst_table} shows the results for the automatic reconstructions that agreed the least with findings from classical historical linguistics. 
 %
 %%The two parsimony sets of results did propose that Proto-Oceanic did not have tense marking bound to the verb (GB082-GB084), nor is it by an inflecting word (GB121). However, when it came to tense marking by a particle and the aspect and mood marking, the automatic reconstructions were among the most dis-concordant with the expert predictions out of the entire dataset. In the Grambank dataset, we make a distinction between TAM-markers bound to the verb and free-standing markers that inflect versus those that don't. One possible factor that could have contributed to this is that TAM-markers in Oceanic languages are often described as forming portmanteau markers with subject markers. However, there is variation in how authors of grammars express this in their publications, and possibly also how our coders interpret the situation. This requires further investigation, which is unfortunately outside the scope of this study.
 
+\subsection{New predictions}
 Besides the predictions made by historical linguists, we can also explore what else has strong support in our computational reconstructions that is not explicitly mentioned in the literature. For example, for Proto-Oceanic, three out of the four sets of results predicted that the order of numeral and noun is N-Num, all tests supported that ``adjectives'' in Proto-Central Pacific behaved like verbs when used predicatively, and all tests also supported that Proto-Polynesian had three or more distance contrasts among demonstratives. 
 
 \subsection{Where the conflicts are: Ergativity}
@@ -546,224 +580,12 @@ It is entirely possible for a language to be entered into the database as ``yes'
 \newcommand{\pb}[1]{\parbox[t][][t]{1\linewidth}{#1} \vspace{3.5pt}}
 \input{"illustrations/plots_from_R/results/table_conflicts.tex"}
 
-
-
 As was noted earlier, the computational reconstructions differ from those arrived at through the comparative method primarily because the data used in this study is abstract presences or absences of structural features whereas historical linguists use specific concrete forms instead (c.f. \citet{crowley1985common}). In the case of alignment systems, the matter of concrete markers is less of an issue. However, besides the parsimony principle (as laid out by \citet[19]{clark1976aspects} for example), expert historical linguists also take into account the plausibility of the proposed proto-language and the chain of changes posited \citep{chung1977aspects}. It is not possible for the computational reconstructions to take these assumptions into account without having them formally described and introduced into the model, which is not possible at this time. This may be the reason for the lack of support for Chung's theory; the crucial information that underpins it is not accounted for in this study.
 
 Given the topology of the two trees used in this study, where the ergative flagging language Tongan is always attached to the Proto-Polynesian root at a higher level than Eastern Polynesian languages, it is very likely that GB409 would be reconstructed as present for Proto-Polynesian. As Clark pointed out, it is the most parsimonious solution. However, it could still have been the case that GB408 (accusative) or GB410 (neutral alignment) would have been reconstructed for Proto-Polynesian. The reasons for this may lie in different definitions of what counts as nominative-accusative or neutral in different descriptions, and/or in discussions of plausibility. As has been discussed earlier, it was not possible to include plausibility as a factor in this study.
 
 The proposals of \citet{hale_1968}, \citet{hohepa_1967, hohepa_1969}, and \citet{chung1978} also involve reconstruction of passive voice that relate to the development of the ergative systems. They suggest different pathways by which languages can develop from a nominative-accusative system to an ergative-absolutive one that rely on changes in the specifics of the passive voice construction that we unfortunately do not track. Given our data, which simply records presence of a productive passive voice marker on the verb, we are not able to scrutinise the three precise theories in greater detail. The results largely support the hypothesis that Proto-Eastern Polynesian had a passive voice marker and that Proto-Oceanic and Proto-Polynesian did not. %This can be seen as partial support for the proposals by \citet{hale_1968, hohepa_1967, hohepa_1969, chung1978}.
 
-
-%###############
-
-
-%
-%\subsubsection{Stability of features}
-%\label{sec:asr:stability}
-%
-%We assess the stability of the features in our data by measuring the Parsimony cost (number of changes in the tree) and the rate of gains and losses in the ML results. Features where more than half of the languages of the tree were missing were excluded from these results.
-%
-%Parsimony cost represents the number of changes inferred as part of the most parsimonious solution. Trees where all the tips are of the same value will have a parsimony cost of 0, since no change occurred. A parsimony cost of 1 will indicate that 1 change occurred somewhere in the tree, and so on.
-%
-%The ML results produce a rate of gain and loss for each feature given the full tree. In order to make the rates comparable across features, all the trees used have the same number of tips (with tips with missing data being converted to ambiguous states). For the results, the average rate (mean of rate of gain and loss) is considered.
-%
-%The large majority of the most stable features are dominated by rare phenomena. For example, all four sets of results rank the following two features as among the five most stable:
-%
-%\begin{enumerate}
-%    \item GB110 \emph{Is there verb suppletion for tense or aspect?}
-%    \item GB149 \emph{Is there a morphologically marked inverse on verbs?}
-%\end{enumerate}
-%
-%However, these are both entirely absent from the entire group. There is no Oceanic language in Grambank with verb suppletion for tense or aspect, nor a language with inverse marked on verbs. It is little wonder that these features are stable, no change is needed from the reconstructed root (absence) to all the tips (also absence). This is a characteristic of some of the results from the study by \cite{dediu2013some} as well: many of the most stable features in their overview were also rare.
-%
-%In order to avoid the most rare features, the results are also reported for only features where the balance of presence/absence is at least 5\% one way and 95\% the other. The top and bottom five for each method and tree are reported in appendix \ref{stability_tables}, including a separate table for stable features with at least a distribution of 5\%/95\%.
-%
-%Table \ref{summary_stability} is a summary of the top-5 most stable features in each of the four sets of results, including only features with a distribution of at least 5\%/95\%.
-%
-%\begin{table}
-%\centering
-%\caption{Top 5 most stable features per method and tree, only including features with a distribution of at least 5\%/95\%.}
-%\label{summary_stability}
-%\begin{tabular}{?l?p{2cm}?p{2cm}?p{2cm}?p{2cm}?l?l?l?l}
-%\hline
-%\multirow{2}{*}{\textbf{Grambank Feature}}& \multicolumn{2}{c|}{\textbf{Glottolog 4.0-tree}}& \multicolumn{2}{c|}{\textbf{Gray et al (2009)-tree}}\\ \cline{2-5}
-%& \textbf{Parsimony} & \textbf{Maximum Likelihood} & \textbf{Parsimony} & \textbf{Maximum Likelihood} \\ \hline
-%\textbf{GB081 VInfix}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-%\textbf{GB433 POSSSfxPosd}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-%\textbf{GB131 TransVInitOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-%\textbf{GB132 TransVMedOrder}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-%\textbf{GB024b OrderNNUM}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} \\ \hline
-%\textbf{GB188 AUGBound} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-%\textbf{GB422 ComplThinkKnowPost} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-%\textbf{GB300 VSupplGive}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-%\textbf{GB095 CaseSplitTAM}& {}& {} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} \\ \hline
-%\textbf{GB133 TransVFinalOrder} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-%\textbf{GB264 QPartMedial} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-%\textbf{GB330 RELCorr} & \cellcolor{hedvig_lightgreen!50}{Top-5}& {} & {} & {} \\ \hline
-%\textbf{GB091 A-ArgSfxV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-%\textbf{GB333 NUMDecimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-%\textbf{GB148 AntipassiveBoundV}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-%\textbf{GB335 NUMVigesimal}& {} & {} & {} & \cellcolor{hedvig_lightgreen!50}{Top-5} \\ \hline
-%
-%\end{tabular}
-%\end{table}
-%
-%These results indicate that there is little agreement between the methods as to which features are most stable. Three out of four sets of results rank verbal infixing (GB081) as among the five most stable and while it is indeed less rare than 5\%/95\%, it is not much rarer. Only 8\% of the languages in the sample have this feature.
-%
-%There are a few interesting features in this summary table. Counting systems (GB333 and GB335) are often said to be stable. There are also a few word-order related features, which is in line with previous research \citep[c.f.][]{dediu2013some}.
-%
-%However, overall these results do not strongly support that certain features are more stable than others consistently. This is likely because Oceanic is not a deep enough genealogical unit for this kind of analysis. Features are either overwhelmingly present or absent with little in between. This makes phylogenetic analysis difficult. It is possible to consider other factors besides time-depth as relevant factors for stability, such as social network structure/political complexity (see section \ref{prediting:sec:pol:complex}), but this is outside the scope of this study. Furthermore, it is possible that the characteristics of structural data are such that it is much more difficult to apply ancestral reconstruction methods
-%(there are several different reasons for the presence of a structural feature, and they may be unrelated, see \ref{subsection:comp_lex_str} and section \ref{sec:ars:metod:hist}).
-%
-%
-%
-%
-%\subsubsection{Conservatism per language}
-%\label{sec:conservatism}
-%Conservatism is a measurement of how much change there has been from the reconstructed root of the tree (proto-Oceanic) down to each of the tips (languages). A high number indicates a large amount of change has occurred between the root and the tips. The change can go back and forth, i.e. flip between presence and absence of a feature several times between the root and the tip.
-%
-%This is different from the direct pairwise dissimilarity between each language and a reconstructed version of Proto-Oceanic which we saw in section \ref{aberr_dist_results}. The analysis of pairwise dissimilarity did not take into account the intermediate nodes between Proto-Oceanic and each language, and only included the features where findings in historical linguistics indicated a particular feature in Grambank for Proto-Oceanic. The analysis here differs in two important ways: a) the state of the intermediate nodes are taken into account and b) the tips are compared to the computationally reconstructed Proto-Oceanic (which includes more features than there are findings for in historical linguistics).
-%
-%For the two parsimony sets of results, conservatism was calculated by a kind of parsimony analysis known as ACCTRAN (ACCelerated TRANsformation). This lets us examine how many changes occur from the root down to each of the tips according to the most parsimonious solution of ancestral states. 
-%
-%For the ML analysis, the function \texttt{optim.ml()} was used to rescale the branches in accordance with the changes that the ML (marginal) reconstruction posited. The result of \texttt{optim.ml()} is an unrooted tree, which is why it is necessary to reroot. Nanggu [nang1262] was used as an outgroup to root the trees, since it is well-known as an Oceanic outlier.
-%
-%In order to make the results comparable across the two methods, the ACCTRAN trees were also re-rooted with Nanggu as an outgroup. Because Nanggu was used as an outgroup, features which Nanggu lacked were excluded. This left 167 Grambank features which were included in the conservatism analysis. 
-%
-%The results from both the Maximum Parsimony and Maximum Likelihood were rescaled to between 0 and 1 in order to make them comparable. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred. Fig. \ref{map_br_lens} shows the languages of the sample coloured by conservatism in each of the four sets of results given our two methods and two trees.
-%
-%%The language in Papua New Guinea that appears as a bright yellow (progressive) point in Papua New Guinea in the results based on Maximum Likelihood is Kilivila [kili1267]
-%
-%
-%\newpage
-%\begin{sidewaysfigure}
-%\centering
-%%\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_maps.png}
-%\caption[Map of Oceanic languages and their average conservatism given the four sets of results.]{\textbf{Map of Oceanic languages and their average conservatism given the four sets of results. Yellow = progressive, blue = conservative. First row: Maximum Likelihood branch lengths, second row: Parsimony cost. First column: Glottolog-tree, second column: Gray et al 2009-tree.)}}
-%\label{map_br_lens}
-%\end{sidewaysfigure}
-%
-%Across the four sets of results the map visualisation indicates that the most conservative regions appear to be the Bismarck archipelago and Temotu (see Fig. \ref{Marck_map_with_language_names} in section \ref{subregion:sailing} for locations of Bismarck and Temotu).
-%
-%In order to evaluate the conservatism of the different regions in our data the languages were grouped into island groups. The same groups as in paper \ref{paper_distances} were used with the addition of three groups in Near Oceania, making for a total of ten groups (ordered by mean conservatism averaged over all four sets of findings): Temotu, Bismarck, Solomons and Bougainville, Northern Vanuatu, New Caledonia, New Guinea Mainland/Louisiade Archipelago, Micronesia, Central Vanuatu, Central Pacific and Southern Vanuatu. 
-%
-%Figs. \ref{ridgeplot_BR_len_MP} and \ref{ridgeplot_BR_len_ML} show the distribution of conservativeness across the island groups over the four methods. The ridgeplots represent the distribution of conservativeness in each island group but points have also been added to show the precise locations of the data-points. The line and label on each distribution indicates the mean. For the analysis with the Gray et al 2009-tree there were unfortunate only two languages of the Northern Vanuatu group present, which is not enough to generate a ridgeplot but the points indicate the values of the languages there.
-% 
-%%% latex table generated in R 4.0.0 by xtable 1.8-4 package
-%%% Sun Apr 26 22:18:59 2020
-%%\begin{table}[H]
-%%\centering
-%%\caption[Island groups ordered by mean conservatism.]{Island groups ordered by mean conservatism. A score of 1 means that a great deal of change has occurred, whereas a score of 0 means that no change has occurred.} 
-%%\label{conservatism_group_parsimony_Gray}
-%%\begin{tabular}{lr}
-%%  \hline
-%%Island group & Average distance from root\\ 
-%%  \hline
-%%Temotu & 0.18 \\ 
-%%  Bismarck & 0.46 \\ 
-%%  Solomons and Bougainville & 0.52 \\ 
-%%  Northern Vanuatu & 0.52 \\ 
-%%  New Caledonia & 0.54 \\ 
-%%  New Guinea mainland / Louisiade archipelago & 0.56 \\ 
-%%  Micronesia & 0.57 \\ 
-%%  Central Vanuatu & 0.58 \\ 
-%%  Central Pacific & 0.64 \\ 
-%%  Southern Vanuatu & 0.68 \\ 
-%%   \hline
-%%\end{tabular}
-%%\end{table}
-%
-%\begin{sidewaysfigure}
-%\centering
-%%\includegraphics[width=\textwidth]{../code/output/other_plots/br_len_ridgeplots_gray.png}
-%\caption{{Ridgeplots of the distribution of conservatism over the island groups per method.}}
-%\label{ridgeplot_BR_len_MP}
-%\end{sidewaysfigure}
-%
-%The results from the different methods and trees differ, we shall take a closer look at this later and compare the scores to each other and to time of settlement.
-%
-%Temotu is the most conservative group in the sample across all the four sets of findings. If we average the conservatism of all the analyses, Temotu languages have a mean of 0.18 conservatism compared to Bismarck's 0.46. However, Nanggu was used to outgroup root the tree, which makes Nanggu the first split from proto-Oceanic in the tree which was used in the reconstruction. This is likely to have inflated the conservatism of Nanggu and therefore the conservatism of its closest relatives, which are other languages in the Temotu group. This is likely to have enhanced the conservatism of the Temotu island group. However, it should be noted that Temotu languages did also have the lowest direct distance to Proto-Oceanic as reconstructed by historical linguists (section \ref{aberr_dist_results}).
-%
-%It is possible that if certain ancestral nodes in the tree had been anchored by archaeological accounts, such as those found in \cite{rieth_cochrane_2018} or \citet{kirch2017road}, Temotu would have been less likely to be the most conservative. This is because the settlement order would definitely be Bismarck first and Temotu later.
-%
-%Historical linguistics research indicates that the most likely homeland of Oceanic is found in the Bismarck archipelago \citep[97]{lynchrosscrowleyinternalsubgroupingoceanic}. The second most conservative group in our sample is indeed Bismarck, which supports this notion.
-%
-%As was discussed in the previous paper (\ref{paper_distances}) certain languages of Temotu, Southern Vanuatu and New Caledonia are known to be unusually innovative lexically and phonologically \citep{grace1981indirect, grace_1992_aberrant, pawley2006explaining}. In the previous paper, we saw that Temotu and New Caledonia were more unusual lexically than Southern Vanuatu, and that structurally there was little difference. In these results however,  Southern Vanuatu is the most progressive in the MP results, and in the mid-range in the ML-results, whereas Temotu is the least conservative overall and New Caledonia appears in the mid-range in all the results. It appears that it took more transitions back and forth to ``get to'' the structure of Southern Vanuatu languages compared to the other two ``aberrant'' groups Temotu and New Caledonia.
-%
-%The languages of the Central Pacific are known as especially \emph{conservative} in their lexicon (\citet{blust1981, blust2000lexicostatistics} and \citet{pawley_2009_solomons}). However, this seems to not hold structurally. The Central Pacific Languages are the most progressive in the MP results (after Southern Vanuatu) and in the upper-mid range in the ML results. A few features that make the Central Pacific languages stand out are the lack of subject markers as prefixes or proclitics on verbs (GB090 \& GB092) as well as the presence of ergative case marking (GB409) and passive voice (GB147).
-%
-%%##here is where you are
-%
-%However, there are a few methodological considerations that are important to the interpretation of these results, in particular concerning Central Pacific. The difference between the Maximum Parsimony and Maximum Likelihood results are most likely due to branch lengths and the number of nodes between each tip and the root. For the Maximum Parsimony analysis, the branch lengths are irrelevant. Maximum Parsimony only reconstructs states at each intermediate node, regardless of how close that node is to another. This means that if there are more nodes between the root and the tip, Maximum Parsimony has more ``opportunity'' to posit changes than if there were fewer. The Maximum Likelihood analysis however takes into account the length of the branches, which in turn means that the particular number of nodes between the root and the tips is of less importance.
-%
-%The two trees we have used in this analysis, the Glottolog tree\footnote{Note that both trees have been binarised for the analysis in this paper.} and the Gray et al 2009-trees, have a structure such that there are more nodes between the languages of Central Pacific and the root (Proto-Oceanic) than there are between languages of Central Vanuatu and the root. The tree topologies are displayed in section \ref{asr:sec:GBcoverage}, but as it is difficult to appreciate this difference in the plots there I have summarised the number of nodes between tips and root per island group in table \ref{table_mean_nodes}. The precise number of nodes between the tips and root differ between the two trees, and also between the two methods since the Parsimony analysis drops tips with missing data. However, the rank orders are largely the same, with Temotu languages having the fewest number of nodes between them and the root and Central Pacific the most.
-%
-%% latex table generated in R 4.0.0 by xtable 1.8-4 package
-%% Fri May 29 13:23:48 2020
-%\begin{table}[ht]
-%\caption{Mean number of nodes between tips and root per method and tree.}
-%\label{table_mean_nodes}
-%\centering
-%\begin{tabular}{?l?  p{2cm} ?p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}?}
-%  \hline
-%  &   \multicolumn{5}{c?}{\textbf{Mean number of nodes between tips and root} } \\    \cline{2-6}
-%& &  \multicolumn{2}{c|}{\textbf{Max Parsimony}} &\multicolumn{2}{c|}{\textbf{Max Likelihood}}\\ \cline{3-6}
-%\textbf{Island group} & \textbf{All} &  \textbf{Glottolog }& \textbf{Gray} & \textbf{Glottolog} & \textbf{Gray}  \\ \hline
-%
-%%Island group & All & MP Glottolog & MP Gray et al 2009 & ML Glottolog & ML Gray et al 2009 \\ 
-%  \hline
-%Temotu & 2.95 & 2.83 & 2.58 & 3.25 & 3.14 \\ 
-%  New Caledonia & 9.85 & 11.19 & 7.73 & 12.08 & 8.40 \\ 
-%  Southern Vanuatu & 10.29 & 10.56 & 9.15 & 11.62 & 9.83 \\ 
-%  New Guinea mainland / Louisiade archipelago & 10.66 & 11.67 & 8.35 & 12.31 & 10.33 \\ 
-%  Micronesia & 11.32 & 11.92 & 10.08 & 12.37 & 10.92 \\ 
-%  Northern Vanuatu & 11.51 & 11.94 & 10.31 & 13.80 & 10.00 \\ 
-%  Bismarck & 11.77 & 13.18 & 9.24 & 13.24 & 11.43 \\ 
-%  Central Vanuatu & 12.47 & 12.90 & 11.21 & 13.15 & 12.62 \\ 
-%  Solomons and Bougainville & 12.96 & 14.45 & 9.91 & 15.58 & 11.88 \\ 
-%  Central Pacific & 14.55 & 15.20 & 12.80 & 16.54 & 13.67 \\ 
-%   \hline
-%\end{tabular}
-%
-%\end{table}
-%
-%Since there are more nodes between Central Pacific and the root this means that the Maximum Parsimony algorithm has more ``chances'' to posit changes. This is not true of the Maximum Likelihood analysis which is able to posit changes in relation to the branch lengths and cares less about the precise number of nodes on the tree. Fig. \ref{BR_len_to_nnodes} shows the language conservatism score per method and tree compared to the number of nodes between the languages and the root. There is a stronger correlation between the number of nodes along the route from a specific language (tip) to the root and the Maximum Parsimony scores of conservatism for that language (upper row) than there is between the Maximum Likelihood and the number of nodes (lower row). The correlation between the number of nodes and the Maximum Likelihood, though significant, is very weak.
-%
-%\begin{figure}[H]
-%\centering
-%%\includegraphics[width= \textwidth]{illustrations/plots_from_R/br_len_compare_to_nodes.png}
-%\caption{Scatterplots comparing number of nodes from root to tips and conservatism scores.}
-%\label{BR_len_to_nnodes}
-%\end{figure}
-%
-%This means that the Maximum Parsimony conservatism score is mainly reproducing the number of splits between the language and the root --- the more splits, the higher the Parsimony cost (amount of change). Conversely, fewer splits mean less change (lower Parsimony cost). Temotu languages are more conservative in the Parsimony analysis than in the Maximum Likelihood analysis, and the outgroup-rooting with Nanggu results in fewer nodes between the root and the Temotu languages. Whether or not this is good or bad depends on what we think splits in the tree represent. Do we expect languages which are more deeply nested in a family tree to have had a more tumultuous history? Or do we think that the rate of change is not correlated with the number of splits found in the tree --- that ``early'' off-shoots like Nanggu and Yapese are equally likely to undergo substantial changes as Central Pacific language which have more splits in their lineage? 
-%
-%Furthermore, sub-nesting may also be a product of research efforts --- areas which have been more well-researched may be better represented in the tree of Glottolog than those which have had comparatively less research. Note that this is not as relevant for the Gray et al 2009-tree which is based on lexical and archaeological data, not compilations of historical linguists' accounts like the Glottolog tree\footnote{A total of 102 references are used in Glottolog for the structure of the Austronesian family tree, with the main references being \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. It is beyond the scope of this dissertation to reach any final conclusions on how we should interpret the nature of splits in these trees. The findings of this paper indicate that the more splits in a lineage the less conservative the language is in the Maximum Parsimony analysis, which informs us that the Maximum Parsimony is adding little information concerning conservatism beyond the number of splits. How we should interpret the number of splits is however not clear.
-%
-%Bringing this back to the specific island groups, it is still noteworthy that Central Pacific is not among the most conservative languages structurally in either of the four sets of results. This goes against what we might have expected given the lexical conservatism of these languages found in other publications. 
-%
-%More remarkable perhaps in light of the correlation between number of nodes and the Maximum Parsimony conservatism score is the progressiveness of Southern Vanuatu languages and the conservatism of Bismarck languages. Table \ref{table_mean_nodes} shows that Southern Vanuatu languages have the third least number of nodes on average between the root and the languages, and Bismark's languages appear in the mid range. And yet, the Southern Vanuatu languages are among the most progressive in the results, with Bismarck languages among the most conservative. This indicates that the progressiveness of the Southern Vanuatu languages and the conservatism of the Bismarck languages are robust findings.
-%
-%We can also compare the conservatism of the languages across the methods, and to known settlement dates. Fig. \ref{SPLOM_BR_len} shows a scatterplot matrix comparing the four conservatism-per-language scores to each other and also to settlement order (see section \ref{pol_complex_sec_dates} in paper \ref{paper_pol_complex}). The lower triangle shows scatterplots of different combinations of data. The cell in the second row and first column displays a scatterplot of the two ML results compared against each other. The dexter diagonal shows the histograms of the various datasets. The upper triangle shows the Pearson's statistic. Stars indicate significance in the conventional manner. 
-%
-%\begin{figure}[H]
-%\centering
-%%\includegraphics[width=\textwidth]{illustrations/plots_from_R/br_len_splom_SFM.png}
-%\caption{{Scatterplot matrix of correlations between conservatism scores over the four different sets of results, and settlement order.}}
-%\label{SPLOM_BR_len}
-%\end{figure}
-%
-%There is a very strong correlation between the two ML results (0.94), even though the two tree topologies are quite different. This is noticeable, we might expect that analysis using such different trees would generate more different results. The correlation between the two parsimony results is also strong (0.79), but not as strong. The parsimony results also correlate with the settlement time, the Glottolog and Maximum Parsimony results moderately (0.55) and the Gray et al 2009 and Maximum Parsimony weakly (0.35). This indicates that the higher the Parsimony cost (i.e. rate of change), the more likely a language is to be spoken on an island which has been settled more recently. This correlation, though present, is not strong and needs to be further investigated. It is possible that the correlation between the Maximum Parsimony conservatism scores and settlement time depth is related to the aforementioned relationships to degree of nesting (i.e. number of nodes between root and tip).
-%
-%The fact that the two Maximum Likelihood results correlate more with each other than the two Maximum Parsimony results does suggests that it is a more robust methodology.
-%
-%In summary, the results differ between the four methods, and these differences reveal some of the consequences behind the methodologies. Since Maximum Parsimony is more dependent on the number of nodes along a lineage, the findings show that it adds little information beyond that. The interpretation of the precise results depends on how we choose to interpret what it means that the lineages of certain languages involve more splitting events than others. Regardless, the findings indicate that Central Pacific languages are \emph{not} especially conservative structurally, that the Bismarck languages are indeed particularly conservative and that the ``aberrant'' island group of Southern Vanuatu appears especially innovative structurally. For future studies, it is possible to investigate the drivers behind conservatism in a similar manner to how language richness is explored in paper \ref{paper_pol_complex}.
-%
-%
-%%The distribution of conservatism over these languages looks more similar to the settlement pattern, with more recently settled areas overall being more progressive. In paper \ref{paper_pol_complex}, we used archaeological dates for a model on factors of language diversification in the region (see Fig.\ref{dates_map} for a map of time of settlement). If we compare the time depth-data from that study to these Parsimony costs using a Pearson's product-moment correlation we do find a statistically significant positive correlation (cor = 0.59, \emph{p} value = 2.1 * 10 $^-13$). In the case of islands and atolls in Eastern Polynesia and the northern Polynesian outliers, their high rate of change could be due to bottleneck effects (c.f. \citet{bromham_polynesian_sizes}).
-%
-%%In summary, structural features of language may be subject to different pressures than lexical (c.f. \citet{francois2011}). These results indicate that the retention rate of structural features is different from that ofbasic lexicon.
 
 \section{Conclusions}
 In this paper, we have investigated the history of structural features of Oceanic languages to examine how computational reconstructive methods compare to reconstructions by historical linguists (including contributing to the debate on Proto-Polynesian alignment), the stability of features and conservatism of languages of the region.
@@ -772,85 +594,9 @@ We have found that computational reconstructions show a high degree of concordan
 
 Within Oceanic historical linguistics, there exists a debate regarding the nature of the alignment system of Proto-Polynesian. The results of this study support the analysis that it was ergative. However, since the computational reconstructions are unable to take into account considerations of plausibility, which is the main difference between the different proposals, this cannot be taken as hard evidence.
 
-One of the aims of this study was also to explore stability of features. The results reaffirmed previous studies which have found rare features among the most stable \citep{dediu2013some}. We also expected features that pertain to paradigmatic distinctions to be more likely to be stable. However, this was not the case. The results from Maximum Parsimony and Maximum Likelihood were overall not in agreement.
-
-More work is needed to explore the hypothesis that certain diagnostic structural features can track history at a deeper time depth than basic vocabulary \citep[c.f.][]{nichols1998origin}. The results of this study were inconclusive, possibly because Oceanic is not deep enough for this kind of analysis.
-
-The last part of the study investigated rates of change over languages of the region. Languages of the Bismarck archipelago are the most conservative overall\footnote{Disregarding Temotu which most likely has a high conservatism score because  of the outgroup-rooting.}. The distribution of conservatism supports the theory that we are more likely to find conservative languages at the origin of the spread  \citep[119]{lynchrosscrowleyinternalsubgroupingoceanic}. Contrary to other findings in historical linguistics concerning lexical conservatism, languages of the Central Pacific were not the most conservative and potentially even among the most progressive. Southern Vanuatu languages were also found to be particularly progressive structurally.
-
-
 
 \newpage
 
-
-Linguistic diversity can mean many things. This dissertation has explored four different ways of conceiving of diversity: number of languages (paper \ref{paper_pol_complex}), pairwise dissimilarity between languages (paper \ref{paper_distances}), rate of change along a tree (paper \ref{paper_ASR}) and language internal variation (paper \ref{paper_samoan_var}). Together the insights from the different papers inform our understanding of the dynamics of linguistic diversity.
-
-paper \ref{paper_pol_complex} explored different environmental and social factors which may contribute to language diversification in Remote Oceania. The models included rainfall (mean and seasonality), temperature (mean and seasonality), isolation, size (area and shoreline), time of settlement and political complexity. Two different ways of grouping islands were explored (overnight voyage or shared language), and in both sets of findings island size, time depth and political complexity were significant factors in predicting the number of languages per island group. This confirms earlier research which suggests that political complexity correlates inversely with the number of languages in a given place (c.f. \cite{pawley2007} and \cite{curriemace2009}). 
-
-We need not interpret these findings as directly showing that pyramidal chiefly power in itself generates homogeneity (i.e. that chiefs enforce homogeneity explicitly). Rather, such network structures may encourage and make possible more distant interactions across space and make it more likely that community members see themselves as part of the same larger community and therefore converge to a greater extent. 
-
-This can be compared to Duhamel's study of the Raga community in North Pentecost (Vanuatu). In her thesis, she argues that the high linguistic uniformity within the community can be explained in part by the density and multiplex ties of the members of the community at large (not solely relatives and close neighbours) \citep{duhamel2020raga}. The Raga political structure is different from most Polynesian societies and falls under what is commonly labelled as ``grade-taking'' societies \citep{bonnemaison1996graded}. The majority of societies of this type are classified as level one in the scale of political complexity in the Ethnographic Atlas (section \ref{prediting:sec:pol:complex}). It is clear that within Vanuatu there exist many different types of power structures. It is likely that the scale of political complexity from the Ethnographic Atlas does not capture the nuances in Vanuatu in fine enough detail to capture this, and that much can be learned by a closer study of the differences within Vanuatu between how power is enacted and the ties between members of the same community (c.f. \cite{grace_1992_aberrant}'s observations of loosely tied networks of New Caledonia).
-
-
-
-%\begin{quotation}
-%\emph{linguistic similarities and differences [are] reflections of community structures}
-%\end{quotation}
-%\begin{flushright}
-%\cite[124]{grace_1992_aberrant}
-%\end{flushright}
-
-The findings of paper \ref{paper_pol_complex} need to be further substantiated, in particular in regards to the isolation metric and other ways of managing the skewed distribution of languages in the analysis. More sophisticated methods of teasing out the causality of factors in language diversification are also necessary to rule out spurious correlations (c.f. \cite{Sean_2018} and \cite{Pacheco_Coelho_2019}). 
-
-paper \ref{paper_distances} explored the dissimilarity of languages in the region. The findings showed that structural data contains more conflicting signal than lexical data. Pairwise distances were calculated between languages based on the dissimilarity between their profiles in the Grambank database and their shared cognates in Austronesian Basic Vocabulary Database (ABVD). The Grambank structural data consists of a set of 201 binary features (see appendix \ref{Grambank_features}) and the ABVD lexical dataset of 210 basic concepts coded for cognacy. A small pairwise distance indicates that the languages are similar structurally/share many cognates; a large pairwise distance indicates that they are very dissimilar. The minimum possible distance is 0 and the maximum 1. Overall, the pairwise distances of languages in Remote Oceania based on structural data ranged between 0.20 and 0.30 whereas the lexical distances ranged from 0.20 to 0.80 (sections \ref{measuring_results_q1} and \ref{aberr_dist_results}). This means that the languages overall were more similar structurally than they were lexically.
-
-The distances were also compared to known language family trees. The lexical distances between languages showed a stronger correlation to the distances in the trees than did the structural distances (section \ref{distances:results:lex_gram_diff}). There is a stronger phylogenetic `signal' in the lexical data compared to the structural (c.f. \cite{greenhilletal_2017}). Furthermore, measurements of conflicting signal in the data (delta scores and \emph{Q}-residuals in neighbour-nets) showed that the lexical data was more tree-like than the structural. It is possible that the greater amount of conflicting signal and lower correlation with family trees in the structural data is due to the restricted design space of the dataset we used. Similarity in the lexical data necessarily implies inheritance whereas structural features of languages are subject to different evolutionary pressures (section \ref{subsection:comp_lex_str}). The typological questionnaire used covers `core' grammatical domains and is able to distinguish between language families \citep{grambank_release}, but may not contain enough `rare' features for teasing out more lower level subgroups.
-
-We also sought to test if the island groups where so called ``aberrant'' Oceanic languages predominate (Temotu, New Caledonia and Southern Vanuatu) do indeed stand out in terms of their structural disparity and lexical divergence (\citet{grace1981indirect}, \citet{grace_1992_aberrant} and \citet{pawley2006explaining}). The part of the definition of ``aberrant'' that was tested is if the languages from these island groups are on average especially distant from their Oceanic cousins and/or from Proto-Oceanic. 
-
-None of the island groups stood out as ``aberrant'' in terms of structural disparity, i.e. were especially distant from other Oceanic languages or Proto-Oceanic. Given the greater conflicting signal in the structural data compared to the lexical, and the fact that structure is most likely recruited as a marker of social indexing less often, this is expected. \citet[219]{pawley2006explaining} also notes that most languages in New Caledonia and Southern Vanuatu are not ``atypical' Oceanic languages structurally. Most of the research that has been brought to bear on ``aberrant'' languages concerns systematic sound correspondences and cognates.
-
-The island groups of Temotu and New Caledonia were clearly ``aberrant'' lexically. Southern Vanuatu is the third most ``aberrant'' island group in the sample, but it should be noted that it is only slightly more distant lexically from the rest of the Oceanic languages than Micronesian languages are. This confirms \citet{pawley2006explaining}'s observation that ``aberrant'' Oceanic languages predominate in these island groups.
-
-Further research is needed here to complete the picture. The structural dataset used in this dissertation did not include data on phonological features. This is likely a fruitful venue for future research, both since phonology is potentially able to track deep history (c.f. \cite{evansaustralia_2019}) and in order to explore the ``aberrant'' languages more fully. The languages of Southern Vanuatu and New Caledonia are less well-described than the other island groups and therefore not as well represented in the sample of this study. More research is needed into these languages, in particular their grammar.
-
-paper \ref{paper_ASR} concerned ancestral state reconstruction of structural features of Oceanic languages by computational phylogenetic methods. The paper aimed at answering three questions: do computational methods reconstruct the same structural features for proto-languages as classical historical linguists, are certain structural features more stable than others and are some island groups more conservative on average than others? Two different methods were used --- Maximum Parsimony and Maximum Likelihood --- and two different trees --- Glottolog 4.0 \citep{glottolog40} and \citet{grayetal_2009}. The findings show that indeed, computational methods often reconstruct the same structure as traditional historical linguistics. The results concerning the stability of features across the methods and trees was not conclusive. 
-
-Conservatism of the Maximum Parsimony analysis was measured as the average number of changes from the root (proto-Oceanic) to the tip (a language) given the Maximum Parsimony solution of ancestral state. For the Maximum Likelihood analysis conservatism is measured as the average rate of change\footnote{For both methods it is possible for a structural feature to emerge and disappear several times along a lineage. Note that this is \emph{not} the case for lexical cognates, unless there is borrowing involved.}. The most structurally conservative languages were found in the Bismarck archipelago and Temotu\footnote{The conservatism of Temotu should be taken with a grain of salt. The analysis of conservatism required that the trees be re-rooted and they were rooted with Nanggu (a language of Temotu) as an outgroup. This in combination with the fact that the analysis did not include archaeological dates means that the conservatism of Temotu is most likely inflated.}. The Bismarck archipelago is also deemed the most likely location for the proto-Oceanic homeland \citep[97]{lynchrosscrowleyinternalsubgroupingoceanic}. Central Pacific was not, contrary to what might be expected based on research of lexical conservatism, among the most conservative languages. Instead languages in Central Pacific together with Southern Vanuatu were among the least conservative structurally.
-
-The findings of conservatism of languages in terms of structural change in paper \ref{paper_ASR} also revealed some key differences between the two methodologies used in the analysis: Maximum Parsimony and Maximum Likelihood. The Maximum Parsimony results were more dependent on number of splits posited along the lineages in the trees than was the Maximum Likelihood analysis. The Maximum Likelihood scores were more correlated across the two trees used, which indicates a greater robustness.
-
-The findings from paper \ref{paper_ASR} differ from paper \ref{paper_distances} primarily in the position of Central Pacific in regards to structural disparity. In paper \ref{paper_distances} there was overall little difference in the distances internally within each island group or their average distance to Proto-Oceanic. However, in paper \ref{paper_ASR} the different island groups do differ in their average conservatism. Distances in paper \ref{paper_distances} were calculated pairwise directly between each pair of languages with no regard to the potential genealogical relationship between them. Yapese was compared directly to Proto-Oceanic just as Tongan was, even though most family trees of Austronesian have very few or no intermediate nodes between Proto-Oceanic and Yapese and many more between Proto-Oceanic and Tongan. In paper \ref{paper_ASR} we harnessed the power of trees in our analysis and reconstructed states for the intermediate nodes and measured the change along this path, instead of direct pairwise distances. This is why the results differ. Once the reconstruction of the intermediate nodes is taken into account, the structural changes that have led to Central Pacific are greater than if we compare the raw number of changes directly between Central Pacific languages and Proto-Oceanic. One might say that more has happened along the road than would be revealed by a direct comparison of the two end-points.
-
-In paper \ref{paper_samoan_var} we took a closer look at one of the politically complex societies of Remote Oceania --- S\={a}moa. Polynesia is generally a place with low amounts of language splitting and the findings of paper \ref{paper_pol_complex} suggests that this is related to higher levels of political complexity. This may lead us to believe that there is also less variation \emph{within} languages in this region. S\={a}moa has been described as a homogeneous society and language by scholars such as \citet{mead1937samoans} and \citet{turner1884}. The lack of variation within S\={a}moan has been attributed to central governance and greater mobility. Such theories would indeed be in line with our findings in paper \ref{paper_pol_complex} which suggest that political complexity retards language diversification.
-
-However, upon closer inspection we learn that S\={a}moan political history is dramatic and that central governance consisting of one high chief ruling over the entire archipelago was a rare occurrence historically. Furthermore, there \emph{is} variation within the S\={a}moan language phonologically, lexically and structurally. Even so, the variation that is found in S\={a}moan is almost exclusively \emph{social} as opposed to regional (meaning that the variants are  geographically ubiquitous and are instead delimited by style, register and social setting). We can hypothesise that linguistic variation which is mostly socially conditioned does not lead to full language split since many people are likely to be knowledgeable in several of the social variants and there would be little (if any) separation of parts of the speech community. 
-
-Despite the lack of archipelago-wide rule, it appears that the government of \emph{village districts} in S\={a}moa has been historically stable. The village districts have also collaborated and had significant exchange and ties to other village districts even if they have not been continuously co-ruled. Perhaps a language community need not be fully state-like in order for language splitting to be retarded --- a little political structure can go a long way?
-
-Where does all of this leave us? Some of these findings confirm what previous literature had indicated: political complexity matters in the diversification of languages in the region, structure correlates less with known family trees of languages than lexicon does, Temotu and New Caledonia are peculiar linguistically and Bismarck is the most likely homeland of the Oceanic subgroup. However, there are certain details of these findings that warrant more discussion, in particular the languages of the Central Pacific region.
-
-Previous research has found languages of the Central Pacific to be particularly \emph{conservative} lexically \citep[323]{blust2000lexicostatistics} and in the results of paper \ref{paper_distances} they have the lowest average distance to Proto-Oceanic lexically (section \ref{aberr_dist_results}). And yet, the analysis in paper \ref{paper_ASR} found the languages of the region to have more than average structural change, as measured by computational ancestral reconstruction means. 
-
-Central Pacific is one of the most recently settled regions of Remote Oceania (section \ref{pol_complex_sec_dates}). Many of the languages there have had less time to diversify in place than the languages in Vanuatu. And yet, paper \ref{paper_distances} showed that Northern Vanuatu languages are \emph{more} similar to each other structurally than are the languages of the islands of Central Pacific. 
-
-How does this go together? Might an explanation for the fact that Central Pacific is more progressive structurally than it is lexically once again lie in networks and political complexity? \cite{francois2011} argues that the social networks of Northern Vanuatu encourage lexical divergence and that structural convergence is a result of contact and multilingualism. Due to the fact that structure may be less accessible to conscious observation of the speaker (c.f. \citet{silverstein1981limits} and \citet[237-238]{pawley2006explaining}), lexical items may be more likely to be recruited as markers of identity. \cite{francois2011} argues that in Northern Vanuatu words are understood as more emblematic of place, but that grammar is not and is therefore able to diffuse across networks more freely. Another possible interpretation of the findings by \cite{francois2011} is that the languages \emph{continued} to be similar structurally, but diverged more radically lexically due to social pressures.
-
-\cite{ellison2017language} have also found that individual bilingual speakers will actively avoid words that are common to the two languages they know when asked to name a certain item and instead choose a word unique to either language. If faced with a situation where there are words in language A and B that are similar, they will choose another word in language A that is not similar to language B, even if it is less common. For example, Dutch-English bilinguals chose the word ``picture'' in English more often than English monolinguals who instead chose ``photo'' when presented with a stimuli which appeared like a proto-typical photograph. The authors argue that the Dutch-English bilinguals avoid saying ``photo'' in English because it is ``too close'' to ``foto'' in Dutch which denotes the same meaning. The degree to which this occurs varies with the pragmatic need for the speakers to monitor for language mixing lest it hinders comprehension, but other social pressures linked to emblematic usage of language are also relevant  \cite[277]{ellison2017language}. If avoiding shared vocabulary is a common phenomenon in multilingual speakers it would spur lexical divergence also in language communities which are very much in contact.
-
-Part of the explanation for the lack of language splitting in Central Pacific is argued to be the rise of powerful chiefs and maintenance of long distance sailing networks which encourage homogeneity (\citet{pawley2007} and paper \ref{paper_pol_complex}). paper \ref{paper_samoan_var} indicated the cultural unity of the S\={a}moan islands, despite the islands' tumultuous political history. Is it possible that similar sentiments were at play across larger distances? 
-
-A speculation based on the findings in this dissertation is that there existed in the Central Pacific for a long time a sense of cultural unity across island groups. Lexical change would therefore slow down, because of its emblematic nature. However, this was not the case for structural change. By the natural drift of language differentiation through isolation, the languages of Central Pacific changed more in their grammars than in their lexicon. Structural changes were not noticed, and were not understood as signs of cultural division. In contrast, the lexicon remained intact for longer due to strong cultural affinity. The rate of structural change would not be extremely high compared to other island groups, but it would not be as low as the rate of lexical change. If words are more emblematic of cultural affinity and structural features of languages are more likely to go unnoticed by the conscious mind, then it is likely that if the pre-historic societies of the Central Pacific kept in contact over large distances and viewed themselves as culturally connected (c.f. \emph{Hawaiki} \citep{kirchgreen2001}) this would be the result --- lexicon being more conservative than grammars. This is a speculation based on the findings of these studies, and definitely needs testing and further exploration. 
-
-It is also possible that the slowed-down rate of lexical change is a product of maintenance of cultural affinity within each island group only, and not necessarily wider networks over multiple island groups. This could also give a similar effect in closely related languages. We saw in the case of S\={a}moan that the archipelago has a history of political division internally, and yet little of this is reflected in regional language variation. Perhaps a little hierarchical structure, ``just'' up to village district level, can go a long way to retard change and splitting? If this effect is scaled up, maybe it can be felt even at a macro-level?
-
-Both of these scenarios would result in the inverse of the Northern Vanuatu case --- lexical divergence is slowed but structural change goes on diversifying at a ``normal rate'' (Central Pacific) as opposed to lexical change accelerating and structure converging (Northern Vanuatu).
-
-This speculation about the cause of this mismatch between lexical and structural conservatism in Central Pacific may prove to be incorrect, but it does not invalidate the point that the dynamics of change may differ depending on the part of language studied --- structure is different from lexicon and we should not assume that they follow similar paths or processes. 
-
-We still have much to learn about the processes of language diversification. I hope that this dissertation has brought more light on a few specific issues with particular reference to Remote Oceania which may also prove insightful in other areas of the world and other disciplines.
-
-\newpage
 \singlespacing
 \bibliographystyle{Hedvig_bibtex_style_PhD}
 \bibliography{HS_ASR}
