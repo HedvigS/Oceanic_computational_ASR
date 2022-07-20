@@ -63,4 +63,4 @@ full_df %>%
   group_by(Feature_ID, `Proto-language`, value) %>% 
   summarise(n = n()) %>% 
   left_join(GB_ID_desc) %>% 
-  write_tsv("output/HL_comparison/extra_predictions"))
+  write_tsv("output/HL_comparison/extra_predictions.tsv")
