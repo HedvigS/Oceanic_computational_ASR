@@ -184,6 +184,7 @@ df_for_bar_plot %>%
   dplyr::select(Method, Accuracy, Accuracy_incl_half, F1_score, F1_score_incl_half) %>% 
   reshape2::melt(id.vars = "Method") %>%
   mutate(variable = str_replace_all(variable, "_", " ")) %>% 
+  mutate(variable = str_replace_all(variable, "Accuracy", "Concordance")) %>% 
   mutate(variable = str_replace_all(variable, "incl half", "(incl half) ")) %>% 
     ggplot() +
   geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity") +
