@@ -166,11 +166,11 @@ Glottolog_tree_full$tip.label <- glottolog_tree_tip_value_df$Name
 
 x <- glottolog_tree_tip_value_df$tip_value
 
-Glottolog_tree_full <- compute.brlen(Glottolog_tree_full, method = 1)
+#Glottolog_tree_full <- compute.brlen(Glottolog_tree_full, method = 1)
 
 png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_glottolog_tree.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-plot.phylo(ladderize(ape::compute.brlen(Glottolog_tree_full) , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
+plot.phylo(ladderize(Glottolog_tree_full , right = F), col="grey", tip.color = glottolog_tree_tip_value_df$tip_color, type = "fan", cex = 0.4,label.offset = 0.05)
 
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
 ss<-sort(unique(x))
@@ -180,7 +180,7 @@ add.simmap.legend(colors=colors,
                   vertical=T,
                   x=-10.5,
                   y=-10.1,prompt=F)
-title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.4-tree)", cex.main = 1, line = 1)
+title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.0-tree)", cex.main = 1, line = 1)
 
 x <- dev.off()
 
@@ -220,5 +220,5 @@ island_groups_table_latex_formatting  %>%
            digits = 0, 
            align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
-          include.rownames = FALSE, math.style.negative = F,
+          include.rownames = FALSE, floating = F, math.style.negative = F,
           booktabs = TRUE, hline.after = c(-1, 0, nrow(island_groups_table_latex_formatting)-1, nrow(island_groups_table_latex_formatting))) 
