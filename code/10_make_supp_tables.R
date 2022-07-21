@@ -1,6 +1,5 @@
 source("01_requirements.R")
 
-
 #Make supplementary table of all GB features
 GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
   filter(Binary_Multistate != "Multi") %>% 
