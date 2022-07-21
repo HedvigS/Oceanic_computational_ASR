@@ -361,7 +361,7 @@ For each method, a plain concordance score and F1-score are calculated using the
 \begin{equation}
 \frac{\text{True Negative + True Positive}}{\text{True Negative + True Positive + False Negative + False Positive}}
 \end{equation}
-\label{}
+\label{accuracy}
 \caption{Calculation of Concordance score}
 \end{figure}
 
@@ -374,7 +374,7 @@ For each method, a plain concordance score and F1-score are calculated using the
 \caption{F1-score}
 \end{figure}
 
-It is also important to take into account the Half-results, therefore we also calculate the scores taking these into account, see Figs. \ref{accuracy_incl_half} and \ref{F1_score_incl_half}.
+It is also important to take into account the Half-results. This count represents instances where the method was not able to say with a strong confidence that something was present or absent. The reason it is interesting to separate these out is that while they may indicate a majority result one way, it is not far from suggesting the direct opposite. For example, if one of the methods reconstructs Proto-Oceanic as having a 51\% chance of having ergative marking --- it is not far away from suggesting that this marking is absent. In order to take these type of cases into account the cut-off of 40\%-60\% was set and summarised as "Half" results. We can apply the concordance score and F1-scores to this summary statistic as well, as shown in Figs. \ref{accuracy_incl_half} and \ref{F1_score_incl_half}. See supplementary material \ref{math_supp} for more details\footnote{I am very grateful for the mathematical assistance from Stephen Mann}.
 
 \begin{figure}[H]
 \begin{equation}
@@ -392,6 +392,8 @@ It is also important to take into account the Half-results, therefore we also ca
 \label{F1_score_incl_half}
 \caption{F1-score including Half}
 \end{figure}
+
+All four scores will be reported, but we will rely mainly on the Concordance score with the inclusion of the Half-results. This is because this approach takes into account the True Negative (which F1-scores ignore) and it takes into account the possible uncertainty of the half-scores.
 
 
 % mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall)), 
@@ -412,7 +414,7 @@ It is also important to take into account the Half-results, therefore we also ca
 \subsubsection{The Grambank-dataset}
 \label{asr:sec:GBcoverage}
 
-The data for the study is taken from the Grambank-project \citep{grambankwebsite}. The Grambank dataset consists of 195 structural features which have been coded by a large group of research assistants for over 2,000 languages. This dataset includes 276 Oceanic languages. 
+The data for the study is taken from the Grambank-project \citep{grambankwebsite}. The Grambank dataset consists of 195 structural features which have been coded by a large group of research assistants for over 2,000 languages. This dataset includes 280 Oceanic languages. 
 
 %The Grambank project is part of the Glottobank consortium, which is a collaboration between the Max Planck Institute for the Science of Human History in Jena (MPI-SHH), the Australian National University, the Australian Research Council's Centre of Excellence for the Dynamics of Language and the University of Auckland. The project is led by a team of senior linguists (Russell Gray, Simon Greenhill and Quentin Atkinson) and employs student assistants as coders in Kiel, London, Canberra, Uppsala and a few other locations. Coders who have been contributed significantly to the database are included as co-authors of the upcoming release paper \citep{grambank_release}, alongside other contributors. I have personally participated in this project as a coder and as a coordinator.
 
@@ -610,6 +612,9 @@ Within Oceanic historical linguistics, there exists a debate regarding the natur
 \addcontentsline{toc}{section}{Appendices}
 \renewcommand{\thesubsection}{\Alph{subsection}}
 
+
+
+
 \subsection{Technical details of methods}
 \label{supp:tech_details}
 
@@ -629,6 +634,12 @@ Languages with missing data were pruned away in all analysis, no hidden state re
 Concerning missing data generally, for both methods the trees from Glottolog and \citet{grayetal_2009} were pruned to only tips representing Oceanic languages which are also found in Grambank. The match between Glottolog and Grambank is 226, the match between \citet{grayetal_2009} and Grambank is 112. For the parsimony analysis of each feature, languages with missing data were dropped from the trees in the analysis for that feature. Features which could only be assigned values for less than half of the languages in the tree were excluded from the analysis.
 
 For both Maximum Parsimony and Maximum Likelihood it is possible for a structural feature to appear and disappear several times along a lineage. This is different from cognate data where a cognate class cannot re-appear.
+
+\subsection{Mathematics of concordance and F1-score}
+\label{math_supp}
+
+I am very grateful for the assistance of Stephen Mann in working out the mathematics of these scores as they incorporate the Half-results.
+
 
 \subsection{Further details on the dataset}
 \label{supp:dataset_details}
