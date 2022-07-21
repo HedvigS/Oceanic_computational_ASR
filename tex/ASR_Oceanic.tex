@@ -337,7 +337,7 @@ In a similar study of ancestral states of cognate classes, \citet{jager2018using
 
 For each feature, the methods predict a distribution of the two states (presence and absence) for every ancestral node. If the distribution is majority presence (more than 60\% of the ancestral state is ``1'') it is registered in the results as ``Presence''; if less than 40\% presence it is registered as ``Absence''. If the ancestral state is between 40-60\% of either state, the prediction is registered as ``Half/Half''. This was done to highlight the amount of uncertainty the results sometimes contain, while at the same time making it a fair comparison between Maximum Parsimony and Maximum Likelihood. Comparing the raw distributions themselves is not a fair comparison because Maximum Parsimony is always more likely to suggest 0, 0.5 or 1 results whereas Maximal Likelihood rarely produces exactly 0 or 1. 
 
-If the reconstruction of a feature by experts for that ancestral node was ``Presence'' and the algorithm did predict presence with over 60\%, it is counted as a ``True positive'', and so on. Table~\ref{example_HL_prediction_table_true_positives} illustrates how the results are summarised.
+If the reconstruction of a feature by experts for that ancestral node was ``Presence'' and the algorithm did predict presence with over 60\%, it is counted as a ``True Positive'', and so on\footnote{The terms ``True'' and ``False'' are used here in accordance with terminology in machine learning. In this instance, they are indicating wether the results from the computational method and historical linguists agree. It should not be interpreted as a measure of ``Truth'' necessarily.}. Table~\ref{example_HL_prediction_table_true_positives} illustrates how the results are summarised.
 
 \begin{table}[H]
 \centering
@@ -355,43 +355,28 @@ Presence & 40-60\% Presence/Absence & Half\\ \hline
 \end{tabular}
 \end{table}
 
-For each method, a plain concordance score and F1-score are calculated using the counts in table \ref{example_HL_prediction_table_true_positives}. These two only contains the results that are not ``Half'', see Fig \ref{accuracy} and Fig \ref{F1_score}.
+For each method, a plain concordance score (Eq \eqref{eq:accuracy} and F1-score (Eq. \eqref{eq:F1_score}) is then calculated.
 
-\begin{figure}[H]
-\begin{equation}
+\begin{equation}\label{eq:accuracy}
 \frac{\text{True Negative + True Positive}}{\text{True Negative + True Positive + False Negative + False Positive}}
 \end{equation}
-\label{accuracy}
-\caption{Calculation of Concordance score}
-\end{figure}
 
-\begin{figure}[H]
-\begin{equation}
+\begin{equation}\label{eq:F1_score}
 \frac{\text{True Positive} }
 {\text{True Positive} + \frac{1}{2}\times(\text{False Positive} + \text{False Negative})}
 \end{equation}
-\label{F1_score}
-\caption{F1-score}
-\end{figure}
 
-It is also important to take into account the Half-results. This count represents instances where the method was not able to say with a strong confidence that something was present or absent. The reason it is interesting to separate these out is that while they may indicate a majority result one way, it is not far from suggesting the direct opposite. For example, if one of the methods reconstructs Proto-Oceanic as having a 51\% chance of having ergative marking --- it is not far away from suggesting that this marking is absent. In order to take these type of cases into account the cut-off of 40\%-60\% was set and summarised as "Half" results. We can apply the concordance score and F1-scores to this summary statistic as well, as shown in Figs. \ref{accuracy_incl_half} and \ref{F1_score_incl_half}. See supplementary material \ref{math_supp} for more details\footnote{I am very grateful for the mathematical assistance from Stephen Mann}.
+It is also important to take into account the Half-results. This count represents instances where the method was not able to say with a strong confidence that something was present or absent. The reason it is interesting to separate these out is that while they may indicate a majority result one way, it is not far from suggesting the direct opposite. For example, if one of the methods reconstructs Proto-Oceanic as having a 51\% chance of having ergative marking --- it is not far away from suggesting that this marking is absent. In order to take these type of cases into account the cut-off of 40\%-60\% was set and summarised as "Half" results. We can apply the concordance score and F1-scores to this summary statistic as well, as shown in Eqs. \eqref{eq:accuracy_incl_half} and \eqref{eq:F1_score_incl_half}. See supplementary material \ref{math_supp} for more details\footnote{I am very grateful for the mathematical assistance from Stephen Mann}.
 
-\begin{figure}[H]
-\begin{equation}
+\begin{equation}\label{eq:accuracy_incl_half}
 \frac{\text{True Negative + True Positive} + \frac{\text{half}}{2}}{\text{True Negative + True Positive + False Negative + False Positive + Half}}
 \end{equation}
-\label{accuracy_incl_half}
-\caption{Calculation of Concordance score including Half}
-\end{figure}
 
-\begin{figure}[H]
-\begin{equation}
+\begin{equation}\label{eq:F1_score_incl_half}
 \frac{\text{True Positive} +  \frac{\text{half}}{2}} 
 {\text{True Positive} + \frac{1}{2}\times(\text{False Positive} + \text{False Negative}) + \text{Half}}
 \end{equation}
-\label{F1_score_incl_half}
-\caption{F1-score including Half}
-\end{figure}
+
 
 All four scores will be reported, but we will rely mainly on the Concordance score with the inclusion of the Half-results. This is because this approach takes into account the True Negative (which F1-scores ignore) and it takes into account the possible uncertainty of the half-scores.
 
@@ -432,7 +417,7 @@ The Grambank dataset is coded by student and research assistants under the super
 
 
 \subsubsection{Data coverage} 
-This study is focussed on the Oceanic subgroup of the Australasian language family. The Oceanic subgroup covers almost all languages in Remote Oceania, with the exceptions of Chamorro and Palauan, and large parts of Near Oceania. Fig.~\ref{Oceanic_map} from \citet[2]{protooceanicvol5} shows the extent of the major subgroups of the Austronesian language family, with Oceanic covering the largest surface area. Following the language classification of Glottolog 4.0 \citep{glottolog40}, there are 522 languages in total in the Oceanic subgroup.
+This study is focussed on the Oceanic subgroup of the Austronesian language family. The Oceanic subgroup covers almost all languages in Remote Oceania (with the exceptions of Chamorro and Palauan) and large parts of Near Oceania. Fig.~\ref{Oceanic_map} from \citet[2]{protooceanicvol5} shows the extent of the major subgroups of the Austronesian language family, with Oceanic covering the largest surface area. Following the language classification of Glottolog 4.0 \citep{glottolog40}, there are 522 languages in total in the Oceanic subgroup.
 
 \begin{figure}[h]
 \centering
@@ -441,13 +426,13 @@ This study is focussed on the Oceanic subgroup of the Australasian language fami
 \label{Oceanic_map}
 \end{figure} 
 
-Not all languages of the Oceanic subgroup have a grammatical description, but out of those that have it nearly all are included in Grambank. Table~\ref{GB_coverage_table} shows the coverage of Oceanic languages in the entire dataset. According to Glottolog, there are 261 Oceanic languages that have a grammar or grammar sketch which means that they can be included in Grambank at all. It is not always possible to fill in all the features for every language. Nineteen of the Oceanic languages that are included to date are less than 50\% completed for Grambank questions. This can be due to lack of access to descriptive work, or that the content of the descriptive work doesn't cover the necessary domains in enough detail for the coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information, with languages coded for their data coverage status.
+Not all languages of the Oceanic subgroup have a grammatical description, but out of those that have it nearly all are included in Grambank. Table~\ref{GB_coverage_table} shows the coverage of Oceanic languages in the entire dataset. According to Glottolog, there are 289 Oceanic languages that have a grammar or grammar sketch which means that they can be included in Grambank at all. It is not always possible to fill in all the features for every language. Twenty of the Oceanic languages that are included to date are less than 50\% completed for Grambank questions. This can be due to lack of access to descriptive work, or that the content of the descriptive work does not cover the necessary domains in enough detail for the coders to answer enough questions. The map in Fig.~\ref{GB_austro_coverage} shows the same coverage information, with languages coded for their data coverage status.
 
 \newpage
 \input{"illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex"}
 \newpage
 
-\begin{sidewaysfigure}
+\begin{sidewaysfigure}[H]
 \centering
 \includegraphics[width=\textwidth]{illustrations/plots_from_R/coverage_plots/maps/coverage_map_oceanic.png}
 \caption{{Map of Oceania, with Oceanic languages coloured for their coverage in Grambank.}}
@@ -475,16 +460,16 @@ Figure ~\ref{tree_coverage_oceanic_gray} and Figure ~\ref{tree_coverage_oceanic_
 \label{tree_coverage_oceanic_glottolog}
 \end{figure}
 
-One of the major differences between the trees is that the Glottolog-tree does not contain \emph{any} information about branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_gray} where the first has varying lengths of branches but the latter all have a uniform length. This has the consequence that some tips in the Glottolog-tree are much further from the root than others. This is a big disadvantage with this type of tree. Further technical details of the trees can be found in Supplementary Material ~\ref{supp:tree_details}.
+One of the major differences between the trees is that the Glottolog-tree does not contain \emph{any} information about branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_gray} where the first has varying lengths of branches but the latter all have a uniform length (1). This has the consequence that some tips in the Glottolog-tree are much further from the root than others. This is a big disadvantage with this type of tree, since it suggests that different amounts of time has passed between the root and the languages at the tips. Further technical details of the trees can be found in Supplementary Material ~\ref{supp:tree_details}.
 
-The Glottolog-tree contains all the languages in the Oceanic subgroup. Therefore the coverage per island group that is summarised in table ~\ref{GB_coverage_table_island_group} in the previous section applies to the Glottolog-tree as well. However, the \cite{grayetal_2009}-trees do not contain all Oceanic languages, but rather 155. Out of these 128 also occur in the Grambank dataset. A breakdown of coverage for the\cite{grayetal_2009}-trees per island group is found in table ~\ref{GB_coverage_table_island_group_gray}.
+The Glottolog-tree contains all the languages in the Oceanic subgroup. Therefore the coverage per island group that is summarised in table ~\ref{GB_coverage_table_island_group} in the previous section applies to the Glottolog-tree as well. However, the \cite{grayetal_2009}-trees do not contain all Oceanic languages, but rather 155. Out of these 132 also occur in the Grambank dataset. %A breakdown of coverage for the\cite{grayetal_2009}-trees per island group is found in table ~\ref{GB_coverage_table_island_group_gray}.
 
 Finally, we are also using a sample of the posterior trees from \cite{grayetal_2009}. Their study yielded 4,200 posterior trees. Tree topologies that are more probable occur more often, but less probable trees also appear in the posterior. By using a set of possible trees instead of just one we can include other possible histories into our analysis, which could for example estimate contact events as well as inheritance. Figure ~\ref{densitree_plot} shows a visualisation of the 100 trees which are used in this study.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
-\caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior. Made with the function densiTree from the R-pacakge Phangorn <insert ref phangorn devs>.}}
+\includegraphics[width=9cm]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
+\caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior. Made with the function densiTree from the R-pacakge Phangorn \citep{phangorn).}}
 \label{densitree_plot}
 \end{figure}
 
@@ -501,7 +486,7 @@ For each of these publications, findings have been extracted that support a cert
 
 The literature suggests that Proto-Oceanic was a language with a pre-nominal definite/specific article \citep[136]{crowley1985common}, a distinction between inclusive and exclusive first person pronouns (\citet[112]{pawley1973some}, \citet[184]{crowley1985common}, \citet[500]{ross2004morphosyntactic}, \citet[67, 75]{lynchrosscrowley_proto_grammar_oceanic}), no gender distinctions in pronouns \citep[498]{ross2004morphosyntactic}, a dual number category in pronouns (\citet[498]{ross2004morphosyntactic}, \citet[69]{lynchrosscrowley_proto_grammar_oceanic} and \citet[173]{pawley1973some}), a distinction between alienable and inalienable possession\footnote{A distinction can be made between three different kinds of possessive classification: alienable/inalienable, direct/indirect and dominant/inactive. For the purposes of Grambank and this study, these are treated as similar enough to be included into the same category.} \citep[69]{lynchrosscrowley_proto_grammar_oceanic}, prepositions (\citet[167]{pawley1973some}, \citet[498]{ross2004morphosyntactic}), subject proclitics and object enclitics on the verb (\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}), possessive suffixes on the possessed noun (\citet[495]{ross2004morphosyntactic}, \citet[155]{pawley1973some}) and a transitivising suffix on verbs (\citet[352]{pawley1970change}, \citet[171]{pawley1973some}, \citet[80, 92]{lynchrosscrowley_proto_grammar_oceanic}). More reconstructions have been made, the full table is found in the appendix \ref{asr_table_appendic}. The reconstructions regarding ergativity will be presented separately.
 
-Most of the time, the scholars of Proto-Oceanic are in agreement in their predictions. For example, \citet[142]{pawley1973some}, \citet[292]{ross2007two}, \citet[xiii, 125]{clark1976aspects} and \citet[89]{lynchrosscrowley_proto_grammar_oceanic} all propose that the proto-language of the Polynesian subgroup had a construction marking prohibitive that was different from declarative negatives. However, in some instances there are disagreements. As discussed earlier, one such case is the alignment system of Proto-Polynesian. \citet{clark1976aspects} claims that the system was ergative while \citet{hale_1968}, \citet{hohepa_1967,hohepa_1969} and \citet{chung1978} argue that Proto-Polynesian was accusative and several of the daughter languages developed ergativity later. Crucial to this argument is also the nature and development of passive voice in Polynesian languages. Because of this disagreement, the results for the computational ancestral reconstruction for Grambank features regarding passive voice and ergativity will be presented separately from the others. There are 109 features in the larger set of non-controversial findings, and 11 in the subset that concerns conflicts among historical linguists (i.e. passives and ergativity)
+Most of the time, the scholars of Proto-Oceanic are in agreement in their predictions. For example, \citet[142]{pawley1973some}, \citet[292]{ross2007two}, \citet[xiii, 125]{clark1976aspects} and \citet[89]{lynchrosscrowley_proto_grammar_oceanic} all propose that the proto-language of the Polynesian subgroup had a construction marking prohibitive that was different from declarative negatives. However, in some instances there are disagreements. As discussed earlier, one such case is the alignment system of Proto-Polynesian. \citet{clark1976aspects} claims that the system was ergative while \citet{hale_1968}, \citet{hohepa_1967,hohepa_1969} and \citet{chung1978} argue that Proto-Polynesian was accusative and several of the daughter languages developed ergativity later. \citet{kikusawa2002proto} and \citet{ball2007ergativity} also disagree on the alignment of Proto-Central Pacific. Because of this disagreement, the results for the computational ancestral reconstruction for Grambank features regarding alignment of these two proto-languages are presented separately.
 
 In the Grambank project, research assistants read published grammatical descriptions and extract information such that it fits with the definitions of our typological questionnaire (see section \ref{grambank}). This survey of the literature on Proto-Oceanic grammar is essentially the same task. Just as with the literature on reconstructed languages, scholars sometimes disagree on the nature of contemporary languages and how they should best be analysed. It is up to the coder, in this instance me, to make calls on which analysis to employ, what can be inferred from the literature and what should be left as unknown. It is possible to squeeze even more findings out of these publications; I have tended to be conservative in my interpretations. Out of the 201 (binarised) features in our questionnaire, 31\% (63) were answerable for Proto-Oceanic given this material. The average completion per language in the whole of the Grambank dataset is 72\%. <insert update numbers>
 
@@ -535,7 +520,7 @@ The inclusion of the half-results have the effect of evening out the differences
 
 Compared to the F1-scores of \citet{jager2018using}, all of the methods achieved higher scores. In this study, only statements about ancestral languages that could be mapped to Grambank-features were included. It is  possible that the study by \citet{jager2018using} had a greater overlap between all the reconstructions made by historical linguists and the meanings that they had data for and that the particular features we can test with Grambank data are also those that Oceanic historical linguists are the most confident about.
 
-Overall, the method that tends to preform most similarly to historical linguists is Parsimony + the Glottolog 4.4 tree. The Glottolog 4.4 tree has a big disadvantage, it has no branch lengths and the topology is composed of a combination and compromise from several different sources as opposed to a principled and systematic investigation of lexical data. Parts of the tree are suggested by different scholars. It does have an advantage as well, and that is the sheer number of languages it includes. The tree of \citet{grayetal_2009} only contains languages for which they had data --- the Glottolog 4.4 tree contains all Oceanic languages. It is possible that it is this sheer number of tips that gives it a greater concordance with historical linguists' predictions. The results also suggests that it is likely that historical linguists, in these specific studies, do not necessarily take into account branch lengths. 
+Overall, the method that tends to preform most similarly to historical linguists is Parsimony + the Glottolog 4.0 tree. The Glottolog 4.0 tree has a big disadvantage, it has no branch lengths and the topology is composed of a combination and compromise from several different sources as opposed to a principled and systematic investigation of lexical data. Parts of the tree are suggested by different scholars. It does have an advantage as well, and that is the sheer number of languages it includes. The tree of \citet{grayetal_2009} only contains languages for which they had data --- the Glottolog 4.0 tree contains all Oceanic languages. It is possible that it is this sheer number of tips that gives it a greater concordance with historical linguists' predictions. The results also suggests that it is likely that historical linguists, in these specific studies, do not necessarily take into account branch lengths. 
 
 %As was discussed earlier, there are several different ways of evaluating the performance of these approaches. If we consider how often they made a prediction that agreed with historical linguistics out of all the times they made a confident prediction (Accuracy score excl Half/Half), then ML. If we award half a point for Half/Half predictions, Parsimony does better. However, in both instances the numbers are very close to each other.
 
@@ -635,10 +620,184 @@ Concerning missing data generally, for both methods the trees from Glottolog and
 
 For both Maximum Parsimony and Maximum Likelihood it is possible for a structural feature to appear and disappear several times along a lineage. This is different from cognate data where a cognate class cannot re-appear.
 
-\subsection{Mathematics of concordance and F1-score}
+\subsection{Mathematics of the F1-score including half-results}
 \label{math_supp}
 
 I am very grateful for the assistance of Stephen Mann in working out the mathematics of these scores as they incorporate the Half-results.
+
+\subsubsection{Standard definitions}\label{sec:standard}
+
+\begin{align*}
+    F_1 &= 2\times\frac{\text{precision}\times\text{recall}}
+            {\text{precision} + \text{recall}}\\
+        &= \frac{\text{TP}}
+            {\text{TP}+\frac{1}{2}\times(\text{FP}+\text{FN})}
+\end{align*}
+
+\begin{align*}
+    \text{precision} 
+        &= \frac{\text{TP}}
+            {\text{TP}+\text{FP}}
+\end{align*}
+
+\begin{align*}
+    \text{recall} 
+        &= \frac{\text{TP}}
+            {\text{TP}+\text{FN}}
+\end{align*}
+
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+\subsubsection{Halfsies definitions of precision and recall}\label{sec:halfsies}
+
+The halfsies definitions of precision and recall add one half of the half-counts to the numerator, and all of the half-counts to the denominator:
+
+\begin{equation*}
+    \text{precision}_{\text{half}} 
+        = \frac{\text{TP}+\frac{\text{H}}{2}}
+            {\text{TP}+\text{FP}+\text{H}}
+\end{equation*}
+
+\begin{equation*}
+    \text{recall}_{\text{half}}
+        = \frac{\text{TP}+\frac{\text{H}}{2}}
+            {\text{TP}+\text{FN}+\text{H}}
+\end{equation*}
+
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+\subsubsection{The question}\label{sec:question}
+
+We want to define $F_{1,\text{half}}$.
+A natural way to do it would be to follow the rule defined above, i.e.
+
+\begin{equation*}
+    F_{1,\text{half?}} = \frac{\text{TP}+\frac{\text{H}}{2}}
+            {\text{TP}+\frac{1}{2}\times(\text{FP}+\text{FN}) + \text{H}}
+\end{equation*}
+
+\noindent However, we want to ensure $F1_{\text{half}}$ has the same relationship with $\text{precision}_{\text{half}}$ and $\text{recall}_{\text{half}}$ as $F1$ has with precision and recall.
+So we need to determine whether the following equation is true:
+
+\begin{equation}\label{eq:question}
+    2\times\frac{\text{precision}_{\text{half}}\times\text{recall}_{\text{half}}}
+            {\text{precision}_{\text{half}} + \text{recall}_{\text{half}}}
+    \stackrel{?}{=}
+    \frac{\text{TP}+\frac{\text{H}}{2}}
+            {\text{TP}+\frac{1}{2}\times(\text{FP}+\text{FN}) + \text{H}}
+\end{equation}
+
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+%%%%%%%%%%%
+\subsubsection{The proof}\label{sec:proof}
+
+We will expand the left-hand side of \eqref{eq:question} and show it is equal to the right-hand side.
+Let's forget about the $2\times$ for now (we will reintroduce it at the end).
+Expanding the numerator gives:
+
+\begin{equation*}
+    \frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)}
+    {\left(
+        \text{TP} + \text{FP} + \text{H}
+    \right)\left(
+        \text{TP} + \text{FN} + \text{H}
+    \right)}
+\end{equation*}
+
+\noindent Expanding the denominator gives:
+
+\begin{align*}
+    &\frac{\text{TP}+\frac{\text{H}}{2}}
+    {\text{TP}+\text{FP}+\text{H}}
+    +
+    \frac{\text{TP}+\frac{\text{H}}{2}}
+    {\text{TP}+\text{FN}+\text{H}}\\[1.5ex]
+    &=
+    %% Second line, left part
+    %% Numerator
+    \frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        \text{TP}+\text{FN}+\text{H}
+    \right)}
+    %% Denominator
+    {\left(
+        \text{TP}+\text{FP}+\text{H}
+    \right)\left(
+        \text{TP}+\text{FN}+\text{H}
+    \right)}
+    +
+    %% Second line, right part
+    %% Numerator
+    \frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        \text{TP}+\text{FP}+\text{H}
+    \right)}
+    %% Denominator
+    {\left(
+        \text{TP}+\text{FN}+\text{H}
+    \right)\left(
+        \text{TP}+\text{FP}+\text{H}
+    \right)}\\[1.5ex]
+    %% Third line
+    &=\frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        2\times\text{TP} + \text{FP} + \text{FN} + 2\times\text{H}
+    \right)}
+    {\left(
+        \text{TP}+\text{FP}+\text{H}
+    \right)\left(
+        \text{TP}+\text{FN}+\text{H}
+    \right)}
+\end{align*}
+
+\noindent When we put the numerator back on top of the denominator, both of their respective denominators cancel out, because they are both $(\text{TP}+\text{FP}+\text{H})(\text{TP}+\text{FN}+\text{H})$.
+So we end up with \emph{the numerator of the numerator} on top of \emph{the numerator of the denominator}, like so:
+
+\begin{align*}
+    &\frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)}
+    {\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)\left(
+        2\times\text{TP} + \text{FP} + \text{FN} + 2\times\text{H}
+    \right)}\\[1.5ex]
+    &=
+    \frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)}
+    {2\times\text{TP} + \text{FP} + \text{FN} + 2\times\text{H}}
+\end{align*}
+
+\noindent Finally, we bring back the $2\times$ from the beginning:
+
+\begin{align*}
+    &2\times\frac{\left(
+        \text{TP}+\frac{\text{H}}{2}
+    \right)}
+    {2\times\text{TP} + \text{FP} + \text{FN} + 2\times\text{H}}\\[1ex]
+    &=
+    \frac{\text{TP}+\frac{\text{H}}{2}}
+    {\text{TP} + \frac{1}{2}\times(\text{FP} + \text{FN}) + \text{H}}
+\end{align*}
+
+\noindent And we have our suggested definition of $F_{1,\text{half}}$ as required.
+
 
 
 \subsection{Further details on the dataset}
@@ -787,222 +946,9 @@ The Gray et al 2009-tree incorporates information from archaeology (c.f. \citet[
 
 \singlespacing
 \begin{landscape}
-\begin{longtable}{| l | p{4cm}| p{12cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
-
-\caption{{Grambank features}} \label{Grambank_features_table} \\
-\hline
-\textbf{Grambank ID} & \textbf{Abbreviation} & \textbf{Feature}\\ \hline
-\endfirsthead
-
-%\caption[]{\textbf{Table of settlement date per island group based on archaeology}} \\
-\hline
-\textbf{Grambank ID} & \textbf{Abbreviation} & \textbf{Feature}\\ \hline
-\endhead
-GB020 & ARTDef&Are there definite or specific articles?\\ \hline
-GB021 & ARTIndef&Do indefinite nominals commonly have indefinite articles?\\ \hline
-GB022 & ARTPre&Are there prenominal articles?\\ \hline
-GB023 & ARTPost&Are there postnominal articles?\\ \hline
-GB024a & OrderNUMN&Is the order of numeral noun NUM-N?\\ \hline
-GB024b & OrderNNUM&Is the order of numeral noun N-NUM?\\ \hline
-GB025a & OrderDEMN&Is the order of adnominal demonstratives and nouns Dem-N?\\ \hline
-GB025b & OrderNDEM&Is the order of adnominal demonstratives and nouns N-Dem?\\ \hline
-GB026 & ADJDiscont&Can adnominal property words occur discontinuously?\\ \hline
-GB027 & ComitConjDifferent&Are nominal conjunction and comitative expressed by different elements?\\ \hline
-GB028 & Clusivity&Is there a distinction between inclusive and exclusive?\\ \hline
-GB030 & PRO3PGender&Is there a gender distinction in independent 3rd person pronouns?\\ \hline
-GB031 & PRODualAug&Is there a dual or unit augmented form (in addition to plural or augmented) for all person categories in the pronoun system?\\ \hline
-GB035 & DEMDistContrast&Are there three or more distance contrasts in demonstratives?\\ \hline
-GB036 & DEMElevation&Do demonstratives show an elevation distinction?\\ \hline
-GB037 & DEMVisNonvis&Do demonstratives show a visible-nonvisible distinction?\\ \hline
-GB038 & DEMClassifier&Are there demonstrative classifiers?\\ \hline
-GB039 & NounNUMAllomorph&Is there nonphonological allomorphy of noun number markers?\\ \hline
-GB041 & NUMSupplNoun&Are there several nouns (more than three) which are suppletive for number?\\ \hline
-GB042 & SingularNoun&Is there productive overt morphological singular marking on nouns?\\ \hline
-GB043 & DualBound&Is there productive morphological dual marking on nouns?\\ \hline
-GB044 & PluralBound&Is there productive morphological plural marking on nouns?\\ \hline
-GB046 & AssocPlural&Is there an associative plural marker for nouns?\\ \hline
-GB047 & NMZActionState&Is there a productive morphological pattern for deriving an action/state noun from a verb?\\ \hline
-GB048 & NMZAgent&Is there a productive morphological pattern for deriving an agent noun from a verb?\\ \hline
-GB049 & NMZObject&Is there a productive morphological pattern for deriving an object noun from a verb?\\ \hline
-GB051 & GenderSex&Is there a gender/noun class system where sex is a factor in class assignment?\\ \hline
-GB052 & GenderShape&Is there a gender/noun class system where shape is a factor in class assignment?\\ \hline
-GB053 & GenderAnimacy&Is there a gender/noun class system where animacy is a factor in class assignment?\\ \hline
-GB054 & GenderPlants&Is there a gender/noun class system where plant status is a factor in class assignment?\\ \hline
-GB057 & NUMClassif&Are there numeral classifiers?\\ \hline
-GB058 & POSSClassifier&Are there possessive classifiers?\\ \hline
-GB059 & POSSAlienability&Is the adnominal possessive construction different for alienable and inalienable nouns?\\ \hline
-GB065a & OrderPosrPosd&Is the order of possessor noun and possessed noun possessor-possessed?\\ \hline
-GB065b & OrderPosdPosr&Is the order of possessor noun and possessed noun possessed-possessor?\\ \hline
-GB068 & PredAdjLikeV&Do core adjectives (defined semantically as property concepts such as value, shape, age, dimension) act like verbs in predicative position?\\ \hline
-GB069 & AttrAdjLikeV&Do core adjectives (defined semantically as property concepts; value, shape, age, dimension) used attributively require the same morphological treatment as verbs?\\ \hline
-GB070 & CoreCaseNoun&Are there morphological cases for non-pronominal core arguments (i.e. S/A/P)?\\ \hline
-GB071 & CoreCasePRO&Are there morphological cases for pronominal core arguments (i.e. S/A/P)?\\ \hline
-GB072 & ObliqueCaseNoun&Are there morphological cases for oblique non-pronominal NPs (i.e. not S/A/P)?\\ \hline
-GB073 & ObliqueCasePRO&Are there morphological cases for independent oblique personal pronominal arguments (i.e. not S/A/P)?\\ \hline
-GB074 & Prepositions&Are there prepositions?\\ \hline
-GB075 & Postpositions&Are there postpositions?\\ \hline
-GB079 & VPrefixing&Do verbs have prefixes/proclitics, other than those that only mark A, S or P (do include portmanteau: A and S + TAM)?\\ \hline
-GB080 & VSuffixing&Do verbs have suffixes/enclitics, other than those that only mark A, S or P (do include portmanteau: A and S + TAM)?\\ \hline
-GB081 & VInfix&Is there productive infixation in verbs?\\ \hline
-GB082 & PresentBoundV&Is there overt morphological marking of present tense on verbs?\\ \hline
-GB083 & PastBoundV&Is there overt morphological marking on the verb dedicated to past tense?\\ \hline
-GB084 & FutureBoundV&Is there overt morphological marking on the verb dedicated to future tense?\\ \hline
-GB086 & AspectBoundV&Is a morphological distinction between perfective and imperfective aspect available on verbs?\\ \hline
-GB089 & S-ArgSfxV&Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause?\\ \hline
-GB090 & S-ArgPfxV&Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause?\\ \hline
-GB091 & A-ArgSfxV&Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause?\\ \hline
-GB092 & A-ArgPfxV&Can the A argument be indexed by a prefix/proclitic on the verb in the simple main clause?\\ \hline
-GB093 & P-ArgSfxV&Can the P argument be indexed by a suffix/enclitic on the verb in the simple main clause?\\ \hline
-GB094 & P-ArgPfxV&Can the P argument be indexed by a prefix/proclitic on the verb in the simple main clause?\\ \hline
-GB095 & CaseSplitTAM&Are variations in marking strategies of core participants based on TAM distinctions?\\ \hline
-GB096 & CaseSplitVerbClass&Are variations in marking strategies of core participants based on verb classes?\\ \hline
-GB098 & CaseSplitPerson&Are variations in marking strategies of core participants based on person distinctions?\\ \hline
-GB099 & VSupplPerson&Can verb stems alter according to the person of a core participant?\\ \hline
-GB103 & BenefApplBoundV&Is there a benefactive applicative marker on the verb (including indexing)?\\ \hline
-GB104 & AppInstrBoundV&Is there an instrumental applicative marker on the verb (including indexing)?\\ \hline
-GB105 & CaseRecipientObj&Can the recipient in a ditransitive construction be marked like the monotransitive patient?\\ \hline
-GB107 & NEGBoundV&Can standard negation be marked by an affix, clitic or modification of the verb?\\ \hline
-GB108 & DirLocBoundV&Is there directional or locative morphological marking on verbs?\\ \hline
-GB109 & VSupplNUM&Is there verb suppletion for participant number?\\ \hline
-GB110 & VSupplTA&Is there verb suppletion for tense or aspect?\\ \hline
-GB111 & VerbClass&Are there conjugation classes?\\ \hline
-GB113 & TransitivizingBound&Are there verbal affixes or clitics that turn intransitive verbs into transitive ones?\\ \hline
-GB114 & ReflBoundV&Is there a phonologically bound reflexive marker on the verb?\\ \hline
-GB115 & RecipBoundV&Is there a phonologically bound reciprocal marker on the verb?\\ \hline
-GB116 & VClassifiers&Do verbs classify the shape, size or consistency of absolutive arguments by means of incorporated nouns, verbal affixes or suppletive verb stems?\\ \hline
-GB117 & CopulaPredNom&Is there a copula for predicate nominals?\\ \hline
-GB118 & SerialV&Are there serial verb constructions?\\ \hline
-GB119 & MoodAUX&Can mood be marked by an inflecting word ("auxiliary verb")?\\ \hline
-GB120 & AspectAUX&Can aspect be marked by an inflecting word ("auxiliary verb")?\\ \hline
-GB121 & AUXTense&Can tense be marked by an inflecting word ("auxiliary verb")?\\ \hline
-GB122 & VCompounding&Is verb compounding a regular process?\\ \hline
-GB123 & LightVerb&Are there verb-adjunct (aka light-verb) constructions?\\ \hline
-GB124 & NounIncorpIntrans&Is incorporation of nouns into verbs a productive intransitivizing process?\\ \hline
-GB126 & ExistentialV&Is there an existential verb?\\ \hline
-GB127 & PostureVerbs&Are different posture verbs used obligatorily depending on an inanimate locatum's shape or position (e.g. 'to lie' vs. 'to stand')?\\ \hline
-GB129 & FewVerbs&Is there a notably small number, i.e. about 100 or less, of verb roots in the language?\\ \hline
-GB130a & OrderSV&Is the order of S and V in intranstive clauses SV?\\ \hline
-GB130b & OrderVS&Is the order of S and V in intranstive clauses VS?\\ \hline
-GB131 & TransVInitOrder&Is a pragmatically unmarked constituent order verb-initial for transitive clauses?\\ \hline
-GB132 & TransVMedOrder&Is a pragmatically unmarked constituent order verb-medial for transitive clauses?\\ \hline
-GB133 & TransVFinalOrder&Is a pragmatically unmarked constituent order verb-final for transitive clauses?\\ \hline
-GB1134 & MainSubSameOrder&Is the order of constituents the same in main and subordinate clauses?\\ \hline
-GB135 & SUBClauseInOPosition&Do clausal objects usually occur in the same position as nominal objects?\\ \hline
-GB136 & WordOrderFixed&Is the order of core argument (i.e. S/A/P) constituents fixed?\\ \hline
-GB137 & NEGFinal&Can standard negation be marked clause-finally?\\ \hline
-GB138 & NEGInitial&Can standard negation be marked clause-initially?\\ \hline
-GB139 & NEGProhibitive&Is there a difference between imperative (prohibitive) and declarative negation constructions?\\ \hline
-GB140 & SameNEGLoc ExistNom&Is verbal predication marked by the same negator as all of the following types of predication: locational, existential and nominal?\\ \hline
-GB146 & VControl&Is there a morpho-syntactic distinction between predicates expressing controlled versus uncontrolled events or states?\\ \hline
-GB147 & PassiveBoundV&Is there a morphological passive marked on the lexical verb?\\ \hline
-GB148 & AntipassiveBoundV&Is there a morphological antipassive marked on the lexical verb?\\ \hline
-GB149 & InverseBoundV&Is there a morphologically marked inverse on verbs?\\ \hline
-GB150 & ClauseChain&Is there clause chaining?\\ \hline
-GB151 & SwitchReference&Is there an overt verb marker dedicated to signalling coreference or noncoreference between the subject of one clause and an argument of an adjacent clause ("switch reference")?\\ \hline
-GB152 & SimulSeqBound&Is there a morphologically marked distinction between simultaneous and sequential clauses?\\ \hline
-GB155 & CAUSBound&Are causatives formed by affixes or clitics on verbs?\\ \hline
-GB156 & CAUSSay&Is there a causative construction involving an element that is unmistakably grammaticalized from a verb for 'to say'?\\ \hline
-GB158 & RedupV&Are verbs reduplicated?\\ \hline
-GB159 & RedupNoun&Are nouns reduplicated?\\ \hline
-GB160 & RedupOther&Are elements apart from verbs or nouns reduplicated?\\ \hline
-GB165 & TrialBound&Is there productive morphological trial marking on nouns?\\ \hline
-GB166 & PaucalBound&Is there productive morphological paucal marking on nouns?\\ \hline
-GB167 & PROLogophore&Is there a logophoric pronoun?\\ \hline
-GB170 & ADJGender&Can an adnominal property word agree with the noun in gender/noun class?\\ \hline
-GB171 & DEMGender&Can an adnominal demonstrative agree with the noun in gender/noun class?\\ \hline
-GB172 & ARTGender&Can an article agree with the noun in gender/noun class?\\ \hline
-GB177 & AnimacyBoundV&Can the verb carry a marker of animacy of argument, unrelated to any gender/noun class of the argument visible in the NP domain?\\ \hline
-GB184 & AdjNUM&Can an adnominal property word agree with the noun in number?\\ \hline
-GB185 & DEMNum&Can an adnominal demonstrative agree with the noun in number?\\ \hline
-GB186 & ARTNum&Can an article agree with the noun in number?\\ \hline
-GB187 & DIMBound&Is there any productive diminutive marking on the noun (exclude marking by system of nominal classification only)?\\ \hline
-GB188 & AUGBound&Is there any productive augmentative marking on the noun (exclude marking by system of nominal classification only)?\\ \hline
-GB192 & GenderPhono&Is there a gender system where a noun's phonological properties are a factor in class assignment?\\ \hline
-GB193a & OrderANMN&Is the order of the adnominal property and the noun ANM-N?\\ \hline
-GB193b & OrderNANM&Is the order of the adnominal property and the noun N-ANM?\\ \hline
-GB196 & PRO2PMascFem&Is there a male/female distinction in 2nd person independent pronouns?\\ \hline
-GB197 & PRO1PMascFem&Is there a male/female distinction in 1st person independent pronouns?\\ \hline
-GB198 & NUMGender&Can an adnominal numeral agree with the noun in gender/noun class?\\ \hline
-GB203a & OrderQuantUQN&Is the order of the adnominal collective universal quantifier ('all') and the noun UQ-N?\\ \hline
-GB203b & OrderQuantNUQ&Is the order of the adnominal collective universal quantifier ('all') and the noun N-UQ?\\ \hline
-GB204 & QUANTUniversal&Do collective ('all') and distributive ('every') universal quantifiers differ in their forms or their syntactic positions?\\ \hline
-GB250 & PredPOSSHabeo&Can predicative possession be expressed with a transitive 'habeo' verb?\\ \hline
-GB252 & PredPOSSLoc&Can predicative possession be expressed with an S-like possessum and a locative-coded possessor?\\ \hline
-GB253 & PredPOSSDat&Can predicative possession be expressed with an S-like possessum and a dative-coded possessor?\\ \hline
-GB254 & PredPOSSAdnom&Can predicative possession be expressed with an S-like possessum and a possessor that is coded like an adnominal possessor?\\ \hline
-GB256 & PredPOSS Comitative&Can predicative possession be expressed with an S-like possessor and a possessum that is coded like a comitative argument?\\ \hline
-GB257 & QIntonation&Can polar interrogation be marked by intonation only?\\ \hline
-GB260 & QWordOrder&Can polar interrogation be indicated by a special word order?\\ \hline
-GB262 & QPartInitial&Is there a clause-initial polar interrogative particle?\\ \hline
-GB263 & QPartFinal&Is there a clause-final polar interrogative particle?\\ \hline
-GB264 & QPartMedial&Is there a polar interrogative particle that most commonly occurs neither clause-initially nor clause-finally?\\ \hline
-GB265 & COMPARExceed&Is there a comparative construction that includes a form that elsewhere means 'surpass, exceed'?\\ \hline
-GB266 & COMPARLoc&Is there a comparative construction that employs a marker of the standard which elsewhere has a locational meaning?\\ \hline
-GB270 & COMPARConjoin&Can comparatives be expressed using two conjoined clauses?\\ \hline
-GB273 & COMPAR OtherMarker&Is there a comparative construction with a standard marker that elsewhere has neither a locational meaning nor a 'surpass/exceed' meaning?\\ \hline
-GB275 & COMPDegreeBound&Is there a bound comparative degree marker on the property word in a comparative construction?\\ \hline
-GB276 & COMPDegreeFree&Is there a non-bound comparative degree marker modifying the property word in a comparative construction?\\ \hline
-GB285 & QPartVMorph&Can polar interrogation be marked by a question particle and verbal morphology?\\ \hline
-GB286 & QVMorph&Can polar interrogation be indicated by overt verbal morphology only?\\ \hline
-GB291 & QTone&Can polar interrogation be marked by tone?\\ \hline
-GB296 & Ideophones&Is there a phonologically or morphosyntactically definable class of ideophones that includes ideophones depicting imagery beyond sound?\\ \hline
-GB297 & QVNotV&Can polar interrogation be indicated by a V-not-V construction?\\ \hline
-GB298 & NEGAux&Can standard negation be marked by an inflecting word ("auxiliary verb")?\\ \hline
-GB299 & NEGPart&Can standard negation be marked by a non-inflecting word ("auxiliary particle")?\\ \hline
-GB300 & VSupplGive&Does the verb for 'give' have suppletive verb forms?\\ \hline
-GB301 & Inclusory&Is there an inclusory construction?\\ \hline
-GB302 & PassiveFree&Is there a phonologically free passive marker ("particle" or "auxiliary")?\\ \hline
-GB303 & AntipassiveFree&Is there a phonologically free antipassive marker ("particle" or "auxiliary")?\\ \hline
-GB304 & PassiveA-ArgOvert&Can the agent be expressed overtly in a passive clause?\\ \hline
-GB305 & PRORefl&Is there a phonologically independent reflexive pronoun?\\ \hline
-GB306 & PROReciproc&Is there a phonologically independent non-bipartite reciprocal pronoun?\\ \hline
-GB309 & MultiplePastFuture&Are there multiple past or multiple future tenses, distinguishing distance from Time of Reference?\\ \hline
-GB312 & MoodBoundV&Is there overt morphological marking on the verb dedicated to mood?\\ \hline
-GB313 & PROPoss&Are there special adnominal possessive pronouns that are not formed by an otherwise regular process?\\ \hline
-GB314 & AUGgender&Can augmentative meaning be expressed productively by a shift of gender/noun class?\\ \hline
-GB315 & DIMGender&Can diminutive meaning be expressed productively by a shift of gender/noun class?\\ \hline
-GB316 & SingularFree&Is singular number regularly marked in the noun phrase by a dedicated phonologically free element?\\ \hline
-GB317 & DualFree&Is dual number regularly marked in the noun phrase by a dedicated phonologically free element?\\ \hline
-GB318 & PluralFree&Is plural number regularly marked in the noun phrase by a dedicated phonologically free element?\\ \hline
-GB319 & TrialFree&Is trial number regularly marked in the noun phrase by a dedicated phonologically free element?\\ \hline
-GB320 & PaucalFree&Is paucal number regularly marked in the noun phrase by a dedicated phonologically free element?\\ \hline
-GB321 & GenderUnpredict&Is there a large class of nouns whose gender/noun class is not phonologically or semantically predictable?\\ \hline
-GB322 & EvidSense&Is there grammatical marking of direct evidence (perceived with the senses)?\\ \hline
-GB323 & EvidIndirect&Is there grammatical marking of indirect evidence (hearsay, inference, etc.)?\\ \hline
-GB324 & QV&Is there an interrogative verb for content interrogatives (who?, what?, etc.)?\\ \hline
-GB325 & QCountMass&Is there a count/mass distinction in interrogative quantifiers?\\ \hline
-GB326 & QInSitu&Do (nominal) content interrogatives normally or frequently occur in situ?\\ \hline
-GB327 & RELPost&Can the relative clause follow the noun?\\ \hline
-GB328 & RELPre&Can the relative clause precede the noun?\\ \hline
-GB329 & RELInternalHead&Are there internally-headed relative clauses?\\ \hline
-GB330 & RELCorr&Are there correlative relative clauses?\\ \hline
-GB331 & RELAdjoined&Are there non-adjacent relative clauses?\\ \hline
-GB333 & NUMDecimal&Is there a decimal numeral system?\\ \hline
-GB334 & NUMQuinary&Is there synchronic evidence for any element of a quinary numeral system?\\ \hline
-GB335 & NUMVigesimal&Is there synchronic evidence for any element of a vigesimal numeral system?\\ \hline
-GB336 & NUMBodyTally&Is there a body-part tallying system?\\ \hline
-GB400 & PersonNeutralized&Are all person categories neutralized in some voice, tense, aspect, mood and/or negation?\\ \hline
-GB401 & PatientLabile&Is there a class of patient-labile verbs?\\ \hline
-GB402 & VSupplSee&Does the verb for 'see' have suppletive verb forms?\\ \hline
-GB403 & VSupplCome&Does the verb for 'come' have suppletive verb forms?\\ \hline
-GB408 & Accusative&Is there any accusative alignment of flagging?\\ \hline
-GB409 & Ergative&Is there any ergative alignment of flagging?\\ \hline
-GB410 & NeutralAlign&Is there any neutral alignment of flagging?\\ \hline
-GB415 & PRO2PPoliteness&Is there a politeness distinction in 2nd person forms?\\ \hline
-GB421 & ComplThink KnowPre&Is there a preposed complementizer in complements of verbs of thinking and/or knowing?\\ \hline
-GB422 & ComplThink KnowPost&Is there a postposed complementizer in complements of verbs of thinking and/or knowing?\\ \hline
-GB430 & POSSPfxPosr&Can adnominal possession be marked by a prefix on the possessor?\\ \hline
-GB431 & POSSPfxPosd&Can adnominal possession be marked by a prefix on the possessed noun?\\ \hline
-GB432 & POSSSfxPosr &Can adnominal possession be marked by a suffix on the possessor?\\ \hline
-GB433 & POSSSfxPosd&Can adnominal possession be marked by a suffix on the possessed noun?\\ \hline
-GB519 & MoodAuxPart&Can mood be marked by a non-inflecting word ("auxiliary particle")?\\ \hline
-GB520 & AspectAuxPart&Can aspect be marked by a non-inflecting word ("auxiliary particle")?\\ \hline
-GB521 & TenseAuxPart&Can tense be marked by a non-inflecting word ("auxiliary particle")?\\ \hline
-GB522 & PRODrop&Can the S or A argument be omitted from a pragmatically unmarked clause when the referent is inferrable from context ("pro-drop" or "null anaphora")? \\ \hline
+\input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
 
 
-
- \end{longtable}
 \end{landscape}
 \newpage
 
