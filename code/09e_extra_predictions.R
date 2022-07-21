@@ -22,31 +22,24 @@ HL_findings_sheets <- full_join(HL_findings_sheet, HL_findings_sheet_conflicts, 
 
 #the results per method
 most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "most_common_prediction")
 
 parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "glottolog_parsimony_prediction")
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "gray_parsimony_prediction")
 
 parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "gray_parsimony_prediction_posteriors" = gray_parsimony_prediction)
   
 ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "glottolog_ML_prediction")
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
   dplyr::select("Feature_ID", "Proto-language", "gray_ML_prediction")
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
-  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") )  %>% 
   dplyr::select("Feature_ID", "Proto-language", gray_ML_prediction_posteriors = gray_ML_prediction)
 
 #combining all
@@ -57,6 +50,13 @@ full_df <- parsimony_glottolog_df %>%
   full_join(ML_gray_mcct) %>% 
   full_join(ML_gray_posteriors_df) %>% 
   full_join(most_common_df)
+
+full_df %>% 
+write_tsv("output/HL_comparison/all_reconstructions.tsv", na = "")
+
+full_df <- full_df %>% 
+anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
+  
 
 full_df %>% 
   reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
