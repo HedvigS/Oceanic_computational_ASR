@@ -55,7 +55,7 @@ full_df %>%
 write_tsv("output/HL_comparison/all_reconstructions.tsv", na = "")
 
 full_df <- full_df %>% 
-anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
+anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) 
   
 
 full_df %>% 
