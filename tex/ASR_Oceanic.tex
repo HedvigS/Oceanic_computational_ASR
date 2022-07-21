@@ -802,40 +802,27 @@ So we end up with \emph{the numerator of the numerator} on top of \emph{the nume
 
 \noindent And we have our suggested definition of $F_{1,\text{half}}$ as required.
 
-
-
-\subsection{Further details on the dataset}
+\subsection{Binarisation of the Grambank features}
 \label{supp:dataset_details}
-Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. Table~\ref{GB_example_features} contains examples of features; originally binary, multi-state and binarised multi-state features. The binarization results in a total of 201 features. 
+Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. The table in \ref{Grambank_features} contains a list of all the features used in this study, including the binarised features. The binarization results in a total of 201 features. 
 
-%The dataset does \emph{not} include information on phonological traits. %Phonological features can instead found in the associated database PHOIBLE \citep{phoible}.
+\newpage
+\subsection{Grambank features}
+\label{Grambank_features}
 
-\begin{table}[H]
-\caption{{Examples of Grambank structural features.}}
-\label{GB_example_features}
-\centering
-\begin{tabular}{?p{2cm}?p{2cm}?p{3cm}?p{4cm}?p{2cm}?}
-\hline 
+\singlespacing
+\begin{landscape}
+\input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
+\end{landscape}
+\newpage
 
-Binary & \textbf{GB058} & \textbf{POSSClassifier} & Are there possessive classifiers? & 1 = Yes, 0 = No\\
-\hline 
-Multistate & \textbf{GB025} &\textbf{DEMOrder} &  What is the order of adnominal demonstrative and noun? & 1) Dem-N, 2) N-Dem, 3) Both \\
-\hline 
-GB025 binarised  & \textbf{GB025a} & \textbf{OrderDEMN} & 	Is the order of adnominal demonstratives and nouns Dem-N?& 1 = Yes, 0 = No\\
-GB025 binarised & \textbf{GB025b} & \textbf{OrderNDEM} &	Is the order of adnominal demonstratives and nouns N-Dem?& 1 = Yes, 0 = No\\
-\hline 
-
-\end{tabular}
-\end{table}
 
 \subsection{Further details on the tree phylogeny}
 \label{supp:tree_details}
 
 The tree from \citet{grayetal_2009} contains duplicates (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language is included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate languages were reduced to one, and only one dialect per language retained if there was more than one. 
 
-
 For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank. For the further Maximum Parsimony analysis, tips representing languages where the data for a particular feature was missing were dropped for the analysis of that feature. For the Maximum Likelihood analysis, the value at such tips was converted to ambiguous. This is necessary because otherwise the rate of change across the different features would not be comparable in the Maximum Likelihood analysis.
-
 
 \subsection{Further details on the Grambank coding of proto-languages }
 \label{supp:proto_lg_coding}
@@ -904,55 +891,6 @@ GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the s
 \citet{ross2004morphosyntactic}\footnote{This paper makes statements about ``canonical'' Oceanic languages, which is technically different from \emph{reconstruction} of Proto-Oceanic. However, the author does state that the ``canonic type is probably also a reflection of the morphosyntax of Proto Oceanic'' \citep[492]{ross2004morphosyntactic} and has given personal approval for the paper to be included in this study in this manner.}  & The morphosyntactic typology of Oceanic languages &  Proto-Oceanic and Proto-Polynesian  & alignment, word order, verbal markers, possession, noun phrase marking \\ \hline
 \end{longtable}
 
-
-
-\subsection{Roboustness control with Glottolog-tree}
-
-
-We will be using two different trees of Austronesian languages, one from Glottolog \citep{glottolog40}\footnote{The tree of Glottolog 4.0 is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.} and one from \citet{grayetal_2009}. In order for the method to function, the trees need to have branch lengths and all splits need to be binary. The tree from Glottolog does not contain information about branch lengths (all branches are the same length) and is not binary, whereas the \citet{grayetal_2009} tree has both branch length information and is binary. A part of the Glottolog tree can be seen in Fig. \ref{glottolog_example_poly}.
-
-We can modify the Glottolog tree so that it is more appropriate for our analysis. I used the functions \texttt{multi2di} and \texttt{compute.brlen} in the R-package \texttt{ape} by \citet{paradis2004ape} to binarise and compute branch lengths respectively. Fig.~\ref{fig:branch_lengths} illustrates the process using languages of the Nuclear Polynesian subgroup in Glottolog. The tree as stored in Glottolog only contains information about subgrouping; there is no data on tree depth and therefore no branch lengths (Fig. \ref{glottolog_example_poly}.). The trees also contain non-binary splits. Fig.~\ref{fig:branch_lengths}a shows a part of this tree . The function \texttt{multi2di} randomly resolves non-binary splits until only binary ones remain, this can be seen in (b). We use Grafen's transform \citep{grafen1989phylogenetic} as implemented in \texttt{ape} to ``pull down'' all tips so that they all have the same length to the root (this is known as an `ultrametric' tree), this can be seen in (c). The final result is accomplished by first binarising the tree and then computing branch lengths (d). 
-
-%    \begin{figure}[!ht]
-%\centering
-%    \begin{subfigure}{0.45\linewidth}
-%      %\includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_multi.png}
-%    \caption{Non-binary splits occur, all branches have the same length.}
-%    \label{glottolog_example_poly}
-%    \end{subfigure}
-%\hfil
-%    \begin{subfigure}{0.45\linewidth}
-%          %\includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_unscaled_di.png}
-%     \caption{Non-binary splits have been resolved to binary, all branches same length}
-%    \end{subfigure}
-%
-%    \begin{subfigure}{0.45\linewidth}
-%     %\includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_multi.png}
-%    \caption{Non-binary splits occur, all branches have been scaled so that the length from the tip to the root is the same}
-%    \end{subfigure}
-%\hfil
-%    \begin{subfigure}{0.45\linewidth}
-%      %\includegraphics[width=\textwidth]{illustrations/plots_from_R/poly_tree_scaled_di.png}
-%    \caption{First, non-binary splits have been resolved to binary; second, all branches have been scaled so that the length from the tip to the root is the same.}
-%    \end{subfigure}
-%
-%\caption[Four trees of Nuclear Polynesian demonstrating binarisation and imputing branch lengths.]{Four trees of Nuclear Polynesian languages from Glottolog, illustrating the process of binarization and imputing branch lengths.}
-%    \label{fig:branch_lengths}
-%    \end{figure}
-%    
-Family trees in historical linguistics are often under-specified for branch lengths. For example, the publications that underlie the Glottolog tree (\citet{blust_2009, blust_2014} and \citet{blust_chen_2017}) do not contain information on the relative branch lengths, only which languages are in which subgroup. It has been said that ``linguist don't do dates'' (\citet{mcmahon2006linguists} and \citet{gray2011language}). This reflects the disappointment with early lexicostatistics which included failures at predicting language splitting events in time. However, it is possible to do relative branch lengths without dates. Given that all languages we now observe exist in the present, it seems fair to assume that an equal amount of time has passed from each of them to the proto-language. This supports the transformation as shown in Fig \ref{fig:branch_lengths} from the subgrouping-only tree in Glottolog (a) to an ultrametric tree (c and d).
-
-The Gray et al 2009-tree incorporates information from archaeology (c.f. \citet[92]{lynchrosscrowleyinternalsubgroupingoceanic}), this is one of the reasons why it has branch lengths.
-
-\newpage
-\subsection{Grambank features}
-\label{Grambank_features}
-
-\singlespacing
-\begin{landscape}
-\input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
-\end{landscape}
-\newpage
 
 \subsection{Table of comparison of computational ancestral state reconstruction to findings in historical linguistics}
 \label{asr_table_appendic}
