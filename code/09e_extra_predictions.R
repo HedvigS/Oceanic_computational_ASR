@@ -59,8 +59,5 @@ anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") )
   
 
 full_df %>% 
-  reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
-  group_by(Feature_ID, `Proto-language`, value) %>% 
-  summarise(n = n()) %>% 
-  left_join(GB_ID_desc) %>% 
+  left_join(GB_ID_desc) %>%
   write_tsv("output/HL_comparison/extra_predictions.tsv")
