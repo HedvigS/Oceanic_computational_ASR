@@ -204,7 +204,7 @@ island_groups_table <-   island_groups_table %>%
 #xtable making
 
 cap <- "Table showing coverage of Oceanic languages in Grambank per island group."
-lbl <- "GB_coverage_table_island_group_gray"
+lbl <- "GB_coverage_table_island_group"
 align <- c("r", "l","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
@@ -220,5 +220,5 @@ island_groups_table_latex_formatting  %>%
            digits = 0, 
            align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
-          include.rownames = FALSE, floating = F, math.style.negative = F,
+          include.rownames = FALSE, math.style.negative = F,
           booktabs = TRUE, hline.after = c(-1, 0, nrow(island_groups_table_latex_formatting)-1, nrow(island_groups_table_latex_formatting))) 
