@@ -172,6 +172,8 @@ The core method by which historical linguists reconstruct language history is kn
 
 Historical linguists use cognates and systematic sound correspondences to develop hypotheses about forms in unobserved proto-languages and to propose sub-groupings based on shared innovations (c.f. how biological cladistics finds relationships between species based on shared derived characteristics from common ancestors \citep[16-17]{maclaurin2008biodiversity}). The Comparative Method provides us with a) sets of words which derive from the same word in an ancestor language (cognates), b) sequences of sound changes from proto-languages to the current observable daughter languages and c) a tree or network structure of the relationships between languages. 
  
+The processes of subgrouping and reconstruction are done in tandem in historical linguistics; they are estimated simultaneously. Subgroups are proposed based on shared innovations. In order to determine what is and what is not an innovation, a certain amount of reconstruction is necessary. In order to make reconstructions, some of the tree structure needs to be approximated. Pawley (personal correspondence) notes that most of the subgrouping done in historical linguistics tends to be at the lower level. In this paper, we are only focussing on the reconstruction --- not on the identification of regular sound correspondences, cognates or subgroups.
+ 
 The Comparative Method in historical linguistics relies on knowledge of probability of phonological shifts (/s/ is more likely to become /h/ than it is to become a /k/\footnote{Historical linguists do concede that there are instances of irregular sound change \citep{blust1996neogrammarian, campbell1996sound} and that while they can often be explained by contact, analogy or avoidance of homophony, they sometimes remain unexplained.}) and on probable semantic shifts. In the above example from M\={a}ori and Hawai'ian, the words /toru/ and /kolu/ both mean `three', but it is possible for cognates to have less similar meanings. For example, \citet{pawley2005meaning} reconstructs the proto-form *\emph{panua} as meaning `land' or `inhabited territory'. In daughter languages, this has changed to `place', `community', `village', `house', `people', `world' and `weather'. These are related meanings, but not identical. Historical linguists aim to have plausible semantic connections between words that are proposed to stem from the same proto-form, they cannot be too dissimilar.
 
 %list the reconstruction */gaawari/ for Proto-Polynesian as meaning `weak, feeble'. In some of the daughter languages, words deriving from this Proto-word are listed as meaning `bent', `weak', `soft' and `slack (of man)'. These meanings are judged to be plausible semantic extensions of the proto-meaning such that they can be said to be related ---- to be cognates. 
@@ -219,7 +221,7 @@ Plausibility is important in reconstruction, both in linguistics and in biology.
 Chung's critique of Clark's proposal is three-fold: 
 \begin{enumerate}[label=(\alph*)]
 \item the tree used is not an accurate representation of the language history (there was more interaction between S\={a}moan and Tongan after splitting, i.e. horizontal transfer)
-\item it is possible that the Proto-language contained variation and was undergoing change that was only fully realised in some of the daughters\footnote{The reason that only some daughter languages exhibit the feature could be due to founder effects (my addition).} 
+\item it is possible that the Proto-language contained variation and was undergoing change that was only fully realised in some of the daughters
 \item the morpho-syntactical historical process itself is less plausible
 \end{enumerate}
 
@@ -238,13 +240,13 @@ In this study, any instances of conflicting data from historical linguists conce
 
 %can fall short of reconstructions carried out by classical historical linguists because they are able to take these plausibility considerations into account.
 
-\subsubsection{Reconstruction and subgrouping in tandem}
-The processes of subgrouping and reconstruction are done in tandem in historical linguistics; they are estimated simultaneously. Subgroups are proposed based on shared innovations. In order to determine what is and what is not an innovation, a certain amount of reconstruction is necessary. In order to make reconstructions, some of the tree structure needs to be approximated. Pawley (personal correspondence) notes that most of the subgrouping done in historical linguistics tends to be at the lower level. 
+%\subsubsection{Reconstruction and subgrouping in tandem}
+%The processes of subgrouping and reconstruction are done in tandem in historical linguistics; they are estimated simultaneously. Subgroups are proposed based on shared innovations. In order to determine what is and what is not an innovation, a certain amount of reconstruction is necessary. In order to make reconstructions, some of the tree structure needs to be approximated. Pawley (personal correspondence) notes that most of the subgrouping done in historical linguistics tends to be at the lower level. 
 %This can be seen later in this paper in the difference between the Glottolog tree (Fig. \ref{tree_coverage_oceanic_glottolog}), which is based on classical historical linguistics,  and the Gray et al 2009-tree (Fig. \ref{tree_coverage_oceanic_gray}), which is inferred with Bayesian phylogenetic methods using basic vocabulary data. Most of the splits in the Glottolog tree occur close to the tips, whereas the splits are more spread out over the distance between the root and the tips in the Gray et al 2009-tree.
 
-Besides parsimony and plausibility, it is also important to know how to weight evidence when conducting historical linguistics research, in particular when it comes to subgrouping. This is less often discussed explicitly, but it is related to issues of plausibility and is likewise a source of disagreement. It is for example possible that certain data-points are more susceptible to contact-induced change than others, and should therefore carry less weight if we are trying to infer a family tree. This is why items and features that are thought to be particularly stable and unlikely to be borrowed are used in reconstruction and subgrouping \citep[c.f.][]{pawley_2009_solomons}.
+%Besides parsimony and plausibility, it is also important to know how to weight evidence when conducting historical linguistics research, in particular when it comes to subgrouping. This is less often discussed explicitly, but it is related to issues of plausibility and is likewise a source of disagreement. It is for example possible that certain data-points are more susceptible to contact-induced change than others, and should therefore carry less weight if we are trying to infer a family tree. This is why items and features that are thought to be particularly stable and unlikely to be borrowed are used in reconstruction and subgrouping \citep[c.f.][]{pawley_2009_solomons}.
 
-In this paper we are not proposing any new subgroupings, so the problem of weighting evidence is not present in this manner. For the reconstruction of grammatical features, all languages are weighted as equally valuable and we use the tree topologies directly to control for non-independence of datapoints as opposed to careful sampling \citep[c.f.][]{ross2004morphosyntactic}.
+%In this paper we are not proposing any new subgroupings, so the problem of weighting evidence is not present in this manner. For the reconstruction of grammatical features, all languages are weighted as equally valuable and we use the tree topologies directly to control for non-independence of datapoints as opposed to careful sampling \citep[c.f.][]{ross2004morphosyntactic}.
 %We are reconstructing grammatical features and this is another area where weighting can be relevant. All languages are weighted the same for the reconstruction, but 
 
 %As was discussed in \ref{sec:dep}, not all data-points are independent of each other and this may be one reason to weight them differently. 
@@ -329,9 +331,9 @@ Finally, we will also compare the predictions of historical linguists with compu
 
 %The third method employed is \textbf{Stochastic Character mapping}. This method was proposed by \citet{huelsenbeck2003stochastic} and is an extension of an approach suggested by \citet{nielsen2002mapping}. 
  
-\subsection{Calculation of concordance}
+\subsection{Calculation of similarity between predictions from the Comparative Method and computational approaches}
 \label{result_calc_section}
-We will calculate the similarity of the predictions of historical linguists and computational means with two measures: concordance and F1-scores. Concordance is known as \textit{accuracy} in machine learning, but we wish to avoid the connotation that what is being measured is the accuracy of the reconstruction as regards real languages. Rather, concordance measures how closely the computational reconstruction matches historical linguists' reconstruction. It is measured as the number of agreements about grammatical features (i.e. Grambank binary questions) of predicted protolanguages, divided by the total number of grammatical features predicted. 
+We calculate the similarity of the predictions of historical linguists and computational means with two measures: concordance and F1-scores. Concordance is known as \textit{accuracy} in machine learning, but we wish to avoid the connotation that what is being measured is the accuracy of the reconstruction as regards real languages. Rather, concordance measures how closely the computational reconstruction matches historical linguists' reconstruction. It is measured as the number of agreements about grammatical features (i.e. Grambank binary questions) of predicted protolanguages, divided by the total number of grammatical features predicted. 
 
 F1-scores are the harmonic mean of the precision and recall\footnote{Precision is True Positives divided by True Positives + False Positives, recall is True Positives divided by False Negatives + True Positives. F1-score = 2 * ((precision*recall) / (precision + recall)) \citep{van1979information}.} \citep[133]{van1979information}. It is important to note that F1-scores disregard the number of True Negatives entirely, which is relevant in our case since some of the features in proto-languages are predicted to be absent. For both measures, 0 is the worst possible score and 1 the best in terms of similarity to predictions by historical linguists. 
 
@@ -349,7 +351,7 @@ If the reconstruction of a feature by experts for that ancestral node was ``Pres
 \label{example_HL_prediction_table_true_positives}
 \begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
-\textbf{Finding in historical linguistics} & \textbf{Prediction by MP or ML} & \textbf{Result} \\ \hline
+\textbf{Finding in historical linguistics} & \textbf{Prediction by Computational Method} & \textbf{Result} \\ \hline
 Absence & >60\% Absence & True Negative \\ \hline
 Absence & >60\% Presence & False Positive (type 1-error) \\ \hline
 Presence & >60\% Presence & True Positive \\ \hline
@@ -472,8 +474,8 @@ Finally, we are also using a sample of the posterior trees from \cite{grayetal_2
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=9cm]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
-\caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior. Made with the function densiTree from the R-pacakge Phangorn \citep{phangorn}.}}
+\includegraphics[width=12cm]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
+\caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior.} Made with the function densiTree() from the R-pacakge Phangorn \citep{phangorn}.}
 \label{densitree_plot}
 \end{figure}
 
@@ -513,7 +515,7 @@ Table \ref{True_post_results_table} shows the number of False, Positive and Half
 
 Given these counts, we can calculate the concordance and F1-scores (see section \ref{result_calc_section}). These are displayed in Fig \ref{barplot_facet_results}. A score of 1 means identical to the predictions of historical linguists and 0 means entirely dissimilar from it.
 
-\begin{figure}[H]
+\begin{figure}[p]
 \centering
 \includegraphics[width=11cm]{illustrations/plots_from_R/results/barplot_facet_scores.png}
 \caption{\textbf{Barplots of concordance and F1-scores of each method.}}
