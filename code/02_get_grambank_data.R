@@ -11,3 +11,13 @@ source("make_wide.R")
 source("make_wide_binarized.R")
 
 setwd("../../code/")
+
+#move files to subdir of output to make easier for collab
+fn <- file.path("output/GB_wide/")
+if (!dir.exists(fn)) { dir.create(fn) }
+
+read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>%
+  write_tsv("output/GB_wide/parameters_binary.tsv")
+  
+read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv") %>% 
+  write_tsv("output/GB_wide/GB_wide_binarized.tsv")
