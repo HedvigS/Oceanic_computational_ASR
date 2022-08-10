@@ -8,19 +8,15 @@
 *.toc*
 *Rhist*
 *.Rdata*
+.Rproj.user
 
 #plots
 *.pdf
 
 #folders
-*output
-*left_overs*
-*part_of_data_not_for*
-*to sort*
-*output/tree_tips*
-*glottolog-glottolog-1ff8114*
-*ASR_leftover*
-*zenodo*
+*output/glottolog-tree*
+*output/gray_et_al_2009*
+*output/HL_comparison*
 
 #latex
 *tex/*log
@@ -29,13 +25,6 @@
 *tex/*blg
 *tex/*.out
 *tex/*gz
-
-*simmo*
-*output*
-*TBA*
-*gray_et_al_2009_posterior_trees_pruned*
-
-.Rproj.user
 *tex/ASR_Oceanic.pdf
 tex/ASR_Oceanic.toc
 tex/ASR_Oceanic.synctex(busy)
