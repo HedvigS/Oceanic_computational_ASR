@@ -12,7 +12,7 @@ get_external:
 	Rscript 02_get_glottolog_language_table.R
 	Rscript 02_get_grambank_data.R 
 	Rscript 02_massage_HL_findings_sheets.R
-	Rscript 02_prune_glottolog_tree.R
+	Rscript 03_prune_glottolog_tree.R
 	Rscript analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R #pruning tree and changing tip names to glottocodes. removing duplicates and merges dialects
 	Rscript analysis_scripts_gray_all_posterior/03_process_gray_tree_posteriors.R
 
