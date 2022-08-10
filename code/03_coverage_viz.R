@@ -17,11 +17,11 @@ gray_tree <- ape::read.tree(gray_tree_fn)
 ##TREE glottolog tree
 Glottolog_tree_full <- read.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt") 
 
-GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
   filter(Binary_Multistate != "Multi")
 
 #reading in GB
-GB_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv")
+GB_df <- read_tsv(GB_binary_fn)
 
 #marking tip values in glottolog df
 glottolog_df_tip_values <- GB_df %>% 
