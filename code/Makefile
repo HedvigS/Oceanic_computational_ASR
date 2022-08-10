@@ -1,9 +1,13 @@
 # Determine this makefile's path.
 THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
 
-all_excl_external: install_pkgs other_prep parsimony ML agg_posteriors most_common compare_HL wrapping_up
+#analysis excluding getting the external data and excluding analysis of posteriors
+analysis_excl_posteriors: install_pkgs other_prep parsimony ML most_common 
 
-all_incl_external: get_external all_excl_external
+#analysis excluding getting the external data and but including analysis of posteriors
+all_excl_external_incl_posteriors: analysis_excl_posteriors posteriors compare_HL wrapping_up
+
+all_incl_external: get_external all_excl_external_incl_posteriors
 
 install_pkgs:
 	Rscript 01_requirements.R 
@@ -25,29 +29,30 @@ parsimony:
 	#run analysis
 	Rscript 04_ASR_parsimony_glottolog.R
 	Rscript analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mmct.R
-	Rscript analysis_scripts_gray_all_posterior/04_ASR_parsimony_gray_posteriors.R
 	
 	#extract states for specific nodes
 	Rscript 07a_get_ancestral_states_parsimony_glottolog.R
 	Rscript analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R
-	Rscript analysis_scripts_gray_all_posterior/07a_get_ancestral_states_parsimony_gray_posteriors.R
 	
 ML: 
 	#run analysis
 	Rscript 05_ASR_ML_glottolog.R
 	Rscript analysis_scripts_gray_mcct/05_ASR_ML_gray_mcct.R
-	Rscript analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R
 
 	#extract states for specific nodes
 	Rscript 07b_get_ancestral_states_ML_glottolog.R
 	Rscript analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R
-	Rscript analysis_scripts_gray_all_posterior/07b_get_ancestral_states_ML_gray_posteriors.R
-
-agg_posteriors:
-	Rscript analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
 
 most_common:	
 	Rscript 07d_get_ancestral_states_most_common.R
+
+posteriors:
+	Rscript analysis_scripts_gray_all_posterior/04_ASR_parsimony_gray_posteriors.R
+	Rscript analysis_scripts_gray_all_posterior/07a_get_ancestral_states_parsimony_gray_posteriors.R
+	Rscript analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R
+	Rscript analysis_scripts_gray_all_posterior/07b_get_ancestral_states_ML_gray_posteriors.R
+	Rscript analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
+
 	
 compare_HL: 
 	Rscript 09a_compare_to_HL.R
