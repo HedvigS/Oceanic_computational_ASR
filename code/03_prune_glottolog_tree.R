@@ -3,7 +3,7 @@ cat("Installing and loading necessary packages. If hiccup occurs, see comment in
 
 source("01_requirements.R")
 
-#if something happens and you can't install glottoTrees for whatever reason, run the next line. It will load a similar function to glottoTrees::keep_as_tip() but homemade by Hedvig and a bit slower than Eric Round's solution in glottoTrees. But! Better than nothing :)
+#The next line will load a similar function to glottoTrees::keep_as_tip() but homemade by Hedvig and a bit slower than Eric Round's solution in glottoTrees.
 source("fun_keep_as_tip.R")
 
 #reading in and evaluating glottolog-cldf
