@@ -14,7 +14,7 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
   dplyr::select(Glottocode, level, classification, Name)
 
 #reading in GB
-GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv", col_types = cols()) %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn, col_types = cols()) %>% 
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
@@ -26,7 +26,7 @@ GB_parameters <- GB_df_desc  %>%
   as.vector()
 
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
-GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
+GB_df_all <- read_tsv(GB_binary_fn, col_types = cols()) %>% 
   rename(Glottocode = Language_ID) %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
   filter(str_detect(classification, "ocea1241")) %>% #we'll make life easier for the below script as well and tease out only the Oceanic languages as well
