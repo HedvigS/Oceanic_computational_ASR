@@ -3,8 +3,6 @@ library(tidyverse)
 library(assertthat)
 library(phangorn)
 
-# This script was written by Hedvig Skirgård, with the aid of Stephen Mann and Angela Chira on 2022-02-13.
-
 # This script defines two functions and at the end demonstrate them with some example data. The goal is to reduce a tree to a set of tips specified in a list. However, this list includes internal nodes and tips, so ape::drop/keep.tip can't be used.
 
 # The first function, "fun_Descendants_node_labels", is a wrapped for phangorn::Descendants(). The change here is that the original function only takes node numbers for the argument node. It is often desirable to instead be able to perform this kind of operation but with node labels. This new function takes in node labels, looks up their node numbers, passes that to phangorn::Descendants(), takes the output (which is tip numbers) and looks up the labels for them. This functions outputs a flat vector, not a nested set of lists like phangorn::Descendants().
@@ -14,7 +12,7 @@ library(phangorn)
 # The second function needs the first function to work.
 
 ## DISCLAIMER
-# These functions were written to solve a specific problem. The functions are written perhaps a bit unusually, with tidyverse pipes and data.frames where more "elegant" base-solutions are available. This function was written for specific use cases I have encountered. If you find them useful and would like them to be improved in terms of functionality, elegance and/or speed let me know (Hedvig). For another take on this problem, see Erich Round's solution here: https://github.com/erichround/glottoTrees/blob/99338ff3e62fa3f282eb19ed55a60c564fd843bc/R/topology.R#L326
+# These functions were written to solve a specific problem. The functions are written perhaps a bit unusually, with tidyverse pipes and data.frames where more "elegant" base-solutions are available. This function was written for specific use cases I have encountered. If you find them useful and would like them to be improved in terms of functionality, elegance and/or speed let me know. For another take on this problem, see Erich Round's solution here: https://github.com/erichround/glottoTrees/blob/99338ff3e62fa3f282eb19ed55a60c564fd843bc/R/topology.R#L326
 
 #######FUNCTIONS
 
