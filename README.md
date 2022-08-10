@@ -1,7 +1,9 @@
 # Basics
+This is a set of R scripts that take data on grammatical features of Oceanic languages from Grambank and predicts what value those features would have in proto-languages given specific trees: Glottolog tree, Gray et al 2009-tree (MCCT) Gray et al 2009-tree (random sample of 100 from posterior). Particular attention is paid to Proto-Oceanic, Proto-Central Pacific, Proto-Polynesian and Proto-Eastern Polynesian. These predictions of the grammar of proto-languages are compared to findings in classical historical linguistics.
+
 This is a document outlining the structure of this research project's code.
 
-This project is entirely coded in R. The scripts are set up such that they can be called individually or from a makefile. Please note: they will install required R packages and make subdirectories for organising output.
+This project is entirely coded in R. The scripts are set up such that they can be called individually or from a makefile. Please note: they will *install required R packages* and make subdirectories for organising output.
 
 # Location of data
 * The coding of individual languages are found here: `code/output/GB_wide/GB_wide_binarized.tsv`
@@ -20,27 +22,10 @@ Grambank 1.0 is not publicly released yet. Until it is, the full grambank datase
 
 It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running the rule `get_external` in the makefile.
 
-# 
-
-Each of these things are over three methods and two trees.
-
-Methods: parsimony, ML and SCM.
-Trees: Gray et al 2009-tree and Glottolog (Glottolog tree only computed for SM, not main goal but still being run).
-
-## General note on state of project
-This project is based on a chapter of my PhD thesis and work with Simon, Cara and Hannah on stability of features. Most of the code is written by me, with some of Simon's code. The biggest difference from the PhD chapter is that I'm looping over all the trees in the posterior rather than using the summary tree for the Gray et a 2009-tree. There are also some smaller changes for the ML ASR; I'm using corHMM::corHMM instead of corHMM::rayDISC (not big change honestly), I'm no longer having ambiguous states at tips and root.p has changed from "NULL" to "yang". Because the scripts are currently a mix of current Hedvig, past Hedvig and Simon sometimes things are done in a bit of a funny manner (particularly the way results.csv are build for each tree and method). I have on my to do list to smooth that out, it's just taken backseat to things running correctly and incorporating SCM. 
-
-You are welcome to do PR's if you see anything you want to chip in on.
-
-I'm hopefully presenting based on this work both at ICAL and COOL this year, and planning on submitting an article as well before the years end.
-
-## Note on Grambank dataset
-I'm using version 1, found at grambank-cldf. The dataset is binarised for this project.
-
 ## Notes on dialect aggregation
-The datasets and the trees are aggregated such that the tips and unit of analysis are languages, not a dialects. For the grambank dataset, I'm merging dialects into on language and randomly picking a value if they have conflicting values for the same feature (see 2_get_grambank_data.R). If one dialect has missing data for a feature and another has a defined value, I go with the non-missing data. In some cases, this results in slightly different coding for each run since the values are randomly picked when there is more than one for the same language.
+The datasets and the trees are aggregated such that the tips and unit of analysis are languages, not a dialects (given Glottolog's definitions). For the grambank dataset, I'm choosing the dialect with the least amount of missing data. 
 
-For the Gray et al 2009-tree I have hand picked which dialect to use if there is more than one based on data quality in ABVD, see 3_get_gray_tree.R for details. I'm not using the taxa file for this tree as found at D-PLACE/dplace-data, but instead the one found at lexibank/ABVD ([see this PR for discussion](https://github.com/D-PLACE/dplace-data/pull/293)). The Glottolog tree is created pulled form glottolog-cldf.
+For the Gray et al 2009-tree I have hand picked which dialect to use if there is more than one based on data quality in ABVD (see 03_get_gray_tree_mcct.R and 03_process_gray_tree_posteriors.R).
 
 ## Note on Gray et al 2009-tree
 I'm using the all of the posterior trees and the MCCT-tree. I'm using the lexibank/ABVD taxa file rather than D-PLACE/dplace-data. 
@@ -54,7 +39,6 @@ For each reconstruction, I'm pruning the relevant tree to only tips which have a
 
 ## Basics
 
-This is a set of R scripts and one python script that take data on grammatical features of Oceanic languages from Grambank and predicts what value those features would have in proto-languages given two specific trees: Glottolog tree and Gray et al 2009-tree (MCCT). Particular attention is paid to Proto-Oceanic, Proto-Central Pacific, Proto-Polynesian and Proto-Eastern Polynesian. These predictions of the grammar of proto-languages are compared to findings in classical historical linguistics.
 
 ### To note
 These scripts are set up to be run either from the command line or within Rstudio. The scripts are specifically fetching Grambank data as found in the clone of grambank/grambank-cldf.
