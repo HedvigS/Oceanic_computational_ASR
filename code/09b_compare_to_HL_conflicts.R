@@ -1,6 +1,6 @@
 source("01_requirements.R")
 
-GB_ID_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
+GB_ID_desc <- read_tsv(GB_df_desc_fn) %>% 
   dplyr::select(Feature_ID = ID, Name)
 
 #OUTPUTTING XTABLES
