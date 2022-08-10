@@ -119,11 +119,11 @@ align <- c("r", "p{4cm}","l", "l", "l","l", "l", "l")
 
 accuracy_tables %>% 
   dplyr::select("False Negative", "False Positive", "Half", "True Negative", "True Positive", "$$\\textbf{Total}$$" = "reconstructions_all" ) %>%
-  rename("$$\\textbf{\\cellcolor{hedvig_red!50}{\\parbox{1.8cm}{\\raggedright False Positive}}}$$" = "False Positive" ) %>% 
-  rename("$$\\textbf{\\cellcolor{hedvig_red!50}{\\parbox{1.8cm}{\\raggedright False Negative}}}$$" = "False Negative" ) %>% 
-  rename("$$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Positive}}}$$" = "True Positive" ) %>% 
-  rename("$$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Negative}}}$$" = "True Negative" ) %>% 
-  rename("$$\\textbf{\\cellcolor{hedvig_yellow!50}{\\parbox{1.8cm}{\\raggedright Half}}}$$" = "Half" ) %>% 
+  rename("$$\\textbf{\\cellcolor{spec_color_red!50}{\\parbox{1.8cm}{\\raggedright False Positive}}}$$" = "False Positive" ) %>% 
+  rename("$$\\textbf{\\cellcolor{spec_color_red!50}{\\parbox{1.8cm}{\\raggedright False Negative}}}$$" = "False Negative" ) %>% 
+  rename("$$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Positive}}}$$" = "True Positive" ) %>% 
+  rename("$$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{1.8cm}{\\raggedright True Negative}}}$$" = "True Negative" ) %>% 
+  rename("$$\\textbf{\\cellcolor{spec_color_yellow!50}{\\parbox{1.8cm}{\\raggedright Half}}}$$" = "Half" ) %>% 
   rownames_to_column("Method") %>% 
   mutate("Method" = str_replace_all(`Method`, "_", " ")) %>% 
   mutate("Method" = str_replace_all(`Method`, "gray mcct", "Gray et al (2009) - MCCT ")) %>% 
