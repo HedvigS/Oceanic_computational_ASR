@@ -209,10 +209,10 @@ align <- c("r", "l","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ")
 
 island_groups_table_latex_formatting <- island_groups_table %>%
   dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "grammar doesn't exist") %>% 
-      rename("$\\textbf{\\cellcolor{hedvig_orange!50}{No grammar}}$" = "grammar doesn't exist" ) %>% 
-    rename("$\\textbf{\\cellcolor{hedvig_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
-   rename("$\\textbf{\\cellcolor{hedvig_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
-    rename("$\\textbf{\\cellcolor{hedvig_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB") %>% 
+      rename("$\\textbf{\\cellcolor{spec_color_orange!50}{No grammar}}$" = "grammar doesn't exist" ) %>% 
+    rename("$\\textbf{\\cellcolor{spec_color_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
+   rename("$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
+    rename("$\\textbf{\\cellcolor{spec_color_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB") %>% 
   rename("$\\textbf{\\parbox{2.7cm}{\\raggedright Island group}}$" = "Island group")
 
 island_groups_table_latex_formatting  %>% 
