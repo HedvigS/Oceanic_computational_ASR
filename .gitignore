@@ -40,7 +40,3 @@ tex/ASR_Oceanic.toc
 tex/ASR_Oceanic.pdf
 tex/ASR_Oceanic.toc
 tex/ASR_Oceanic.synctex(busy)
-code/data/glottolog_oceanic_languages_df.tsv
-code/data/glottolog_language_table_wide_df.tsv
-code/data/trees/glottolog_tree_newick_all_oceanic.txt
-code/data/trees/glottolog_tree_newick_GB_pruned.txt
