@@ -34,9 +34,15 @@ The R-scripts of this project are organised to be run in a particular order. The
 
 It is also possible to call on each script in turn, see the Makefile for exact appropriate order.
 
+Description of makefile rules. Because the analysis on the 100 sample of the posterior takes a while it is possible to run part of the analysis excluding this.
+
+- `analysis_excl_posteriors` runs the Parsimony and ML analysis for the glottolog tree and the MCCT-tree from Gray et al (2009). It does *not* run the analysis on the posteriors and it does not fetch external data.
+- `all_excl_external_incl_posteriors` runs the Parsimony and ML analysis for the glottolog tree, the MCCT-tree from Gray et al (2009) and the posterior sample. It does not fetch external data. It does including summing up of the analysis with tables and plots.
+- `all_incl_external` runs all analysis, including featching external data
+
 # Beware
 
-The scripts will install R-packages if they are not already installed. All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours.
+The scripts will install R-packages if they are not already installed (see code/01_requirements.R for exact list). All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
 
 # Notes on dialect aggregation
 
@@ -50,6 +56,5 @@ For each reconstruction (each feature + tree + method), I'm pruning the relevant
 
 # Requirements
 
--   R should be installed. I haven't done thourough testing, but it should most likely be at least R 3.0
--   packages
-    -   R packages. code/01_requirements.R will install R packages on your machine directly. It is called at the start of all subsequent scripts.
+-   R should be installed. I haven't done thorough testing, but it should most likely be at least R 3.0.
+-   R packages. code/01_requirements.R will install R packages on your machine directly. It is called at the start of all analysis scripts.
