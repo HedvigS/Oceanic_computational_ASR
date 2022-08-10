@@ -12,12 +12,21 @@ source("make_wide_binarized.R")
 
 setwd("../../code/")
 
-#move files to subdir of output to make easier for collab
+## move files to subdir of output to make easier for collab
+# creating output dir
 fn <- file.path("output/GB_wide/")
 if (!dir.exists(fn)) { dir.create(fn) }
 
+# moving the feature description table
 read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>%
   write_tsv("output/GB_wide/parameters_binary.tsv")
-  
+
+#making a list of oceanic lgs
+oceanic_lgs <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv") %>% 
+  filter(str_detect(classification, "ocea1241")|Language_ID == "ocea1241") %>% 
+  dplyr::select(Language_ID)
+
+#taking the GB widening and binarised and subsetting to oceanic and moving.
 read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv") %>% 
+  inner_join(oceanic_lgs, by = "Language_ID" ) %>%
   write_tsv("output/GB_wide/GB_wide_binarized.tsv")
