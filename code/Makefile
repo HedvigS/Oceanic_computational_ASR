@@ -9,7 +9,6 @@ install_pkgs:
 	Rscript 01_requirements.R 
 
 get_external:
-	@$(MAKE) -f $(THIS_MAKEFILE) install_pkgs
 	Rscript 02_get_glottolog_language_table.R
 	Rscript 02_get_grambank_data.R 
 	Rscript 02_massage_HL_findings_sheets.R
