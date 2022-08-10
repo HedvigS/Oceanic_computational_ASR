@@ -8,7 +8,7 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
   dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
 #reading in GB
-GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv",
+GB_df_desc <-  data.table::fread(GB_df_desc_fn,
                     encoding = 'UTF-8', 
                     quote = "\"", 
                     fill = T, 
@@ -19,7 +19,7 @@ GB_df_desc <-  data.table::fread("../grambank-analysed/R_grambank/output/GB_wide
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
 #To make things easier for the MP function we are going to use (castor::asr_max_parsimony()) we are going to replace all 1:s with 2:s and all 0:s with 1:s: previously, something seemed to be going awry with the 0:s and this was a hacky, yet, effective solution.
-GB_df_all <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
+GB_df_all <- read_tsv(GB_binary_fn, col_types = cols()) %>% 
   rename(Glottocode = Language_ID) %>% 
   dplyr::select(Glottocode, GB_df_desc$ID) %>% 
   reshape2::melt(id.vars = "Glottocode") %>%
