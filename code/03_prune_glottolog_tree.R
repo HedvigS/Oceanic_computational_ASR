@@ -1,6 +1,4 @@
 #necessary packages
-cat("Installing and loading necessary packages. If hiccup occurs, see comment in script.")
-
 source("01_requirements.R")
 
 #The next line will load a similar function to glottoTrees::keep_as_tip() but homemade by Hedvig and a bit slower than Eric Round's solution in glottoTrees.
