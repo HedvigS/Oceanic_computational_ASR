@@ -83,7 +83,7 @@ tree_pruned$edge.length <- tree_pruned$edge.length + 1e-6 #add a tiny branch len
 tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
 
 ape::write.tree(tree_pruned, paste0("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/gray_et_al_2009_posterior_trees_pruned", tree_fn))
-cat("I'm done with tree ", index, ".\n", sep = "")
+cat("I'm done with pruning tree ", index, " in the posterior.\n", sep = "")
 multiPhylo_obj <- c(multiPhylo_obj,tree_pruned)
 }
 
