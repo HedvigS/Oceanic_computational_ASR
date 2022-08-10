@@ -7,10 +7,11 @@ if(!file.exists(gray_tree_fn)){
 }
 gray_tree <- ape::read.tree(gray_tree_fn) 
 
-GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") 
+GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
+  filter(Binary_Multistate != "Multi")
 
 #reading in GB
-GB_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_strict.tsv") %>% 
+GB_df <- read_tsv(GB_binary_fn) %>% 
  dplyr::select(Language_ID, GB409) 
  
 #reading in glottolog
