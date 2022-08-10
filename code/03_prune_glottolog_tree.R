@@ -25,7 +25,7 @@ oceanic_all_labels_df <- c(oceanic_tip_labels, oceanic_node_labels) %>%
   rename(Language_ID = ".")
 
 #read in GB
-GB_df <- read.delim("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", sep = "\t") %>% 
+GB_df <- read_tsv(GB_binary_fn) %>% 
   dplyr::select(Language_ID) %>% 
   filter(Language_ID != "cent2060") %>% #removing proto-languages
   filter(Language_ID != "east2449") %>% #removing proto-languages
