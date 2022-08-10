@@ -21,7 +21,7 @@ taxa <- read_csv(Gray_et_al_tree_taxon_fn, col_types = cols()) %>%
   rename(Glottocode = glottocode) #to conform to what glottolog does elsewhere 
 
 #reading in grambank data
-grambank_df <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/GB_wide_binarized.tsv", col_types = cols()) %>% 
+grambank_df <- read_tsv(GB_binary_fn, col_types = cols()) %>% 
   dplyr::select(Glottocode = Language_ID) %>% 
   mutate(in_GB = "Yes") 
 
