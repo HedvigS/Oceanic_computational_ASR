@@ -1,10 +1,24 @@
 ## Basics
-This is a markdown file with some method notes concerning the ancestral state reconstruction, primarily for Simon and Ben. See README one level up for basics on requirements, datasets etc.
+This is a document outlining the structure of this research project's code.
 
-I'm doing three things in this project
-a) compare computational ASR conclusions about structural features with HL findings
-b) compute rates of change for features
-c) compute conservatism rates of languages
+This project is entirely coded in R. The scripts are set up such that they can be called individually or from a makefile. They will install packages and make subdirectories for organising output.
+
+# Location of data
+* The coding of individual languages are found here: `code/output/GB_wide/GB_wide_binarized.tsv`
+* The descriptions of features are found here: `code/output/GB_wide/parameters_binary.tsv`
+* The coding of proto-languages is also found here with certain more detail: `code/output/processed_data/HL_findings_for_comparison.tsv`
+* The trees are found here: `code/output/processed_data/trees`
+* The datapoints where historical linguists disagree are found here: `code/data/HL_findings_conflicts.tsv`
+* The grouping of languages into island groups are found here: `code/data/island_groups.tsv`
+
+# Concerning external data
+This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank, which this project also make use of (grambank-analysed also includes git submodules for autotyp-data and wals, but these are not used in this project).
+
+Grambank 1.0 is not publicly released yet. Until it is, the full grambank dataset is not accessible publicly. For this project, I have gotten approval to share the subset of grambank which concerns Oceanic languages specifically. The script code/02_get_grambank_data.R creates the appropriate table for this project and places it in a subdirectory accessible to you.
+
+It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running the rule `get_external` in the makefile.
+
+
 
 Each of these things are over three methods and two trees.
 
