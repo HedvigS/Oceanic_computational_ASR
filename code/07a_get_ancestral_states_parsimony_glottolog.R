@@ -60,7 +60,7 @@ df$glottolog_parsimony_prediction_1 <- ifelse(df$ntips_parsimony_glottolog <  nt
 df$glottolog_parsimony_prediction_0 <- ifelse(df$ntips_parsimony_glottolog <  ntips_half_glottolog, NA, df$glottolog_parsimony_prediction_0)
 
 #parameter description
-GB_df_desc <- read_tsv("../grambank-analysed/R_grambank/output/GB_wide/parameters_binary.tsv") %>% 
+GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
   dplyr::select(Feature_ID = ID, Abbreviation =Grambank_ID_desc, Question = Name) 
 
 df %>% 
