@@ -11,7 +11,7 @@
 .Rproj.user
 
 #plots
-*.pdf
+tex/illustrations/plots_from_R/tree_plots/gray_et_al_2009/ML/*.pdf
 
 #folders
 code/output/glottolog-tree*
@@ -25,7 +25,6 @@ code/output/HL_comparison*
 *tex/*blg
 *tex/*.out
 *tex/*gz
-*tex/ASR_Oceanic.pdf
 tex/ASR_Oceanic.toc
 tex/ASR_Oceanic.synctex(busy)
 tex/ASR_Oceanic.synctex
