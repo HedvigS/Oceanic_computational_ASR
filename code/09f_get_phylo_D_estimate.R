@@ -10,7 +10,8 @@ tree_fns <- c(glottolog_tree_fn, gray_2009_mcct_tree_fn, gray_posteriors_trees_f
 #reading in GB tables
 GB_df <- read_tsv(GB_binary_fn)
 
-GB_df_desc <- read_tsv(GB_df_desc_fn, show_col_types = F) 
+GB_df_desc <- read_tsv(GB_df_desc_fn, show_col_types = F) %>% 
+  filter(!str_detect(Binary_Multistate, "Multi"))
 
 #feature vector to loop over
 features <- GB_df_desc$ID
@@ -23,10 +24,13 @@ full_df <- data.frame(Feature = as.character(),
                       n = as.numeric(), 
                       tree = as.character())
 
-for(feature in features){
+for(f in 1:length(features)){
 
-  cat("I'm on feature", feature, ".\n")
+  feature <- features[f]
+  
+  cat("\n***\nI'm on feature", feature, " which is", f, "out of ", length(features),".\n***\n")
   for(t in tree_fns){
+    
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", t ,".\n")
@@ -48,6 +52,6 @@ for(feature in features){
                             n = ds$data %>% nrow(), 
                             tree = basename(t))
     
-    full_df <- full_join(full_df, spec_df)
+    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree"))
       }
 }
