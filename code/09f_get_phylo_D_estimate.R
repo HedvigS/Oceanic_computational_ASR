@@ -55,3 +55,6 @@ for(f in 1:length(features)){
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree"))
       }
 }
+
+full_df %>% 
+  write_tsv("output/HL_comparison/phylo_d_table.tsv", na = "")
