@@ -27,7 +27,7 @@ full_df <- data.frame(Feature = as.character(),
 for(f in 1:length(features)){
 
   feature <- features[f]
-  
+#  feature <- features[17]  
   cat("\n***\nI'm on feature", feature, " which is", f, "out of ", length(features),".\n***\n")
   for(t in tree_fns){
 #    t <- tree_fns[3]
