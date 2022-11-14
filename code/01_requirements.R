@@ -41,6 +41,7 @@ h_load(dependencies = F, pkg = c(
   "glue",
   "stringi",
   "ape", 
+  "caper",
   "castor",
   "naniar", 
 #  fields",
