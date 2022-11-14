@@ -33,7 +33,7 @@ for(f in 1:length(features)){
     
     tree <- read.tree(t)
   
-    cat("I'm on feature", feature, "and tree", t ,".\n")
+    cat("I'm on feature", feature, "and tree", basename(t) ,".\n")
     
     df_for_caper <- tree$tip.label %>%
       as.data.frame() %>%
