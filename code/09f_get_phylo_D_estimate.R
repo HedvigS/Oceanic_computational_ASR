@@ -30,7 +30,7 @@ for(f in 1:length(features)){
   
   cat("\n***\nI'm on feature", feature, " which is", f, "out of ", length(features),".\n***\n")
   for(t in tree_fns){
-    
+#    t <- tree_fns[3]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) ,".\n")
@@ -43,7 +43,16 @@ for(f in 1:length(features)){
     
     ds <- comparative.data(tree, df_for_caper, names.col=Language_ID)
     
-    output <- eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))
+    output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))})
+    
+    if (class(output) == "try-error") {
+      spec_df <-   data.frame(Feature = feature, 
+                              Destimate = NA, 
+                              Pval1 = NA, 
+                              Pval0 = NA, 
+                              n = ds$data %>% nrow(), 
+                              tree = basename(t))
+    }else{
     
     spec_df <-   data.frame(Feature = feature, 
                             Destimate = output$DEstimate[[1]], 
@@ -51,6 +60,7 @@ for(f in 1:length(features)){
                             Pval0 = output$Pval0, 
                             n = ds$data %>% nrow(), 
                             tree = basename(t))
+    }
     
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree"))
       }
