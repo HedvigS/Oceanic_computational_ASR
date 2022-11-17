@@ -22,13 +22,15 @@ full_df <- data.frame(Feature = as.character(),
                       Pval1 = as.numeric(), 
                       Pval0 = as.numeric(), 
                       n = as.numeric(), 
-                      tree = as.character())
+                      tree = as.character(), 
+                      zeroes = as.numeric(),
+                      ones = as.numeric())
 
 for(f in 1:length(features)){
 
   feature <- features[f]
-#  feature <- features[17]  
-  cat("\n***\nI'm on feature", feature, " which is", f, "out of ", length(features),".\n***\n")
+#  feature <- features[9]  
+  cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),".\n***\n")
   for(t in tree_fns){
 #    t <- tree_fns[3]
     tree <- read.tree(t)
@@ -43,6 +45,8 @@ for(f in 1:length(features)){
     
     ds <- comparative.data(tree, df_for_caper, names.col=Language_ID)
     
+    value_table <- ds$data[,1] %>% table() %>% t()
+  
     output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))})
     
     if (class(output) == "try-error") {
@@ -51,7 +55,9 @@ for(f in 1:length(features)){
                               Pval1 = NA, 
                               Pval0 = NA, 
                               n = ds$data %>% nrow(), 
-                              tree = basename(t))
+                              tree = basename(t), 
+                              zeroes = value_table[1,"0"], 
+                              ones = value_table[1,"1"])
     }else{
     
     spec_df <-   data.frame(Feature = feature, 
@@ -59,10 +65,12 @@ for(f in 1:length(features)){
                             Pval1 = output$Pval1, 
                             Pval0 = output$Pval0, 
                             n = ds$data %>% nrow(), 
-                            tree = basename(t))
+                            tree = basename(t), 
+                            zeroes = value_table[1,"0"], 
+                            ones = value_table[1,"1"])
     }
     
-    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree"))
+    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones"))
       }
 }
 
