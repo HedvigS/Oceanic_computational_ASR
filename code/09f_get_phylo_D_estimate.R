@@ -42,13 +42,31 @@ for(f in 1:length(features)){
       rename(Language_ID = ".") %>%
       left_join(GB_df, by = "Language_ID") %>% 
       dplyr::select(Language_ID, all_of(feature))
+#      dplyr::select(Language_ID, GB026)
     
     ds <- comparative.data(tree, df_for_caper, names.col=Language_ID)
     
-    value_table <- ds$data[,1] %>% table() %>% t()
-  
-    output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))})
+    value_table <- df_for_caper[,2] %>% table() %>% t()
     
+    if(ncol(value_table) == 2){
+      zeroes = value_table[1,"0"]
+      ones = value_table[1,"1"]
+      }
+
+    if(all(ncol(value_table) == 1 & colnames(value_table) == "0")){
+      zeroes = value_table[1,"0"]
+      ones = 0
+    }
+  if(all(ncol(value_table) == 1 & colnames(value_table) == "1")){
+      zeroes = 0
+      ones = value_table[1,"1"]
+    }
+    
+
+    
+      
+    output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))})
+
     if (class(output) == "try-error") {
       spec_df <-   data.frame(Feature = feature, 
                               Destimate = NA, 
@@ -56,18 +74,19 @@ for(f in 1:length(features)){
                               Pval0 = NA, 
                               n = ds$data %>% nrow(), 
                               tree = basename(t), 
-                              zeroes = value_table[1,"0"], 
-                              ones = value_table[1,"1"])
+                              zeroes = zeroes, 
+                              ones = ones)
     }else{
     
+  
     spec_df <-   data.frame(Feature = feature, 
                             Destimate = output$DEstimate[[1]], 
                             Pval1 = output$Pval1, 
                             Pval0 = output$Pval0, 
                             n = ds$data %>% nrow(), 
                             tree = basename(t), 
-                            zeroes = value_table[1,"0"], 
-                            ones = value_table[1,"1"])
+                            zeroes =  zeroes, 
+                            ones = ones)
     }
     
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones"))
