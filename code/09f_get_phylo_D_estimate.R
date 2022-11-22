@@ -61,11 +61,8 @@ for(f in 1:length(features)){
       zeroes = 0
       ones = value_table[1,"1"]
     }
-    
 
-    
-      
-    output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature), list(this_feature=as.name(feature))))})
+  output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 
     if (class(output) == "try-error") {
       spec_df <-   data.frame(Feature = feature, 
@@ -78,7 +75,6 @@ for(f in 1:length(features)){
                               ones = ones)
     }else{
     
-  
     spec_df <-   data.frame(Feature = feature, 
                             Destimate = output$DEstimate[[1]], 
                             Pval1 = output$Pval1, 
