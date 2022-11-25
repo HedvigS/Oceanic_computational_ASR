@@ -30,6 +30,15 @@ for(f in 1:length(features)){
 
   feature <- features[f]
 #  feature <- features[9]  
+  fn_spec <- paste0("output/HL_comparison/phylo_d_table_", feature, ".tsv")
+  
+  
+  if(file.exists(fn_spec)){
+    
+    cat(paste0(fn_spec, " already exists! Moving on!\n"))
+    
+  }else{
+
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),".\n***\n")
   for(t in tree_fns){
 #    t <- tree_fns[3]
@@ -84,10 +93,14 @@ for(f in 1:length(features)){
                             zeroes =  zeroes, 
                             ones = ones)
     }
-    
+      
+  
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones"))
       }
+  full_df %>% 
+    write_tsv(file = fn_spec, na = "")
+  }
+  
+  
 }
 
-full_df %>% 
-  write_tsv("output/HL_comparison/phylo_d_table.tsv", na = "")
