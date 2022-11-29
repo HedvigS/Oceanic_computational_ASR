@@ -46,6 +46,7 @@ h_load(dependencies = F, pkg = c(
   "naniar", 
 #  fields",
   "phytools",
+  "adephylo",
   "phylobase",
   "nloptr", 
   "GenSA",
