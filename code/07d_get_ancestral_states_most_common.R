@@ -1,6 +1,5 @@
 source("01_requirements.R")
 
-
 GB_df_long <- read_tsv(GB_binary_fn, show_col_types = F) %>% 
   dplyr::select(-na_prop) %>% 
   reshape2::melt(id.vars = "Language_ID") %>% 
@@ -84,9 +83,9 @@ oceanic_df <- GB_df_long %>%
 oceanic_df$most_common_prediction <- if_else(oceanic_df$`0` > 0.6, "Absent", if_else(oceanic_df$`1` > 0.6, "Present", "Half")) 
 
 all_df <- oceanic_df  %>% 
-  full_join(central_pacific_df) %>% 
-  full_join(polynesian_df) %>% 
-  full_join(east_polynesian_df) %>% 
+  full_join(central_pacific_df, by = c("variable", "0", "1", "Proto-language", "most_common_prediction")) %>% 
+  full_join(polynesian_df, by = c("variable", "0", "1", "Proto-language", "most_common_prediction")) %>% 
+  full_join(east_polynesian_df, by = c("variable", "0", "1", "Proto-language", "most_common_prediction")) %>% 
   dplyr::rename(Feature_ID = variable)
 
 HL_findings_sheet <- read_tsv(HL_findings_sheet_fn) %>% 
@@ -107,9 +106,9 @@ values_df$result_most_common <- ifelse(values_df$most_common_prediction == "Pres
                                                             ifelse(values_df$most_common_prediction == "Half", "Half", NA)))))
 
 all_df  %>% 
-  left_join(values_df) %>% 
-  left_join(not_enough_languages_df) %>% 
+  left_join(values_df, by = c("Feature_ID", "Proto-language", "most_common_prediction")) %>% 
+  left_join(not_enough_languages_df, by = "Feature_ID") %>% 
   mutate(most_common_prediction = ifelse(not_enough == "Not enough languages", "Not enough languages", most_common_prediction)) %>% 
   mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
-  dplyr::select(-not_enough, -n, -Prediction) %>% 
+  dplyr::select(-not_enough, -n) %>% 
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
