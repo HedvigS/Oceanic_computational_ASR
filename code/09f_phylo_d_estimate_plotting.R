@@ -79,3 +79,9 @@ reconstruction_results_df %>%
   ggplot() +
   geom_point(mapping = aes(x = mean_D, y = result_points)) +
   facet_grid(~Feature_tree)
+
+
+reconstruction_results_df %>% 
+  full_join(phylo_d_df) %>% 
+  group_by(result_points) %>% 
+  summarise(mean_d = mean(mean_D, na.rm = T)) %>% View()
