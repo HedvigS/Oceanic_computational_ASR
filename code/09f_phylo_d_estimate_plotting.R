@@ -21,50 +21,61 @@ phylo_d_df <- fns %>%
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
             zeroes = mean(zeroes), 
-            ones = mean(ones)) %>% 
+            ones = mean(ones), .groups = "drop") %>% 
   mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
   mutate(min_p = min / (ones + zeroes))
 
-
 #reading in reconstruction results
-
 parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
-  dplyr::select(reconstruction_result = `Parsimony result (Glottolog-tree)`, Feature_ID)  %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 1, glottolog_parsimony_prediction_1, NA)) %>% 
+  mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 0, glottolog_parsimony_prediction_0, glottolog_parsimony_prediction_number)) %>%   dplyr::select(Prediction, `Parsimony result (Glottolog-tree)`, Feature_ID, glottolog_parsimony_prediction_number, glottolog_parsimony_prediction_0, glottolog_parsimony_prediction_1) %>% 
   mutate(tree_type = "glottolog")
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
-  dplyr::select(reconstruction_result = `Parsimony result (Gray et al 2009-tree)`, Feature_ID) %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
+  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_prediction_number)) %>%   dplyr::select(Prediction, `Parsimony result (Gray et al 2009-tree)`, Feature_ID, gray_parsimony_prediction_number, gray_parsimony_prediction_0, gray_parsimony_prediction_1) %>% 
   mutate(tree_type = "gray_mcct")
 
-parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
-  dplyr::select(reconstruction_result = `Parsimony result (Gray et al 2009-tree posteriors)`, Feature_ID)   %>% 
+parsimony_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
+  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_prediction_number)) %>%   dplyr::select(Prediction, `Parsimony result (Gray et al 2009-tree posteriors)`, Feature_ID, gray_parsimony_prediction_number, gray_parsimony_prediction_0, gray_parsimony_prediction_1) %>% 
   mutate(tree_type = "gray_posterior")
 
 ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
-  dplyr::select(reconstruction_result = `ML result (Glottolog-tree)`, Feature_ID) %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(glottolog_ML_prediction_number = ifelse(Prediction == 1, glottolog_ML_prediction_1, NA)) %>% 
+  mutate(glottolog_ML_prediction_number = ifelse(Prediction == 0, glottolog_ML_prediction_0, glottolog_ML_prediction_number)) %>%   dplyr::select(Prediction, `ML result (Glottolog-tree)`, Feature_ID, glottolog_ML_prediction_number, glottolog_ML_prediction_0, glottolog_ML_prediction_1) %>% 
   mutate(tree_type = "glottolog")
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
-  dplyr::select(reconstruction_result = `ML result (Gray et al 2009-tree)`, Feature_ID) %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(gray_ML_prediction_number = ifelse(Prediction == 1, gray_ML_prediction_1, NA)) %>% 
+  mutate(gray_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_ML_prediction_number)) %>%   dplyr::select(Prediction, `ML result (Gray et al 2009-tree)`, Feature_ID, gray_ML_prediction_number, gray_ML_prediction_0, gray_ML_prediction_1) %>% 
   mutate(tree_type = "gray_mcct")
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
-  dplyr::select(reconstruction_result = `ML result (Gray et al 2009-tree posteriors)`, Feature_ID) %>% 
+  filter(!is.na(Prediction)) %>% 
+  mutate(gray_ML_prediction_number = ifelse(Prediction == 1, gray_ML_prediction_1, NA)) %>% 
+  mutate(gray_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_ML_prediction_number)) %>% 
+  dplyr::select(Prediction, `ML result (Gray et al 2009-tree posteriors)`, Feature_ID, gray_ML_prediction_number, gray_ML_prediction_0, gray_ML_prediction_1) %>% 
   mutate(tree_type = "gray_posterior")
 
 most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
-  dplyr::select(reconstruction_result = `result_most_common`, Feature_ID) %>% 
+  dplyr::select(`result_most_common`, Feature_ID) %>% 
   mutate(tree_type = "glottolog")
   
 reconstruction_results_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
-  full_join(parsimon_gray_posteriors_df, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
-  full_join(ML_glottolog_df, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
-  full_join(ML_gray_mcct, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
-  full_join(ML_gray_posteriors_df, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
-  full_join(most_common_df, by = c("reconstruction_result", "Feature_ID", "tree_type")) %>% 
+  full_join(parsimony_gray_mcct_df) %>% 
+  full_join(parsimony_gray_posteriors_df) %>% 
+  full_join(ML_glottolog_df) %>% 
+  full_join(ML_gray_mcct) %>% 
+  full_join(ML_gray_posteriors_df) %>% 
+  full_join(most_common_df) %>% 
   filter(!is.na(reconstruction_result)) %>% 
   mutate(result_points = ifelse(test = str_detect(string = reconstruction_result, pattern = "Half"), yes = 0.5, no = NA)) %>% 
   mutate(result_points = ifelse(test = str_detect(string = reconstruction_result, pattern = "True"), yes = 1, no = result_points)) %>% 
