@@ -102,8 +102,8 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 
 reconstruction_results_df %>% 
   left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>% 
-  filter(min > 1) %>% 
+  filter(min_p > 0.01) %>% 
   ggplot() +
-  geom_point(mapping = aes(y = mean_D, x = value)) +
-  theme_minimal()
-
+  geom_point(mapping = aes(y = mean_D, x = value, color = name)) +
+  theme_minimal() +
+  facet_grid(~name)
