@@ -2,7 +2,7 @@ source("01_requirements.R")
 
 #reading in trees and computing patricstic distances for the glottolog and mcct tree
 glottolog_tree <-read.tree("output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
-gray_2009_mcct_tree <- read.tree("output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt")
+gray_2009_mcct_tree <- read.tree("output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt")
 
 glottolog_tree_dist_matrix <- adephylo::distTips(glottolog_tree) %>% 
   as.matrix() 

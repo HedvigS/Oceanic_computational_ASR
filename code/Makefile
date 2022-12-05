@@ -28,7 +28,7 @@ other_prep:
 parsimony:
 	#run analysis
 	Rscript 04_ASR_parsimony_glottolog.R
-	Rscript analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mmct.R
+	Rscript analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mcct.R
 	
 	#extract states for specific nodes
 	Rscript 07a_get_ancestral_states_parsimony_glottolog.R

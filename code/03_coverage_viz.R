@@ -8,7 +8,7 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
   mutate(Language_level_ID = ifelse(is.na(Language_level_ID), Language_ID, Language_level_ID))
 
 ##TREE gray et al mcct
-gray_tree_fn <-"output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt"
+gray_tree_fn <-"output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt"
 if(!file.exists(gray_tree_fn)){
   source("analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R")
   }

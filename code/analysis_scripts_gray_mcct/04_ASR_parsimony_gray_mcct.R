@@ -10,7 +10,7 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
   dplyr::select(Glottocode, level, classification, Name)
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was invidually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
-gray_tree <- read.newick("output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt")
+gray_tree <- read.newick("output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt")
 
 #reading in GB
 GB_df_desc <- read_tsv(GB_df_desc_fn, col_types = cols()) %>% 

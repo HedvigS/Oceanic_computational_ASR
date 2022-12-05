@@ -1,7 +1,7 @@
 source("01_requirements.R")
 
 ##TREE gray et al mcct
-gray_tree_fn <-"output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt"
+gray_tree_fn <-"output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt"
 if(!file.exists(gray_tree_fn)){
   source("analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R")
 }

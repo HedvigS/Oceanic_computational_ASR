@@ -72,4 +72,4 @@ tips_to_drop <- tree_removed_dups$tip.label %>%
 tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 
 tree_pruned$edge.length <- tree_pruned$edge.length + 1e-6 #add a tiny branch length to every branch so that there are no branches with 0 length
-ape::write.tree(tree_pruned, file = "output/processed_data/trees/gray_et_al_tree_pruned_newick_mmct.txt")
+ape::write.tree(tree_pruned, file = "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt")
