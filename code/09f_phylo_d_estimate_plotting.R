@@ -33,21 +33,25 @@ parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstr
   mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 1, glottolog_parsimony_prediction_1, NA)) %>% 
   mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 0, glottolog_parsimony_prediction_0, glottolog_parsimony_prediction_number)) %>%   dplyr::select(Feature_ID, glottolog_parsimony_prediction_number) %>% 
   mutate(tree_type = "glottolog") %>% 
-  tidyr::pivot_longer(cols = c("glottolog_parsimony_prediction_number"))
+  tidyr::pivot_longer(cols = c("glottolog_parsimony_prediction_number")) %>% 
+  mutate(method = "parsimony") 
+  
 
 parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
   mutate(gray_parsimony_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
   mutate(gray_parsimony_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_prediction_number)) %>%   dplyr::select(Feature_ID, gray_parsimony_prediction_number) %>% 
   mutate(tree_type = "gray_mcct") %>% 
-  tidyr::pivot_longer(cols = c("gray_parsimony_prediction_number"))
+  tidyr::pivot_longer(cols = c("gray_parsimony_prediction_number")) %>% 
+  mutate(method = "parsimony") 
 
 parsimony_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
   filter(!is.na(Prediction)) %>% 
   mutate(gray_parsimony_posteriors_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
   mutate(gray_parsimony_posteriors_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_posteriors_prediction_number)) %>%   dplyr::select(Feature_ID, gray_parsimony_posteriors_prediction_number) %>% 
   mutate(tree_type = "gray_posterior")  %>% 
-  tidyr::pivot_longer(cols = c("gray_parsimony_posteriors_prediction_number"))
+  tidyr::pivot_longer(cols = c("gray_parsimony_posteriors_prediction_number")) %>% 
+  mutate(method = "parsimony") 
 
 
 ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
@@ -56,7 +60,8 @@ ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") 
   mutate(glottolog_ML_prediction_number = ifelse(Prediction == 0, glottolog_ML_prediction_0, glottolog_ML_prediction_number)) %>%
   dplyr::select(Feature_ID, glottolog_ML_prediction_number) %>% 
   mutate(tree_type = "glottolog") %>% 
-  tidyr::pivot_longer(cols = c("glottolog_ML_prediction_number"))
+  tidyr::pivot_longer(cols = c("glottolog_ML_prediction_number")) %>% 
+  mutate(method = "ML") 
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
@@ -64,7 +69,8 @@ ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv
   mutate(gray_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_ML_prediction_number)) %>%
   dplyr::select(Feature_ID, gray_ML_prediction_number) %>% 
   mutate(tree_type = "gray_mcct") %>% 
-  tidyr::pivot_longer(cols = c("gray_ML_prediction_number"))
+  tidyr::pivot_longer(cols = c("gray_ML_prediction_number"))%>% 
+  mutate(method = "ML") 
 
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
@@ -73,7 +79,8 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
   mutate(gray_posteriors_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_posteriors_ML_prediction_number)) %>% 
   dplyr::select(Feature_ID, gray_posteriors_ML_prediction_number) %>% 
   mutate(tree_type = "gray_posterior") %>% 
-  tidyr::pivot_longer(cols = c("gray_posteriors_ML_prediction_number"))
+  tidyr::pivot_longer(cols = c("gray_posteriors_ML_prediction_number"))%>% 
+  mutate(method = "ML") 
 
 most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
   filter(!is.na(Prediction)) %>% 
@@ -81,7 +88,8 @@ most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv
   mutate(most_common_prediction_number = ifelse(Prediction == 0, `0`, most_common_prediction_number)) %>% 
   dplyr::select(Feature_ID, most_common_prediction_number) %>% 
   mutate(tree_type = "most_common") %>% 
-  tidyr::pivot_longer(cols = c("most_common_prediction_number"))
+  tidyr::pivot_longer(cols = c("most_common_prediction_number")) %>% 
+  mutate(method = "most_common") 
   
 reconstruction_results_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df) %>% 
@@ -101,9 +109,33 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 #joning and plottin
 
 reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>% 
+  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>%
   filter(min_p > 0.01) %>% 
-  ggplot() +
-  geom_point(mapping = aes(y = mean_D, x = value, color = name)) +
-  theme_minimal() +
-  facet_grid(~name)
+  ggplot(mapping = aes(y = mean_D, x = value, color = name)) +
+  geom_point() +
+  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "black",
+                   label.y.npc="top", label.x.npc = "left", alpha = 0.8) +
+  geom_smooth(method='lm', formula = 'y ~ x') +
+  theme_bw() +
+  scale_x_continuous(expand=c(0.01,0.01)) +
+  theme(legend.position = 0, 
+        strip.text = element_text(face = "bold", colour = "black"),
+          strip.background = element_rect(fill = "whitesmoke")) +
+  facet_grid(method ~ tree_type) +
+  xlab("Concurrence with HL") +
+  ylab("D-estimate")
+             
+
+phylo_d_df %>% 
+  filter(min > 1) %>% 
+  .[1:20,] %>% 
+  filter(tree_type == "glottolog") %>% 
+  mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no"),
+         Pval1_sig = ifelse(mean_Pval1 > 0.05& mean_D > 0, "yes", "no")) %>% 
+  ggplot(aes(y = Feature_ID, x = mean_D)) +
+#  geom_point(mapping = aes(y = Feature_ID, x = mean_D, fill =  Pval0_sig), shape = 21)
+  geom_text(label = "\u25D7",  mapping= aes(color = as.character(Pval1_sig)),  
+            size=10, family = "Arial Unicode MS") +
+  geom_text(label = "\u25D6", mapping= aes(color = as.character(Pval0_sig)), 
+            size=10, family = "Arial Unicode MS") 
+  
