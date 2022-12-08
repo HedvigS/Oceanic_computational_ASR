@@ -12,6 +12,7 @@
 
 #plots
 tex/illustrations/plots_from_R/tree_plots/gray_et_al_2009/ML/*.pdf
+*png
 
 #folders
 code/output/glottolog-tree*
@@ -31,3 +32,4 @@ tex/ASR_Oceanic.synctex
 code/output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt
 code/output/processed_data/trees/*txt
 code/output
+code/Rplot.png
