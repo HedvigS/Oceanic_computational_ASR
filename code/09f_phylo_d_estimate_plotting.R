@@ -2,7 +2,7 @@ source("01_requirements.R")
 
 fns <- list.files("output/HL_comparison/", pattern = "phylo_d.*tsv", full.names = T)
 
-phylo_d_df <- fns %>% 
+phylo_d_full <- fns %>% 
   map_df(
     function(x) data.table::fread(x ,
                                   encoding = 'UTF-8', header = TRUE, 
@@ -14,18 +14,23 @@ phylo_d_df <- fns %>%
   rename(Feature_ID = Feature) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "ct"), "gray_mcct", "other")) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "glottolog"), "glottolog", tree_type)) %>% 
-  mutate(tree_type =ifelse(str_detect(tree, "posterior"), "gray_posterior", tree_type)) %>%
-  group_by(tree_type, Feature_ID) %>% 
+  mutate(tree_type =ifelse(str_detect(tree, "posterior"), "gray_posterior", tree_type)) %>% 
+  mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
+  mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
+  mutate(min_p = min / (ones + zeroes))
+
+phylo_d_df <- phylo_d_full %>% 
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
+  group_by(tree_type, Feature_ID, Feature_tree) %>% 
   summarise(mean_D = mean(Destimate), 
             mean_Pval1 = mean(Pval1),
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
             zeroes = mean(zeroes), 
-            ones = mean(ones), .groups = "drop") %>% 
-  mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
-  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
-  mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
-  mutate(min_p = min / (ones + zeroes))
+            min = mean(min),
+            min_p = mean(min_p),
+            ones = mean(ones), .groups = "drop") 
 
 #reading in reconstruction results
 parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
@@ -126,9 +131,11 @@ reconstruction_results_df %>%
   ylab("D-estimate")
              
 
+phylo_d_df$Feature_ID <- fct_reorder(phylo_d_df$Feature_ID, phylo_d_df$mean_D)
+
 phylo_d_df %>% 
   filter(min > 1) %>% 
-  .[1:20,] %>% 
+#  .[1:30,] %>% 
   filter(tree_type == "glottolog") %>% 
   mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no"),
          Pval1_sig = ifelse(mean_Pval1 > 0.05& mean_D > 0, "yes", "no")) %>% 
@@ -139,3 +146,31 @@ phylo_d_df %>%
   geom_text(label = "\u25D6", mapping= aes(color = as.character(Pval0_sig)), 
             size=10, family = "Arial Unicode MS") 
   
+
+
+cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features."
+lbl <- "d_estimate_summary"
+align <- c("r", "l","l","l") 
+
+library(magrittr)
+
+phylo_d_full %>% 
+  filter(min > 1) %>%
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>% View()
+  group_by(tree_type) %>% 
+  mutate(mean_D = mean(Destimate)) %>% 
+  group_by(tree_type, Pval0_sig) %>% 
+  summarise(n = n(),
+            mean_D = first(mean_D),
+            .groups = "drop") %>% 
+  group_by(tree_type) %>% 
+  mutate(sum = sum(n)) %>% 
+  mutate(prop = n/sum) %>% 
+  filter(Pval0_sig == "yes") %>% 
+  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Propotion of features signficantly similar to 0` = prop) %>% 
+  write_tsv("output/D_estimate_summary.tsv", na = "") %T>%
+  xtable(caption = cap, label = lbl,
+         align = align) %>% 
+  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
+                       include.rownames = FALSE) 
+         
