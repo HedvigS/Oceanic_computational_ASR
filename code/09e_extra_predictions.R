@@ -51,6 +51,13 @@ full_df <- parsimony_glottolog_df %>%
   full_join(ML_gray_posteriors_df) %>% 
   full_join(most_common_df)
 
+#full_df %>% 
+#  anti_join(HL_findings_sheets, by = c("Feature_ID", "Proto-language") ) %>% 
+#  reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
+#  filter(!str_detect(value, "not")) %>% 
+#  filter(!str_detect(value, "alf")) %>% 
+#  distinct(Feature_ID, `Proto-language`, .keep_all = T) %>% View()
+
 full_df %>% 
 write_tsv("output/HL_comparison/all_reconstructions.tsv", na = "")
 
