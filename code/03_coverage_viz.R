@@ -52,7 +52,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
   geom_polygon(data=world, aes(x=long, 
                                y=lat,group=group),
                colour="gray87", 
-               fill="gray87", size = 0.5) +
+               fill="gray87", linewidth = 0.5) +
   geom_polygon(data=lakes, aes(x=long, 
                                y=lat,group=group),
                colour="gray87", 
@@ -220,5 +220,7 @@ island_groups_table_latex_formatting  %>%
            digits = 0, 
            align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
-          include.rownames = FALSE, math.style.negative = F,
+          include.rownames = FALSE, 
+          math.style.negative = F,
+          table.placement = "H",
           booktabs = TRUE, hline.after = c(-1, 0, nrow(island_groups_table_latex_formatting)-1, nrow(island_groups_table_latex_formatting))) 
