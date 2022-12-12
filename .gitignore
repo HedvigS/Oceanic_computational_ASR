@@ -22,6 +22,7 @@ code/output/HL_comparison*
 #latex
 *tex/*log
 *tex/*bbl
+*tex/*tex.bak*
 *tex/*aux
 *tex/*blg
 *tex/*.out
@@ -35,3 +36,5 @@ code/output
 code/Rplot.png
 tex/ASR_Oceanic.tex.bak
 tex/ASR_Oceanic.dvi
+tex/illustrations/plots_from_R/coverage_plots/maps/coverage_map_oceanic.png
+tex/illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex.bak
