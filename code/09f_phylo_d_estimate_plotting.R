@@ -1,5 +1,7 @@
 source("01_requirements.R")
 
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
+
 fns <- list.files("output/HL_comparison/", pattern = "phylo_d.*tsv", full.names = T)
 
 phylo_d_full <- fns %>% 
@@ -152,10 +154,11 @@ cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features."
 lbl <- "d_estimate_summary"
 align <- c("r", "l","l","l") 
 
-library(magrittr)
 
 phylo_d_full %>% 
-  filter(min > 1) %>%
+  filter(min > 1) %>% View()
+  
+  
   mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>% View()
   group_by(tree_type) %>% 
   mutate(mean_D = mean(Destimate)) %>% 
