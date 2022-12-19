@@ -39,3 +39,5 @@ tex/ASR_Oceanic.dvi
 tex/illustrations/plots_from_R/coverage_plots/maps/coverage_map_oceanic.png
 tex/illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex.bak
 tex/ASR_Oceanic.bib.bak
+*.bak
+tex/ASR_Oceanic.pdf
