@@ -1,6 +1,7 @@
 source("01_requirements.R")
 
-HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv")
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>% 
+  distinct(Feature_ID)
 
 fns <- list.files("output/HL_comparison/", pattern = "phylo_d.*tsv", full.names = T)
 
@@ -150,16 +151,15 @@ phylo_d_df %>%
   
 
 
-cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features."
+cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
 lbl <- "d_estimate_summary"
 align <- c("r", "l","l","l") 
 
 
-phylo_d_full %>% 
-  filter(min > 1) %>% View()
-  
-  
-  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>% View()
+phylo_d_summarised_table <- phylo_d_full %>% 
+  filter(min > 1) %>% 
+  inner_join(HL_findings_sheet, by = "Feature_ID") %>% 
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
   group_by(tree_type) %>% 
   mutate(mean_D = mean(Destimate)) %>% 
   group_by(tree_type, Pval0_sig) %>% 
@@ -168,10 +168,16 @@ phylo_d_full %>%
             .groups = "drop") %>% 
   group_by(tree_type) %>% 
   mutate(sum = sum(n)) %>% 
-  mutate(prop = n/sum) %>% 
-  filter(Pval0_sig == "yes") %>% 
-  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Propotion of features signficantly similar to 0` = prop) %>% 
-  write_tsv("output/D_estimate_summary.tsv", na = "") %T>%
+  mutate(prop = n/sum) %>%
+  mutate(mean_D = round(mean_D, 2)) %>% 
+    filter(Pval0_sig == "yes") %>%
+  mutate(prop = paste0(round(prop, 2)*100, "%")) %>% 
+  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Propotion of features signficantly similar to 0` = prop)
+
+phylo_d_summarised_table %>% 
+  write_tsv("output/D_estimate_summary.tsv", na = "") 
+
+phylo_d_summarised_table %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
