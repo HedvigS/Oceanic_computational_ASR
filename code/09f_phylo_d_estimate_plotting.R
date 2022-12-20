@@ -174,7 +174,10 @@ phylo_d_summarised_table <- phylo_d_full %>%
   mutate(prop = paste0(round(prop, 2)*100, "%")) %>% 
   dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
 
-phylo_d_summarised_table$tree <- c("Glottolog", "Gray et al 2009-MCCT", "Gray et al 2009-posteriors")
+phylo_d_summarised_table$tree <- phylo_d_summarised_table$tree %>% 
+  str_replace("glottolog", "Glottolog") %>% 
+  str_replace("gray_mcct", "Gray et al 2009-MCCT") %>% 
+  str_replace("gray_posterior", "Gray et al 2009-posteriors") 
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "") 
