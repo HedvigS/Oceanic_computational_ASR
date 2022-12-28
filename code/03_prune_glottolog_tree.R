@@ -43,9 +43,13 @@ overlap <- inner_join(GB_df, oceanic_all_labels_df, by = "Language_ID") %>%
 
 pruned_tree <-keep_as_tip(oceanic_tree_full, overlap)
 
+pruned_tree <- compute.brlen(pruned_tree, method = 1)
+
 pruned_tree  %>% ape::write.tree( "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
 
-#prune tree to only languages
+#prune tree to only languages in oceanic subgroup
 languages_only_tree <-keep_as_tip(oceanic_tree_full, oceanic_lgs)
+
+languages_only_tree <- compute.brlen(languages_only_tree, method = 1)
 
 languages_only_tree  %>% ape::write.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")
