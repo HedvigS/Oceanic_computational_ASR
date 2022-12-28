@@ -43,6 +43,71 @@ png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example.png"), width =
 dotTree(ladderize(poly_tree,right = F),x = fmode,colors=setNames(colours,
                                        c("0","1")),fsize=1, legend = F)
 
+x <- dev.off()
 
+#illustrating branch lengths
+
+Glottolog_tree_full <- read.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt") 
+
+Glottolog_tree_pruned <- ape::keep.tip(Glottolog_tree_full, glottolog_df$Language_ID)
+
+Glottolog_tree_pruned$tip.label <- Glottolog_tree_pruned$tip.label %>% 
+  as.data.frame() %>% 
+  rename(Language_ID = ".") %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
+  dplyr::select(Name) %>% 
+  as.matrix() %>% 
+  as.vector()
+
+Glottolog_tree_pruned <- compute.brlen(Glottolog_tree_pruned, method = 1)
+
+png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_glottolog_1.png"), width = 8.27, height = 10.69, units = "in", res = 600)
+
+plot(ladderize(Glottolog_tree_pruned, right = F))
 
 x <- dev.off()
+
+png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_glottolog_grafen.png"), width = 8.27, height = 10.69, units = "in", res = 600)
+
+plot(ladderize(compute.brlen(Glottolog_tree_pruned, method = "Grafen"), right = F))
+
+x <- dev.off()
+
+png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray.png"), width = 8.27, height = 10.69, units = "in", res = 600)
+
+plot(ladderize(poly_tree, right = F))
+
+x <- dev.off()
+
+FN_multiphylo <- "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt"
+if(!file.exists(FN_multiphylo)){
+  source("analysis_scripts_gray_all_posterior/03_process_gray_tree_posterios.R")}
+trees <- read.tree(file = FN_multiphylo)
+
+ultrametric_posteriors_n <- trees %>% is.ultrametric() %>% sum()
+binary_posterios_n <- trees %>% is.binary() %>% sum()
+
+cat(paste0("In the random sample of 100 trees from the Gray et al 2009-posterior ", ultrametric_posteriors_n , " were ultrametric and ", binary_posterios_n, " were binary.\n"))
+
+
+#subsetting each tree in the multiphylo to only polynesian
+for(tree_n in 1:length(trees)){
+#  tree_n <- 1
+  tree <- trees[tree_n]
+  tree[[1]] <- ape::keep.tip(phy = tree[[1]], tip = glottolog_df$Language_ID)
+  
+  tree[[1]]$tip.label <- tree[[1]]$tip.label %>% 
+    as.data.frame() %>% 
+    rename(Language_ID = ".") %>% 
+    left_join(glottolog_df, by = "Language_ID") %>% 
+    dplyr::select(Name) %>% 
+    as.matrix() %>% 
+    as.vector()
+  
+   trees[tree_n] <- tree
+}
+
+png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray_posterios.png"), height = 10.69, units = "in", res = 600)
+phangorn::densiTree(trees, col="black",  tip.color = "black", scale.bar = F, type = "phylogram")
+x <- dev.off()
+
