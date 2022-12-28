@@ -40,7 +40,7 @@ fmode<-as.factor(setNames(poly_tree_tip_value_df$GB409,poly_tree_tip_value_df$Na
 png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
 
-dotTree(ladderize(poly_tree,right = F),x = fmode,colors=setNames(colours,
+dotTree(ladderize(poly_tree,right = T),x = fmode,colors=setNames(colours,
                                        c("0","1")),fsize=1, legend = F)
 
 x <- dev.off()
@@ -63,19 +63,19 @@ Glottolog_tree_pruned <- compute.brlen(Glottolog_tree_pruned, method = 1)
 
 png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_glottolog_1.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-plot(ladderize(Glottolog_tree_pruned, right = F))
+plot(ladderize(Glottolog_tree_pruned, right = T))
 
 x <- dev.off()
 
 png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_glottolog_grafen.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-plot(ladderize(compute.brlen(Glottolog_tree_pruned, method = "Grafen"), right = F))
+plot(ladderize(compute.brlen(Glottolog_tree_pruned, method = "Grafen"), right = T))
 
 x <- dev.off()
 
 png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-plot(ladderize(poly_tree, right = F))
+plot(ladderize(poly_tree, right = T))
 
 x <- dev.off()
 
@@ -107,7 +107,7 @@ for(tree_n in 1:length(trees)){
    trees[tree_n] <- tree
 }
 
-png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray_posterios.png"), height = 10.69, units = "in", res = 600)
+png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray_posterios.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 phangorn::densiTree(trees, col="black",  tip.color = "black", scale.bar = F, type = "phylogram")
 x <- dev.off()
 
