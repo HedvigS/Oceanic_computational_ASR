@@ -38,7 +38,7 @@ fun_GB_ASR_ML <- function(feature) {
   
   tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
   
-  tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one
+  tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one in case pruning made some 0
   
   feature_df <-  tree_pruned$tip.label %>% 
     as.data.frame() %>% 
