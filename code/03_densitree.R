@@ -1,5 +1,4 @@
 source("01_requirements.R")
-h_load("phangorn")
 
 FN_multiphylo <- "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt"
 if(!file.exists(FN_multiphylo)){
