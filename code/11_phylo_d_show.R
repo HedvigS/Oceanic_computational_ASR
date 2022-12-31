@@ -1,9 +1,4 @@
-library(ape)
-library(caper)
-library(tidyverse)
-library(phytools)
-library(beepr)
-
+source("01_requirements.R")
 
 set.seed(67)
 
@@ -55,7 +50,7 @@ df <- df %>%
               "cluster_random"  ) 
 
 #make a tree viz to show the groupings
-png(filename = "output/phylo_d_heatmap_tree.png", width = 10, height = 10, res = 300, units = "in")
+png(filename = paste0(OUTPUTDIR_plots, "phylo_d_heatmap_tree.png"), width = 10, height = 10, res = 300, units = "in")
 phytools::phylo.heatmap(tree, df,legend = F, tip.labels = F, outline = F, pts = F, offset = 0,  show.tip.label = F, dot.legend= F, Ntip = F, colors = c("#83E1E5", "#F7FFDA"))
 x <- dev.off()
 
@@ -63,7 +58,7 @@ for_dot_tree <- df %>%
   dplyr::select(singleton_outlier) %>% 
   mutate(singleton_outlier = abs(singleton_outlier-1))
 
-png(filename = "output/phylo_d_singleton_tree.png", width = 10, height = 10, res = 300, units = "in")
+png(filename = paste0(OUTPUTDIR_plots, "phylo_d_singleton_tree.png"), width = 10, height = 10, res = 300, units = "in")
 phytools::dotTree(tree = tree, x = for_dot_tree, tip.labels = F, standardize = T,	
 
                   colors = c("#83E1E5", "#F7FFDA"))
@@ -142,7 +137,7 @@ result_df %>%
   ylab("D-estimate") +
   xlab("Number of tips with different value")
 
-ggsave(filename = "output/phylo_d_permut_plot.png", width = 8, height = 5, units = "in")
+ggsave(filename = paste0(OUTPUTDIR_plots, "output/phylo_d_permut_plot.png"), width = 8, height = 5, units = "in")
 
 result_df %>% 
   filter(permut == 30000) %>% 
@@ -156,4 +151,4 @@ result_df %>%
 theme(legend.position = 0, 
       plot.background = element_rect(color = "white"))
 
-ggsave(filename = "output/phylo_d_scatterplot_var.png", width = 8, height = 5, units = "in")
+ggsave(filename = paste0(OUTPUTDIR_plots, "output/phylo_d_scatterplot_var.png"), width = 8, height = 5, units = "in")
