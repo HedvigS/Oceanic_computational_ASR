@@ -50,6 +50,7 @@ h_load(dependencies = F, pkg = c(
   "phylobase",
   "nloptr", 
   "GenSA",
+"wesanderson",
   "phangorn", #for acctran and dep of phytools
   "xtable",
   "broom", 
