@@ -159,12 +159,12 @@ result_df %>%
   ggplot() +
   geom_point(aes(x = Feature, y = sd, color = zeroes)) +
 #  scale_colour_brewer(type = "div") +
-  scale_color_manual(values= wes_palette("Darjeeling1", n = 5)) +
+  scale_color_manual(values= wes_palette("Darjeeling1", n = 5), name = "n tips with value 1") +
 facet_grid(~permut)  +
 theme_minimal() +
   theme(axis.text.x = element_text(angle = 70, hjust = 1),
         plot.background = element_rect(color = "white")) +
-  ylab("Standard Deviation of D-estimate")
+  ylab("Standard Deviation of D-estimates")
   
 ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_sd_permut.png"), width = 8, height = 5, units = "in")
 
