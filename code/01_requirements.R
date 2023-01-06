@@ -13,6 +13,7 @@ h_load(dependencies = F, pkg = c(
 #  rlang",
   "readODS",
 "assertthat",
+"beepr",
 #  lazyeval",
   "gplots",
  # MASS", 
