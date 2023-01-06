@@ -2,7 +2,7 @@ source("01_requirements.R")
 
 #First we make a df with the basic counts for all oceanic languages per feature and what the distribution at the tips are. This will help us identify cases where all tips where of the same kind. These cases are currently excluded from the ML workflow since corHMM doesn't accept trees where the values are the same at all tips. The parsimony function however accepts such cases, so in order to make them comparable we need to put them back in to the results. We can use the basic summary table from the parsimony glottolog analysis for this since that per definition includes all lgs. Note that the total distribution over all lgs isn't the same as the distribution in the gray tree, which may be missing specific tips which have the divergent value.
 
-HL_findings_sheet <- read_tsv("data/HL_findings/HL_findings_for_comparison.tsv") %>% 
+HL_findings_sheet <- HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>%  
   filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, Prediction, `Proto-language`) %>% 
   distinct(Feature_ID, Prediction, `Proto-language`)
@@ -14,7 +14,7 @@ most_common_values_df <- read_tsv("output/HL_comparison/most_common_reconstructi
 
 #reading in the results from each method and tree and calculating the number of true negatives etc
 
-parsimony_glottolog_df <- read_tsv("output/glottolog_tree_binary/parsimony/all_reconstructions.tsv") %>% 
+parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`, glottolog_parsimony_prediction)  %>% 
   distinct() %>% 
   filter(glottolog_parsimony_prediction != "Not enough languages")
@@ -24,29 +24,29 @@ parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_re
   distinct() %>% 
   filter(gray_mcct_parsimony_prediction != "Not enough languages")
 
-parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/results_by_tree/all_reconstructions_aggregate.tsv")   %>% 
-  dplyr::select(Feature_ID, `Proto-language`, gray_posteriors_parsimony_prediction)%>% 
+parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
+  dplyr::select(Feature_ID, `Proto-language`, gray_posteriors_parsimony_prediction = gray_parsimony_prediction)%>% 
   distinct() %>% 
   filter(gray_posteriors_parsimony_prediction != "Not enough languages")
 
-ML_glottolog_df <- read_tsv("output/glottolog_tree_binary/ML/all_reconstructions.tsv") %>% 
+ML_glottolog_df <- read_tsv("output/glottolog-tree//ML/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`, glottolog_ML_prediction) %>% 
-  full_join(most_common_values_df) %>% 
+  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language") ) %>% 
   mutate(glottolog_ML_prediction = ifelse(is.na(glottolog_ML_prediction),most_common_prediction , glottolog_ML_prediction)) %>% #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
   filter(glottolog_ML_prediction != "Not enough languages")
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`,gray_mcct_ML_prediction = gray_ML_prediction) %>% 
-  full_join(most_common_values_df) %>% 
+  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")   ) %>% 
   mutate(gray_mcct_ML_prediction = ifelse(is.na(gray_mcct_ML_prediction),most_common_prediction , gray_mcct_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
 filter(gray_mcct_ML_prediction != "Not enough languages")
 
-ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/results_by_tree/all_reconstructions_aggregate.tsv") %>% 
+ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
   filter(is.na(Prediction)) %>% 
-  dplyr::select(Feature_ID, `Proto-language`,gray_posteriors_ML_prediction) %>% 
-  full_join(most_common_values_df) %>% 
+  dplyr::select(Feature_ID, `Proto-language`,gray_posteriors_ML_prediction= gray_ML_prediction) %>% 
+  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>% 
   mutate(gray_posteriors_ML_prediction = ifelse(is.na(gray_posteriors_ML_prediction),most_common_prediction , gray_posteriors_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
   filter(gray_posteriors_ML_prediction != "Not enough languages")
@@ -76,23 +76,35 @@ mdat <- df_for_daisy %>%
 
 dist_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(abs((mdat[i,]-mdat[j,])), na.rm = T) }))
 
-colnames(dist_matrix) <- colnames(df_for_daisy)
-rownames(dist_matrix) <- colnames(df_for_daisy)
+colnames(dist_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
+rownames(dist_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
 
 count_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(!is.na(mdat[i,]) & !is.na(mdat[j,]), na.rm = T) }))
 
-colnames(count_matrix) <- colnames(df_for_daisy)
-rownames(count_matrix) <- colnames(df_for_daisy)
+colnames(count_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
+rownames(count_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
 
 new_dist <- dist_matrix / count_matrix
 
+new_dist[lower.tri(new_dist , diag = T)] <- NA
+
+#diag(new_dist) <- NA
+new_dist <- new_dist[-8, -1]
+
+png("output/HL_comparison/dist_heatmap_all_methods.png",   width = 10, height = 10, units = "in", res = 400)
 
 new_dist %>% 
-  heatmap.2(  key = F, symm = T,
+  heatmap.2(  key = F, 
+                      symm = T,
    dendrogram = "none",
    revC = T,
+   Rowv = F,
+   Colv = F,
    trace = "none", cellnote = round(new_dist, 2),
-   margin=c(20,20), col=viridis(15, direction = -1))
+   margin=c(20,20), 
+   col=viridis(15, direction = -1))
+
+x <- dev.off()
 
 dist_matrix %>% 
   as.data.frame() %>% 
