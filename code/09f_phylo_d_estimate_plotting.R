@@ -109,8 +109,9 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 
 #joning and plotting
 
-reconstruction_results_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>% 
+phylo_d_df <- phylo_d_df %>% 
+  left_join(reconstruction_results_df, by = c("Feature_ID", "tree_type")) %>% 
+  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min) %>% 
   mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
                                    mean_Pval1 > 0.05 & 
                                    mean_D < 0, 
@@ -139,13 +140,11 @@ mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
   
 
 
-  joined_summarised <-  joined_df %>%
+phylo_d_df %>%
   distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
   filter(tree_type != "most_common") %>%
   group_by(summarise_col, tree_type) %>% 
-  summarise(n = n()) 
- 
-joined_summarised %>% 
+  summarise(n = n(), .groups = "drop") %>% 
   ggplot() +
   geom_bar(mapping = aes(x = tree_type , y = n), stat = "identity") +
   facet_wrap(~summarise_col)
@@ -153,8 +152,18 @@ joined_summarised %>%
 joined_df <- reconstruction_results_df %>% 
   left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) 
 
-  
-  
+
+joined_df %>%
+  ggplot() +
+  geom_point(mapping = aes(x = tree_type, y = value)) +
+  facet_wrap(~summarise_col)
+
+
+
+
+
+
+
 reconstruction_results_df %>% 
   left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>%
   filter(min_p > 0.01) %>% 
