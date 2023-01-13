@@ -115,16 +115,12 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 
 #joning and plottin
 
-joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) 
-
-joined_df  <- joined_df  %>% 
-  mutate(summarise_col = ifelse(min == 0, "all same", NA)) %>%   
-  mutate(summarise_col = if_else(min == 1, "one off", summarise_col)) %>%   
-  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+reconstruction_results_df <- reconstruction_results_df %>% 
+  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>% 
+  mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
                                    mean_Pval1 > 0.05 & 
                                    mean_D < 0, 
-                                 "similar to both, below 0", summarise_col)) %>%   
+                                 "similar to both, below 0", NA)) %>%   
 mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
                                  mean_Pval1 > 0.05 & 
                                  mean_D > 1, 
@@ -140,18 +136,31 @@ mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
                                    mean_Pval1 > 0.05, 
                                  "similar to 1", summarise_col))  %>% 
   mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 < 0.05, 
-                                 "disssimilar to both", summarise_col)) 
+                                   mean_Pval1 < 0.05 & 
+                                   between(mean_D, lower = 0, upper = 1), 
+                                 "disssimilar to both, between 0 & 1", summarise_col)) %>% 
+  
+  mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
+  mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
   
 
 
-  
-joined_df %>%
-  distinct(Feature_ID, tree_type, mean_D, summarise_col) %>% View()
-  group_by(summarise_col) %>% 
-  summarise(n = n())
+  joined_summarised <-  joined_df %>%
+  distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
+  filter(tree_type != "most_common") %>%
+  group_by(summarise_col, tree_type) %>% 
+  summarise(n = n()) 
  
+joined_summarised %>% 
+  ggplot() +
+  geom_bar(mapping = aes(x = tree_type , y = n), stat = "identity") +
+  facet_wrap(~summarise_col)
 
+joined_df <- reconstruction_results_df %>% 
+  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) 
+
+  
+  
 reconstruction_results_df %>% 
   left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>%
   filter(min_p > 0.01) %>% 
