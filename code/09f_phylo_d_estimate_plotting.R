@@ -154,9 +154,10 @@ joined_df <- reconstruction_results_df %>%
 
 
 joined_df %>%
+  filter(tree_type != "most_common") %>%
   ggplot() +
   geom_point(mapping = aes(x = tree_type, y = value)) +
-  facet_wrap(~summarise_col)
+  facet_wrap(method~summarise_col)
 
 
 
