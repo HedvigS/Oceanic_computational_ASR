@@ -100,12 +100,12 @@ most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv
   mutate(method = "most_common") 
   
 reconstruction_results_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df) %>% 
-  full_join(parsimony_gray_posteriors_df) %>% 
-  full_join(ML_glottolog_df) %>% 
-  full_join(ML_gray_mcct) %>% 
-  full_join(ML_gray_posteriors_df) %>% 
-  full_join(most_common_df)
+  full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "tree_type", "name", "value", "method")) %>% 
+  full_join(parsimony_gray_posteriors_df, by = c("Feature_ID", "tree_type", "name", "value", "method")) %>% 
+  full_join(ML_glottolog_df, by = c("Feature_ID", "tree_type", "name", "value", "method")) %>% 
+  full_join(ML_gray_mcct, by = c("Feature_ID", "tree_type", "name", "value", "method")) %>% 
+  full_join(ML_gray_posteriors_df, by = c("Feature_ID", "tree_type", "name", "value", "method")) %>% 
+  full_join(most_common_df, by = c("Feature_ID", "tree_type", "name", "value", "method"))
 
 #%>% 
 #  mutate(result_points = ifelse(test = str_detect(string = reconstruction_result, pattern = "Half"), yes = 0.5, no = NA)) %>% 
@@ -113,8 +113,44 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
   
 #  mutate(result_points = ifelse(test = str_detect(string = reconstruction_result, pattern = "False"), yes = 0, no = result_points))
 
-
 #joning and plottin
+
+joined_df <- reconstruction_results_df %>% 
+  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) 
+
+joined_df  <- joined_df  %>% 
+  mutate(summarise_col = ifelse(min == 0, "all same", NA)) %>%   
+  mutate(summarise_col = if_else(min == 1, "one off", summarise_col)) %>%   
+  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                   mean_Pval1 > 0.05 & 
+                                   mean_D < 0, 
+                                 "similar to both, below 0", summarise_col)) %>%   
+mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                 mean_Pval1 > 0.05 & 
+                                 mean_D > 1, 
+                               "similar to both, above 1", summarise_col))   %>% 
+mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                 mean_Pval1 > 0.05 & 
+                                 between(mean_D, lower = 0, upper = 1), 
+                               "similar to both, between 0 & 1", summarise_col))   %>% 
+  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                   mean_Pval1 < 0.05, 
+                                 "similar to 0", summarise_col))   %>% 
+  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
+                                   mean_Pval1 > 0.05, 
+                                 "similar to 1", summarise_col))  %>% 
+  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
+                                   mean_Pval1 < 0.05, 
+                                 "disssimilar to both", summarise_col)) 
+  
+
+
+  
+joined_df %>%
+  distinct(Feature_ID, tree_type, mean_D, summarise_col) %>% View()
+  group_by(summarise_col) %>% 
+  summarise(n = n())
+ 
 
 reconstruction_results_df %>% 
   left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>%
