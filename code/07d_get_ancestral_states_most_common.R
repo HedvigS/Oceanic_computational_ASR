@@ -95,7 +95,7 @@ HL_findings_sheet <- read_tsv(HL_findings_sheet_fn) %>%
   dplyr::select(Feature_ID, Prediction, `Proto-language`)
 
 values_df <- all_df %>% 
-  right_join(HL_findings_sheet) %>% 
+  right_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")) %>% 
   distinct(Feature_ID,`Proto-language`, Prediction, most_common_prediction)
 
 values_df$result_most_common <- ifelse(values_df$most_common_prediction == "Present" & values_df$Prediction == 1, "True Positive",  
@@ -105,10 +105,25 @@ values_df$result_most_common <- ifelse(values_df$most_common_prediction == "Pres
                                                             
                                                             ifelse(values_df$most_common_prediction == "Half", "Half", NA)))))
 
+#adding in a col for which value is the lowest
+
+
+lowest_df <- GB_df_long %>% 
+  left_join(glottolog_df, by = "Language_ID") %>% 
+  filter(str_detect(classification, "ocea1241")) %>% 
+  mutate(value = as.character(value)) %>% 
+  group_by(variable, value) %>% 
+  dplyr::summarise(n = n()) %>% 
+  group_by(variable) %>% 
+  mutate(ntip = sum(n)) %>% 
+  slice_min(order_by = n, n = 1) %>% 
+  rename(min = n, Feature_ID = variable)
+
 all_df  %>% 
   left_join(values_df, by = c("Feature_ID", "Proto-language", "most_common_prediction")) %>% 
   left_join(not_enough_languages_df, by = "Feature_ID") %>% 
   mutate(most_common_prediction = ifelse(not_enough == "Not enough languages", "Not enough languages", most_common_prediction)) %>% 
   mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
   dplyr::select(-not_enough, -n) %>% 
+  left_join(lowest_df, by = "Feature_ID") %>% 
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
