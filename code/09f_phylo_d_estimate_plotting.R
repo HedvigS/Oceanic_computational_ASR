@@ -94,7 +94,7 @@ most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv
   filter(!is.na(Prediction)) %>% 
   mutate(most_common_prediction_number = ifelse(Prediction == 1,`1` , NA)) %>% 
   mutate(most_common_prediction_number = ifelse(Prediction == 0, `0`, most_common_prediction_number)) %>% 
-  dplyr::select(Feature_ID, most_common_prediction_number, "Proto-language") %>% 
+  dplyr::select(Feature_ID, most_common_prediction_number, "Proto-language", min, ntip) %>% 
   mutate(tree_type = "most_common") %>% 
   tidyr::pivot_longer(cols = c("most_common_prediction_number")) %>% 
   mutate(method = "most_common") 
@@ -107,10 +107,11 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
   full_join(ML_gray_posteriors_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
   full_join(most_common_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language"))
 
+
 #joning and plotting
 
 phylo_d_df <- phylo_d_df %>% 
-  left_join(reconstruction_results_df, by = c("Feature_ID", "tree_type")) %>% 
+  left_join(reconstruction_results_df) %>% 
   dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min) %>% 
   mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
                                    mean_Pval1 > 0.05 & 
@@ -133,7 +134,7 @@ mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
   mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
                                    mean_Pval1 < 0.05 & 
                                    between(mean_D, lower = 0, upper = 1), 
-                                 "disssimilar to both, between 0 & 1", summarise_col)) %>% 
+                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
   
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
@@ -142,25 +143,29 @@ mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
 
 phylo_d_df %>%
   distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
-  filter(tree_type != "most_common") %>%
-  group_by(summarise_col, tree_type) %>% 
-  summarise(n = n(), .groups = "drop") %>% 
+#  filter(tree_type != "most_common") %>% 
+#  group_by(summarise_col, tree_type) %>% 
+#  summarise(n = n(), .groups = "drop") %>% 
   ggplot() +
-  geom_bar(mapping = aes(x = tree_type , y = n), stat = "identity") +
+  geom_point(mapping = aes(x = tree_type , y = min), stat = "identity")+
   facet_wrap(~summarise_col)
 
 joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) 
+  left_join(phylo_d_df) 
 
 
-joined_df %>%
+joined_df %>% View()
   filter(tree_type != "most_common") %>%
+#  filter(summarise_col == "similar to 1"|
+#           summarise_col == "similar to 0"|
+#           summarise_col == "similar to both, between 0 & 1"|
+#           summarise_col == "dissimilar to both, between 0 & 1")  %>% 
   ggplot() +
-  geom_point(mapping = aes(x = tree_type, y = value)) +
-  facet_wrap(method~summarise_col)
+  geom_point(mapping = aes(x = min, y = value)) +
+  facet_grid(tree_type~method)
 
 
-
+joined_df$summarise_col %>% unique()
 
 
 
