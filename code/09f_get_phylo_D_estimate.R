@@ -100,7 +100,7 @@ for(f in 1:length(features)){
   output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 
     if (class(output) == "try-error") {
-      spec_df <-   data.frame(Feature = output$binvar ,
+      spec_df <-   data.frame(Feature = feature ,
                               Destimate = NA, 
                               Pval1 = NA, 
                               Pval0 = NA, 
@@ -114,6 +114,22 @@ for(f in 1:length(features)){
                               
                               zeroes = zeroes, 
                               ones = ones)
+      
+    Permutations <- data.frame(
+        Permutations_random = NA,
+        Permutations_brownian = NA,
+        Feature = feature,
+        tree = basename(t)
+      )
+      
+    NodalVals_spec<- data.frame(
+        Node = NA, 
+        set = NA,
+        value = as.numeric(),
+        Feature = feautre,
+        tree = basename(t)
+      )
+
     }else{
     
     spec_df <-   data.frame(Feature =output$binvar, 
