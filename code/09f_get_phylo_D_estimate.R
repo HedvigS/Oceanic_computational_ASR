@@ -1,10 +1,21 @@
 source("01_requirements.R")
 
+args = commandArgs(trailingOnly = TRUE)
+
+if(length(args) != 0){
+  start = args[1]
+  end <- args[2]
+  range <- start:end
+} else { #if you're running this script chunkwise in Rstudio or similar instead of via command line, you'll read in the parameters this way:
+  start <- 1
+  end <- 201
+  range <- start:end
+}
+
 output_dir <- "output/HL_comparison/phylo_d/"
 if(!dir.exists(output_dir)){
   dir.create(output_dir)
   }
-
 
 #tree fn vector to loop over
 glottolog_tree_fn <- "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt"
@@ -20,39 +31,7 @@ GB_df_desc <- read_tsv(GB_df_desc_fn, show_col_types = F) %>%
   filter(!str_detect(Binary_Multistate, "Multi"))
 
 #feature vector to loop over
-features <- GB_df_desc$ID
-
-#dfs to bind results to in each loop
-full_df <- data.frame(Feature = as.character(), 
-                      Destimate = as.numeric(), 
-                      Pval1 = as.numeric(), 
-                      Pval0 = as.numeric(), 
-                      n = as.numeric(), 
-                      tree = as.character(), 
-                      zeroes = as.numeric(),
-                      nPermut = as.numeric(),
-                      Parameters_observed = as.numeric(),
-                      Parameters_MeanRandom = as.numeric(),
-                      Parameters_MeanBrownian = as.numeric(),
-                      ones = as.numeric())
-
-Permutations_full_df <- data.frame(
-  Permutations_random = as.numeric(),
-  Permutations_brownian = as.numeric(),
-  Feature = as.character(),
-  tree = as.character()
-)
-
-NodalVals_full_df <- data.frame(
-  Node = as.factor(as.character()), 
-  set = as.factor(as.character()),
-  value = as.numeric(),
-  Feature = as.character(),
-  tree = as.character() 
-)
-
-
-
+features <- GB_df_desc$ID[range]
 
 for(f in 1:length(features)){
   
@@ -60,19 +39,13 @@ for(f in 1:length(features)){
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
-  if(file.exists(paste0(fn_spec, "_main.tsv"))){
-    
-    cat(paste0(fn_spec, " already exists! Moving on!\n"))
-    
-  }else{
-
-  cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),".\n***\n")
+  cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n")
   for(t in tree_fns){
 #    t <- tree_fns[2]
     tree <- read.tree(t)
   
-    cat("I'm on feature", feature, "and tree", basename(t) ,".\n")
-    
+    cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
+
     df_for_caper <- tree$tip.label %>%
       as.data.frame() %>%
       rename(Language_ID = ".") %>%
@@ -99,6 +72,8 @@ for(f in 1:length(features)){
 
   output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 
+#  cat("done with phylo.d function.", as.character(Sys.time()), ".\n")
+  
     if (class(output) == "try-error") {
       spec_df <-   data.frame(Feature = feature ,
                               Destimate = NA, 
@@ -172,24 +147,15 @@ for(f in 1:length(features)){
       rename(Node = Var1, set = Var2) %>% 
       mutate(Node = as.factor(Node))
 
-  NodalVals_full_df <- full_join(NodalVals_full_df, NodalVals_spec, by = c("Node", "set", "value", "Feature", "tree"))
-
-  Permutations_full_df <- full_join(Permutations, Permutations_full_df, by = c("Permutations_random", "Permutations_brownian", "Feature", "tree"))
-  
-    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "nPermut", "Parameters_observed", "Parameters_MeanRandom", "Parameters_MeanBrownian"))
+    }
+  spec_df  %>% 
+  qs::qsave(file = paste0(fn_spec, "_", basename(t), "_main.qs"), preset = "archive")
+ 
+   Permutations %>% 
+   qs::qsave(file = paste0(fn_spec, "_", basename(t), "_permutations.qs"), preset = "archive")
+   
+   NodalVals_spec %>% 
+   qs::qsave(file = paste0(fn_spec, "_", basename(t), "_Nodalvals.qs"), preset = "archive")
+   
+    }
   }
-  full_df %>% 
-    write_tsv(file = paste0(fn_spec, "_main.tsv"), na = "")
-
-    Permutations_full_df %>% 
-    write_tsv(file = paste0(fn_spec,"_permutations", ".tsv"), na = "")
-
-    NodalVals_full_df  %>% 
-      write_tsv(file = paste0(fn_spec,"_NodalVals", ".tsv"), na = "")
-    
-  }
-      }
-  
-  
-}
-
