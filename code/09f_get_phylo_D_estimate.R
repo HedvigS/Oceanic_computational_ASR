@@ -35,13 +35,13 @@ features <- GB_df_desc$ID[range]
 
 for(f in 1:length(features)){
   
-  #f <- 101
+  #f <- 100
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n")
   for(t in tree_fns){
-#    t <- tree_fns[13]
+#    t <- tree_fns[24]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
