@@ -101,7 +101,7 @@ for(f in 1:length(features)){
         Node = NA, 
         set = NA,
         value = as.numeric(),
-        Feature = feautre,
+        Feature = feature,
         tree = basename(t)
       )
 
