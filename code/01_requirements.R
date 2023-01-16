@@ -3,6 +3,12 @@
 
 source("fun_def_h_load.R")
 
+#do a binary install of all of tidyverse specifically
+if(!"tidyverse" %in% rownames(installed.packages())  ){
+  install.packages("tidyverse", type="binary", dependencies = T)
+  }
+library("tidyverse")
+
 #depdencies for castor
 h_load(c("naturalsort", "RSpectra"))
 
@@ -11,6 +17,7 @@ h_load(dependencies = F, pkg = c(
   "reshape2",
   "viridis",
 #  rlang",
+"snakecase",
   "readODS",
 "assertthat",
 "beepr",
@@ -64,7 +71,7 @@ h_load(dependencies = F, pkg = c(
 h_load("Rmpfr")
 
 #installing pacakge corHMM from specific website
-if(str_detect(installed.packages()[,1] , "corHMM") %>% sum() == 0){
+if(!"corHMM" %in% rownames(installed.packages())  ){
   install.packages("corHMM", repo = 'https://mac.R-project.org')
 
 }
