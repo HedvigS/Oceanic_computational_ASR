@@ -1,5 +1,11 @@
 source("01_requirements.R")
 
+output_dir <- "output/HL_comparison/phylo_d/"
+if(!dir.exists(output_dir)){
+  dir.create(output_dir)
+  }
+
+
 #tree fn vector to loop over
 glottolog_tree_fn <- "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt"
 gray_2009_mcct_tree_fn <- "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt"
@@ -16,7 +22,7 @@ GB_df_desc <- read_tsv(GB_df_desc_fn, show_col_types = F) %>%
 #feature vector to loop over
 features <- GB_df_desc$ID
 
-#df to bind results to in each loop
+#dfs to bind results to in each loop
 full_df <- data.frame(Feature = as.character(), 
                       Destimate = as.numeric(), 
                       Pval1 = as.numeric(), 
@@ -24,14 +30,27 @@ full_df <- data.frame(Feature = as.character(),
                       n = as.numeric(), 
                       tree = as.character(), 
                       zeroes = as.numeric(),
+                      nPermut = as.numeric(),
+                      Parameters_observed = as.numeric(),
+                      Parameters_MeanRandom = as.numeric(),
+                      Parameters_MeanBrownian = as.numeric(),
                       ones = as.numeric())
 
-for(f in 1:length(features)){
+Permutations_full_df <- data.frame(
+  Permutations_random = as.numeric(),
+  Permutations_brownian = as.numeric(),
+  Feature = as.character(),
+  tree = as.character()
+)
 
-  feature <- features[f]
-#  feature <- features[9]  
-  fn_spec <- paste0("output/HL_comparison/phylo_d_table_", feature, ".tsv")
+
+
+
+for(f in 1:length(features)){
   
+  #f <- 1
+  feature <- features[f]
+  fn_spec <- paste0(output_dir, "/phylo_d_table_", feature)
   
   if(file.exists(fn_spec)){
     
@@ -41,7 +60,7 @@ for(f in 1:length(features)){
 
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),".\n***\n")
   for(t in tree_fns){
-#    t <- tree_fns[3]
+#    t <- tree_fns[1]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) ,".\n")
@@ -51,7 +70,6 @@ for(f in 1:length(features)){
       rename(Language_ID = ".") %>%
       left_join(GB_df, by = "Language_ID") %>% 
       dplyr::select(Language_ID, all_of(feature))
-#      dplyr::select(Language_ID, GB026)
     
     ds <- comparative.data(tree, df_for_caper, names.col=Language_ID)
     
@@ -74,31 +92,67 @@ for(f in 1:length(features)){
   output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 
     if (class(output) == "try-error") {
-      spec_df <-   data.frame(Feature = feature, 
+      spec_df <-   data.frame(Feature = output$binvar ,
                               Destimate = NA, 
                               Pval1 = NA, 
                               Pval0 = NA, 
+                              Parameters_observed = NA,
+                              Parameters_MeanRandom = NA,
+                              Parameters_MeanBrownian = NA,
+                              
+                              nPermut = NA,
                               n = ds$data %>% nrow(), 
                               tree = basename(t), 
+                              
                               zeroes = zeroes, 
                               ones = ones)
     }else{
     
-    spec_df <-   data.frame(Feature = feature, 
+    spec_df <-   data.frame(Feature =output$binvar, 
                             Destimate = output$DEstimate[[1]], 
                             Pval1 = output$Pval1, 
                             Pval0 = output$Pval0, 
                             n = ds$data %>% nrow(), 
                             tree = basename(t), 
                             zeroes =  zeroes, 
-                            ones = ones)
+                            ones = ones,
+                            Parameters_observed = output$Parameters$Observed,
+                            Parameters_MeanRandom = output$Parameters$MeanRandom,
+                            Parameters_MeanBrownian =     output$Parameters$MeanBrownian,
+                            nPermut = output$nPermut
+    )
+    
+
+    #Permutations df
+        Permutations <- cbind(output$Permutations$random, output$Permutations$brownian) %>% as.data.frame()
+        Permutations[,3] <- rep(output$binvar, nrow(Permutations))
+        Permutations[,4] <- rep(basename(t), nrow(Permutations))
+        colnames(Permutations) <- c("Permutations_random", "Permutations_brownian", "Feature", "tree")
+
+        Permutations_full_df <- full_join(Permutations, Permutations_full_df, by = c("Permutations_random", "Permutations_brownian", "Feature", "tree"))
+
+                
+#    NodalVals_obs <-   output$NodalVals$observed
+#    NodalVals_random <- output$NodalVal$random 
+#    colnames(NodalVals_random) <- paste0("random_", colnames(NodalVals_random) )
+
+ #   NodalVals_brownian  <-    output$NodalVal$brownian
+  #  colnames(NodalVals_brownian) <- paste0("brownian_", colnames(NodalVals_brownian) )
+    
+      #saveRDS(file = paste0(output_dir, feature,"_", basename(t),"_",  "NodalVals_list.RDS"))
+    
     }
       
   
-    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones"))
-      }
+    full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "nPermut", "Parameters_observed", "Parameters_MeanRandom", "Parameters_MeanBrownian"))
+  }
+    
+    
   full_df %>% 
-    write_tsv(file = fn_spec, na = "")
+    write_tsv(file = paste0(fn_spec, ".tsv"), na = "")
+
+    Permutations_full_df %>% 
+    write_tsv(file = paste0(fn_spec,"_permutations", ".tsv"), na = "")
   }
   
   
