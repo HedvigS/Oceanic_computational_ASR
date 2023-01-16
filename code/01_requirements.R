@@ -8,13 +8,14 @@ if(!"tidyverse" %in% rownames(installed.packages())  ){
   install.packages("tidyverse", type="binary", dependencies = T)
   }
 library("tidyverse")
-
 #depdencies for castor
 h_load(c("naturalsort", "RSpectra"))
 
-h_load(dependencies = F, pkg = c(
+h_load(dependencies = T, pkg = c(
   "tidyverse",
   "reshape2",
+  "RcppParallel",
+  "qs",
   "viridis",
 #  rlang",
 "snakecase",
