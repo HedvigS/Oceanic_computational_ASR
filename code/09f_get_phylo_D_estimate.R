@@ -43,6 +43,14 @@ Permutations_full_df <- data.frame(
   tree = as.character()
 )
 
+NodalVals_full_df <- data.frame(
+  Node = as.factor(as.character()), 
+  set = as.factor(as.character()),
+  value = as.numeric(),
+  Feature = as.character(),
+  tree = as.character() 
+)
+
 
 
 
@@ -50,7 +58,7 @@ for(f in 1:length(features)){
   
   #f <- 1
   feature <- features[f]
-  fn_spec <- paste0(output_dir, "/phylo_d_table_", feature)
+  fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
   if(file.exists(fn_spec)){
     
@@ -129,31 +137,45 @@ for(f in 1:length(features)){
         Permutations[,4] <- rep(basename(t), nrow(Permutations))
         colnames(Permutations) <- c("Permutations_random", "Permutations_brownian", "Feature", "tree")
 
-        Permutations_full_df <- full_join(Permutations, Permutations_full_df, by = c("Permutations_random", "Permutations_brownian", "Feature", "tree"))
-
-                
-#    NodalVals_obs <-   output$NodalVals$observed
-#    NodalVals_random <- output$NodalVal$random 
-#    colnames(NodalVals_random) <- paste0("random_", colnames(NodalVals_random) )
-
- #   NodalVals_brownian  <-    output$NodalVal$brownian
-  #  colnames(NodalVals_brownian) <- paste0("brownian_", colnames(NodalVals_brownian) )
-    
-      #saveRDS(file = paste0(output_dir, feature,"_", basename(t),"_",  "NodalVals_list.RDS"))
-    
+        
     }
-      
+  
+  #NodalVals df              
+    NodalVals_obs <-   output$NodalVals$observed 
+    colnames(NodalVals_obs) <- rep("observed", ncol(NodalVals_obs))
+
+    NodalVals_random <-   output$NodalVals$random 
+    colnames(NodalVals_random) <- rep("random", ncol(NodalVals_random))
+
+    NodalVals_brownian <-   output$NodalVals$brownian 
+    colnames(NodalVals_brownian) <- rep("brownian", ncol(NodalVals_brownian))
+
+    NodalVals_spec <- NodalVals_obs %>% 
+      cbind(NodalVals_random) %>% 
+      cbind(NodalVals_brownian) %>% 
+      reshape2::melt() %>% 
+      mutate(Feature = output$binvar,
+             tree = basename(t)) %>% 
+      rename(Node = Var1, set = Var2)
+  
+    
+  NodalVals_full_df <- full_join(NodalVals_full_df, NodalVals_spec, by = c("Node", "set", "value", "Feature", "tree"))
+
+  Permutations_full_df <- full_join(Permutations, Permutations_full_df, by = c("Permutations_random", "Permutations_brownian", "Feature", "tree"))
   
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "nPermut", "Parameters_observed", "Parameters_MeanRandom", "Parameters_MeanBrownian"))
   }
-    
-    
   full_df %>% 
     write_tsv(file = paste0(fn_spec, ".tsv"), na = "")
 
     Permutations_full_df %>% 
     write_tsv(file = paste0(fn_spec,"_permutations", ".tsv"), na = "")
-  }
+
+    NodalVals_full_df  %>% 
+      write_tsv(file = paste0(fn_spec,"_NodalVals", ".tsv"), na = "")
+    
+    
+      }
   
   
 }
