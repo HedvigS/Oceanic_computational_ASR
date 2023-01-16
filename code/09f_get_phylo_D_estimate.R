@@ -60,7 +60,7 @@ for(f in 1:length(features)){
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
-  if(file.exists(fn_spec)){
+  if(file.exists(paste0(fn_spec, "_main.tsv"))){
     
     cat(paste0(fn_spec, " already exists! Moving on!\n"))
     
@@ -68,7 +68,7 @@ for(f in 1:length(features)){
 
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),".\n***\n")
   for(t in tree_fns){
-#    t <- tree_fns[1]
+#    t <- tree_fns[2]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) ,".\n")
@@ -153,9 +153,6 @@ for(f in 1:length(features)){
         Permutations[,4] <- rep(basename(t), nrow(Permutations))
         colnames(Permutations) <- c("Permutations_random", "Permutations_brownian", "Feature", "tree")
 
-        
-    }
-  
   #NodalVals df              
     NodalVals_obs <-   output$NodalVals$observed 
     colnames(NodalVals_obs) <- rep("observed", ncol(NodalVals_obs))
@@ -172,9 +169,9 @@ for(f in 1:length(features)){
       reshape2::melt() %>% 
       mutate(Feature = output$binvar,
              tree = basename(t)) %>% 
-      rename(Node = Var1, set = Var2)
-  
-    
+      rename(Node = Var1, set = Var2) %>% 
+      mutate(Node = as.factor(Node))
+
   NodalVals_full_df <- full_join(NodalVals_full_df, NodalVals_spec, by = c("Node", "set", "value", "Feature", "tree"))
 
   Permutations_full_df <- full_join(Permutations, Permutations_full_df, by = c("Permutations_random", "Permutations_brownian", "Feature", "tree"))
@@ -182,7 +179,7 @@ for(f in 1:length(features)){
     full_df <- full_join(full_df, spec_df, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "nPermut", "Parameters_observed", "Parameters_MeanRandom", "Parameters_MeanBrownian"))
   }
   full_df %>% 
-    write_tsv(file = paste0(fn_spec, ".tsv"), na = "")
+    write_tsv(file = paste0(fn_spec, "_main.tsv"), na = "")
 
     Permutations_full_df %>% 
     write_tsv(file = paste0(fn_spec,"_permutations", ".tsv"), na = "")
@@ -190,7 +187,7 @@ for(f in 1:length(features)){
     NodalVals_full_df  %>% 
       write_tsv(file = paste0(fn_spec,"_NodalVals", ".tsv"), na = "")
     
-    
+  }
       }
   
   
