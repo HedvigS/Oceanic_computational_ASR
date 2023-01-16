@@ -1,6 +1,8 @@
 # Please run this script first to make sure you have all the necessary packages 
 # installed for running the rest of the scripts in this R project
 
+set.seed(147)
+
 source("fun_def_h_load.R")
 
 #do a binary install of all of tidyverse specifically
