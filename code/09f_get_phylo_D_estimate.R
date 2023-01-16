@@ -35,13 +35,13 @@ features <- GB_df_desc$ID[range]
 
 for(f in 1:length(features)){
   
-  #f <- 1
+  #f <- 101
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n")
   for(t in tree_fns){
-#    t <- tree_fns[2]
+#    t <- tree_fns[13]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
@@ -70,7 +70,7 @@ for(f in 1:length(features)){
       ones = value_table[1,"1"]
     }
 
-  output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
+      output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 
 #  cat("done with phylo.d function.", as.character(Sys.time()), ".\n")
   
