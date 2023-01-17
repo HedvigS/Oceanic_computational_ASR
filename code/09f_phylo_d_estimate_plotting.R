@@ -27,7 +27,6 @@ phylo_d_df <- phylo_d_full %>%
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   group_by(tree_type, Feature_ID, Feature_tree) %>% 
   summarise(mean_D = mean(Destimate),
-            n = n(),
             mean_Pval1 = mean(Pval1),
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
