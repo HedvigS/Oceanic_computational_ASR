@@ -3,15 +3,15 @@ source("01_requirements.R")
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>% 
   distinct(Feature_ID)
 
-fns <- list.files("output/HL_comparison/", pattern = "phylo_d.*tsv", full.names = T)
+fns <- list.files("output/HL_comparison/phylo_d/", pattern = "main", full.names = T)
 
 phylo_d_full <- fns %>% 
   map_df(
-    function(x) data.table::fread(x ,
-                                  encoding = 'UTF-8', header = TRUE, 
-                                  fill = TRUE, blank.lines.skip = TRUE,
-                                  sep = "\t", na.strings = "",
-    ) 
+    function(x) qs::qread(x)#data.table::fread(x ,
+       #                           encoding = 'UTF-8', header = TRUE, 
+      #                            fill = TRUE, blank.lines.skip = TRUE,
+     #                             sep = "\t", na.strings = "",
+    #) 
       ) %>% 
   distinct() %>% 
   rename(Feature_ID = Feature) %>% 
@@ -26,7 +26,8 @@ phylo_d_full <- fns %>%
 phylo_d_df <- phylo_d_full %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   group_by(tree_type, Feature_ID, Feature_tree) %>% 
-  summarise(mean_D = mean(Destimate), 
+  summarise(mean_D = mean(Destimate),
+            n = n(),
             mean_Pval1 = mean(Pval1),
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
