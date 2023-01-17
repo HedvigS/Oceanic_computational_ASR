@@ -9,7 +9,7 @@ source("fun_def_h_load.R")
 if(!"tidyverse" %in% rownames(installed.packages())  ){
   install.packages("tidyverse", type="binary", dependencies = T)
   }
-library("tidyverse")
+library("tidyverse", quietly = T, warn.conflicts = F, verbose = F)
 #depdencies for castor
 h_load(c("naturalsort", "RSpectra"))
 
