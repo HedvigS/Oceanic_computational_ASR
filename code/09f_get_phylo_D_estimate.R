@@ -20,7 +20,7 @@ if(!dir.exists(output_dir)){
 #tree fn vector to loop over
 glottolog_tree_fn <- "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt"
 gray_2009_mcct_tree_fn <- "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt"
-gray_posteriors_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)
+gray_posteriors_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)[1]
 
 tree_fns <- c(glottolog_tree_fn, gray_2009_mcct_tree_fn, gray_posteriors_trees_fns)
 
@@ -35,13 +35,13 @@ features <- GB_df_desc$ID[range]
 
 for(f in 1:length(features)){
   
-  #f <- 100
+  #f <- 17
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
   cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n")
   for(t in tree_fns){
-#    t <- tree_fns[24]
+#    t <- tree_fns[2]
     tree <- read.tree(t)
   
     cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
@@ -70,11 +70,13 @@ for(f in 1:length(features)){
       ones = value_table[1,"1"]
     }
 
+if(ncol(value_table) == 2){
       output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
-
+}
+    
 #  cat("done with phylo.d function.", as.character(Sys.time()), ".\n")
   
-    if (class(output) == "try-error") {
+    if (class(output) == "try-error"|ncol(value_table) != 2) {
       spec_df <-   data.frame(Feature = feature ,
                               Destimate = NA, 
                               Pval1 = NA, 
@@ -100,7 +102,7 @@ for(f in 1:length(features)){
     NodalVals_spec<- data.frame(
         Node = NA, 
         set = NA,
-        value = as.numeric(),
+        value = NA,
         Feature = feature,
         tree = basename(t)
       )
