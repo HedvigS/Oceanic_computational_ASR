@@ -20,9 +20,9 @@ if(!dir.exists(output_dir)){
 #tree fn vector to loop over
 glottolog_tree_fn <- "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt"
 gray_2009_mcct_tree_fn <- "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt"
-gray_posteriors_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)[1]
+gray_posteriors_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)
 
-tree_fns <- c(glottolog_tree_fn, gray_2009_mcct_tree_fn, gray_posteriors_trees_fns)
+tree_fns <- c(glottolog_tree_fn, gray_2009_mcct_tree_fn, gray_posteriors_trees_fns)[-c(1:3)]
 
 #reading in GB tables
 GB_df <- read_tsv(GB_binary_fn)
