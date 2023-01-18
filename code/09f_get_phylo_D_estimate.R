@@ -39,12 +39,12 @@ for(f in 1:length(features)){
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
-  cat("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n")
+  cat(paste0("\n***\nI'm on feature", feature, "which is", f, "out of", length(features),". ", as.character(Sys.time()), ".\n***\n"))
   for(t in tree_fns){
 #    t <- tree_fns[2]
     tree <- read.tree(t)
 
-    cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
+    cat(paste0("I'm on feature ", feature, " and tree ", basename(t) ," ", as.character(Sys.time()),".\n"))
     
     fn_spec_main <- paste0(fn_spec, "_", basename(t), "_main.qs")
   
@@ -81,7 +81,7 @@ if(ncol(value_table) == 2){
       output <- try(expr = {eval(substitute(phylo.d(data = ds, binvar = this_feature, permut = 20000), list(this_feature=as.name(feature))))})
 }
     
-#  cat("done with phylo.d function.", as.character(Sys.time()), ".\n")
+  cat(paste0("Done with phylo.d function. Time is ", as.character(Sys.time()), ".\n"))
   
     if (class(output) == "try-error"|ncol(value_table) != 2) {
       spec_df <-   data.frame(Feature = feature ,
@@ -165,6 +165,8 @@ if(ncol(value_table) == 2){
    
    NodalVals_spec %>% 
    qs::qsave(file = paste0(fn_spec, "_", basename(t), "_Nodalvals.qs"), preset = "archive")
+   
+   cat(paste0("Done, files written. Time is ", as.character(Sys.time()), ".\n"))
    
     }
   }
