@@ -30,6 +30,7 @@ phylo_d_df <- phylo_d_full %>%
             mean_Pval1 = mean(Pval1),
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
+            n = n(),
             zeroes = mean(zeroes), 
             min = mean(min),
             min_p = mean(min_p),
