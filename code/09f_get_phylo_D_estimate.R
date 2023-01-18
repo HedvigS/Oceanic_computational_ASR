@@ -43,9 +43,16 @@ for(f in 1:length(features)){
   for(t in tree_fns){
 #    t <- tree_fns[2]
     tree <- read.tree(t)
-  
-    cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
 
+    cat("I'm on feature", feature, "and tree", basename(t) , as.character(Sys.time()),".\n")
+    
+    fn_spec_main <- paste0(fn_spec, "_", basename(t), "_main.qs")
+  
+    if(file.exists(fn_spec_main)){
+
+    cat(paste0("File exists, moving to next!\n"))
+      
+    }else{
     df_for_caper <- tree$tip.label %>%
       as.data.frame() %>%
       rename(Language_ID = ".") %>%
@@ -151,7 +158,7 @@ if(ncol(value_table) == 2){
 
     }
   spec_df  %>% 
-  qs::qsave(file = paste0(fn_spec, "_", basename(t), "_main.qs"), preset = "archive")
+  qs::qsave(file = fn_spec_main, preset = "archive")
  
    Permutations %>% 
    qs::qsave(file = paste0(fn_spec, "_", basename(t), "_permutations.qs"), preset = "archive")
@@ -161,3 +168,4 @@ if(ncol(value_table) == 2){
    
     }
   }
+}
