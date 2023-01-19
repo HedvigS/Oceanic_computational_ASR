@@ -38,7 +38,7 @@ phylo_d_df <- phylo_d_full %>%
             min = mean(min),
             min_p = mean(min_p),
             ones = mean(ones), .groups = "drop") %>% 
-  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min, min_p, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
+  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  n, tree_type, ntip, min, min_p, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
   mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
                                   mean_Pval1 > 0.05 & 
                                   mean_D < 0, 
