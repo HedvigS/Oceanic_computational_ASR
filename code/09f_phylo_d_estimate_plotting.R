@@ -142,14 +142,22 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 
 #joning and plotting
 
-
-
-#stop trying to debug the algo
-
 joined_df <- reconstruction_results_df %>% 
   left_join(phylo_d_df) %>% 
   distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
   
+
+
+
+joined_df %>% 
+#  filter(tree_type != "most_common") %>% 
+  #  filter(summarise_col == "similar to 1"|
+  #           summarise_col == "similar to 0"|
+  #           summarise_col == "similar to both, between 0 & 1"|
+  #           summarise_col == "dissimilar to both, between 0 & 1")  %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = tree_type, y = min)) +
+  facet_wrap(~summarise_col)
 
 
 joined_df %>% 
