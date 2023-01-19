@@ -31,10 +31,41 @@ phylo_d_df <- phylo_d_full %>%
             mean_Pval0 = mean(Pval0), 
             ntip = mean(n), 
             n = n(),
+            Parameters_observed = mean(Parameters_observed),
+            Parameters_MeanRandom = mean(Parameters_MeanRandom),
+            Parameters_MeanBrownian = mean(Parameters_MeanBrownian),
             zeroes = mean(zeroes), 
             min = mean(min),
             min_p = mean(min_p),
-            ones = mean(ones), .groups = "drop") 
+            ones = mean(ones), .groups = "drop") %>% 
+  
+  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
+  mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
+                                  mean_Pval1 > 0.05 & 
+                                  mean_D < 0, 
+                                "similar to both, below 0", NA)) %>%   
+  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                   mean_Pval1 > 0.05 & 
+                                   mean_D > 1, 
+                                 "similar to both, above 1", summarise_col))   %>% 
+  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                   mean_Pval1 > 0.05 & 
+                                   between(mean_D, lower = 0, upper = 1), 
+                                 "similar to both, between 0 & 1", summarise_col))   %>% 
+  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
+                                   mean_Pval1 < 0.05, 
+                                 "similar to 0", summarise_col))   %>% 
+  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
+                                   mean_Pval1 > 0.05, 
+                                 "similar to 1", summarise_col))  %>% 
+  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
+                                   mean_Pval1 < 0.05 & 
+                                   between(mean_D, lower = 0, upper = 1), 
+                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
+  
+  mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
+  mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
+
 
 #reading in reconstruction results
 parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
@@ -95,7 +126,7 @@ most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv
   filter(!is.na(Prediction)) %>% 
   mutate(most_common_prediction_number = ifelse(Prediction == 1,`1` , NA)) %>% 
   mutate(most_common_prediction_number = ifelse(Prediction == 0, `0`, most_common_prediction_number)) %>% 
-  dplyr::select(Feature_ID, most_common_prediction_number, "Proto-language", min, ntip) %>% 
+  dplyr::select(Feature_ID, most_common_prediction_number, "Proto-language") %>% 
   mutate(tree_type = "most_common") %>% 
   tidyr::pivot_longer(cols = c("most_common_prediction_number")) %>% 
   mutate(method = "most_common") 
@@ -111,52 +142,18 @@ reconstruction_results_df <- parsimony_glottolog_df %>%
 
 #joning and plotting
 
-phylo_d_df <- phylo_d_df %>% 
-  left_join(reconstruction_results_df) %>% 
-  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min) %>% 
-  mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
-                                   mean_Pval1 > 0.05 & 
-                                   mean_D < 0, 
-                                 "similar to both, below 0", NA)) %>%   
-mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                 mean_Pval1 > 0.05 & 
-                                 mean_D > 1, 
-                               "similar to both, above 1", summarise_col))   %>% 
-mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                 mean_Pval1 > 0.05 & 
-                                 between(mean_D, lower = 0, upper = 1), 
-                               "similar to both, between 0 & 1", summarise_col))   %>% 
-  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                   mean_Pval1 < 0.05, 
-                                 "similar to 0", summarise_col))   %>% 
-  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 > 0.05, 
-                                 "similar to 1", summarise_col))  %>% 
-  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 < 0.05 & 
-                                   between(mean_D, lower = 0, upper = 1), 
-                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
-  
-  mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
-  mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
-  
 
 
-phylo_d_df %>%
-  distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
-#  filter(tree_type != "most_common") %>% 
-#  group_by(summarise_col, tree_type) %>% 
-#  summarise(n = n(), .groups = "drop") %>% 
-  ggplot() +
-  geom_point(mapping = aes(x = tree_type , y = min), stat = "identity")+
-  facet_wrap(~summarise_col)
+#stop trying to debug the algo
 
 joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df) 
+  left_join(phylo_d_df) %>% 
+  distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
+  
 
 
-joined_df %>% View()
-  filter(tree_type != "most_common") %>%
+joined_df %>% 
+  filter(tree_type != "most_common") %>% 
 #  filter(summarise_col == "similar to 1"|
 #           summarise_col == "similar to 0"|
 #           summarise_col == "similar to both, between 0 & 1"|
@@ -165,81 +162,167 @@ joined_df %>% View()
   geom_point(mapping = aes(x = min, y = value)) +
   facet_grid(tree_type~method)
 
-
-joined_df$summarise_col %>% unique()
-
-
-
-
-reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_ID", "tree_type")) %>%
-  filter(min_p > 0.01) %>% 
-  ggplot(mapping = aes(y = mean_D, x = value, color = name)) +
-  geom_point() +
-  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "black",
-                   label.y.npc="top", label.x.npc = "left", alpha = 0.8) +
+joined_df %>% 
+  mutate(tree_type = str_replace(tree_type, "_", " ")) %>% 
+  filter(tree_type != "most_common") %>% 
+    filter(summarise_col == "similar to 1"|
+             summarise_col == "similar to 0"|
+             summarise_col == "similar to both, between 0 & 1"|
+             summarise_col == "dissimilar to both, between 0 & 1")  %>% 
+  ggplot(mapping = aes(x = mean_D, y = value)) +
+  geom_point(mapping = aes(color = summarise_col)) +
+  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+                   label.y.npc="bottom", label.x.npc = "left", alpha = 0.8) +
   geom_smooth(method='lm', formula = 'y ~ x') +
-  theme_bw() +
-  scale_x_continuous(expand=c(0.01,0.01)) +
-  theme(legend.position = 0, 
-        strip.text = element_text(face = "bold", colour = "black"),
-          strip.background = element_rect(fill = "whitesmoke")) +
-  facet_grid(method ~ tree_type) +
-  xlab("Concurrence with HL") +
-  ylab("D-estimate")
-             
+  facet_grid(tree_type~method) +
+  theme_minimal() +
+  theme(legend.title = element_blank()) +
+  xlab ("D-estimate (mean)") +
+  ylab("Concurrance with HL")
 
-phylo_d_df$Feature_ID <- fct_reorder(phylo_d_df$Feature_ID, phylo_d_df$mean_D)
+ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_HL_concurrance.png"), width = 10, height = 9)
 
-phylo_d_df %>% 
-  filter(min > 1) %>% 
-#  .[1:30,] %>% 
-  filter(tree_type == "glottolog") %>% 
-  mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no"),
-         Pval1_sig = ifelse(mean_Pval1 > 0.05& mean_D > 0, "yes", "no")) %>% 
-  ggplot(aes(y = Feature_ID, x = mean_D)) +
-#  geom_point(mapping = aes(y = Feature_ID, x = mean_D, fill =  Pval0_sig), shape = 21)
-  geom_text(label = "\u25D7",  mapping= aes(color = as.character(Pval1_sig)),  
-            size=10, family = "Arial Unicode MS") +
-  geom_text(label = "\u25D6", mapping= aes(color = as.character(Pval0_sig)), 
-            size=10, family = "Arial Unicode MS") 
-  
+table_P_values_summarised <- joined_df %>% 
+  filter(tree_type != "most_common") %>% 
+  distinct(Feature_tree, tree_type, summarise_col) %>% 
+  group_by(tree_type, summarise_col) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  complete(tree_type, summarise_col, fill = list(n = 0)) %>% 
+  reshape2::dcast(tree_type ~ summarise_col, value.var = "n") 
 
+table_P_values_summarised_latex_green <- table_P_values_summarised %>% 
+  dplyr::select(tree = tree_type, 
+                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to 0}}}$"= "similar to 0", 
+                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to both, between 0 \\& 1}}}$" = "similar to both, between 0 & 1", 
+                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to 1}}}$"=  "similar to 1", 
+                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright dissimilar to both, between 0 \\& 1}}}$"=  "dissimilar to both, between 0 & 1")
 
-cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
-lbl <- "d_estimate_summary"
-align <- c("r", "l","l","l") 
+cap <- "Table of types of D-estimates per tree, data-points included."
+lbl <- "phylo_d_summarise_col_green"
+align <- c("r","p{4cm}", "p{4cm}", "p{4cm}","p{4cm} ","p{4cm}" ) 
 
 
-phylo_d_summarised_table <- phylo_d_full %>% 
-  filter(min > 1) %>% 
-  inner_join(HL_findings_sheet, by = "Feature_ID") %>% 
-  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
-  group_by(tree_type) %>% 
-  mutate(mean_D = mean(Destimate)) %>% 
-  group_by(tree_type, Pval0_sig) %>% 
-  summarise(n = n(),
-            mean_D = first(mean_D),
-            .groups = "drop") %>% 
-  group_by(tree_type) %>% 
-  mutate(sum = sum(n)) %>% 
-  mutate(prop = n/sum) %>%
-  mutate(mean_D = round(mean_D, 2)) %>% 
-    filter(Pval0_sig == "yes") %>%
-  mutate(prop = paste0(round(prop, 2)*100, "%")) %>% 
-  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
-
-phylo_d_summarised_table$tree <- phylo_d_summarised_table$tree %>% 
-  str_replace("glottolog", "Glottolog") %>% 
-  str_replace("gray_mcct", "Gray et al 2009-MCCT") %>% 
-  str_replace("gray_posterior", "Gray et al 2009-posteriors") 
-
-phylo_d_summarised_table %>% 
-  write_tsv("output/D_estimate_summary.tsv", na = "") 
-
-phylo_d_summarised_table %>% 
+table_P_values_summarised_latex_green  %>% 
   xtable(caption = cap, label = lbl,
+         digits = 0, 
          align = align) %>% 
-  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
-                       include.rownames = FALSE) 
-         
+  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_green.tex"), sanitize.colnames.function = function(x){x},
+                       include.rownames = FALSE, 
+                       math.style.negative = F,
+                       table.placement = "H",
+                       booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_green))) 
+
+
+
+table_P_values_summarised_latex_orange <- table_P_values_summarised %>% 
+  dplyr::select(tree = tree_type, 
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright one off}}}$"= "one off",
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
+
+
+cap <- "Table of types of D-estimates per tree, data-points not included."
+lbl <- "phylo_d_summarise_col, orange"
+align <- c("r","p{4cm}", "p{4cm}", "p{4cm}","p{4cm} ","p{4cm}" ) 
+
+
+table_P_values_summarised_latex_orange  %>% 
+  xtable(caption = cap, label = lbl,
+         digits = 0, 
+         align = align) %>% 
+  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_orange.tex"), sanitize.colnames.function = function(x){x},
+                       include.rownames = FALSE, 
+                       math.style.negative = F,
+                       table.placement = "H",
+                       booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
+
+
+#              
+# 
+# phylo_d_df$Feature_ID <- fct_reorder(phylo_d_df$Feature_ID, phylo_d_df$mean_D)
+# 
+# phylo_d_df %>% 
+#   filter(min > 1) %>% 
+# #  .[1:30,] %>% 
+#   filter(tree_type == "glottolog") %>% 
+#   mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no"),
+#          Pval1_sig = ifelse(mean_Pval1 > 0.05& mean_D > 0, "yes", "no")) %>% 
+#   ggplot(aes(y = Feature_ID, x = mean_D)) +
+# #  geom_point(mapping = aes(y = Feature_ID, x = mean_D, fill =  Pval0_sig), shape = 21)
+#   geom_text(label = "\u25D7",  mapping= aes(color = as.character(Pval1_sig)),  
+#             size=10, family = "Arial Unicode MS") +
+#   geom_text(label = "\u25D6", mapping= aes(color = as.character(Pval0_sig)), 
+#             size=10, family = "Arial Unicode MS") 
+#   
+# 
+# 
+# cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
+# lbl <- "d_estimate_summary"
+# align <- c("r", "l","l","l") 
+# 
+# 
+# phylo_d_summarised_table <- phylo_d_full %>% 
+#   filter(min > 1) %>% 
+#   inner_join(HL_findings_sheet, by = "Feature_ID") %>% 
+#   mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
+#   group_by(tree_type) %>% 
+#   mutate(mean_D = mean(Destimate)) %>% 
+#   group_by(tree_type, Pval0_sig) %>% 
+#   summarise(n = n(),
+#             mean_D = first(mean_D),
+#             .groups = "drop") %>% 
+#   group_by(tree_type) %>% 
+#   mutate(sum = sum(n)) %>% 
+#   mutate(prop = n/sum) %>%
+#   mutate(mean_D = round(mean_D, 2)) %>% 
+#     filter(Pval0_sig == "yes") %>%
+#   mutate(prop = paste0(round(prop, 2)*100, "%")) %>% 
+#   dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
+# 
+# phylo_d_summarised_table$tree <- phylo_d_summarised_table$tree %>% 
+#   str_replace("glottolog", "Glottolog") %>% 
+#   str_replace("gray_mcct", "Gray et al 2009-MCCT") %>% 
+#   str_replace("gray_posterior", "Gray et al 2009-posteriors") 
+# 
+# phylo_d_summarised_table %>% 
+#   write_tsv("output/D_estimate_summary.tsv", na = "") 
+# 
+# phylo_d_summarised_table %>% 
+#   xtable(caption = cap, label = lbl,
+#          align = align) %>% 
+#   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
+#                        include.rownames = FALSE) 
+#          
+# 
+# 
+# 
+# # 
+# # ##trying to debug the algo  
+# # 
+# # phylo_d_df$summarise_col %>% unique()
+# # 
+# # phylo_d_df %>% 
+# #   filter(summarise_col == "similar to 0") %>%
+# #   dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
+# #   reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>% 
+# # #  reshape2::melt(id.vars = c("Feature_tree")) %>% 
+# #     ggplot() +
+# #   geom_point(aes(x = value, y = Feature_tree, color = variable))# +
+# # #  facet_wrap(~summarise_col)
+# # 
+# # 
+# # nodalvals <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_Nodalvals.qs")
+# # 
+# # main <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_main.qs")
+# # 
+# # permutations <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_permutations.qs")
+# # 
+# # phylo_d_df %>%
+# #   distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
+# # #  filter(tree_type != "most_common") %>% 
+# # #  group_by(summarise_col, tree_type) %>% 
+# # #  summarise(n = n(), .groups = "drop") %>% 
+# #   ggplot() +
+# #   geom_point(mapping = aes(x = tree_type , y = min), stat = "identity")+
+# #   facet_wrap(~summarise_col)
