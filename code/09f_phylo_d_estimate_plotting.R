@@ -38,8 +38,7 @@ phylo_d_df <- phylo_d_full %>%
             min = mean(min),
             min_p = mean(min_p),
             ones = mean(ones), .groups = "drop") %>% 
-  
-  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
+  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  tree_type, ntip, min, min_p, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
   mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
                                   mean_Pval1 > 0.05 & 
                                   mean_D < 0, 
@@ -65,6 +64,8 @@ phylo_d_df <- phylo_d_full %>%
   
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
+
+
 
 
 #reading in reconstruction results
@@ -149,15 +150,22 @@ joined_df <- reconstruction_results_df %>%
 
 
 
-joined_df %>% 
+joined_df %>%
+  distinct(Feature_tree, tree_type, summarise_col, min_p) %>% 
 #  filter(tree_type != "most_common") %>% 
   #  filter(summarise_col == "similar to 1"|
   #           summarise_col == "similar to 0"|
   #           summarise_col == "similar to both, between 0 & 1"|
   #           summarise_col == "dissimilar to both, between 0 & 1")  %>% 
   ggplot() +
-  geom_point(mapping = aes(x = tree_type, y = min)) +
+  geom_point(mapping = aes(x = tree_type, y = min_p)) +
   facet_wrap(~summarise_col)
+
+
+joined_df %>% 
+  mutate(deff = abs(Parameters_MeanRandom - Parameters_MeanBrownian)) %>% 
+  ggplot()+
+  geom_point(mapping = aes(x = min_p, y = deff, color = tree_type, size = ntip))
 
 
 joined_df %>% 
@@ -166,8 +174,11 @@ joined_df %>%
 #           summarise_col == "similar to 0"|
 #           summarise_col == "similar to both, between 0 & 1"|
 #           summarise_col == "dissimilar to both, between 0 & 1")  %>% 
-  ggplot() +
-  geom_point(mapping = aes(x = min, y = value)) +
+  ggplot(mapping = aes(x = min_p, y = value)) +
+  geom_point() +
+  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+                   label.y.npc="bottom", label.x.npc = "left", alpha = 0.8) +
+  geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method)
 
 joined_df %>% 
@@ -207,7 +218,7 @@ table_P_values_summarised_latex_green <- table_P_values_summarised %>%
 
 cap <- "Table of types of D-estimates per tree, data-points included."
 lbl <- "phylo_d_summarise_col_green"
-align <- c("r","p{4cm}", "p{4cm}", "p{4cm}","p{4cm} ","p{4cm}" ) 
+align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ","p{3cm}" ) 
 
 
 table_P_values_summarised_latex_green  %>% 
@@ -217,7 +228,7 @@ table_P_values_summarised_latex_green  %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_green.tex"), sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, 
                        math.style.negative = F,
-                       table.placement = "H",
+                       table.placement = "h",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_green))) 
 
 
@@ -232,7 +243,7 @@ table_P_values_summarised_latex_orange <- table_P_values_summarised %>%
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
 lbl <- "phylo_d_summarise_col, orange"
-align <- c("r","p{4cm}", "p{4cm}", "p{4cm}","p{4cm} ","p{4cm}" ) 
+align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ","p{3cm}" ) 
 
 
 table_P_values_summarised_latex_orange  %>% 
@@ -242,7 +253,7 @@ table_P_values_summarised_latex_orange  %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_orange.tex"), sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, 
                        math.style.negative = F,
-                       table.placement = "H",
+                       table.placement = "h",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
 
@@ -308,16 +319,16 @@ table_P_values_summarised_latex_orange  %>%
 # # 
 # # ##trying to debug the algo  
 # # 
-# # phylo_d_df$summarise_col %>% unique()
+ phylo_d_df$summarise_col %>% unique()
 # # 
-# # phylo_d_df %>% 
-# #   filter(summarise_col == "similar to 0") %>%
-# #   dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
-# #   reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>% 
-# # #  reshape2::melt(id.vars = c("Feature_tree")) %>% 
-# #     ggplot() +
-# #   geom_point(aes(x = value, y = Feature_tree, color = variable))# +
-# # #  facet_wrap(~summarise_col)
+ phylo_d_df %>% 
+   filter(summarise_col ==  "dissimilar to both, between 0 & 1") %>%
+  dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>%
+  reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>%
+#  reshape2::melt(id.vars = c("Feature_tree")) %>%
+    ggplot() +
+  geom_point(aes(x = value, y = Feature_tree, color = variable))# +
+  facet_wrap(~summarise_col)
 # # 
 # # 
 # # nodalvals <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_Nodalvals.qs")
