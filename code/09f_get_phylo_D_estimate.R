@@ -24,6 +24,8 @@ gray_posteriors_trees_fns <- list.files("output/processed_data/trees/gray_et_al_
 
 tree_fns <- c(glottolog_tree_fn, gray_2009_mcct_tree_fn, gray_posteriors_trees_fns)[-c(1:3)]
 
+gray_posteriors_trees_fns[8] %>% read.tree()
+  
 #reading in GB tables
 GB_df <- read_tsv(GB_binary_fn)
 
@@ -35,7 +37,7 @@ features <- GB_df_desc$ID[range]
 
 for(f in 1:length(features)){
   
-  #f <- 17
+  #f <- 19
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
