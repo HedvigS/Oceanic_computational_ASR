@@ -31,23 +31,23 @@ parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_re
 
 ML_glottolog_df <- read_tsv("output/glottolog-tree//ML/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`, glottolog_ML_prediction) %>% 
-  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language") ) %>% 
-  mutate(glottolog_ML_prediction = ifelse(is.na(glottolog_ML_prediction),most_common_prediction , glottolog_ML_prediction)) %>% #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
+#  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language") ) %>% 
+#  mutate(glottolog_ML_prediction = ifelse(is.na(glottolog_ML_prediction),most_common_prediction , glottolog_ML_prediction)) %>% #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
   filter(glottolog_ML_prediction != "Not enough languages")
 
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, `Proto-language`,gray_mcct_ML_prediction = gray_ML_prediction) %>% 
-  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")   ) %>% 
-  mutate(gray_mcct_ML_prediction = ifelse(is.na(gray_mcct_ML_prediction),most_common_prediction , gray_mcct_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
+#  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")   ) %>% 
+#  mutate(gray_mcct_ML_prediction = ifelse(is.na(gray_mcct_ML_prediction),most_common_prediction , gray_mcct_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
 filter(gray_mcct_ML_prediction != "Not enough languages")
 
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
-  filter(is.na(Prediction)) %>% 
+  filter(!is.na(Prediction)) %>% 
   dplyr::select(Feature_ID, `Proto-language`,gray_posteriors_ML_prediction= gray_ML_prediction) %>% 
-  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>% 
-  mutate(gray_posteriors_ML_prediction = ifelse(is.na(gray_posteriors_ML_prediction),most_common_prediction , gray_posteriors_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We jsut replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
+#  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>% 
+#  mutate(gray_posteriors_ML_prediction = ifelse(is.na(gray_posteriors_ML_prediction),most_common_prediction , gray_posteriors_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We just replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
   filter(gray_posteriors_ML_prediction != "Not enough languages")
   
