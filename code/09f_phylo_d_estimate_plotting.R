@@ -285,7 +285,9 @@ phylo_d_summarised_table <-  joined_df %>%
   dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
 
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
-phylo_d_summarised_table$`feautres excluded due to too few of minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] + table_P_values_summarised_latex_orange[,5]
+  
+phylo_d_summarised_table$`Feautres excluded due to too few tips in minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] + table_P_values_summarised_latex_orange[,5]
+
 }
 
 phylo_d_summarised_table %>%
@@ -293,7 +295,7 @@ phylo_d_summarised_table %>%
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{3cm}","p{3cm}","p{3cm}", "p{3cm}") 
+ align <- c("r", "p{5cm}","p{3cm}","p{3.5cm}", "p{3.5cm}") 
 
 
 phylo_d_summarised_table %>%
