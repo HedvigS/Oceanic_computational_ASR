@@ -71,6 +71,8 @@ df_for_daisy[df_for_daisy == "Absent"] <- "0"
 df_for_daisy[df_for_daisy == "Half"] <- "0.5"
 df_for_daisy <- mutate_all(df_for_daisy, function(x) as.numeric(as.character(x)))
 
+#df_for_daisy <- df_for_daisy[1:10 , 1:4]
+
 mdat <- df_for_daisy %>% 
   t() 
 
