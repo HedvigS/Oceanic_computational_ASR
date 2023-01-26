@@ -199,3 +199,26 @@ df_for_bar_plot %>%
   facet_wrap(~variable, ncol = 1)
 
 ggsave(file.path(OUTPUT_DIR ,"/barplot_facet_scores.png"), width = 7, height = 12)
+
+
+
+df_for_bar_plot %>%
+  dplyr::select(Method, Accuracy, Accuracy_incl_half) %>% 
+  reshape2::melt(id.vars = "Method") %>%
+  mutate(variable = str_replace_all(variable, "_", " ")) %>% 
+  mutate(variable = str_replace_all(variable, "Accuracy", "Concordance")) %>% 
+  mutate(variable = str_replace_all(variable, "incl half", "(incl half) ")) %>% 
+  ggplot() +
+  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity") +
+  coord_cartesian(ylim=c(0.7, 1)) +
+  theme_classic(base_size = 20) +
+  theme(legend.position = "None", 
+        axis.text.x = element_text(angle = 50, hjust=1), 
+        axis.title = element_blank()) +
+  geom_text(aes(x = `Method`, y =value+0.03, label = round(value, 2)), size=8, colour = "black") +
+  scale_fill_manual(values= wes_palette("Zissou1", n = 2)) +
+  theme(plot.margin = unit(c(0.2,0.2,0.2,1), "cm")) +
+  facet_wrap(~variable, ncol = 1)
+
+ggsave(file.path(OUTPUT_DIR ,"/barplot_facet_scores_exclude_f1.png"), width = 7, height = 10)
+
