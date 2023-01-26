@@ -158,7 +158,7 @@ joined_df %>%
 
 #plot of percentage of minority state and difference between mean of sum clade differences in brownian and random
 joined_df %>% 
-  filter(tree_type != "most_common") %>% 
+  filter(!str_detect(tree_type, "common")) %>%
   mutate(deff = abs(Parameters_MeanRandom - Parameters_MeanBrownian)) %>% 
   ggplot()+
   geom_point(mapping = aes(x = min_p, y = deff, color = tree_type, size = ntip))
@@ -185,7 +185,7 @@ joined_df %>%
 ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_HL_concurrance.png"), width = 10, height = 9)
 
 table_P_values_summarised <- joined_df %>% 
-  filter(tree_type != "most_common") %>%
+  filter(!str_detect(tree_type, "common")) %>%
   distinct(Feature_tree, tree_type, summarise_col) %>% 
   group_by(tree_type, summarise_col) %>% 
   summarise(n = n(), .groups = "drop") %>% 
@@ -239,7 +239,6 @@ table_P_values_summarised_latex_orange  %>%
                        table.placement = "h",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
-
 #              
 # 
 # phylo_d_df$Feature_ID <- fct_reorder(phylo_d_df$Feature_ID, phylo_d_df$mean_D)
@@ -265,8 +264,9 @@ table_P_values_summarised_latex_orange  %>%
 # 
 
 phylo_d_summarised_table <-  joined_df %>%
+  filter(!is.na(value)) %>% 
   distinct(Feature_tree, tree_type, summarise_col, mean_D, mean_Pval0, mean_Pval1) %>% 
-  filter(tree_type != "most_common") %>% 
+  filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col == "similar to 1"|
            summarise_col == "similar to 0"|
            summarise_col == "similar to both, between 0 & 1"|
@@ -284,12 +284,16 @@ phylo_d_summarised_table <-  joined_df %>%
   mutate(prop = paste0(round(prop, 2)*100, "%")) %>%
   dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
 
+if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
+phylo_d_summarised_table$`feautres excluded due to too few of minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] + table_P_values_summarised_latex_orange[,5]
+}
+
 phylo_d_summarised_table %>%
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "l","l","l") 
+ align <- c("r", "p{3cm}","p{3cm}","p{3cm}", "p{3cm}") 
 
 
 phylo_d_summarised_table %>%
@@ -301,19 +305,19 @@ phylo_d_summarised_table %>%
 # 
 # 
 # 
-# # 
-# # ##trying to debug the algo  
-# # 
- phylo_d_df$summarise_col %>% unique()
-# # 
- phylo_d_df %>% 
-   filter(summarise_col ==  "dissimilar to both, between 0 & 1") %>%
-  dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>%
-  reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>%
-#  reshape2::melt(id.vars = c("Feature_tree")) %>%
-    ggplot() +
-  geom_point(aes(x = value, y = Feature_tree, color = variable))# +
-  facet_wrap(~summarise_col)
+# # # 
+# # # ##trying to debug the algo  
+# # # 
+#  phylo_d_df$summarise_col %>% unique()
+# # # 
+#  phylo_d_df %>% 
+#    filter(summarise_col ==  "dissimilar to both, between 0 & 1") %>%
+#   dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>%
+#   reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>%
+# #  reshape2::melt(id.vars = c("Feature_tree")) %>%
+#     ggplot() +
+#   geom_point(aes(x = value, y = Feature_tree, color = variable))# +
+#   facet_wrap(~summarise_col)
 # # 
 # # 
 # # nodalvals <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_Nodalvals.qs")
