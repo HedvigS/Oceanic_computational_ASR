@@ -63,7 +63,7 @@ phylo_d_df <- phylo_d_full %>%
                                  "dissimilar to both, between 0 & 1", summarise_col)) %>% 
   
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
-  mutate(summarise_col = if_else(min == 1, "one off", summarise_col))
+  mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
 
 
 
@@ -211,7 +211,7 @@ table_P_values_summarised_latex_green  %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_green.tex"), sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, 
                        math.style.negative = F,
-                       table.placement = "h",
+                       table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_green))) 
 
 
@@ -219,13 +219,13 @@ table_P_values_summarised_latex_green  %>%
 table_P_values_summarised_latex_orange <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
-                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright one off}}}$"= "one off",
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright singleton}}}$"= "singleton",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
 
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
-lbl <- "phylo_d_summarise_col, orange"
+lbl <- "phylo_d_summarise_col_orange"
 align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ","p{3cm}" ) 
 
 
@@ -236,7 +236,7 @@ table_P_values_summarised_latex_orange  %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "table_P_values_summarised_latex_orange.tex"), sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, 
                        math.style.negative = F,
-                       table.placement = "h",
+                       table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
 #              
@@ -297,7 +297,7 @@ phylo_d_summarised_table %>%
  lbl <- "d_estimate_summary"
  align <- c("r", "p{5cm}","p{3cm}","p{3.5cm}", "p{3.5cm}") 
 
-
+ 
 phylo_d_summarised_table %>%
   xtable(caption = cap, label = lbl,
          align = align) %>%
