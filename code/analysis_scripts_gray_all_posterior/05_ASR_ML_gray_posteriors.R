@@ -94,17 +94,18 @@ results_df <- data.frame(
   nTips_state_1 =  feature_df[,2]  %>% table() %>% as.matrix() %>% .[2,1] %>% as.vector()
 )
 
-corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
-                  use.edge.length = TRUE,
-                  piecolors=c("#8856a7", "#ffffbf"),
-                  title = sprintf(
-                    "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
-                    feature, corHMM_result_direct$loglik,
-                    corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
-                  ),
-                  file = paste0(OUTPUTDIR_plots, "gray_et_al_2009_posteriors_sample/tree_plots/", feature, ".pdf"),
-                  width=8, height=16
-)
+# plotting trees if necessary
+# corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
+#                   use.edge.length = TRUE,
+#                   piecolors=c("#8856a7", "#ffffbf"),
+#                   title = sprintf(
+#                     "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
+#                     feature, corHMM_result_direct$loglik,
+#                     corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
+#                   ),
+#                   file = paste0(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/", feature, ".pdf"),
+#                   width=8, height=16
+# )
 
 cat("Done with ASR ML on ", feature, " for ",fn, ".\n", sep = "")
 
@@ -126,7 +127,9 @@ for(tree_fn in 1:length(gray_trees_fns)){
   
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
   if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
-    
+  if (!dir.exists(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/"))) { dir.create(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/")) }
+  
+
   GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                           content = purrr::map(GB_df_desc$ID,
                                                fun_GB_ASR_ML ))
