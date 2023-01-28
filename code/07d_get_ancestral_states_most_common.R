@@ -10,7 +10,7 @@ glottolog_df <- read_tsv(glottolog_df_fn, show_col_types = F)  %>%
 
 not_enough_languages_df <- GB_df_long %>% 
   group_by(variable) %>% 
-  summarise(n = n()) %>%
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   mutate(not_enough = ifelse(n <= ntips_half_glottolog , "Not enough languages", "")) %>% 
   rename(Feature_ID = variable)
 
@@ -19,7 +19,7 @@ east_polynesian_df <- GB_df_long %>%
   filter(str_detect(classification, "east2449")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
-  dplyr::summarise(n = n()) %>% 
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   ungroup() %>% 
   complete(variable, value, fill = list(n = 0)) %>% 
   group_by(variable) %>% 
@@ -36,7 +36,7 @@ polynesian_df <- GB_df_long %>%
   filter(str_detect(classification, "poly1242")) %>%
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
-  dplyr::summarise(n = n()) %>% 
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   ungroup() %>% 
   complete(variable, value, fill = list(n = 0)) %>% 
   group_by(variable) %>% 
@@ -53,7 +53,7 @@ central_pacific_df <- GB_df_long %>%
   filter(str_detect(classification, "cent2060")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
-  dplyr::summarise(n = n()) %>% 
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   ungroup() %>% 
   complete(variable, value, fill = list(n = 0)) %>% 
   group_by(variable) %>% 
@@ -70,7 +70,7 @@ oceanic_df <- GB_df_long %>%
   filter(str_detect(classification, "ocea1241")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
-  dplyr::summarise(n = n()) %>% 
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   ungroup() %>% 
   complete(variable, value, fill = list(n = 0)) %>% 
   group_by(variable) %>% 
@@ -113,7 +113,7 @@ lowest_df <- GB_df_long %>%
   filter(str_detect(classification, "ocea1241")) %>% 
   mutate(value = as.character(value)) %>% 
   group_by(variable, value) %>% 
-  dplyr::summarise(n = n()) %>% 
+  dplyr::summarise(n = n(), .groups = "drop") %>%
   group_by(variable) %>% 
   mutate(ntip = sum(n)) %>% 
   slice_min(order_by = n, n = 1) %>% 
@@ -126,4 +126,5 @@ all_df  %>%
   mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
   dplyr::select(-not_enough, -n) %>% 
   left_join(lowest_df, by = "Feature_ID") %>% 
+  dplyr::select(-value) %>% 
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
