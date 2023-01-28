@@ -17,7 +17,7 @@ HL_findings_sheets <- HL_findings_sheet %>%
 value_count_df<- read_csv("output/glottolog-tree/ML/results.csv") %>%
   mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
   mutate(min_percent_ML_glottolog = min / nTips) %>%
-  dplyr::select(Feature_ID, ntips_ML_glottolog = nTips, zeroes_ML_glottolog =  nTips_state_0, ones_ML_glottolog =  nTips_state_1, min_percent_ML_glottolog)
+  dplyr::select(Feature_ID, ntips_ML_glottolog = nTips, zeroes_ML_glottolog =  nTips_state_0, ones_ML_glottolog =  nTips_state_1, min_percent_ML_glottolog, min_ML_glottolog = min)
 
 #glottolog df information with branch names, so that we can easily subset for the different groups based on "classification"
 #reading in glottolog language table (to be used for language names for plot and to pre-filter out non-oceanic
