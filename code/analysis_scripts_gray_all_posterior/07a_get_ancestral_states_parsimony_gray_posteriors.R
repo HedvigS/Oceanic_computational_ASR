@@ -41,7 +41,7 @@ for(dir in dirs){
   )) %>% 
   mutate(min = pmin(`0`, `1`)) %>% 
   mutate(min_percent_parsimony_gray = min / (`0`+ `1`)) %>%
-  dplyr::select(Feature_ID, ntips_parsimony_gray = ntips, zeroes_parsimony_gray = `0`, ones_parsimony_gray = `1`, min_percent_parsimony_gray)
+  dplyr::select(Feature_ID, ntips_parsimony_gray = ntips, zeroes_parsimony_gray = `0`, ones_parsimony_gray = `1`, min_percent_parsimony_gray, min_parsimony_gray = min)
 
 ###Gray parsimony
 GB_ACR_all_parsimony <- readRDS(file.path(dir, "GB_parsimony_gray_tree.rds"))
