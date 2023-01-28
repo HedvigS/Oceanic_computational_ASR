@@ -21,10 +21,19 @@ all_parsimony_reconstructions_df <- fns %>%
                                   fill = TRUE, blank.lines.skip = TRUE,
                                   sep = "\t", na.strings = "NA",
     )   %>% 
-      dplyr::select(Feature_ID, gray_parsimony_prediction_0, gray_parsimony_prediction_1, ntips_parsimony_gray, `Proto-language`) %>% 
+      dplyr::select(Feature_ID, 
+                    gray_parsimony_prediction_0, 
+                    gray_parsimony_prediction_1, 
+                    ntips_parsimony_gray, 
+                    `Proto-language`, 
+                    min_percent_parsimony_gray, 
+                    min_parsimony_gray) %>% 
       mutate(gray_parsimony_prediction_0 = as.numeric(gray_parsimony_prediction_0)) %>% 
       mutate(gray_parsimony_prediction_1 = as.numeric(gray_parsimony_prediction_1),
-             ntips_parsimony_gray = as.numeric(ntips_parsimony_gray)) %>% 
+             ntips_parsimony_gray = as.numeric(ntips_parsimony_gray), 
+             min_parsimony_gray = as.numeric(min_parsimony_gray),
+             min_percent_parsimony_gray = as.numeric(min_percent_parsimony_gray)) %>% 
+      
       mutate(filename = x) 
   ) 
 
@@ -32,7 +41,9 @@ all_parsimony_reconstructions_df_summarised <-  all_parsimony_reconstructions_df
   group_by(Feature_ID, `Proto-language`) %>% 
   summarise(gray_parsimony_prediction_0 = mean(gray_parsimony_prediction_0, na.rm = T),
             gray_parsimony_prediction_1 = mean(gray_parsimony_prediction_1, na.rm = T), 
-            ntips_parsimony_gray = mean(ntips_parsimony_gray, na.rm = T)) 
+            ntips_parsimony_gray = mean(ntips_parsimony_gray, na.rm = T),
+            min_parsimony_gray = mean(min_parsimony_gray),
+            min_percent_parsimony_gray = mean( min_percent_parsimony_gray ), .groups = "drop") 
 
 #summarising prediction into present or absent, or half-half
 all_parsimony_reconstructions_df_summarised$gray_parsimony_prediction <- if_else(all_parsimony_reconstructions_df_summarised$gray_parsimony_prediction_0 > 0.6, "Absent", if_else(all_parsimony_reconstructions_df_summarised$gray_parsimony_prediction_1 > 0.6, "Present", "Half")) 
@@ -77,7 +88,9 @@ all_ML_reconstructions_df <- fns %>%
       dplyr::select(Feature_ID, gray_ML_prediction_0, gray_ML_prediction_1, ntips_ML_gray, `Proto-language`) %>% 
       mutate(gray_ML_prediction_0 = as.numeric(gray_ML_prediction_0)) %>% 
       mutate(gray_ML_prediction_1 = as.numeric(gray_ML_prediction_1),
-             ntips_ML_gray = as.numeric(ntips_ML_gray)) %>% 
+             ntips_ML_gray = as.numeric(ntips_ML_gray) ,
+             min_ML_gray= as.numeric(min_ML_gray),
+             min_percent_ML_gray = as.numeric(min_percent_ML_gray)) %>% 
       mutate(filename = x) 
   ) 
 
