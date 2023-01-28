@@ -46,7 +46,7 @@ for(dir in dirs){
                                  nTips_state_1 = col_double()                               )) %>% 
     mutate(min = pmin(`nTips_state_0`, `nTips_state_1`)) %>% 
     mutate(min_percent_ML_gray = min / (`nTips_state_0`+ `nTips_state_1`)) %>%
-    dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray = `nTips_state_0`, ones_ML_gray = `nTips_state_1`, min_percent_ML_gray)
+    dplyr::select(Feature_ID, ntips_ML_gray = nTips, zeroes_ML_gray = `nTips_state_0`, ones_ML_gray = `nTips_state_1`, min_percent_ML_gray, min_ML_gray = min)
   
   ###Gray ML
   GB_ACR_all_ML <- readRDS(file.path(dir, "GB_ML_gray_tree.rds")) %>% 
@@ -83,8 +83,8 @@ for(dir in dirs){
   df$gray_ML_prediction_0 <- ifelse(df$ntips_ML_gray <  ntips_half_gray, NA, df$gray_ML_prediction_0)
   
   df %>% 
-    left_join(GB_df_desc, by = "Feature_ID") %>% 
+    left_join(GB_df_desc, by = "Feature_ID") %>%
     write_tsv(file.path(dir, "all_reconstructions.tsv") ) 
   
-  cat("Done with ", dir, ".\n")
+cat(paste0("Done with ", dir, ".\n") )
 }
