@@ -1,5 +1,20 @@
 source("01_requirements.R")
 
+
+args = commandArgs(trailingOnly = TRUE)
+
+if(length(args) != 0){
+  start = args[1]
+  end <- args[2]
+  range <- start:end
+} else { #if you're running this script chunkwise in Rstudio or similar instead of via command line, you'll read in the parameters this way:
+  start <- 1
+  end <- 101
+  range <- start:end
+}
+
+
+
 glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
   dplyr::select(Glottocode, Language_level_ID, level, classification, Name)
 
@@ -13,6 +28,8 @@ GB_df_desc <-  data.table::fread(GB_df_desc_fn,
   filter(Binary_Multistate != "Multi") %>% #we are only interested in the binary or binarised features.
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
+
+GB_df_desc <- GB_df_desc[range]
 
 #reading in Grambank
 GB_df_all <- read_tsv(GB_binary_fn, col_types = cols()) 
