@@ -64,7 +64,7 @@ df$`Parsimony result (Gray et al 2009-tree)` <- if_else(df$gray_parsimony_predic
                                                                 if_else(df$gray_parsimony_prediction == "Absent" & df$Prediction == 1, "False Negative",  
                                                                         if_else(df$gray_parsimony_prediction == "Present" & df$Prediction == 0, "False Positive",
                                                                                 
-                                                                                ifelse(df$gray_parsimony_prediction == "Half", "Half", NA)))))
+                                                                                ifelse(df$gray_parsimony_prediction == "Half" & !is.na(df$Prediction), "Half", NA)))))
 
 
 df <- value_count_df %>% 
