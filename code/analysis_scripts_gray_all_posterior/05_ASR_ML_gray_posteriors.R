@@ -9,7 +9,7 @@ if(length(args) != 0){
   range <- start:end
 } else { #if you're running this script chunkwise in Rstudio or similar instead of via command line, you'll read in the parameters this way:
   start <- 1
-  end <- 101
+  end <- 100
   range <- start:end
 }
 
@@ -29,14 +29,14 @@ GB_df_desc <-  data.table::fread(GB_df_desc_fn,
   dplyr::select(ID, Grambank_ID_desc) %>% 
   mutate(Grambank_ID_desc = str_replace_all(Grambank_ID_desc, " ", "_"))
 
-GB_df_desc <- GB_df_desc[range]
-
 #reading in Grambank
 GB_df_all <- read_tsv(GB_binary_fn, col_types = cols()) 
 
 
 #reading in gray et all tree, already subsetted to only Oceanic and with tips renamed to glottocodes. If the tip was associated with a dialect which was individually coded in GB, the tip label is the glottocode for that dialect. If not, it has the language-level parent glottocode of that dialect. We'll be dropping tips with missing data feature-wise, i.e. for each feature not before.
 gray_trees_fns <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = T)
+
+gray_trees_fns <- gray_trees_fns[range]
 
 ###ASR FUNCTION
 
@@ -142,6 +142,12 @@ for(tree_fn in 1:length(gray_trees_fns)){
   #creating a folder for outputting tables
   output_dir <- file.path("output", "gray_et_al_2009", "ML", "results_by_tree", fn)
   
+  cat(paste0("On ",output_dir, ".\n"))
+  
+  if(file.exists(file.path(output_dir, "GB_ML_gray_tree.rds"))){
+    cat(paste0("File already exists, moving on.\n"))
+  }else{
+  
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
   if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
   if (!dir.exists(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/"))) { dir.create(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/")) }
@@ -186,4 +192,5 @@ for(tree_fn in 1:length(gray_trees_fns)){
   }
   
   write_csv( results, file.path(output_dir, "results.csv"))
+}
 }
