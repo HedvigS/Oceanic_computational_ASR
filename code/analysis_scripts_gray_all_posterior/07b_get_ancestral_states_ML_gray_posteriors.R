@@ -69,7 +69,7 @@ for(dir in dirs){
     df$`ML result (Gray et al 2009-tree)` <- ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 1, "True Positive",  
                                                           ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 0, "True Negative",   
                                                                   ifelse(df$gray_ML_prediction == "Absent" & df$Prediction == 1, "False Negative",  
-                                                                          ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
+                                                                          ifelse(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",           ifelse(df$gray_ML_prediction == "Half" & !is.na(df$Prediction), "Half", NA)))))
   
     df <- value_count_df %>% 
     right_join(df, by = "Feature_ID") 
