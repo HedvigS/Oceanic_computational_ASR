@@ -50,7 +50,7 @@ df$`ML result (Glottolog-tree)` <- if_else(df$glottolog_ML_prediction == "Presen
                                                              df$Prediction == 1, "False Negative",  
                                                            if_else(df$glottolog_ML_prediction == "Present" & df$Prediction == 0, "False Positive",
                                                                    
-                                                                   ifelse(df$glottolog_ML_prediction == "Half", "Half", NA)))))
+                                                                   ifelse(df$glottolog_ML_prediction == "Half" & !is.na(df$Prediction), "Half", NA)))))
 
 df <- value_count_df %>% 
   right_join(df) 
