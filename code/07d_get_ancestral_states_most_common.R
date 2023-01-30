@@ -126,5 +126,6 @@ all_df  %>%
   mutate(result_most_common = ifelse(not_enough == "Not enough languages", "Not enough languages", result_most_common)) %>% 
   dplyr::select(-not_enough, -n) %>% 
   left_join(lowest_df, by = "Feature_ID") %>% 
+  mutate(min_percent_most_common = min/ntip) %>% 
   dplyr::select(-value) %>% 
   write_tsv("output/HL_comparison/most_common_reconstructions.tsv")
