@@ -1,4 +1,5 @@
 source("01_requirements.R")
+source("fun_custom_parsimony_results_table.R")
 
 #This script reads in all the trees in the posterior of Gray et al 2009. They have already been pruned and tips are set to glottocodes (see 3_get_gray_tree.R). In this script, we apply the function castor::max_parsimony() to each tree and saves the output from that, along with some other handy output regarding tip states etc in a row in a tibble. There is one tibble per tree in the posterior (i.e. 42000) and each tibble has one row per feature, and is saved to an RDS-file. All output is saved to a folder inside output/gray_et_al_2009/parsimony/results_by_tree/. Each folder name is unique to each tree, and all output concerning each tree is saved in the respective folder.
 
@@ -107,6 +108,13 @@ for(tree_fn in 1:length(gray_trees_fns)){
   #creating a folder for outputting tables
   output_dir <- file.path("output", "gray_et_al_2009", "parsimony", "results_by_tree", fn)
   
+  cat(paste0("On ",output_dir, ".\n"))
+  
+  if(file.exists(  file.path(output_dir, "GB_parsimony_gray_tree.rds")
+  )){
+    cat(paste0("File already exists, moving on.\n"))
+  
+  }else{
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
   
   GB_ASR_Parsimony_all_df <- tibble(Feature_ID = GB_parameters,
@@ -117,8 +125,6 @@ for(tree_fn in 1:length(gray_trees_fns)){
   
 
 ###Making a summary results table for easy comparison
-
-source("fun_custom_parsimony_results_table.R")
 
 df_parsimony_gray <- as.data.frame(do.call(rbind,(lapply(GB_ASR_Parsimony_all_df$Feature_ID, 
                                                               fun_extract_tip_counts_parsimony_cost, ASR_tibble = GB_ASR_Parsimony_all_df))))
@@ -132,4 +138,5 @@ df_parsimony_gray %>%
 cat("done summary results table.csv")
 
 cat("ASR with parsimony and Gray et al 2009-tree all done, for ", fn, ".\n" , sep = "")
+  }
 }
