@@ -85,7 +85,7 @@ all_ML_reconstructions_df <- fns %>%
                                   fill = TRUE, blank.lines.skip = TRUE,
                                   sep = "\t", na.strings = "NA",
     )   %>% 
-      dplyr::select(Feature_ID, gray_ML_prediction_0, gray_ML_prediction_1, ntips_ML_gray, `Proto-language`) %>% 
+      dplyr::select(Feature_ID, gray_ML_prediction_0, gray_ML_prediction_1, ntips_ML_gray, `Proto-language`, min_ML_gray, min_percent_ML_gray) %>% 
       mutate(gray_ML_prediction_0 = as.numeric(gray_ML_prediction_0)) %>% 
       mutate(gray_ML_prediction_1 = as.numeric(gray_ML_prediction_1),
              ntips_ML_gray = as.numeric(ntips_ML_gray) ,
@@ -98,7 +98,9 @@ all_ML_reconstructions_df_summarised <-  all_ML_reconstructions_df %>%
   group_by(Feature_ID, `Proto-language`) %>% 
   summarise(gray_ML_prediction_0 = mean(gray_ML_prediction_0, na.rm = T),
             gray_ML_prediction_1 = mean(gray_ML_prediction_1, na.rm = T), 
-            ntips_ML_gray = mean(ntips_ML_gray, na.rm = T)) 
+            ntips_ML_gray = mean(ntips_ML_gray, na.rm = T), 
+            min_ML_gray = mean(min_ML_gray), 
+            min_percent_ML_gray = mean(min_percent_ML_gray))
 
 #summarising prediction into present or absent, or half-half
 all_ML_reconstructions_df_summarised$gray_ML_prediction <- if_else(all_ML_reconstructions_df_summarised$gray_ML_prediction_0 > 0.6, "Absent", if_else(all_ML_reconstructions_df_summarised$gray_ML_prediction_1 > 0.6, "Present", "Half")) 
