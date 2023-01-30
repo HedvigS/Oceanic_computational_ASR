@@ -15,7 +15,6 @@ HL_findings_sheets <- HL_findings_sheet %>%
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
-
 value_count_df <- read_csv("output/gray_et_al_2009//ML/mcct/results.csv") %>%
   mutate(min = pmin( nTips_state_0,  nTips_state_1)) %>% 
   mutate(min_percent_ML_gray = min / nTips) %>%
@@ -50,10 +49,11 @@ df$`ML result (Gray et al 2009-tree)` <- if_else(df$gray_ML_prediction == "Prese
                                                          if_else(df$gray_ML_prediction == "Absent" & df$Prediction == 1, "False Negative",  
                                                                  if_else(df$gray_ML_prediction == "Present" & df$Prediction == 0, "False Positive",
                                                                          
-                                                                         ifelse(df$gray_ML_prediction == "Half", "Half", NA)))))
+                                                                         ifelse(df$gray_ML_prediction == "Half" & !is.na(df$Prediction), "Half", NA))))) 
 
 df <- value_count_df %>% 
   right_join(df, by = "Feature_ID") 
+
 
 ##Marking which results can't be included because they don't have enough languages
 
