@@ -4,6 +4,9 @@ HL_findings_sheet <- HL_findings_sheet <- read_tsv("output/processed_data/HL_fin
   filter(!is.na(Prediction)) %>% 
   distinct(Feature_ID, Prediction, `Proto-language`)
 
+values_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
+  distinct(Feature_ID, ntips = ntips_parsimony_glottolog, zeroes_total= zeroes_parsimony_glottolog ,ones_total=  ones_parsimony_glottolog, min_percent = min_percent_parsimony_glottolog)
+
 most_common_values_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
   dplyr::select(most_common_prediction, 
                 `Proto-language`, 
@@ -101,6 +104,7 @@ full_df <- parsimony_glottolog_df %>%
   full_join(ML_gray_posteriors_df, by = c("Feature_ID", "Proto-language")) %>% 
   full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>%
   full_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")) %>% 
+  full_join(values_df, by = "Feature_ID") %>% 
   dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, 
                 glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, 
                 most_common_prediction, HL_prediction = Prediction, everything()) 
