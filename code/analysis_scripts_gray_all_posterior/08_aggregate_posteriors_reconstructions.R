@@ -65,9 +65,11 @@ all_parsimony_reconstructions_df_summarised$`Parsimony result (Gray et al 2009-t
 #Parsimony gray
 all_parsimony_reconstructions_df_summarised$`Parsimony result (Gray et al 2009-tree posteriors)`<- if_else(all_parsimony_reconstructions_df_summarised$ntips_parsimony_gray <  ntips_half_gray, "Not enough languages", all_parsimony_reconstructions_df_summarised$`Parsimony result (Gray et al 2009-tree posteriors)`)
 
+all_parsimony_reconstructions_df_summarised$`Parsimony result (Gray et al 2009-tree posteriors)` <- ifelse(is.na(all_parsimony_reconstructions_df_summarised$Prediction), NA, all_parsimony_reconstructions_df_summarised$`Parsimony result (Gray et al 2009-tree posteriors)`)
+
 all_parsimony_reconstructions_df_summarised$gray_parsimony_prediction <- if_else(all_parsimony_reconstructions_df_summarised$ntips_parsimony_gray <  ntips_half_gray, "Not enough languages", all_parsimony_reconstructions_df_summarised$gray_parsimony_prediction)
 
-all_parsimony_reconstructions_df_summarised %>% 
+all_parsimony_reconstructions_df_summarised %>%
   write_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")
 
 
@@ -93,6 +95,7 @@ all_ML_reconstructions_df <- fns %>%
              min_percent_ML_gray = as.numeric(min_percent_ML_gray)) %>% 
       mutate(filename = x) 
   ) 
+
 
 all_ML_reconstructions_df_summarised <-  all_ML_reconstructions_df %>% 
   group_by(Feature_ID, `Proto-language`) %>% 
@@ -121,6 +124,8 @@ all_ML_reconstructions_df_summarised$`ML result (Gray et al 2009-tree posteriors
 
 #ML gray
 all_ML_reconstructions_df_summarised$`ML result (Gray et al 2009-tree posteriors)`<- if_else(all_ML_reconstructions_df_summarised$ntips_ML_gray <  ntips_half_gray, "Not enough languages", all_ML_reconstructions_df_summarised$`ML result (Gray et al 2009-tree posteriors)`)
+
+all_ML_reconstructions_df_summarised$`ML result (Gray et al 2009-tree posteriors)` <- ifelse(is.na(all_ML_reconstructions_df_summarised$Prediction), NA, all_ML_reconstructions_df_summarised$`ML result (Gray et al 2009-tree posteriors)`)
 
 all_ML_reconstructions_df_summarised$gray_ML_prediction <- if_else(all_ML_reconstructions_df_summarised$ntips_ML_gray <  ntips_half_gray, "Not enough languages", all_ML_reconstructions_df_summarised$gray_ML_prediction)
 
