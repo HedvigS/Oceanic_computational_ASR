@@ -1,8 +1,12 @@
 source("01_requirements.R")
 
-HL_findings_sheet <- HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>%  
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>%  
   filter(!is.na(Prediction)) %>% 
-  distinct(Feature_ID, Prediction, `Proto-language`)
+  distinct(Feature_ID, Prediction, `Proto-language`) 
+
+HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
+  mutate(conflict = "Yes") %>% 
+  dplyr::select(Feature_ID, `Proto-language`, conflict)
 
 values_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
   distinct(Feature_ID, ntips = ntips_parsimony_glottolog, zeroes_total= zeroes_parsimony_glottolog ,ones_total=  ones_parsimony_glottolog, min_percent = min_percent_parsimony_glottolog)
@@ -83,6 +87,9 @@ ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv
   distinct() %>% 
   filter(gray_mcct_ML_prediction != "Not enough languages")
 
+#ML_gray_mcct %>% 
+#  filter(!is.na(`ML result (Gray et al 2009-tree)`)) %>% nrow()
+
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
   dplyr::select(Feature_ID, 
                 `Proto-language`,
@@ -96,6 +103,7 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
   distinct() %>% 
   filter(gray_posteriors_ML_prediction != "Not enough languages")
 
+#merging
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "Proto-language")) %>% 
   full_join(parsimon_gray_posteriors_df, by = c("Feature_ID", "Proto-language")) %>% 
@@ -107,7 +115,43 @@ full_df <- parsimony_glottolog_df %>%
   full_join(values_df, by = "Feature_ID") %>% 
   dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, 
                 glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, 
-                most_common_prediction, HL_prediction = Prediction, everything()) 
+                most_common_prediction, HL_prediction = Prediction, everything()) %>% 
+  distinct()
+
+full_df %>% colnames()
 
 full_df %>% 
+  dplyr::select(Feature_ID, `Proto-language`, `ML result (Gray et al 2009-tree posteriors)`, `Parsimony result (Gray et al 2009-tree posteriors)`, everything()) %>% 
+  filter(is.na(`ML result (Gray et al 2009-tree posteriors)`)) %>%
+  filter(!is.na(`Parsimony result (Gray et al 2009-tree posteriors)`)) %>% View()
+
+
+#writing
+full_df %>% 
+  left_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
   write_tsv(file = "output/all_reconstructions_all_methods.tsv", na = "")
+
+full_df %>% 
+  dplyr::select(-c(zeroes_total, ones_total, ntips, min_percent)) %>% 
+  reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
+  mutate(tree_type = ifelse(str_detect(variable, "[G|g]lottolog"), "glottolog", NA)) %>% 
+  mutate(tree_type = ifelse(str_detect(variable, "common"), "most_common", tree_type)) %>% 
+  mutate(tree_type = ifelse(str_detect(variable, "posteriors"), "gray_posteriors", tree_type)) %>%
+  mutate(tree_type = ifelse(str_detect(variable, "HL"), "HL", tree_type)) %>%
+  mutate(tree_type = ifelse(!str_detect(variable, "posteriors") & str_detect(variable, "[G|g]ray"), "gray_mcct", tree_type)) %>% 
+  mutate(variable_cleaned = ifelse(str_detect(variable, "min_percent"), "min_percent", NA)) %>% 
+  mutate(variable_cleaned = ifelse(!str_detect(variable, "min_percent") & str_detect(variable, "min"), "min", variable_cleaned)) %>% 
+  mutate(method = ifelse(str_detect(variable, "[P|p]arsimony"), "parsimony", NA)) %>% 
+  mutate(method = ifelse(str_detect(variable, "ML"), "ML", method)) %>% 
+  mutate(method = ifelse(str_detect(variable, "HL"), "HL", method)) %>% 
+  mutate(method = ifelse(str_detect(variable, "common"), "most_common", method)) %>% 
+  mutate(variable_cleaned = ifelse(str_detect(variable, "ntip"), "ntip", variable_cleaned)) %>% 
+  mutate(variable_cleaned = ifelse(str_detect(variable, "result"), "result", variable_cleaned)) %>% 
+  mutate(variable_cleaned = ifelse(str_detect(variable, "prediction"), "prediction", variable_cleaned)) %>% 
+  dplyr::select(-variable) %>% 
+  rename(variable = variable_cleaned) %>% 
+  full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
+  filter(variable == "result") %>% 
+  filter(is.na(conflict)) %>% 
+  distinct() %>%
+  write_tsv(file = "output/all_reconstructions_all_methods_long.tsv", na = "")
