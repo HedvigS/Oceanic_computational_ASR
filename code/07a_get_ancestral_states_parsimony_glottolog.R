@@ -46,7 +46,7 @@ df$`Parsimony result (Glottolog-tree)` <- if_else(df$glottolog_parsimony_predict
                                                                 if_else(df$glottolog_parsimony_prediction == "Absent" & df$Prediction == 1, "False Negative",  
                                                                         if_else(df$glottolog_parsimony_prediction == "Present" & df$Prediction == 0, "False Positive",
                                                                                 
-                                                                                ifelse(df$glottolog_parsimony_prediction == "Half", "Half", NA)))))
+                                                                                ifelse(df$glottolog_parsimony_prediction == "Half" & !is.na(df$Prediction), "Half", NA)))))
 
 df <- value_count_df %>% 
   right_join(df) 
