@@ -87,6 +87,7 @@ ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv
   distinct() %>% 
   filter(gray_mcct_ML_prediction != "Not enough languages")
 
+
 #ML_gray_mcct %>% 
 #  filter(!is.na(`ML result (Gray et al 2009-tree)`)) %>% nrow()
 
@@ -103,6 +104,9 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
   distinct() %>% 
   filter(gray_posteriors_ML_prediction != "Not enough languages")
 
+ML_gray_posteriors_df  %>% 
+  filter(!is.na(`ML result (Gray et al 2009-tree posteriors)`)) %>% nrow()
+
 #merging
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "Proto-language")) %>% 
@@ -117,14 +121,6 @@ full_df <- parsimony_glottolog_df %>%
                 glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, 
                 most_common_prediction, HL_prediction = Prediction, everything()) %>% 
   distinct()
-
-full_df %>% colnames()
-
-full_df %>% 
-  dplyr::select(Feature_ID, `Proto-language`, `ML result (Gray et al 2009-tree posteriors)`, `Parsimony result (Gray et al 2009-tree posteriors)`, everything()) %>% 
-  filter(is.na(`ML result (Gray et al 2009-tree posteriors)`)) %>%
-  filter(!is.na(`Parsimony result (Gray et al 2009-tree posteriors)`)) %>% View()
-
 
 #writing
 full_df %>% 
