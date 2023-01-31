@@ -104,9 +104,6 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
   distinct() %>% 
   filter(gray_posteriors_ML_prediction != "Not enough languages")
 
-ML_gray_posteriors_df  %>% 
-  filter(!is.na(`ML result (Gray et al 2009-tree posteriors)`)) %>% nrow()
-
 #merging
 full_df <- parsimony_glottolog_df %>% 
   full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "Proto-language")) %>% 
