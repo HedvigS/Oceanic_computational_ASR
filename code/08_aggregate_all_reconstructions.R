@@ -2,7 +2,10 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>%  
   filter(!is.na(Prediction)) %>% 
-  distinct(Feature_ID, Prediction, `Proto-language`) 
+  distinct(Feature_ID, Prediction, `Proto-language`) %>% 
+  mutate(Prediction = as.character(Prediction)) %>% 
+  mutate(Prediction = str_replace_all(Prediction, "0", "Absent")) %>% 
+  mutate(Prediction = str_replace_all(Prediction, "1", "Present"))
 
 HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
   mutate(conflict = "Yes") %>% 
@@ -144,7 +147,5 @@ full_df %>%
   dplyr::select(-variable) %>% 
   rename(variable = variable_cleaned) %>% 
   full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
-  filter(variable == "result") %>% 
-  filter(is.na(conflict)) %>% 
   distinct() %>%
   write_tsv(file = "output/all_reconstructions_all_methods_long.tsv", na = "")
