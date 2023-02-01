@@ -1,87 +1,81 @@
 source("01_requirements.R")
 
-GB_ID_desc <- read_tsv(GB_df_desc_fn) %>% 
-  dplyr::select(Feature_ID = ID, Name)
-
 #OUTPUTTING XTABLES
 OUTPUT_DIR <- file.path( OUTPUTDIR_plots , "results")
 if(!dir.exists(OUTPUT_DIR)){
   dir.create(OUTPUT_DIR)}
 
-HL_findings_sheet <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
+#this script makes to tables that summarises information regarding the states that HL disagrees on.
+
+#reading in table with full features names
+GB_ID_desc <- read_tsv(GB_df_desc_fn) %>% 
+  dplyr::select(Feature_ID = ID, Name)
+
+#table with conflicts in HL first, including precise sources
+HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
   rename(Prediction = Value) %>% 
-  filter(!is.na(Prediction)) %>% 
-  dplyr::select(Feature_ID, HL_prediction = Prediction, `Proto-language`, Source, Feature)
+  mutate(Prediction = str_replace_all(Prediction, "0", "Absent")) %>% 
+  mutate(Prediction = str_replace_all(Prediction, "1", "Present")) %>% 
+  filter(!is.na(Prediction))  %>%
+  left_join(GB_ID_desc, by = "Feature_ID") %>% 
+  dplyr::select("Proto-language",`Feature ID` = Feature_ID,  Prediction,Source = "Source (Latex)")  %>% 
+  mutate(Source = str_replace_all(Source, "clark1976aspects", "clark1973aspects")) %>% 
+  mutate(Source = str_replace_all(Source, "\\{ball", "\\citet{ball"))
+  
 
-most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
-  filter(!is.na(`result_most_common`)) %>% 
-  right_join(HL_findings_sheet) %>% 
-  dplyr::select(Feature_ID, "most_common_prediction", "Proto-language", HL_prediction, Source)
-
-#reading in the results from each method and tree and calculating the number of true negatives etc
-
-parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
-  right_join(HL_findings_sheet) %>%
-  dplyr::select(Feature_ID, glottolog_parsimony_prediction, "Proto-language", HL_prediction, Source)
-
-parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>%
-  right_join(HL_findings_sheet) %>% 
-  dplyr::select(Feature_ID, gray_parsimony_prediction, "Proto-language", HL_prediction, Source)
-
-parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
-  right_join(HL_findings_sheet) %>% 
-  dplyr::select(Feature_ID, gray_parsimony_prediction_posteriors = gray_parsimony_prediction, "Proto-language", HL_prediction, Source)
-
-ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
-  right_join(HL_findings_sheet) %>% 
-  dplyr::select(Feature_ID, glottolog_ML_prediction, "Proto-language", HL_prediction, Source)
-
-ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
-  right_join(HL_findings_sheet) %>% 
-  dplyr::select(Feature_ID, gray_ML_prediction, "Proto-language", HL_prediction, Source)
-
-ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
-  right_join(HL_findings_sheet) %>%
-  dplyr::select(Feature_ID, gray_ML_prediction_posteriors = gray_ML_prediction, "Proto-language", HL_prediction, Source)
-
-#combining all
-full_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df) %>% 
-  full_join(parsimon_gray_posteriors_df) %>% 
-  full_join(ML_glottolog_df) %>% 
-  full_join(ML_gray_mcct) %>% 
-  full_join(ML_gray_posteriors_df) %>% 
-  full_join(most_common_df) %>% 
-  distinct()
+colnames(HL_findings_sheet_conflicts) <- paste0("$\\textbf{\\pb{ ", colnames(HL_findings_sheet_conflicts), "}}$")
 
 #write xtable
-cap <- "Table showing the results for the features where historical linguists disagree."
-lbl <- "conflict_results_table"
-align <- c("r", "p{4cm}","p{4cm}", "p{4cm}", "p{4cm}") 
+cap <- "Table showing the features where historical linguists disagree."
+lbl <- "conflict_table"
+align <- c("p{0.25\\linewidth}", "p{0.25\\linewidth}","p{0.2\\linewidth}", "p{0.2\\linewidth}", "p{0.2\\linewidth}") 
 
-xtable_conflicts <- full_df %>% 
-  left_join(GB_ID_desc, by = "Feature_ID") %>% 
-  distinct(Feature_ID, Name, `Proto-language`, 
-           `Parsimony Glottolog (v4.4)` = glottolog_parsimony_prediction, 
-           `Parsimony Gray et al (2009) - MCCT` = gray_parsimony_prediction,
-           `Parsimony Gray et al (2009) - posteriors` = gray_parsimony_prediction_posteriors,
-           `ML Glottolog (v4.4)`=glottolog_ML_prediction, 
-           `ML Gray et al (2009) - MCCT`=gray_ML_prediction,
-           `ML Gray et al (2009) - posteriors`=gray_ML_prediction_posteriors,
-           `Most Common`=most_common_prediction) %>% 
-  unite(Feature_ID, Name, `Proto-language`, col = "colname",sep = "$\\newline$") %>% 
-    t() 
-
-colnames(xtable_conflicts) <- paste0("$\\textbf{\\pb{ ", xtable_conflicts[1,], "}}$")
-xtable_conflicts <- xtable_conflicts[-1,]
-
-xtable_conflicts %>% 
-  as.data.frame() %>%
-  rownames_to_column("$\\textbf{\\parbox{1.8cm}{\\raggedright Method}}$") %>% 
+HL_findings_sheet_conflicts %>% 
   xtable(caption = cap, label = lbl,
          digits = 0, 
          align = align) %>% 
-  xtable::print.xtable(file = file.path(OUTPUT_DIR , "table_conflicts.tex"), sanitize.colnames.function = function(x){x},
+  xtable::print.xtable(file = file.path(OUTPUT_DIR , "table_conflicts_HL.tex"), 
+                       sanitize.text.function =  function(x){x},
+                       sanitize.colnames.function = function(x){x},
+                       include.rownames = FALSE, math.style.negative = T,
+                       booktabs = TRUE) 
+
+#table with the results of the predictions from comp methods
+
+full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv") %>%  
+  filter(variable == "prediction") %>% 
+  filter(!is.na(value)) %>% 
+  filter(!is.na(conflict)) %>% 
+  dplyr::select(-variable, -conflict) %>% 
+  unite(method, tree_type, col = "method", sep = "$\\newline$") %>% 
+  mutate("method" = str_replace_all(method, "_", " ")) %>% 
+  mutate("method" = str_replace_all(`method`, "gray_mcct", "Gray et al (2009) - MCCT ")) %>% 
+  mutate("method" = str_replace_all(`method`, "gray_posteriors", "Gray et al (2009) - posteriors ")) %>% 
+  mutate("method" = str_replace_all(`method`, "glottolog", "Glottolog (4.4)")) %>% 
+  mutate("method" = ifelse(str_detect(method, "common"), "Most common", method)) %>% 
+   unite(Feature_ID, "Proto-language", col = "Feature", sep = "$\\newline$") %>% 
+    reshape2::dcast(Feature ~ method, value.var = "value") %>% 
+  dplyr::select(Feature, `parsimony$\\newline$Glottolog (4.4)`,"parsimony$\\newline$gray mcct",       "parsimony$\\newline$gray posteriors" , "ML$\\newline$Glottolog (4.4)", "ML$\\newline$gray mcct"   ,           "ML$\\newline$gray posteriors" ,"Most common") 
+
+full_df <- full_df %>% t()
+
+colnames(full_df) <- paste0("$\\textbf{\\pb{ ", full_df[1,], "}}$")
+full_df <- full_df[-1,] %>% 
+  as.data.frame() %>% 
+  rownames_to_column("$\\textbf{\\pb{Method}}$")
+
+#write xtable
+cap <- "Table showing the computational results for the features where historical linguists disagree."
+lbl <- "conflict_results_table"
+align <- c("p{0.2\\linewidth}", "p{0.25\\linewidth}","p{0.24\\linewidth}", "p{0.24\\linewidth}", "p{0.24\\linewidth}") 
+
+full_df %>%
+  xtable(caption = cap, label = lbl,
+         digits = 0, 
+         align = align) %>% 
+  xtable::print.xtable(file = file.path(OUTPUT_DIR , "table_conflicts_results.tex"), 
+                       sanitize.text.function = function(x){x},
+                       sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, math.style.negative = T,
                        booktabs = TRUE) 
   
