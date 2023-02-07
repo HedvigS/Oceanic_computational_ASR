@@ -127,7 +127,7 @@ full_df %>%
   left_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
   write_tsv(file = "output/all_reconstructions_all_methods.tsv", na = "")
 
-full_df %>% 
+full_df_long <- full_df %>% 
   dplyr::select(-c(zeroes_total, ones_total, ntips, min_percent)) %>% 
   reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
   mutate(tree_type = ifelse(str_detect(variable, "[G|g]lottolog"), "glottolog", NA)) %>% 
@@ -147,5 +147,23 @@ full_df %>%
   dplyr::select(-variable) %>% 
   rename(variable = variable_cleaned) %>% 
   full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
-  distinct() %>%
+  distinct() 
+
+full_df_long %>%
   write_tsv(file = "output/all_reconstructions_all_methods_long.tsv", na = "")
+
+
+
+#big old table
+full_df_long %>% 
+  filter(is.na(conflict)) %>% 
+  dplyr::select(-conflict) %>% 
+  filter(variable == "result"|variable == "prediction") %>% 
+#  unite(method, tree_type, sep = "_", col = "method") %>% 
+  pivot_wider(names_from = "variable", values_from = "value") %>% 
+  filter(!is.na(`Proto-language`)) %>% 
+  dplyr::select(-result) %>%  
+  unite("method", "tree_type", col = "method") %>% 
+  pivot_wider(names_from = "method", values_from = "prediction") %>% 
+  write_tsv(file = "output/all_reconstructions_all_methods_wide_easy.tsv", na = "")
+
