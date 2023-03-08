@@ -1,7 +1,6 @@
 source("01_requirements.R")
 
-HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") %>% 
-  distinct(Feature_ID)
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
 fns <- list.files("output/HL_comparison/phylo_d/", pattern = "main", full.names = T)
 
@@ -65,89 +64,26 @@ phylo_d_df <- phylo_d_full %>%
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
 
-
-
-
 #reading in reconstruction results
-parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstructions.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 1, glottolog_parsimony_prediction_1, NA)) %>% 
-  mutate(glottolog_parsimony_prediction_number = ifelse(Prediction == 0, glottolog_parsimony_prediction_0, glottolog_parsimony_prediction_number)) %>%   dplyr::select(Feature_ID, glottolog_parsimony_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "glottolog") %>% 
-  tidyr::pivot_longer(cols = c("glottolog_parsimony_prediction_number")) %>% 
-  mutate(method = "parsimony") 
-  
-
-parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_reconstructions.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
-  mutate(gray_parsimony_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_prediction_number)) %>%   dplyr::select(Feature_ID, gray_parsimony_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "gray_mcct") %>% 
-  tidyr::pivot_longer(cols = c("gray_parsimony_prediction_number")) %>% 
-  mutate(method = "parsimony") 
-
-parsimony_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_reconstructions_posteriors_aggregated.tsv")   %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(gray_parsimony_posteriors_prediction_number = ifelse(Prediction == 1, gray_parsimony_prediction_1, NA)) %>% 
-  mutate(gray_parsimony_posteriors_prediction_number = ifelse(Prediction == 0, gray_parsimony_prediction_0, gray_parsimony_posteriors_prediction_number)) %>%   dplyr::select(Feature_ID, gray_parsimony_posteriors_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "gray_posterior")  %>% 
-  tidyr::pivot_longer(cols = c("gray_parsimony_posteriors_prediction_number")) %>% 
-  mutate(method = "parsimony") 
-
-
-ML_glottolog_df <- read_tsv("output/glottolog-tree/ML/all_reconstructions.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(glottolog_ML_prediction_number = ifelse(Prediction == 1, glottolog_ML_prediction_1, NA)) %>% 
-  mutate(glottolog_ML_prediction_number = ifelse(Prediction == 0, glottolog_ML_prediction_0, glottolog_ML_prediction_number)) %>%
-  dplyr::select(Feature_ID, glottolog_ML_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "glottolog") %>% 
-  tidyr::pivot_longer(cols = c("glottolog_ML_prediction_number")) %>% 
-  mutate(method = "ML") 
-
-ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(gray_ML_prediction_number = ifelse(Prediction == 1, gray_ML_prediction_1, NA)) %>% 
-  mutate(gray_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_ML_prediction_number)) %>%
-  dplyr::select(Feature_ID, gray_ML_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "gray_mcct") %>% 
-  tidyr::pivot_longer(cols = c("gray_ML_prediction_number"))%>% 
-  mutate(method = "ML") 
-
-
-ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(gray_posteriors_ML_prediction_number = ifelse(Prediction == 1, gray_ML_prediction_1, NA)) %>% 
-  mutate(gray_posteriors_ML_prediction_number = ifelse(Prediction == 0, gray_ML_prediction_0, gray_posteriors_ML_prediction_number)) %>% 
-  dplyr::select(Feature_ID, gray_posteriors_ML_prediction_number, `Proto-language`) %>% 
-  mutate(tree_type = "gray_posterior") %>% 
-  tidyr::pivot_longer(cols = c("gray_posteriors_ML_prediction_number"))%>% 
-  mutate(method = "ML") 
-
-most_common_df <- read_tsv("output/HL_comparison/most_common_reconstructions.tsv") %>% 
-  filter(!is.na(Prediction)) %>% 
-  mutate(most_common_prediction_number = ifelse(Prediction == 1,`1` , NA)) %>% 
-  mutate(most_common_prediction_number = ifelse(Prediction == 0, `0`, most_common_prediction_number)) %>% 
-  dplyr::select(Feature_ID, most_common_prediction_number, "Proto-language") %>% 
-  mutate(tree_type = "most_common") %>% 
-  tidyr::pivot_longer(cols = c("most_common_prediction_number")) %>% 
-  mutate(method = "most_common") 
-  
-reconstruction_results_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
-  full_join(parsimony_gray_posteriors_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
-  full_join(ML_glottolog_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
-  full_join(ML_gray_mcct, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
-  full_join(ML_gray_posteriors_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language")) %>% 
-  full_join(most_common_df, by = c("Feature_ID", "tree_type", "name", "value", "method", "Proto-language"))
+reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>% 
+  filter(!is.na(value)) %>% 
+  filter(is.na(conflict)) %>% 
+  filter(variable == "prediction_1"|
+           variable == "prediction_0") %>% 
+  pivot_wider(id_cols = c("Feature_ID", "Proto-language", "tree_type", "method"), names_from = "variable", values_from = "value") %>% 
+  left_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")  ) %>% 
+  mutate(value = ifelse(Prediction == 1,`prediction_1` , NA)) %>% 
+  mutate(value = ifelse(Prediction == 0, `prediction_0`, value)) %>% 
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F)
 
 #joning and plotting
 
 joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df) %>% 
-  mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
-  mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
-  distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
-  
+  left_join(phylo_d_df) #%>% 
+#  mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
+ # mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
+#  distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
+
 #plot of percentage of minority state per tree and kind of d-estimate
 joined_df %>%
   distinct(Feature_tree, tree_type, summarise_col, min_p) %>% 
@@ -155,14 +91,12 @@ joined_df %>%
   geom_point(mapping = aes(x = tree_type, y = min_p)) +
   facet_wrap(~summarise_col)
 
-
 #plot of percentage of minority state and difference between mean of sum clade differences in brownian and random
-joined_df %>% 
-  filter(!str_detect(tree_type, "common")) %>%
-  mutate(deff = abs(Parameters_MeanRandom - Parameters_MeanBrownian)) %>% 
-  ggplot()+
-  geom_point(mapping = aes(x = min_p, y = deff, color = tree_type, size = ntip))
-
+#joined_df %>% 
+#  filter(!str_detect(tree_type, "common")) %>%
+#  mutate(deff = abs(Parameters_MeanRandom - Parameters_MeanBrownian)) %>% 
+#  ggplot()+
+#  geom_point(mapping = aes(x = min_p, y = deff, color = tree_type, size = ntip))
 
 #plot of correlation between d-estimate and agreement with HL, excluding d-estimates that are inappropriate
 joined_df %>% 
