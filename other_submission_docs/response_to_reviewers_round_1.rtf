@@ -3,7 +3,7 @@
 }
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww28500\viewh17700\viewkind1
+\paperw11900\paperh16840\margl1440\margr1440\vieww38100\viewh21300\viewkind1
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\b\fs24 \cf0 Reviewer #1: \
@@ -68,13 +68,34 @@ Response: I would like to keep this point, but I agree that I ought to make it m
 \f2\i0 \
 Response: Agreed, I have changed the figure placement so that it does not have its own page now.\
 \
-It is good that (App A) the dataset will be published and the code will be available (with understandable restrictions).\
-Reviewer #2: Review of "Dissecting historical reconstruction"\
-This paper assesses the extent to which reconstructions carried out by approaches borrowed from computational biology agree with traditional reconstructions produced by historical linguistics, focusing on the morphosyntax of Austronesian languages. Unlike previous studies of automated reconstruction of morphosyntax, it takes into account parsimony as well as likelihood-based approaches (along with a simple frequency-based method). The former methodology is often neglected by linguists due to the many problems associated with it in the biological literature (e.g., long branch attraction, etc.) as well as the fact that many linguistic traits in general exhibit a great deal of homoplasy. Nonetheless, a concrete assessment of its merits alongside likelihood-based methods is welcome.\
+
+\f1\i It is good that (App A) the dataset will be published and the code will be available (with understandable restrictions).\
+
+\f2\i0 \
+Response: I am glad the reviewer likes this, it pleases me greatly too.\
+\
+
+\f0\b Reviewer #2: Review of "Dissecting historical reconstruction"
+\f2\b0 \
+
+\f1\i This paper assesses the extent to which reconstructions carried out by approaches borrowed from computational biology agree with traditional reconstructions produced by historical linguistics, focusing on the morphosyntax of Austronesian languages. Unlike previous studies of automated reconstruction of morphosyntax, it takes into account parsimony as well as likelihood-based approaches (along with a simple frequency-based method). The former methodology is often neglected by linguists due to the many problems associated with it in the biological literature (e.g., long branch attraction, etc.) as well as the fact that many linguistic traits in general exhibit a great deal of homoplasy. Nonetheless, a concrete assessment of its merits alongside likelihood-based methods is welcome.\
 This is a paper with promise due to its careful comparison of different methods as well as its use of a large new dataset. I do think, however, that additional work is needed before this paper can achieve its full potential as a resource for historical linguists. While the methodology can largely stand as it currently is, I feel that the general framing of the paper could use a bit more thought, both on a broader level and more narrowly (more specific points can be found below). The results must be unpacked considerably as well.\
 At its core, the paper compares the reconstructions produced by different methods against traditional approaches. The sales pitch of the paper is that this comparison will help us better understand how traditional methods work. However, it was not exactly clear to me how the results of the paper shed light on this issue, and this needs to be spelled out more clearly. E.g., because parsimony approaches seem to have the highest scores (marginally) for all metrics, does this mean that traditional historical linguists prefer reconstructions that minimize the number of changes over the tree? Or because all methods perform similarly, does it mean that traditional reconstructions take into account the criteria/properties of minimal change, branch lengths, and frequency equally? These three methods are set up in opposition to each other, so it would be nice to know what they tell us individually about the logic behind traditional reconstruction. A careful discussion along these\
-lines is currently missing.\
+lines is currently missing.
+\f2\i0 \
+\
+Response: I thank the reviewer for their thoughtful review and kind words. In the most recent version of the paper, I have attempted to address precisely what the reviewer is pointing out here and make clearer what I see as the take-away, which is that \
+\
+Out of the three Parsimony results, the one that is the most similar to HL is Parsimony Glottolog. The other two, the ones based on the trees from Gray et al 2009 are less similar to HL but more similar to each other.\
+
+\f1\i \
 In order for the paper to serve its stated purpose, the results have to be disaggregated and explained in more detail. For the results to be interpretable, we have to know at the feature (or at least domain) level what circumstances lead to good performance among different methods. For instance, do the parsimony and frequency metrics perform better when a feature is relatively homogeneous at the subgroup level? Would ML methods achieve a better reconstruction for a feature that shows less phylogenetic stability? There are a number of metrics that the authors could employ to characterize the phylogenetic distribution of different features within Austronesian that could be systematically compared to model performance. The authors could potentially address these questions using correlation analyses or logistic regression (e.g., by showing that the phylogenetic stability of a feature according to Blomberg's K has an effect on the accuracy with which it is reconstructed by MP).\
+\
+
+\f2\i0 Response: I was much intrigued with the reviewer suggestion of comparing against a measurement of phylogenetic signal. I incorporated an estimation of phylogenetic signal, D-estimates (Fritz & Purvis 2010)
+\f1\i \
+\
+\
 Additionally, there are numerous instances of mechanical errors (misplaced commas in numeric figures, bibtex errors, "maximal likelihood") which can be easily fixed.\
 Some narrower points follow:\
 The use of "comparative method" in this paper strikes me as a bit odd. The authors are right that the comparative method can be used to formal lexical as well as grammatical elements. But its use to reconstruct more abstract patterns of the type found in typological databases is far more controversial, with many linguists arguing that the reconstruction of abstract patterns is outside the purview of the comparative method unless the "double cognacy condition" is fulfilled (Walkden 2013). There is a definite disconnect between the procedure described on p. 7 and the approach of Hale, Chung, etc. "Traditional approaches" might be a more neutral term that readers will not immediately object to.\
