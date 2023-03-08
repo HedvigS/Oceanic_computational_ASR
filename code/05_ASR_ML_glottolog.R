@@ -2,6 +2,7 @@ source("01_requirements.R")
 
 #reading in glottolog tree
 glottolog_tree <- read.tree("output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
+glottolog_tree$node.label <- NULL
 
 #reading in glottolog language table (to be used for Names)
 glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df.tsv", col_types = cols())  %>% 
@@ -37,7 +38,7 @@ fun_GB_ASR_ML <- function(feature) {
     dplyr::select(Language_ID, {{feature}})
   
   tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
-  
+
   tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one in case pruning made some 0
   
   feature_df <-  tree_pruned$tip.label %>% 
