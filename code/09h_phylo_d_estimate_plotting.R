@@ -2,21 +2,16 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-fns <- list.files("output/HL_comparison/phylo_d/", pattern = "main", full.names = T)
+fns <- list.files("output/HL_comparison/phylo_d_old/", pattern = "main", full.names = T)
 
 phylo_d_full <- fns %>% 
   map_df(
-    function(x) qs::qread(x)#data.table::fread(x ,
-       #                           encoding = 'UTF-8', header = TRUE, 
-      #                            fill = TRUE, blank.lines.skip = TRUE,
-     #                             sep = "\t", na.strings = "",
-    #) 
-      ) %>% 
+    function(x) qs::qread(x)) %>% 
   distinct() %>% 
   rename(Feature_ID = Feature) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "ct"), "gray_mcct", "other")) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "glottolog"), "glottolog", tree_type)) %>% 
-  mutate(tree_type =ifelse(str_detect(tree, "posterior"), "gray_posterior", tree_type)) %>% 
+  mutate(tree_type =ifelse(str_detect(tree, "posterior"), "gray_posteriors", tree_type)) %>% 
   mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
@@ -74,21 +69,24 @@ reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_lo
   left_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")  ) %>% 
   mutate(value = ifelse(Prediction == 1,`prediction_1` , NA)) %>% 
   mutate(value = ifelse(Prediction == 0, `prediction_0`, value)) %>% 
-  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F)
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
+  mutate(value = as.numeric(value))
 
 #joning and plotting
 
 joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df) #%>% 
-#  mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
- # mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
-#  distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
+  left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
+  mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
+  mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
+  distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
 
 #plot of percentage of minority state per tree and kind of d-estimate
 joined_df %>%
+  filter(!str_detect(tree_type, "common")) %>%
   distinct(Feature_tree, tree_type, summarise_col, min_p) %>% 
   ggplot() +
   geom_point(mapping = aes(x = tree_type, y = min_p)) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   facet_wrap(~summarise_col)
 
 #plot of percentage of minority state and difference between mean of sum clade differences in brownian and random
@@ -105,6 +103,7 @@ joined_df %>%
              summarise_col == "similar to 0"|
              summarise_col == "similar to both, between 0 & 1"|
              summarise_col == "dissimilar to both, between 0 & 1")  %>% 
+  filter(!is.na(value)) %>% 
   ggplot(mapping = aes(x = mean_D, y = value)) +
   geom_point(mapping = aes(color = summarise_col)) +
   ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
