@@ -84,12 +84,8 @@ if(!is.rooted(tree_pruned)){
   tree_pruned <- ape::root(phy = tree_pruned, outgroup = "nang1262", resolve.root = T)
     }
 
-#if(!is.binary(tree_pruned)){
-#  cat(paste0("Resulting pruned tree isn't binary. Using multi2di.\n"))
-#  tree_pruned <-multi2di(tree_pruned)
-#}
-
-tree_pruned <- ape::di2multi(tree_pruned)
+# do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
+#tree_pruned <- ape::di2multi(tree_pruned)
 
 tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch lenght to every branch so that there are no branches with 0 length
 
