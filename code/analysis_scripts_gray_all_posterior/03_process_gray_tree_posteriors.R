@@ -89,9 +89,9 @@ if(!is.rooted(tree_pruned)){
 #  tree_pruned <-multi2di(tree_pruned)
 #}
 
-# tree_pruned <- ape::di2multi(tree_pruned)
+tree_pruned <- ape::di2multi(tree_pruned)
 
-tree_pruned$edge.length <- tree_pruned$edge.length + 1e-6 #add a tiny branch lenght to every branch so that there are no branches with 0 length
+tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch lenght to every branch so that there are no branches with 0 length
 
 
 tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
