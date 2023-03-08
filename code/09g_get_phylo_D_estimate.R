@@ -162,13 +162,13 @@ if(ncol(value_table) == 2){
   spec_df  %>% 
   qs::qsave(file = fn_spec_main, preset = "archive")
  
-   Permutations %>% 
-   qs::qsave(file = paste0(fn_spec, "_", basename(t), "_permutations.qs"), preset = "archive")
+   #Permutations %>% 
+   #qs::qsave(file = paste0(fn_spec, "_", basename(t), "_permutations.qs"), preset = "archive")
    
-   NodalVals_spec %>% 
-   qs::qsave(file = paste0(fn_spec, "_", basename(t), "_Nodalvals.qs"), preset = "archive")
+#   NodalVals_spec %>% 
+ #  qs::qsave(file = paste0(fn_spec, "_", basename(t), "_Nodalvals.qs"), preset = "archive")
    
-   cat(paste0("Done, files written. Time is ", as.character(Sys.time()), ".\n"))
+  # cat(paste0("Done, files written. Time is ", as.character(Sys.time()), ".\n"))
    
     }
   }
