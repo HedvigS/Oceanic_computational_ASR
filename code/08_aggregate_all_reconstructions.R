@@ -20,6 +20,8 @@ most_common_values_df <- read_tsv("output/HL_comparison/most_common_reconstructi
                 Feature_ID, 
                 ntip_most_common = ntip, 
                 min_most_common = min, 
+                most_common_prediction_0 = `0`,
+                most_common_prediction_1 = `1`,
                 min_percent_most_common,
                 result_most_common) %>% 
   distinct() %>% 
@@ -32,6 +34,8 @@ parsimony_glottolog_df <- read_tsv("output/glottolog-tree/parsimony/all_reconstr
   dplyr::select(Feature_ID, 
                 `Proto-language`, 
                 glottolog_parsimony_prediction,
+                glottolog_parsimony_prediction_0,
+                glottolog_parsimony_prediction_1,
                 `Parsimony result (Glottolog-tree)`, 
                 ntips_parsimony_glottolog, 
                 min_percent_parsimony_glottolog, 
@@ -43,6 +47,8 @@ parsimony_gray_mcct_df <- read_tsv("output/gray_et_al_2009/parsimony/mcct/all_re
   dplyr::select(Feature_ID, 
                 `Proto-language`, 
                 gray_mcct_parsimony_prediction = gray_parsimony_prediction,
+                gray_mcct_parsimony_prediction_0 = gray_parsimony_prediction_0,
+                gray_mcct_parsimony_prediction_1 = gray_parsimony_prediction_1,
                 `Parsimony result (Gray et al 2009-tree)` , 
                 min_percent_parsimony_gray, 
                 min_parsimony_gray,
@@ -54,6 +60,8 @@ parsimon_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/parsimony/all_re
   dplyr::select(Feature_ID, 
                 `Proto-language`, 
                 gray_posteriors_parsimony_prediction = gray_parsimony_prediction,
+                gray_posteriors_parsimony_prediction_0 = gray_parsimony_prediction_0,
+                gray_posteriors_parsimony_prediction_1 = gray_parsimony_prediction_1,
                 ntips_parsimony_gray_posteriors = ntips_parsimony_gray,
                 min_percent_parsimony_gray_posteriors = min_percent_parsimony_gray,
                 min_parsimony_gray_posteriors = min_parsimony_gray,
@@ -68,6 +76,8 @@ ML_glottolog_df <- read_tsv("output/glottolog-tree//ML/all_reconstructions.tsv")
   dplyr::select(Feature_ID, 
                 `Proto-language`, 
                 glottolog_ML_prediction, 
+                glottolog_ML_prediction_0, 
+                glottolog_ML_prediction_1, 
                 min_percent_ML_glottolog, 
                 min_ML_glottolog, 
                 ntips_ML_glottolog,
@@ -80,7 +90,9 @@ ML_glottolog_df <- read_tsv("output/glottolog-tree//ML/all_reconstructions.tsv")
 ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv") %>% 
   dplyr::select(Feature_ID, 
                 `Proto-language`,
-                gray_mcct_ML_prediction = gray_ML_prediction, 
+                gray_mcct_ML_prediction = gray_ML_prediction,
+                gray_mcct_ML_prediction_0 = gray_ML_prediction_0,
+                gray_mcct_ML_prediction_1 = gray_ML_prediction_1,
                 min_percent_ML_gray, 
                 min_ML_gray, 
                 `ML result (Gray et al 2009-tree)`, 
@@ -101,7 +113,9 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
                 ntips_ML_gray_posteriors = ntips_ML_gray,
                 min_ML_gray_posteriors = min_ML_gray, 
                 min_percent_ML_gray_posteriors = min_percent_ML_gray,
-                gray_posteriors_ML_prediction= gray_ML_prediction) %>% 
+                gray_posteriors_ML_prediction = gray_ML_prediction,
+                gray_posteriors_ML_prediction_0 = gray_ML_prediction_0,
+                gray_posteriors_ML_prediction_1 = gray_ML_prediction_1) %>% 
   #  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>% 
   #  mutate(gray_posteriors_ML_prediction = ifelse(is.na(gray_posteriors_ML_prediction),most_common_prediction , gray_posteriors_ML_prediction)) %>%  #bc the ML method fails when all the tips are the same state, such instances have an NA value in the ML results. We just replace those with the most common (the only) value to make it comparable to the parsimony results. Note that we're talking trees where every tip is the same, i.e. the state is the same for Proto-Polynesian, Proto-Oceanic etc. Not just the root!
   distinct() %>% 
@@ -117,9 +131,13 @@ full_df <- parsimony_glottolog_df %>%
   full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>%
   full_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")) %>% 
   full_join(values_df, by = "Feature_ID") %>% 
-  dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, 
-                glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, 
-                most_common_prediction, HL_prediction = Prediction, everything()) %>% 
+  dplyr::select(glottolog_parsimony_prediction, 
+                gray_mcct_parsimony_prediction, 
+                gray_posteriors_parsimony_prediction, 
+                glottolog_ML_prediction, gray_mcct_ML_prediction,
+                gray_posteriors_ML_prediction, 
+                most_common_prediction, HL_prediction = Prediction, 
+                everything()) %>% 
   distinct()
 
 #writing
@@ -143,8 +161,13 @@ full_df_long <- full_df %>%
   mutate(method = ifelse(str_detect(variable, "common"), "most_common", method)) %>% 
   mutate(variable_cleaned = ifelse(str_detect(variable, "ntip"), "ntip", variable_cleaned)) %>% 
   mutate(variable_cleaned = ifelse(str_detect(variable, "result"), "result", variable_cleaned)) %>% 
-  mutate(variable_cleaned = ifelse(str_detect(variable, "prediction"), "prediction", variable_cleaned)) %>% 
-  dplyr::select(-variable) %>% 
+  mutate(variable_cleaned = ifelse(str_detect(variable, "prediction") &
+                                     !str_detect(variable, "prediction_0"
+                                                 ) &
+                                     !str_detect(variable, "prediction_1"), "prediction", variable_cleaned)) %>%
+  mutate(variable_cleaned = ifelse(str_detect(variable, "prediction_1"), "prediction_1", variable_cleaned)) %>%
+  mutate(variable_cleaned = ifelse(str_detect(variable, "prediction_0"), "prediction_0", variable_cleaned)) %>%
+    dplyr::select(-variable) %>% 
   rename(variable = variable_cleaned) %>% 
   full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
   distinct() 
