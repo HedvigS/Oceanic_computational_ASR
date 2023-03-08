@@ -9,7 +9,7 @@ if(!dir.exists(OUTPUT_DIR)){
   dir.create(OUTPUT_DIR)}
 
 #HL sheets
-full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv") %>% 
+full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>% 
   filter(variable == "result"|variable == "prediction") %>% 
   filter(is.na(conflict)) %>% 
   dplyr::select(-conflict) %>% 
