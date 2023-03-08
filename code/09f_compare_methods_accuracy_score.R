@@ -1,6 +1,6 @@
 source("01_requirements.R")
 
-full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv") %>%  
+full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>%  
   filter(!is.na(value)) %>% 
   filter(is.na(conflict)) %>% 
 #  filter(!str_detect(method, "HL")) %>% 
