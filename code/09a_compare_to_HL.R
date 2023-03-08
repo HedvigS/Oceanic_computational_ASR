@@ -1,7 +1,7 @@
 source("01_requirements.R")
 h_load("wesanderson")
 
-full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv") %>%  
+full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>%
   filter(variable == "result") %>% 
   filter(!is.na(value)) %>% 
   filter(is.na(conflict)) %>% 
