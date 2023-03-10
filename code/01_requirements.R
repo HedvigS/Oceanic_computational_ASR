@@ -121,16 +121,6 @@ if (!dir.exists(fn)) { dir.create(fn) }
 fn <- "output/gray_et_al_2009/parsimony/results_by_tree"
 if (!dir.exists(fn)) { dir.create(fn) }
 
-fn <- "output/gray_et_al_2009/scm/"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/gray_et_al_2009/scm/mcct"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/gray_et_al_2009/scm/results_by_tree"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-
 #processed data dirs
 fn <- "output/processed_data"
 if (!dir.exists(fn)) { dir.create(fn) }
@@ -156,31 +146,8 @@ if (!dir.exists(fn)) { dir.create(fn) }
 fn <- "output/glottolog-tree/ML"
 if (!dir.exists(fn)) { dir.create(fn) }
 
-fn <- "output/glottolog-tree/ML/mcct"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/ML/results_by_tree"
-if (!dir.exists(fn)) { dir.create(fn) }
-
 fn <- "output/glottolog-tree/parsimony/"
 if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/parsimony/mcct"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/parsimony/results_by_tree"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/scm/"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/scm/mcct"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-fn <- "output/glottolog-tree/scm/results_by_tree"
-if (!dir.exists(fn)) { dir.create(fn) }
-
-
 
 #dir for plots
 #this project is meant to be working in tandem with tex code. To make that process easier, if there is a tex file one level up plots will be deposited there directly. However, if this code has been moved to somewhere else and no longer next to the tex folder, plots will just be straight in the output dir inside this dir.
