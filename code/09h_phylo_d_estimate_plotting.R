@@ -2,11 +2,63 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-fns <- list.files("output/HL_comparison/phylo_d_old/", pattern = "main", full.names = T)
+fns <- list.files("output/HL_comparison/phylo_d/", pattern = "main", full.names = T)
 
-phylo_d_full <- fns %>% 
-  map_df(
-    function(x) qs::qread(x)) %>% 
+#8507
+#fns <- fns[-8507]
+
+#index <- 0
+#for(fn in fns){
+#  index <- index + 1
+#  cat(fn," ", index, ".\n")
+#x <-   fn %>% qs::qread() %>% distinct()
+#}
+
+df_all <- data.frame(Feature = as.character(), 
+                     Destimate = as.numeric(), 
+                     Pval1= as.numeric(),
+                     Pval0 = as.numeric(),
+                     n = as.numeric(), 
+                     tree = as.character(),
+                     zeroes = as.numeric(),
+                     ones = as.numeric(),
+                     Parameters_observed  = as.numeric(),
+                     Parameters_MeanRandom  = as.numeric(),
+                     Parameters_MeanBrownian = as.numeric(),
+                     nPermut  = as.numeric()
+                     )
+
+index <- 0
+for(fn in fns){
+index <- index + 1
+  #  fn <- fns[8505]
+cat("I'm on", fn, ".\n")
+ df_spec <-  try(expr = {qs::qread(fn)})
+
+if(class(df_spec) == "try-error"){
+  cat("Error occurred on ", index,"out of", length(fns), ".", fn, ".\n")
+  
+  }else{
+       df_all <- full_join(df_spec, df_all, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "Parameters_observed",
+                                                     "Parameters_MeanRandom", "Parameters_MeanBrownian", "nPermut")) 
+        }
+}
+
+#tree_fns <- list.files(path = "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = F) %>% 
+#  as.data.frame() %>% 
+#  rename(tree = ".") %>% 
+#  mutate(tree_exists = "yes") %>% 
+#  mutate(Feature = "GB131")
+
+#tree_fns %>% 
+#  full_join(df_all) %>% View()
+
+
+
+
+
+ 
+phylo_d_full <- df_all %>%  
   distinct() %>% 
   rename(Feature_ID = Feature) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "ct"), "gray_mcct", "other")) %>% 
@@ -16,6 +68,9 @@ phylo_d_full <- fns %>%
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
   mutate(min_p = min / (ones + zeroes))
+#phylo_d_full <- fns %>%
+#  map_df(
+#    function(x) qs::qread(x)) %>% 
 
 phylo_d_df <- phylo_d_full %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
