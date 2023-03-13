@@ -35,12 +35,14 @@ min_p_df <- reconstruction_results_df_full %>%
 
 joined <- reconstruction_results_df %>% 
   full_join(min_p_df, by = c("Feature_ID", "Proto-language", "tree_type", "method")) %>% 
-  left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type"))
+  left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
+  mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
+  mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)"))
   
 joined %>% 
   filter(!is.na(HL_agreement)) %>% 
   filter(!is.na(min_percent)) %>% 
-  filter(tree_type != "most_common") %>% 
+  filter(!str_detect(tree_type, "common")) %>% 
   ggplot(mapping = aes(x = min_percent, y = HL_agreement)) +
   geom_point(mapping = aes(color = tree_type)) +
   ggpubr::stat_cor(method = "pearson", p.digits = 3, geom = "label", color = "blue",
