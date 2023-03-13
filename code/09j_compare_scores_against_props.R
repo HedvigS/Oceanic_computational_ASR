@@ -42,8 +42,8 @@ joined %>%
   filter(!is.na(min_percent)) %>% 
   filter(tree_type != "most_common") %>% 
   ggplot(mapping = aes(x = min_percent, y = HL_agreement)) +
-  geom_point(mapping = aes(color = tree_type), size = 3) +
-  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+  geom_point(mapping = aes(color = tree_type)) +
+  ggpubr::stat_cor(method = "pearson", p.digits = 3, geom = "label", color = "blue",
                    label.y.npc="bottom", label.x.npc = "left", alpha = 0.8) +
   geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method) +
