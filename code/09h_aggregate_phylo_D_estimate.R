@@ -17,7 +17,6 @@ df_all <- data.frame(Feature = as.character(),
                      Parameters_MeanBrownian = as.numeric(),
                      nPermut  = as.numeric()
 )
-sink("test.txt")
 
 index <- 0
 for(fn in fns){
@@ -91,6 +90,8 @@ phylo_d_df <- phylo_d_full %>%
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
 
+phylo_d_df %>% 
+  write_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv", na = "")
 
-
-exit(sink())
+phylo_d_full %>% 
+  write_tsv("output/HL_comparison/phylo_d/phylo_d_full.tsv", na = "")
