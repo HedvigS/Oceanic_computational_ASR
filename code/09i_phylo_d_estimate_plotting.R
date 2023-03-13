@@ -2,117 +2,9 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-fns <- list.files("output/HL_comparison/phylo_d/", pattern = "main", full.names = T)
+phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv")
 
-#8507
-#fns <- fns[-8507]
-
-#index <- 0
-#for(fn in fns){
-#  index <- index + 1
-#  cat(fn," ", index, ".\n")
-#x <-   fn %>% qs::qread() %>% distinct()
-#}
-
-df_all <- data.frame(Feature = as.character(), 
-                     Destimate = as.numeric(), 
-                     Pval1= as.numeric(),
-                     Pval0 = as.numeric(),
-                     n = as.numeric(), 
-                     tree = as.character(),
-                     zeroes = as.numeric(),
-                     ones = as.numeric(),
-                     Parameters_observed  = as.numeric(),
-                     Parameters_MeanRandom  = as.numeric(),
-                     Parameters_MeanBrownian = as.numeric(),
-                     nPermut  = as.numeric()
-                     )
-
-index <- 0
-for(fn in fns){
-index <- index + 1
-  #  fn <- fns[8505]
-cat("I'm on", fn, ".\n")
- df_spec <-  try(expr = {qs::qread(fn)})
-
-if(class(df_spec) == "try-error"){
-  cat("Error occurred on ", index,"out of", length(fns), ".", fn, ".\n")
-  
-  }else{
-       df_all <- full_join(df_spec, df_all, by = c("Feature", "Destimate", "Pval1", "Pval0", "n", "tree", "zeroes", "ones", "Parameters_observed",
-                                                     "Parameters_MeanRandom", "Parameters_MeanBrownian", "nPermut")) 
-        }
-}
-
-#tree_fns <- list.files(path = "output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt", full.names = F) %>% 
-#  as.data.frame() %>% 
-#  rename(tree = ".") %>% 
-#  mutate(tree_exists = "yes") %>% 
-#  mutate(Feature = "GB131")
-
-#tree_fns %>% 
-#  full_join(df_all) %>% View()
-
-
-
-
-
- 
-phylo_d_full <- df_all %>%  
-  distinct() %>% 
-  rename(Feature_ID = Feature) %>% 
-  mutate(tree_type =ifelse(str_detect(tree, "ct"), "gray_mcct", "other")) %>% 
-  mutate(tree_type =ifelse(str_detect(tree, "glottolog"), "glottolog", tree_type)) %>% 
-  mutate(tree_type =ifelse(str_detect(tree, "posterior"), "gray_posteriors", tree_type)) %>% 
-  mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
-  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
-  mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
-  mutate(min_p = min / (ones + zeroes))
-#phylo_d_full <- fns %>%
-#  map_df(
-#    function(x) qs::qread(x)) %>% 
-
-phylo_d_df <- phylo_d_full %>% 
-  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
-  group_by(tree_type, Feature_ID, Feature_tree) %>% 
-  summarise(mean_D = mean(Destimate),
-            mean_Pval1 = mean(Pval1),
-            mean_Pval0 = mean(Pval0), 
-            ntip = mean(n), 
-            n = n(),
-            Parameters_observed = mean(Parameters_observed),
-            Parameters_MeanRandom = mean(Parameters_MeanRandom),
-            Parameters_MeanBrownian = mean(Parameters_MeanBrownian),
-            zeroes = mean(zeroes), 
-            min = mean(min),
-            min_p = mean(min_p),
-            ones = mean(ones), .groups = "drop") %>% 
-  dplyr::select(mean_D, mean_Pval1, mean_Pval0, Feature_ID,  n, tree_type, ntip, min, min_p, Feature_tree, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>% 
-  mutate(summarise_col = ifelse(mean_Pval0 > 0.05 &
-                                  mean_Pval1 > 0.05 & 
-                                  mean_D < 0, 
-                                "similar to both, below 0", NA)) %>%   
-  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                   mean_Pval1 > 0.05 & 
-                                   mean_D > 1, 
-                                 "similar to both, above 1", summarise_col))   %>% 
-  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                   mean_Pval1 > 0.05 & 
-                                   between(mean_D, lower = 0, upper = 1), 
-                                 "similar to both, between 0 & 1", summarise_col))   %>% 
-  mutate(summarise_col = if_else(mean_Pval0 > 0.05 &
-                                   mean_Pval1 < 0.05, 
-                                 "similar to 0", summarise_col))   %>% 
-  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 > 0.05, 
-                                 "similar to 1", summarise_col))  %>% 
-  mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 < 0.05 & 
-                                   between(mean_D, lower = 0, upper = 1), 
-                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
-  
-  mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
-  mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
+phylo_d_full <- read_tsv("output/HL_comparison/phylo_d/phylo_d_full.tsv")
 
 #reading in reconstruction results
 reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>% 
@@ -227,29 +119,6 @@ table_P_values_summarised_latex_orange  %>%
                        table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
-#              
-# 
-# phylo_d_df$Feature_ID <- fct_reorder(phylo_d_df$Feature_ID, phylo_d_df$mean_D)
-# 
-# phylo_d_df %>% 
-#   filter(min > 1) %>% 
-# #  .[1:30,] %>% 
-#   filter(tree_type == "glottolog") %>% 
-#   mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no"),
-#          Pval1_sig = ifelse(mean_Pval1 > 0.05& mean_D > 0, "yes", "no")) %>% 
-#   ggplot(aes(y = Feature_ID, x = mean_D)) +
-# #  geom_point(mapping = aes(y = Feature_ID, x = mean_D, fill =  Pval0_sig), shape = 21)
-#   geom_text(label = "\u25D7",  mapping= aes(color = as.character(Pval1_sig)),  
-#             size=10, family = "Arial Unicode MS") +
-#   geom_text(label = "\u25D6", mapping= aes(color = as.character(Pval0_sig)), 
-#             size=10, family = "Arial Unicode MS") 
-#   
-# 
-# 
-# cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
-# lbl <- "d_estimate_summary"
-# align <- c("r", "l","l","l") 
-# 
 
 phylo_d_summarised_table <-  joined_df %>%
   filter(!is.na(value)) %>% 
@@ -291,36 +160,3 @@ phylo_d_summarised_table %>%
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
                        include.rownames = FALSE)
-
-# 
-# 
-# 
-# # # 
-# # # ##trying to debug the algo  
-# # # 
-#  phylo_d_df$summarise_col %>% unique()
-# # # 
-#  phylo_d_df %>% 
-#    filter(summarise_col ==  "dissimilar to both, between 0 & 1") %>%
-#   dplyr::select(Feature_tree, summarise_col, Parameters_observed, Parameters_MeanRandom, Parameters_MeanBrownian) %>%
-#   reshape2::melt(id.vars = c("summarise_col", "Feature_tree")) %>%
-# #  reshape2::melt(id.vars = c("Feature_tree")) %>%
-#     ggplot() +
-#   geom_point(aes(x = value, y = Feature_tree, color = variable))# +
-#   facet_wrap(~summarise_col)
-# # 
-# # 
-# # nodalvals <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_Nodalvals.qs")
-# # 
-# # main <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_main.qs")
-# # 
-# # permutations <- qs::qread("output/HL_comparison/phylo_d/phylo_d_table_GB314_glottolog_tree_newick_GB_pruned.txt_permutations.qs")
-# # 
-# # phylo_d_df %>%
-# #   distinct(Feature_ID, tree_type, mean_D, summarise_col, mean_Pval0, mean_Pval1, ntip, min) %>% 
-# # #  filter(tree_type != "most_common") %>% 
-# # #  group_by(summarise_col, tree_type) %>% 
-# # #  summarise(n = n(), .groups = "drop") %>% 
-# #   ggplot() +
-# #   geom_point(mapping = aes(x = tree_type , y = min), stat = "identity")+
-# #   facet_wrap(~summarise_col)
