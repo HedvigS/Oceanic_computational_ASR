@@ -29,7 +29,7 @@ gray_tree <- read.newick("output/processed_data/trees/gray_et_al_tree_pruned_new
 
 fun_GB_ASR_ML <- function(feature) {
 
-#feature <- "GB109"
+#feature <- "GB133"
 cat("I've started ASR ML on ", feature, " with the Gray et al 2009-tree.\n", sep = "")
   
   filter_criteria <- paste0("!is.na(", feature, ")")
