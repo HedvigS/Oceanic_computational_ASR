@@ -1,36 +1,56 @@
 source("01_requirements.R")
 
-full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv")  
+HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-prediction_df <-  full_df %>% 
+phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
+  filter(summarise_col == "similar to 1"|
+           summarise_col == "similar to 0"|
+           summarise_col == "similar to both, between 0 & 1"|
+           summarise_col == "dissimilar to both, between 0 & 1")  
+  
+#reading in reconstruction results
+reconstruction_results_df_full <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>% 
   filter(!is.na(value)) %>% 
-  filter(is.na(conflict)) %>% 
-  filter(variable == "prediction") %>% 
-  dplyr::select(-conflict, -variable) %>% 
-  unite(method, tree_type, col = "method", sep = " - ") %>% 
-  mutate(method = ifelse(method == "most_common - most_common", "most common", method)) %>% 
-  mutate(method = ifelse(method == "HL - HL", "HL", method)) %>% 
-  mutate(method = str_replace_all(method, "_", " "))
+  filter(is.na(conflict))
 
-left <- prediction_df %>% 
-  rename(value_left = value, method_left =  method)
+#reading in reconstruction results
+reconstruction_results_df <- reconstruction_results_df_full %>% 
+  filter(variable == "prediction_1"|
+           variable == "prediction_0") %>% 
+  pivot_wider(id_cols = c("Feature_ID", "Proto-language", "tree_type", "method"), names_from = "variable", values_from = "value") %>% 
+  left_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")  ) %>% 
+  mutate(value = ifelse(Prediction == 1,`prediction_1` , NA)) %>% 
+  mutate(value = ifelse(Prediction == 0, `prediction_0`, value)) %>% 
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
+  mutate(value = as.numeric(value)) %>% 
+  filter(!is.na(value)) %>% 
+  dplyr::select("Feature_ID", "Proto-language", "tree_type", "method", HL_agreement = value) %>% 
+  unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) 
 
-right <- prediction_df  %>% 
-  rename(value_right = value, method_right =  method)
+min_p_df <- reconstruction_results_df_full %>% 
+  filter(variable == "min_percent") %>% 
+  pivot_wider(id_cols = c("Feature_ID", "Proto-language", "tree_type", "method"), names_from = "variable", values_from = "value")  %>% 
+  mutate(min_percent = as.numeric(min_percent)) %>% 
+  dplyr::select("Feature_ID", "Proto-language", "tree_type", "method", min_percent)
 
-joined <- full_join(left, right, by = c("Feature_ID", "Proto-language")) 
+joined <- reconstruction_results_df %>% 
+  full_join(min_p_df, by = c("Feature_ID", "Proto-language", "tree_type", "method")) %>% 
+  left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type"))
+  
+joined %>% 
+  filter(!is.na(HL_agreement)) %>% 
+  filter(!is.na(min_percent)) %>% 
+  filter(tree_type != "most_common") %>% 
+  ggplot(mapping = aes(x = min_percent, y = HL_agreement)) +
+  geom_point(mapping = aes(color = tree_type), size = 3) +
+  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+                   label.y.npc="bottom", label.x.npc = "left", alpha = 0.8) +
+  geom_smooth(method='lm', formula = 'y ~ x') +
+  facet_grid(tree_type~method) +
+  theme_minimal() +
+  theme(legend.position =  0) +
+  scale_color_manual(values= wes_palette("Darjeeling1", n = 3)) +
+  xlab ("Percentage of minority state") +
+  ylab("Concurrance with HL")
 
-joined_diff_df <-  joined %>% 
-  mutate(diff = ifelse(value_right == "Absent" & value_left == "Absent", "True", NA)) %>% 
-  mutate(diff = ifelse(value_right == "Present" & value_left == "Present", "True", diff)) %>%
-  mutate(diff = ifelse(value_right == "Half" & value_left == "Half", "True", diff)) %>% 
-  mutate(diff = ifelse(value_right == "Absent" & value_left == "Present", "False", diff)) %>%  
-  mutate(diff = ifelse(value_right == "Present" & value_left == "Absent", "False", diff)) %>%  
-  mutate(diff = ifelse(value_right == "Present" & value_left == "Half", "Half", diff)) %>% 
-  mutate(diff = ifelse(value_right == "Absent" & value_left == "Half", "Half", diff)) %>% 
-  mutate(diff = ifelse(value_right == "Half" & value_left == "Present", "Half", diff)) %>% 
-  mutate(diff = ifelse(value_right == "Half" & value_left == "Absent", "Half", diff)) 
-
-#joined_diff_df %>% 
-#  filter(variable == "prediction_1")
-
+ggsave(filename = paste0(OUTPUTDIR_plots, "entropy_vs_HL_concurrance.png"), width = 10, height = 9)
