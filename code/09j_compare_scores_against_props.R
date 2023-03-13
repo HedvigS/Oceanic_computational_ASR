@@ -48,9 +48,10 @@ joined %>%
   geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method) +
   theme_minimal() +
+  scale_x_continuous(labels = scales::percent) +
   theme(legend.position =  0) +
   scale_color_manual(values= wes_palette("Darjeeling1", n = 3)) +
   xlab ("Percentage of minority state") +
   ylab("Concurrance with HL")
 
-ggsave(filename = paste0(OUTPUTDIR_plots, "entropy_vs_HL_concurrance.png"), width = 10, height = 9)
+ggsave(filename = paste0(OUTPUTDIR_plots, "entropy_vs_HL_concurrance.png"), width = 7 , height = 9)
