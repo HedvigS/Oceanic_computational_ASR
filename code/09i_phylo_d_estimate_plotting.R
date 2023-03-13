@@ -27,6 +27,7 @@ joined_df <- reconstruction_results_df %>%
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
   distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
 
+
 #plot of percentage of minority state per tree and kind of d-estimate
 joined_df %>%
   filter(!str_detect(tree_type, "common")) %>%
@@ -36,12 +37,11 @@ joined_df %>%
   theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   facet_wrap(~summarise_col)
 
-#plot of percentage of minority state and difference between mean of sum clade differences in brownian and random
 #joined_df %>% 
-#  filter(!str_detect(tree_type, "common")) %>%
-#  mutate(deff = abs(Parameters_MeanRandom - Parameters_MeanBrownian)) %>% 
-#  ggplot()+
-#  geom_point(mapping = aes(x = min_p, y = deff, color = tree_type, size = ntip))
+#  filter(tree_type != "most_common") %>% 
+#  filter(summarise_col != "similar to 0"|
+#           summarise_col != "similar to both, between 0 & 1")  %>%
+#  filter(!is.na(value)) %>% View()
 
 #plot of correlation between d-estimate and agreement with HL, excluding d-estimates that are inappropriate
 joined_df %>% 
