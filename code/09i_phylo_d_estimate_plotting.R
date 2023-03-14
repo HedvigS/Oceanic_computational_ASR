@@ -37,11 +37,21 @@ joined_df %>%
   theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   facet_wrap(~summarise_col)
 
-#joined_df %>% 
-#  filter(tree_type != "most_common") %>% 
-#  filter(summarise_col != "similar to 0"|
-#           summarise_col != "similar to both, between 0 & 1")  %>%
-#  filter(!is.na(value)) %>% View()
+joined_df %>% 
+  filter(tree_type != "most_common") %>% 
+ filter(summarise_col != "similar to 0") %>%
+ filter(summarise_col != "similar to both, below 0") %>%
+filter(summarise_col != "similar to both, above 1") %>%
+ filter(summarise_col != "similar to both, between 0 & 1")  %>%
+ filter(!is.na(value)) %>% 
+ filter(mean_D < 5) %>%
+ filter(mean_D > -5) %>%
+ ggplot(mapping = aes(x = mean_D, y = value)) +
+ geom_point(mapping = aes(color = summarise_col)) +
+ xlim(c(0, 2)) +
+ ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+                  label.y.npc="bottom", label.x.npc = "left", alpha = 0.8)
+
 
 #plot of correlation between d-estimate and agreement with HL, excluding d-estimates that are inappropriate
 joined_df %>% 
