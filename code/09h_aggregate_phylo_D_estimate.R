@@ -36,6 +36,12 @@ for(fn in fns){
 
 phylo_d_full <- df_all %>%  
   distinct() %>% 
+  mutate(Destimate = ifelse(str_detect(tree, "glottolog") & n < ntips_half_glottolog, yes = NA, no = Destimate)) %>% 
+  mutate(Destimate = ifelse(str_detect(tree, "gray") & n <  ntips_half_gray, yes = NA, no = Destimate)) %>%  
+  mutate(Pval1 = ifelse(str_detect(tree, "glottolog") & n < ntips_half_glottolog, yes = NA, no = Pval1)) %>% 
+  mutate(Pval1 = ifelse(str_detect(tree, "gray") & n < ntips_half_gray, yes = NA, no = Pval1)) %>%  
+  mutate(Pval0 = ifelse(str_detect(tree, "glottolog") & n < ntips_half_glottolog, yes = NA, no = Pval0)) %>% 
+  mutate(Pval0 = ifelse(str_detect(tree, "gray") & n < ntips_half_gray, yes = NA, no = Pval0)) %>%  
   rename(Feature_ID = Feature) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "ct"), "gray_mcct", "other")) %>% 
   mutate(tree_type =ifelse(str_detect(tree, "glottolog"), "glottolog", tree_type)) %>% 
@@ -48,14 +54,15 @@ phylo_d_full <- df_all %>%
 #  map_df(
 #    function(x) qs::qread(x)) %>% 
 
-
 #ntips_half_glottolog
+#ntips_half_gray
+
 phylo_d_df <- phylo_d_full %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   group_by(tree_type, Feature_ID, Feature_tree) %>% 
-  summarise(mean_D = mean(Destimate),
-            mean_Pval1 = mean(Pval1),
-            mean_Pval0 = mean(Pval0), 
+  summarise(mean_D = mean(Destimate, na.rm= T),
+            mean_Pval1 = mean(Pval1, na.rm= T),
+            mean_Pval0 = mean(Pval0, na.rm= T), 
             ntip = mean(n), 
             n = n(),
             Parameters_observed = mean(Parameters_observed),
