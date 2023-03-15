@@ -61,8 +61,8 @@ gb_dist_list <- cluster::daisy(GB, metric = "gower", warnBin = F)  %>%
   reshape2::melt() %>% 
   rename(GB_dist = value)
 
-joined <- glottolog_tree_dists %>% 
-  full_join(gray_mcct_dists, by = c("Var1", "Var2")) %>% 
+joined <-glottolog_tree_dist_list %>% 
+  full_join(gray_mcct_dist_list, by = c("Var1", "Var2")) %>% 
   full_join(gray_posterios_dists_list, by = c("Var1", "Var2") ) %>% 
   full_join(gb_dist_list, by = c("Var1", "Var2"))
 
