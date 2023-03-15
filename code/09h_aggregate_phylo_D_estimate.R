@@ -48,6 +48,8 @@ phylo_d_full <- df_all %>%
 #  map_df(
 #    function(x) qs::qread(x)) %>% 
 
+
+#ntips_half_glottolog
 phylo_d_df <- phylo_d_full %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   group_by(tree_type, Feature_ID, Feature_tree) %>% 
