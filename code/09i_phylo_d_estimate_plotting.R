@@ -2,7 +2,9 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-phylo_d_df_raw <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv")
+phylo_d_df_raw <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
+  inner_join(HL_findings_sheet, by = "Feature_ID") %>% 
+  distinct(Feature_ID, mean_D, mean_Pval1, mean_Pval0, summarise_col, tree_type, Feature_tree, min_p)
 
 #df of features that were exlcuded because too few tips
 phylo_d_df_missing <- phylo_d_df_raw %>% 
@@ -13,7 +15,7 @@ phylo_d_df_missing <- phylo_d_df_raw %>%
   summarise(`Too few tips altogether` = sum(missing)) %>% 
   mutate(`Too few tips altogether` = as.character(`Too few tips altogether`))
 
-phylo_d_df <-  phylo_d_df %>% 
+phylo_d_df <-  phylo_d_df_raw %>% 
     filter(!is.na(mean_D))
 
 #reading in reconstruction results
@@ -32,7 +34,7 @@ reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_lo
 #joning and plotting
 
 joined_df <- reconstruction_results_df %>% 
-  left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
+  inner_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
   mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
   distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
@@ -162,7 +164,7 @@ phylo_d_summarised_table <-  joined_df %>%
 
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
   
-phylo_d_summarised_table$`Too few tips in minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
+phylo_d_summarised_table$`Not suitable for analysis due to skewed distribution` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
 
 }
 
@@ -171,7 +173,7 @@ phylo_d_summarised_table %>%
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{4cm}","p{2cm}","p{3.5cm}", "p{2.5cm}", "p{2.5cm}") 
+ align <- c("r", "p{4cm}","p{1.8cm}","p{3.5cm}", "p{2.3cm}", "p{2.3cm}") 
 
  
 phylo_d_summarised_table %>% 
