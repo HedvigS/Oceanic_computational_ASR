@@ -92,18 +92,53 @@ Out of the three Parsimony results, the one that is the most similar to HL is Pa
 In order for the paper to serve its stated purpose, the results have to be disaggregated and explained in more detail. For the results to be interpretable, we have to know at the feature (or at least domain) level what circumstances lead to good performance among different methods. For instance, do the parsimony and frequency metrics perform better when a feature is relatively homogeneous at the subgroup level? Would ML methods achieve a better reconstruction for a feature that shows less phylogenetic stability? There are a number of metrics that the authors could employ to characterize the phylogenetic distribution of different features within Austronesian that could be systematically compared to model performance. The authors could potentially address these questions using correlation analyses or logistic regression (e.g., by showing that the phylogenetic stability of a feature according to Blomberg's K has an effect on the accuracy with which it is reconstructed by MP).\
 \
 
-\f2\i0 Response: I was much intrigued with the reviewer suggestion of comparing against a measurement of phylogenetic signal. I incorporated an estimation of phylogenetic signal, D-estimates (Fritz & Purvis 2010). This allowed me to run a comparison between agreement between computational results and HL against phylogenetic signal, which I included in the updated version in supplementary material and mention in the main text. The results show that there is not a correlation, a strong phylogenetic signal does not predict a high agreement between methods. There are after all not that many instances where the reconstructions differ, it may be that there was not enough variation in the agreement with HL-variable for phylogenetic signal to add much information.
+\f2\i0 Response: I was much intrigued with the reviewer suggestion of comparing against a measurement of phylogenetic signal. I incorporated an estimation of phylogenetic signal, D-estimates (Fritz & Purvis 2010). This allowed me to run a comparison between agreement between computational results and HL against phylogenetic signal, which I included in the updated version in supplementary material and reference in the main text. The results show that there is no correlation, a strong phylogenetic signal does not predict a high agreement between methods. There are after all not that many instances where the reconstructions differ, it may be that there was not enough variation in the agreement with HL-variable for phylogenetic signal to add much information. I\'92m grateful to the reviewer for this suggestion and happy to have gone down this path and to incorporate it into the paper.
 \f1\i \
 \
-\
 Additionally, there are numerous instances of mechanical errors (misplaced commas in numeric figures, bibtex errors, "maximal likelihood") which can be easily fixed.\
+
+\f0\i0\b \
+
+\f2\b0 Response: Apologies, these have been seen to.
+\f1\i \
+\
 Some narrower points follow:\
 The use of "comparative method" in this paper strikes me as a bit odd. The authors are right that the comparative method can be used to formal lexical as well as grammatical elements. But its use to reconstruct more abstract patterns of the type found in typological databases is far more controversial, with many linguists arguing that the reconstruction of abstract patterns is outside the purview of the comparative method unless the "double cognacy condition" is fulfilled (Walkden 2013). There is a definite disconnect between the procedure described on p. 7 and the approach of Hale, Chung, etc. "Traditional approaches" might be a more neutral term that readers will not immediately object to.\
+
+\f2\i0 \
+Response: Noted, I have changed the phrasing here in line with the reviewers suggestion and included a discussion of the double cognacy condition.
+\f1\i \
+\
 P. 6, l. 18: This statement is imprecise. SCM is a procedure that simulates character histories using CTM rates. These rates are usually estimated on the basis of the tree topology and the data attested at tree tips before SCM is carried out. So SCM is a procedure that can follow the method described by Goldstein (but can also be used with arbitrarily defined rates).\
+\
+
+\f2\i0 Response: Noted, I have changed the phrasing here in line with the reviewers suggestion.
+\f1\i \
+\
 P. 9: the claim that Maximum Parsimony implicitly assumes the slowest rate of change is intuitive, but unsupported here by any literature or proof. It might be good to cite some literature on likelihood-based approximations of parsimony. Chapter 9 of Felsenstein 2004 has some valuable information.\
+\
+
+\f2\i0 Response: Noted. I have included the following sentence to clarify: \'93If we think of the rate of change as the number of changes in the tree, then Maximum Parsimony selects the candidate solution with the slowest rate out of all possible solutions it can choose from.\'94
+\f1\i \
+\
 P. 16: maybe I am wrong, but I don't see the utility of using F1 scores here, apart from the fact that they are used in related work. If I understand correctly, the authors treat "presence" and "absence" as meaningful labels, such that features erroneously reconstructed as present or absent are treated differently, as false positives and false negatives. This strikes me as a bit odd, since many of the survey questions could be re-expressed in a reverse fashion, e.g., "do content interrogatives occur in situ" vs. "do content interrogatives exhibit movement?" making the labels present/absent meaningless (this is different from predicting whether a lexical item had a particular meaning, as lexemes can also exhibit polysemy). All that really matters, it seems, is whether or not a prediction is correct. The authors admit as much on p. 18, but continue to report F1 scores which is a bit confusing and doesn't contribute much.\
+
+\f2\i0 \
+Response: I understand the reviewers point and have moved the F1-scores to the supplementary material. The intention was to make comparison with J\'e4ger and List (2018) easier, but I agree with the reviewer that because it ignores True Negatives it\'92s not relevant enough to be in the main text.
+\f1\i \
+\
 It is not clear to me what the point of using ML methods with a glottolog tree is, since it does not adhere to the assumptions of the method (no branch lengths). This adds unnecessarily to the large number of results that we have to wade through.\
+\
+
+\f2\i0 Response: I have included a heat map that compares the concurrence score (including half-results) between all methods. Like the reviewer suspects, the results from the ML reconstructions with the glottolog tree are very similar to the parsimony results but they are not identical.
+\f1\i \
+\
 As mentioned above, it would be helpful to disaggregate the data across core domains in the survey. Where do different methods perform well/poorly? If there are domains/features where parsimony does not perform well, it would be interesting to look at the rates of the ML model -- could these be features exhibiting faster change?\
+
+\f2\i0 \
+Response: I appreciate the reviewers enthusiasm to dig deeper into the results, I\'92ve partially done so in the new version by comparing the concurrence to HL with phylogenetic signal and just sheer prevalence in the daughter languages. I am hesitant however to expand further, mainly because I believe that the paper may be long enough as it is. I would like to explore the rates of change more, but in a separate publication.
+\f1\i \
+\
 References\
 Blomberg, S. P., Garland Jr, T., & Ives, A. R. (2003). Testing for phylogenetic signal in comparative data: behavioral traits are more labile. Evolution, 57(4), 717-745.\
 Felsenstein, J. (2004). Inferring phylogenies. Sunderland, Mass.: Sinauer Associates.\
