@@ -10,7 +10,8 @@ phylo_d_df_missing <- phylo_d_df_raw %>%
   mutate(tree = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
   group_by(tree) %>% 
-  summarise(`Too few tips altogether` = sum(missing)) 
+  summarise(`Too few tips altogether` = sum(missing)) %>% 
+  mutate(`Too few tips altogether` = as.character(`Too few tips altogether`))
 
 phylo_d_df <-  phylo_d_df %>% 
     filter(!is.na(mean_D))
@@ -170,11 +171,11 @@ phylo_d_summarised_table %>%
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{5cm}","p{3cm}","p{3.5cm}", "p{3.5cm}", "p{3.5cm}") 
+ align <- c("r", "p{4cm}","p{2cm}","p{3.5cm}", "p{2.5cm}", "p{2.5cm}") 
 
  
 phylo_d_summarised_table %>% 
-  left_join(phylo_d_df_missing, by = "tree") %>% 
+  left_join(phylo_d_df_missing, by = "tree") %>%
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
