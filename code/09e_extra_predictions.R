@@ -36,15 +36,20 @@ df_agreement_without_common <- full_df %>%
   filter(n == 6) %>% 
   dplyr::select(-n)
 
-df_agreement_without_common %>% 
-  anti_join(df_agreement) %>% 
-left_join(GB_ID_desc, by = "Feature_ID") %>% View()
+df_agreement_without_common <- df_agreement_without_common %>% 
+  anti_join(df_agreement, by = c("Feature_ID", "Proto-language", "prediction")) %>% 
+  left_join(GB_ID_desc, by = "Feature_ID") %>% 
+  rename(Feature = Feature_ID) %>% 
+  dplyr::select(-prediction)
+
+cap <- "Table showing the four Grambank features that were predicted as present by ML and MP in all three trees, but were not the most common feature in all languages."
+lbl <- "table_extra_predictions_four"
+align <- c("r", "p{2cm}","p{4cm}","p{8cm}" ) 
 
 
-
-  filter(n == 7) %>% 
-  left_join(GB_ID_desc, by = "Feature_ID") %>% View()
-  write_tsv("output/HL_comparison/extra_predictions_all_agree.tsv")
-
-
-  x <- read_tsv(file = "output/all_reconstructions_all_methods_wide_easy.tsv", na = "")
+df_agreement_without_common %>%
+  xtable(caption = cap, label = lbl,
+         align = align) %>%
+  xtable::print.xtable(file = file.path( OUTPUT_DIR , "extra_predictions_minus_MC.tex"),
+                       include.rownames = FALSE)
+  
