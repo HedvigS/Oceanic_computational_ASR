@@ -2,9 +2,18 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv")
+phylo_d_df_raw <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv")
 
-phylo_d_full <- read_tsv("output/HL_comparison/phylo_d/phylo_d_full.tsv")
+#df of features that were exlcuded because too few tips
+phylo_d_df_missing <- phylo_d_df_raw %>% 
+  mutate(missing = ifelse(is.na(mean_D), 1, 0)) %>% 
+  mutate(tree = str_replace(tree_type, "_", " - ")) %>% 
+  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
+  group_by(tree) %>% 
+  summarise(`Too few tips altogether` = sum(missing)) 
+
+phylo_d_df <-  phylo_d_df %>% 
+    filter(!is.na(mean_D))
 
 #reading in reconstruction results
 reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types = cols(.default = "c")) %>% 
@@ -91,8 +100,7 @@ table_P_values_summarised_latex_green <- table_P_values_summarised %>%
 
 cap <- "Table of types of D-estimates per tree, data-points included."
 lbl <- "phylo_d_summarise_col_green"
-align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ","p{3cm}" ) 
-
+align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm}","p{3cm}") 
 
 table_P_values_summarised_latex_green  %>% 
   xtable(caption = cap, label = lbl,
@@ -108,7 +116,7 @@ table_P_values_summarised_latex_green  %>%
 
 table_P_values_summarised_latex_orange <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
-                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
+             #   "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright singleton}}}$"= "singleton",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
@@ -116,7 +124,7 @@ table_P_values_summarised_latex_orange <- table_P_values_summarised %>%
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
 lbl <- "phylo_d_summarise_col_orange"
-align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ","p{3cm}" ) 
+align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ") 
 
 
 table_P_values_summarised_latex_orange  %>% 
@@ -153,19 +161,20 @@ phylo_d_summarised_table <-  joined_df %>%
 
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
   
-phylo_d_summarised_table$`Feautres excluded due to too few tips in minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] + table_P_values_summarised_latex_orange[,5]
+phylo_d_summarised_table$`Too few tips in minority state` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
 
 }
 
-phylo_d_summarised_table %>%
+phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{5cm}","p{3cm}","p{3.5cm}", "p{3.5cm}") 
+ align <- c("r", "p{5cm}","p{3cm}","p{3.5cm}", "p{3.5cm}", "p{3.5cm}") 
 
  
-phylo_d_summarised_table %>%
+phylo_d_summarised_table %>% 
+  left_join(phylo_d_df_missing, by = "tree") %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
