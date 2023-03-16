@@ -24,14 +24,13 @@ gray_tree$tip.label <- gray_tree_tips$name_glottocode
 #HL_findings sheet
 HL_findings_sheet <- read_tsv(HL_findings_sheet_fn)
 
-
-x <- colnames(read_tsv(GB_binary_fn, col_types = cols()))[3:203]
-
 #reading in Grambank
 GB_df_all <- read_tsv(GB_binary_fn, col_types = cols()) %>% 
   inner_join(gray_tree_tips, by = "Language_ID") %>% 
   column_to_rownames("name_glottocode") %>% 
   dplyr::select(-na_prop, -Language_ID, -Name)
+
+gray_tree <- gray_tree %>% keep.tip(rownames(GB_df_all))
 
 png(filename = paste0(OUTPUTDIR_plots,"coverage_plots/", "tree_heatmap_gray_mcct.png"), width = 30, height = 27, units = "cm", res = 400)
 phytools::phylo.heatmap(tree = gray_tree,X = GB_df_all, 
