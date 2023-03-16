@@ -69,15 +69,7 @@ tips_to_drop <- tree_removed_dups$tip.label %>%
   left_join(glottolog_df, by = "Glottocode") %>% 
   filter(!str_detect(classification, "ocea1241"))  
   
-tree_pruned_for_oceanic <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
-
-#dropping tips which are not in GB
-tips_to_drop <- tree_pruned_for_oceanic$tip.label %>% 
-  as.data.frame() %>% 
-  rename(Glottocode = ".") %>% 
-  anti_join(grambank_df)
-
-tree_pruned <- drop.tip(tree_pruned_for_oceanic, tips_to_drop$Glottocode)
+tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 
 # do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
 #tree_pruned <- ape::di2multi(tree_pruned)
