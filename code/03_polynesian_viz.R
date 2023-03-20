@@ -89,12 +89,11 @@ binary_posterios_n <- trees %>% is.binary() %>% sum()
 
 cat(paste0("In the random sample of 100 trees from the Gray et al 2009-posterior ", ultrametric_posteriors_n , " were ultrametric and ", binary_posterios_n, " were binary.\n"))
 
-
 #subsetting each tree in the multiphylo to only polynesian
 for(tree_n in 1:length(trees)){
-#  tree_n <- 1
+#  tree_n <- 14
   tree <- trees[tree_n]
-  tree[[1]] <- ape::keep.tip(phy = tree[[1]], tip = glottolog_df$Language_ID)
+  tree[[1]] <- ape::keep.tip(phy = tree[[1]], tip = poly_tree_tip_value_df$Language_ID)
   
   tree[[1]]$tip.label <- tree[[1]]$tip.label %>% 
     as.data.frame() %>% 
