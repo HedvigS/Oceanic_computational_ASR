@@ -13,7 +13,7 @@ Gray_et_al_tree_taxon_fn <- paste0(dplace_github_repos_fn,"phylogenies/gray_et_a
 Gray_et_al_tree <- read.nexus(Gray_et_al_tree_fn)
 
 if(!is.binary(Gray_et_al_tree) & !is.ultrametric(Gray_et_al_tree)){
-  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. However, the tree will not be binraised or made ultrametric as this would distort the branch lengths in an inappropriate way.")
+  message("The Gray et al 2009 summary tree is not fully ultrametric or binary. However, the tree will not be binarised or made ultrametric as this would distort the branch lengths in an inappropriate way.")
 }
 
 #reading in taxa data
