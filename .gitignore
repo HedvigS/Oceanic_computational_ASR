@@ -32,3 +32,4 @@ tex/ASR_Oceanic.dvi
 tex/ASR_Oceanic.pdf
 code/output/processed_data/used_pkgs.bib
 code/output/D_estimate_summary.tsv
+code/output/processed_data/used_packages.png
