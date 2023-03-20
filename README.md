@@ -16,8 +16,7 @@ This project is entirely coded in R. The scripts are set up such that they can b
 -   The grouping of languages into island groups are found here: `code/data/island_groups.tsv`
 -   If you run `code/03_coverage_viz.R` you will generate tree plots and a summary TeX-table of the coverage stats.
 
-# Concerning external data
-
+# Data input
 This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full Git project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank. See below for versions and Zenodo and GitHub locations:
 
 Zenodo locations:
@@ -33,9 +32,9 @@ GitHub locations:
     -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
 * dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
-It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running the rule `get_external` in the makefile.
+It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
 
-The necessary code for updating submodules is:
+The necessary code for updating the submodules is:
 
     `git submodule update --init --recursive`
     
