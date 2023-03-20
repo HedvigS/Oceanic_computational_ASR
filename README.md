@@ -27,6 +27,10 @@ It can be difficult to set-up git submodules. Because of this reason, and the ab
 The necessary code for updating submodules is:
 
     git submodule update --init --recursive
+    
+The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper.
+
+`git -C grambank-analysed checkout v1.0`
 
 # General analysis workflow
 
