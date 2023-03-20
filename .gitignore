@@ -10,9 +10,6 @@
 *.Rdata*
 .Rproj.user
 
-#plots
-tex/illustrations/plots_from_R/tree_plots/gray_et_al_2009/ML/*.pdf
-*png
 
 #folders
 *code/output/glottolog-tree/*
@@ -30,20 +27,8 @@ tex/illustrations/plots_from_R/tree_plots/gray_et_al_2009/ML/*.pdf
 tex/ASR_Oceanic.toc
 tex/ASR_Oceanic.synctex(busy)
 tex/ASR_Oceanic.synctex
-code/output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt
-code/output/processed_data/trees/*txt
-code/output/glottolog-tree*
-code/output/gray_et_al_2009*
-code/output/HL_comparison*
-code/Rplot.png
-tex/ASR_Oceanic.tex.bak
 tex/ASR_Oceanic.dvi
-tex/illustrations/plots_from_R/coverage_plots/maps/coverage_map_oceanic.png
-tex/illustrations/plots_from_R/coverage_plots/tables/island_groups_table.tex.bak
-tex/ASR_Oceanic.bib.bak
 *.bak
 tex/ASR_Oceanic.pdf
-tex/illustrations/plots_from_R/tree_plots/glottolog-tree/ML/ML_glottolog_tree_GB020.pdf
-*.pdf
 code/output/processed_data/used_pkgs.bib
 code/output/D_estimate_summary.tsv
