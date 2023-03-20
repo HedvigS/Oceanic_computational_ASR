@@ -28,8 +28,8 @@ Zenodo locations:
 *   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
 
 GitHub locations:
-* Grambank (v1.0) <https://github.com/grambank/grambank/tree/v1.0>
-    -  Grambank-analysed (v1.0) <https://github.com/grambank/grambank-analysed/tree/v1.0>
+* Grambank-analysed (v1.0) <https://github.com/grambank/grambank-analysed/tree/v1.0>
+    -  Grambank (v1.0) <https://github.com/grambank/grambank/tree/v1.0>
     -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
 * dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
@@ -41,7 +41,7 @@ The necessary code for updating submodules is:
     
 The flag `--recursive` means that all the submodules are initialised, including submodules within submodules. This means that all of AUTOTYP-data, glottolog-cldf, WALS etc are cloned since they are submodules of `grambank-analysed`.
     
-The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper.
+The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper. The version here at origin/main has the submodules checked out correctly. You can explicitly check them out by running:
 
 ```
 git -C grambank-analysed checkout v1.0
