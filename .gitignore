@@ -45,3 +45,5 @@ tex/ASR_Oceanic.bib.bak
 tex/ASR_Oceanic.pdf
 tex/illustrations/plots_from_R/tree_plots/glottolog-tree/ML/ML_glottolog_tree_GB020.pdf
 *.pdf
+code/output/processed_data/used_pkgs.bib
+code/output/D_estimate_summary.tsv
