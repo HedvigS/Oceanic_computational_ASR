@@ -26,7 +26,9 @@ It can be difficult to set-up git submodules. Because of this reason, and the ab
 
 The necessary code for updating submodules is:
 
-    git submodule update --init --recursive
+    `git submodule update --init --recursive`
+    
+The flag `--recursive` means that all the submodules are initialised, including submodules within submodules. This means that all of AUTOTYP-data, glottolog-cldf, WALS etc are cloned since they are submodules of `grambank-analysed`.
     
 The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper.
 
