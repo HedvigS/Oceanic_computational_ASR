@@ -49,8 +49,8 @@ fun_GB_ASR_ML <- function(feature) {
   
   states <- feature_df[,2]  %>% table() %>% length()
   
-  if(states == 1) {
-    message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+  if(states == 1 | nTips(tree_pruned) < ntips_half_glottolog) {
+    message("All tips for feature ", feature, " are of the same state or there are too few tips. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
 
 results_df <- data.frame(
       Feature_ID = feature,
@@ -60,7 +60,7 @@ results_df <- data.frame(
       pRoot1 = NA,
       q01 = NA,
       q10 = NA,
-      nTips = NA,
+      nTips = nTips(tree_pruned),
       nTips_state_0 =  NA,
       nTips_state_1 = NA)
     
@@ -68,7 +68,7 @@ results_df <- data.frame(
     output
   } else{
     
-    
+
     # If I decide to switch back and have unknown tips in, replace ? or missing tips with "0&1" or leave as NA and don't prune
     
     corHMM_result_direct <- corHMM::corHMM(
