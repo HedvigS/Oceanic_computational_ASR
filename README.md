@@ -18,9 +18,20 @@ This project is entirely coded in R. The scripts are set up such that they can b
 
 # Concerning external data
 
-This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank, which this project also make use of (grambank-analysed also includes git submodules for autotyp-data and wals, but these are not used in this project).
+This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full Git project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank. See below for versions and Zenodo and GitHub locations:
 
-Grambank 1.0 is not publicly released yet. Until it is, the full grambank dataset is not accessible publicly. For this project, I have gotten approval to share the subset of grambank which concerns Oceanic languages specifically. The script `code/02_get_grambank_data.R` creates the appropriate table for this project and places it in a subdirectory accessible to you.
+Zenodo locations:
+
+*   Grambank-analysed (v1.0) <https://doi.org/10.5281/zenodo.7740822>
+*   Grambank (v.1.0) <https://doi.org/10.5281/zenodo.7740140>
+*   glottolog-cldf (v4.5) <https://doi.org/10.5281/zenodo.5772642>
+*   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
+
+GitHub locations:
+* Grambank (v1.0) <https://github.com/grambank/grambank/tree/v1.0>
+    -  Grambank-analysed (v1.0) <https://github.com/grambank/grambank-analysed/tree/v1.0>
+    -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
+* dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
 It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running the rule `get_external` in the makefile.
 
