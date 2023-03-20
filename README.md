@@ -36,6 +36,8 @@ git -C grambank-analysed checkout v1.0
 git -C dplace-data checkout v2.2.1
 ```
 
+After this, it is advisable to run `git submodule update --init --recursive` again to make sure all is fetched correctly.
+
 # General analysis workflow
 
 1.  packages are installed and file path's defined (code/01_requirements.R)
