@@ -15,9 +15,9 @@ tex/illustrations/plots_from_R/tree_plots/gray_et_al_2009/ML/*.pdf
 *png
 
 #folders
-code/output/glottolog-tree*
-code/output/gray_et_al_2009*
-code/output/HL_comparison*
+*code/output/glottolog-tree/*
+*code/output/gray_et_al_2009/*
+*code/output/HL_comparison/*
 
 #latex
 *tex/*log
