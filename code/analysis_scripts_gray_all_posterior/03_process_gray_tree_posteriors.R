@@ -82,7 +82,7 @@ tree_pruned_for_oceanic <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
 tips_to_drop <- tree_pruned_for_oceanic$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  anti_join(grambank_df)
+  anti_join(grambank_df, by = "Glottocode")
 
 tree_pruned <- drop.tip(tree_pruned_for_oceanic, tips_to_drop$Glottocode)
 
