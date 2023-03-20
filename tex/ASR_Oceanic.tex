@@ -119,7 +119,7 @@
 \begin{abstract}
 \doublespacing
 \normalsize
-Ancestral State Reconstruction (ASR) is an essential part of historical linguistics (HL). Conventional reconstruction in HL relies on three core principles: fewest changes on the tree,  plausibility of changes, and plausibility of the resulting combinations of features in proto-languages. This study compares the results of this process to computational approaches (Maximum Parsimony and Maximum Likelihood) based on Grambank data in order to assess the overlap and evaluate the implications of the different methodologies. The results show that there is a high degree of agreement. The approaches could be further enhanced by the incorporation of information on plausibility and contact events into the computational methods.
+Ancestral State Reconstruction (ASR) is an essential part of historical linguistics (HL). Conventional reconstruction in HL relies on three core principles: fewest changes on the tree,  plausibility of changes, and plausibility of the resulting combinations of features in proto-languages. This study compares the results of this process to computational approaches (Maximum Parsimony and Maximum Likelihood) based on Grambank data in order to assess the overlap and evaluate the implications of the different methodologies. The results show that there is a high degree of agreement. A combination of computational methods and qualitative knowledge is possible in future and would be of great benefit.
 
 %Reconstruction is an essential part of historical linguistics. Conventional reconstruction in historical linguistics (HL) infers states in proto-languages by three core principles: assume the fewest changes on the tree, assume plausible changes, and assume plausible combinations of features in proto-languages. However, there is no clear consensus on how to weigh the principles against each other, and many studies are not fully transparent regarding how precisely the principles are applied. This allows for subjective differences between studies which are hard to discern and replicate. This study aims to better understand the toolbox of historical linguistics in general and Oceanic grammatical history in particular by comparing the reconstruction of structural features by classical historical linguists to computational reconstructions with explicit and transparent mechanisms: Maximum Parsimony (MP) and Marginal Maximum Likelihood (ML). MP is similar to conventional HL in that it infers the fewest amounts of changes along the tree. ML on the other hand infers rates of change based on the distribution of values and takes into account branch lengths. In addition, we explore an even simpler method of reconstruction, which ignores tree structure and takes into account only the most common feature in the daughter languages. The results indicate that all methods applied achieve a high level of concordance with predictions from historical linguistics, which lets us understand the mechanisms of CM better. The more methodology is made explicit, the better off we are as a field.
 
@@ -142,10 +142,9 @@ Ancestral State Reconstruction (ASR) is an essential part of historical linguist
 \doublespacing
 \section{Introduction}
 \label{acr:intro}
-%\footnote{I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, among these are: Stephen Mann, Angela Chira,  \begin{CJK*}{UTF8}{bsmi} 華夏\end{CJK*} Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset and Hannah Haynie. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.}
-Historical linguistics offers us a unique and insightful window into our human past. By reconstructing the paths languages take, we can learn about our history and infer the migration paths of people and cultures. By reconstructing the words, sounds and grammar of ancient languages, we can learn about communities long gone. Historical linguistics is devoted to this endeavour and has made great strides in our understanding of human history since its inception. The field has established methods that have enabled us to classify languages into language families and reconstruct words and sounds of proto-languages (unobserved ancestors of observed languages). Conclusions from historical linguistics are also influential in other historical sciences, for example archaeology (c.f. \citet[S364]{bellwood2011holocene}).
+Historical\footnote{I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, among these are: Stephen Mann, Angela Chira, \begin{CJK*}{UTF8}{bsmi} 華夏\end{CJK*} Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset and Hannah Haynie. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.} linguistics offers us a unique and insightful window into our human past. By reconstructing the paths languages take, we can learn about our history and infer the migration paths of people and cultures. By reconstructing the words, sounds and grammar of ancient languages, we can learn about communities long gone. Historical linguistics is devoted to this endeavour and has made great strides in our understanding of human history since its inception. The field has established methods that have enabled us to classify languages into language families and reconstruct words and sounds of proto-languages (unobserved ancestors of observed languages). Conclusions from historical linguistics are also influential in other historical sciences, for example archaeology (c.f. \citet[S364]{bellwood2011holocene}).
 
-Scholars who work in historical linguistics produce valuable and greatly inspiring work and they possess a wealth of knowledge not only of the languages themselves, but also the cultures, societies and history of the region. At times, it is difficult to be explicit about all the background information and context that goes into an analysis in historical linguistics --- which makes it hard for someone else to replicate and assess the study thoroughly. When the information is made explicit, it can be hard to aggregate across publications and keep definitions and weights consistent.
+Scholars who work in historical linguistics produce valuable and greatly inspiring work and they possess a wealth of knowledge not only of the languages themselves, but also the cultures, societies and history of the region. At times, it is difficult to be explicit about all the background information and context that goes into an analysis in historical linguistics --- which makes it hard for someone else to replicate and assess the study thoroughly. When the information is made explicit in publications, it can be hard to aggregate across publications while keeping definitions and weights consistent.
 
 In this study, we focus on one particular subset of the historical linguistics toolbox --- the inference of earlier states of languages --- and outline how computational approaches can be a complement that serves to increase speed, transparency and consistency. The results evaluate the agreement between outcomes of conventional methods in historical linguistics and computational methods in order to increase the understanding of both approaches. This may make visible opportunities for methodological expansion that can be made by incorporating computational approaches into mainstream historical linguistics.
 
@@ -908,7 +907,7 @@ Fig. \ref{fig:tree_heatmap} shows the MCC-tree from \citet{grayetal_2009} and a 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=18cm]{tex/illustrations/plots_from_R/coverage_plots/tree_heatmap_gray_mcct.png}
+\includegraphics[width=17cm]{illustrations/plots_from_R/coverage_plots/tree_heatmap_gray_mcct.png}
 \caption{MCC-tree from \citet{grayetal_2009} with Grambank data matrix. Purple = present, yellow = absent and striped = missing.}
 \label{fig:tree_heatmap}
 \end{figure}
@@ -952,7 +951,7 @@ To illustrate the problem I generated a tree with 155 tips with different distri
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=14cm]{tex/illustrations/plots_from_R/phylo_d_heatmap_tree.png}
+\includegraphics[width=14cm]{illustrations/plots_from_R/phylo_d_heatmap_tree.png}
 \caption{Tree and values heatmap for D-estimation investigation.}
 \label{fig:phylo_d_heatmap}
 \end{figure}
@@ -963,7 +962,7 @@ The D-estimates for the singleton-features varied the most, with one iteration o
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=14cm]{tex/illustrations/plots_from_R/phylo_d_sd_permut.png}
+\includegraphics[width=14cm]{illustrations/plots_from_R/phylo_d_sd_permut.png}
 \caption{Scatterplot of the standard deviation of D-estimate values per feature per value of random permutations}
 \label{fig:phylo_d_plot_sd}
 \end{figure}
@@ -986,7 +985,7 @@ If we look at the non-singleton features (the pairs, triplets, quadruplets and l
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=14cm]{tex/illustrations/plots_from_R/phylo_d_permut_plot.png}
+\includegraphics[width=14cm]{illustrations/plots_from_R/phylo_d_permut_plot.png}
 \caption{Scatterplot of the D-estimate values per feature per value of random permutations, for all non-singleton features. Each point represents a D-estimate value per feature, per number of permutations and per iteration.}
 \label{fig:phylo_d_plot_non_singles}
 \end{figure}
@@ -1013,9 +1012,9 @@ In the data in this study there were cases of inappropriate D-estimates, which w
 
 Tables \ref{phylo_d_summarise_col_green} and \ref{phylo_d_summarise_col_orange} shows the number of instances of each of these categories over the trees. There are fewer instances in the problematic categories and they have been excluded from further analysis with D-estimates directly. Because they represent cases with skewed distributions, it is possible to interpret them as representing very rare phenomena and one interpretation of that could be a strong phylogenetic signal --- but the D-estimate test is not suitable.
 
-\input{tex/illustrations/plots_from_R/table_P_values_summarised_latex_green.tex}
+\input{illustrations/plots_from_R/table_P_values_summarised_latex_green.tex}
 
-\input{tex/illustrations/plots_from_R/table_P_values_summarised_latex_orange.tex}
+\input{illustrations/plots_from_R/table_P_values_summarised_latex_orange.tex}
 
 
 %#todo
@@ -1032,7 +1031,7 @@ The results have been grouped by method and tree. In no case, save one, does the
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=18cm]{tex/illustrations/plots_from_R/phylo_d_vs_HL_concurrance.png}
+\includegraphics[width=18cm]{illustrations/plots_from_R/phylo_d_vs_HL_concurrance.png}
 \caption{Scatter-plots of D-estimates (x-axis) and concurrence with conventional historical linguistics (y-axis). The points are colored based on meeting statistical thresholds of significance for being similar to 0 (Brownian) or 1 (random). The correlation statistic in blue represents a Pearson-test.}
 \label{fig:phylo_d_plot_vs_concurrence}
 \end{figure}
@@ -1047,7 +1046,7 @@ We can consider a much simpler approach to understanding what predicts agreement
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=12cm]{tex/illustrations/plots_from_R/min_p_vs_HL_concurrance.png}
+\includegraphics[width=12cm]{illustrations/plots_from_R/min_p_vs_HL_concurrance.png}
 \caption{Scatter-plots of precentage of tips in minority state (x-axis) and concurrence with conventional historical linguistics (y-axis). The correlation statistic in blue represents a Pearson-test.}
 \label{fig:min_p_vs_concurrence}
 \end{figure}
@@ -1355,7 +1354,7 @@ The branch lengths in the trees from \citet{grayetal_2009} are derived from the 
     \end{subfigure}
 \hfil
     \begin{subfigure}{0.3\linewidth}
-          \includegraphics[width=\textwidth]{tex/illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_gray_posterios.png}
+          \includegraphics[width=\textwidth]{illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_gray_posterios.png}
     \caption{\citet{grayetal_2009} posteriors tree (random sample of 100). The densitree-visualisation is in phylogram-style.}
      \label{gray_tree_branch_example_posteriors}
     \end{subfigure}
