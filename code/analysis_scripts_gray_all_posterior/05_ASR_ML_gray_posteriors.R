@@ -65,8 +65,8 @@ feature_df <-  gray_tree_pruned$tip.label %>%
 
 states <- feature_df[,2]  %>% table() %>% length()
 
-if(states == 1) {
-  message("All tips for feature ", feature, " are of the same state. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
+if(states == 1| nTips(tree_pruned)< ntips_half_gray) {
+  message("All tips for feature ", feature, " are of the same state or there are too few tips. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
 #  beepr::beep(9)
   
   results_df <- data.frame(
@@ -77,7 +77,7 @@ if(states == 1) {
     pRoot1 = NA,
     q01 = NA,
     q10 = NA,
-    nTips = NA,
+    nTips = nTips(tree_pruned),
     nTips_state_0 =  NA,
     nTips_state_1 = NA)
     
