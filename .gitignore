@@ -32,7 +32,9 @@ tex/ASR_Oceanic.synctex(busy)
 tex/ASR_Oceanic.synctex
 code/output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt
 code/output/processed_data/trees/*txt
-code/output
+code/output/glottolog-tree*
+code/output/gray_et_al_2009*
+code/output/HL_comparison*
 code/Rplot.png
 tex/ASR_Oceanic.tex.bak
 tex/ASR_Oceanic.dvi
