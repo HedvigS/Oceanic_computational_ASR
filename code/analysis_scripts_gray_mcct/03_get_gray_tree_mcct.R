@@ -63,18 +63,17 @@ Gray_et_al_tree_tip.label_df <- tree_removed_dups$tip.label %>%
 tree_removed_dups$tip.label <- Gray_et_al_tree_tip.label_df$Glottocode
 
 #dropping tips which are non-oceanic languages
-tips_to_drop <- tree_removed_dups$tip.label %>% 
+tips_to_keep <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(!str_detect(classification, "ocea1241"))  
-  
-tree_pruned <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
+  left_join(glottolog_df, by = "Glottocode") %>%
+  filter(str_detect(classification, "ocea1241"))
+
+tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode)
 
 # do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
 #tree_pruned <- ape::di2multi(tree_pruned)
 
 tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch length to every branch so that there are no branches with 0 length
-
 
 ape::write.tree(tree_pruned, file = "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt")
