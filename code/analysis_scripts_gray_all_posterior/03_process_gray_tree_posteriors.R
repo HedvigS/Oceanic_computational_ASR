@@ -51,9 +51,11 @@ index <- 0
 multiPhylo_obj <- ""
 class(multiPhylo_obj) <- "multiPhylo"
 
+n_rerooted <- 0
+
 for(tree in 1:length(Gray_et_al_trees)){
   index <- index +1
-#  tree <- 1
+#  tree <- 14
   
 tree <- Gray_et_al_trees[[tree]]
 tree_removed_dups <- drop.tip(tree, tip = dup_to_remove)
@@ -61,44 +63,37 @@ tree_removed_dups <- drop.tip(tree, tip = dup_to_remove)
 #renaming tips in the tree to glottocodes. Keeping dialect glottocodes if they are also represented in grambank
 tree_tip.label_df <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
-  rename(taxon = ".") %>% 
+  rename(taxon = ".") %>%
   left_join(taxa, by = "taxon") %>% 
   left_join(glottolog_df, by = "Glottocode") %>% 
-  left_join(grambank_df, by = "Glottocode") %>% 
+  left_join(grambank_df, by = "Glottocode") %>%
   mutate(Glottocode = ifelse(is.na(in_GB) & level == "dialect", Language_level_ID, Glottocode)) #superceed the specific glottocode with the language level glottocode if there isn't a dialect match
 
 tree_removed_dups$tip.label <- tree_tip.label_df$Glottocode
 
 #dropping tips which aren't in GB at all and non-oceanic languages
-tips_to_drop <- tree_removed_dups$tip.label %>% 
+tips_to_keep <- tree_removed_dups$tip.label %>% 
   as.data.frame() %>% 
   rename(Glottocode = ".") %>% 
-  left_join(glottolog_df, by = "Glottocode") %>% 
-  filter(!str_detect(classification, "ocea1241"))
+  left_join(glottolog_df, by = "Glottocode") %>%
+  filter(str_detect(classification, "ocea1241"))
 
-tree_pruned_for_oceanic <- drop.tip(tree_removed_dups, tips_to_drop$Glottocode)
-
-#dropping tips which are not in GB
-tips_to_drop <- tree_pruned_for_oceanic$tip.label %>% 
-  as.data.frame() %>% 
-  rename(Glottocode = ".") %>% 
-  anti_join(grambank_df, by = "Glottocode")
-
-tree_pruned <- drop.tip(tree_pruned_for_oceanic, tips_to_drop$Glottocode)
+tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode)
 
 if(!is.rooted(tree_pruned)){
   
   cat(paste0("Resulting pruned tree isn't rooted. Rooting with Nanggu as outgroup.\n"))
   tree_pruned <- ape::root(phy = tree_pruned, outgroup = "nang1262", resolve.root = T)
-    }
+  n_rerooted <-  n_rerooted +1
+   }
 
 # do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
 #tree_pruned <- ape::di2multi(tree_pruned)
 
 tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch lenght to every branch so that there are no branches with 0 length
 
-
 tree_fn <- paste0("gray_et_al_2009_posterior_tree_pruned_", index, ".txt")
+
 
 ape::write.tree(tree_pruned, paste0("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", tree_fn))
 cat("I'm done with pruning tree ", index, " in the posterior.\n", sep = "")
@@ -107,3 +102,5 @@ multiPhylo_obj <- c(multiPhylo_obj,tree_pruned)
 
 multiPhylo_obj[-1] %>% 
   ape::write.tree(file = "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt")
+
+cat(paste0("There were ", n_rerooted, " trees in the posterior that had to be re-rooted.\n"))
