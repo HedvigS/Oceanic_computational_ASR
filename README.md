@@ -30,7 +30,11 @@ The necessary code for updating submodules is:
     
 The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper.
 
-`git -C grambank-analysed checkout v1.0`
+```
+git -C grambank-analysed checkout v1.0
+
+git -C dplace-data checkout v2.2.1
+```
 
 # General analysis workflow
 
