@@ -34,11 +34,11 @@ GitHub locations:
 
 It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
 
-The necessary code for updating the submodules is:
+The necessary code for updating and initialising the submodules is:
 
     `git submodule update --init --recursive`
     
-The flag `--recursive` means that all the submodules are initialised, including submodules within submodules. This means that all of AUTOTYP-data, glottolog-cldf, WALS etc are cloned since they are submodules of `grambank-analysed`.
+The flag `--recursive` means that all the submodules are initialised, including submodules within submodules. This means that all of AUTOTYP-data, glottolog-cldf, WALS etc are cloned to the local machine since they are submodules of `grambank-analysed`.
     
 The git submodules need to be checked out at particular commits/tags in order to represent the same data as in the paper. The version here at origin/main has the submodules checked out correctly. You can explicitly check them out by running:
 
