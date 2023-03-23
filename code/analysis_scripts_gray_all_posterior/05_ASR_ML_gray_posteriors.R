@@ -61,31 +61,37 @@ feature_df <-  gray_tree_pruned$tip.label %>%
   as.data.frame() %>% 
   rename(Language_ID = ".") %>% 
   left_join(GB_df_all, by = "Language_ID") %>% 
-  dplyr::select(Language_ID, {{feature}}) %>% 
-  filter(GB109 != 0)
+  dplyr::select(Language_ID, {{feature}}) 
 
-#making a table for number of 0s and 1s, taking into account when there is only one of them
+#making a table for number of 0s and 1s, taking into account when there is only one of them. This will populate the columns for nTips_state_0 and nTips_state_1 later.
+
+#counting the number of 0s and 1s
 x <- feature_df[,2]  %>% table()
+
+#checking if there are both 0s and 1s, or only just one of them
 states <- length(x)
 are_there_zeroes <- "0" %in% dimnames(x)[[1]]
 are_there_ones <- "1" %in% dimnames(x)[[1]]
 
+#making a count table in cases where there are no 0s
 if(are_there_zeroes == F){
-x <- tibble("0 " = 0,
-            "1 " = x %>% as.matrix() %>% .[1,1])
+  x <- tibble("0 " = 0,
+              "1 " = x %>% as.matrix() %>% .[1,1])
 }
 
+#making a count table in cases where there are no 1s
 if(are_there_ones == F){
   x <- tibble("0" = x %>% as.matrix() %>% .[1,1],
               "1" = 0)
 }
 
+#making a count table in cases where there are 0s and 1s
 if(are_there_zeroes == T & are_there_ones == T){
-  x <- as_tibble(t(x))
-  colnames(x) <- x[1,]
-  x <- x[-1,]
+  x <- tibble("0" = x %>% as.matrix() %>% .[1,1] %>% as.vector(),
+              "1"= x %>% as.matrix() %>% .[2,1] %>% as.vector())
 }
 
+#make variables to use later
 nTips_state_0 = x$`0`[1]
 nTips_state_1 = x$`1`[1]
 
