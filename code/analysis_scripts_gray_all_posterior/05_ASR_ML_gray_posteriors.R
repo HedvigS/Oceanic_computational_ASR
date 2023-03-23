@@ -149,8 +149,8 @@ for(tree_fn in 1:length(gray_trees_fns)){
   }else{
   
   if (!dir.exists(output_dir)) { dir.create(output_dir) }
-  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
-  if (!dir.exists(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/"))) { dir.create(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/")) }
+#  if (!dir.exists(file.path(output_dir, "tree_plots"))) { dir.create(file.path(output_dir, "tree_plots")) }
+#  if (!dir.exists(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/"))) { dir.create(file.path(output_dir, "tree_plots/gray_et_al_2009_posteriors_sample/")) }
   
 
   GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
