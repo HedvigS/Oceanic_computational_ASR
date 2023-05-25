@@ -49,9 +49,39 @@ feature_df <-  gray_tree_pruned$tip.label %>%
   left_join(GB_df_all, by = "Language_ID") %>% 
   dplyr::select(Language_ID, {{feature}}) 
 
-states <- feature_df[,2]  %>% table() %>% length()
+#making a table for number of 0s and 1s, taking into account when there is only one of them. This will populate the columns for nTips_state_0 and nTips_state_1 later.
 
-if(states == 1| nTips(tree_pruned) < ntips_half_gray) {
+#counting the number of 0s and 1s
+x <- feature_df[,2]  %>% table()
+
+#checking if there are both 0s and 1s, or only just one of them
+states <- length(x)
+are_there_zeroes <- "0" %in% dimnames(x)[[1]]
+are_there_ones <- "1" %in% dimnames(x)[[1]]
+
+#making a count table in cases where there are no 0s
+if(are_there_zeroes == F){
+x <- tibble("0 " = 0,
+            "1 " = x %>% as.matrix() %>% .[1,1])
+}
+
+#making a count table in cases where there are no 1s
+if(are_there_ones == F){
+  x <- tibble("0" = x %>% as.matrix() %>% .[1,1],
+              "1" = 0)
+}
+
+#making a count table in cases where there are 0s and 1s
+if(are_there_zeroes == T & are_there_ones == T){
+  x <- tibble("0" = x %>% as.matrix() %>% .[1,1] %>% as.vector(),
+              "1"= x %>% as.matrix() %>% .[2,1] %>% as.vector())
+}
+
+#make variables to use later
+nTips_state_0 = x$`0`[1]
+nTips_state_1 = x$`1`[1]
+
+if(states == 1| nTips(gray_tree_pruned) < ntips_half_gray) {
   message("All tips for feature ", feature, " are of the same state or there are too few tips. We're skipping it, we won't do any ASR or rate estimation for this feature.\n")
 #  beepr::beep(9)
   
@@ -63,9 +93,9 @@ if(states == 1| nTips(tree_pruned) < ntips_half_gray) {
     pRoot1 = NA,
     q01 = NA,
     q10 = NA,
-    nTips = nTips(tree_pruned),
-    nTips_state_0 =  NA,
-    nTips_state_1 = NA)
+      nTips = nTips(gray_tree_pruned),
+    nTips_state_0 =  nTips_state_0,
+    nTips_state_1 = nTips_state_1)
     
   output <- list("NA", results_df)
   output
@@ -93,8 +123,8 @@ results_df <- data.frame(
   q01 = corHMM_result_direct$solution[1,][2],
   q10 = corHMM_result_direct$solution[2,][1],
   nTips = phylobase::nTips(gray_tree_pruned), 
-  nTips_state_0 =  feature_df[,2]  %>% table() %>% as.matrix() %>% .[1,1] %>% as.vector(),
-  nTips_state_1 =  feature_df[,2]  %>% table() %>% as.matrix() %>% .[2,1] %>% as.vector()
+  nTips_state_0 =  nTips_state_0,
+  nTips_state_1 = nTips_state_1
 )
 
 corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,

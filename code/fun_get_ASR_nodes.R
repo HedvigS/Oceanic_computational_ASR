@@ -66,8 +66,19 @@ get_node_positions_parsimony <- function(GB_asr_object_parsimony, verbose = F){
 
 get_node_positions_ML <- function(GB_asr_object_ml, verbose = F ){
   
-  #GB_asr_object_ml <- GB_ASR_RDS_ML_gray$content[[1]]
+  #GB_asr_object_ml <- GB_ACR_all_ML$content[[12]]
+
+if(GB_asr_object_ml[1] ==  "NA"){
   
+  df <- tibble("Proto-language" = c("Proto-Oceanic", "Proto-Central Pacific", "Proto-Polynesian", "Proto-Eastern Polynesian"),
+                   node = c(NA, NA, NA, NA),
+                   `0`= c(NA, NA, NA, NA),
+                   `1`= c(NA, NA, NA, NA),
+                   Feature_ID = rep(GB_asr_object_ml[[2]]$Feature_ID, 4)
+  )
+  
+  
+} else{
   GB_asr_object_ml <- GB_asr_object_ml[[1]]
   
   feature <- GB_asr_object_ml$data %>% colnames() %>% .[2]
@@ -122,6 +133,7 @@ get_node_positions_ML <- function(GB_asr_object_ml, verbose = F ){
     mutate(Feature_ID = feature) %>% 
     rename(`0`= "(1,R1)" , `1` = "(2,R1)")
   
+}
   if(verbose == T){
   cat("I'm done with finding the ML proto-language states for feature ", feature, ".\n", sep = "") }
   df
