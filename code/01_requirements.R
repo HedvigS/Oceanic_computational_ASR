@@ -39,6 +39,7 @@ h_load(dependencies = T, pkg = c(
 #  broom", 
 #  ggrepel",
   "jsonlite", #reading json files
+  "fs",
 #  ggpubr",
 #  psych",
 #  fuzzyjoin",
