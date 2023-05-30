@@ -2,6 +2,7 @@
 
 source("01_requirements.R")
 
+#if the git submodules aren't initialized, get the data from Zenodo-urls
 source("02_get_zenodo_dirs.R")
 
 if(!dir.exists("../grambank_analysed/R_grambank/output/")){
