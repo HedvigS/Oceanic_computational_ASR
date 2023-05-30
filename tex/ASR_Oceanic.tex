@@ -1,69 +1,39 @@
- \documentclass[a4paper,10pt]{article} % Artikel med 12pt text och A4 storlek.
-%\documentclass[draft,10pt]{draft} % Artikel med 12pt text och A4 storlek.
-\usepackage[english]{babel} % Svensk avstavning istället för engelsk
-%\usepackage[pdflatex]{graphicx}% De här två behövs för svenska
-\usepackage[utf8]{inputenc} % UTF-8 encodad fil. Kan bytas ut mot latin1 om en vill...
-\usepackage[T1]{fontenc}
-\usepackage[authoryear]{natbib}
-\usepackage{bibentry}
-\usepackage{subcaption}
-\usepackage{boldline} 
-\usepackage{amsmath}
-%\usepackage[allfiguresdraft]{draftfigure}
-\usepackage{float}
-\usepackage{placeins}
-\usepackage[margin=2.5cm]{geometry}
+\documentclass[12pt,letterpaper]{article}
+\usepackage[lmargin=1.2in,rmargin=1.2in,tmargin=1in,bmargin=1in]{geometry}
+\usepackage[bf,tiny]{titlesec}
+%\usepackage{fontspec,xltxtra,xunicode}
+    	%\defaultfontfeatures{Mapping=tex-text}
+%\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{fontenc}
+%\setmainfont{Junicode}
+
 \usepackage{setspace}
-\usepackage{color}
-\usepackage{enumitem}   
-\usepackage[T1]{tipa}
-\usepackage{tabu}
-\usepackage{textcomp}
-\usepackage{rotating}
-\usepackage{booktabs}
-\renewcommand{\arraystretch}{1.3}
-\usepackage{tabu}
-\usepackage{longtable}
-\usepackage{pbox}
-\usepackage{setspace}
-\usepackage{lscape}
-%\usepackage{enumitem}
-%\usepackage{enumerate}
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{5}
-\usepackage{array}
-\newcolumntype{?}{!{\vrule width 1pt}}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-%\usepackage{graphics}
+%\usepackage{gb4e}
+\let\eachwordone=\it %italicise the first line of examples
+\usepackage[sort]{natbib}
+\bibpunct[: ]{(}{)}{,}{a}{}{,}
+\usepackage{afterpage}
 \usepackage{graphicx}
-\usepackage{subcaption}
 
-\usepackage{newfloat}
-\DeclareFloatingEnvironment[placement={!ht},name=List]{mylist}
+%%% your packages here; please use sparingly and for things you actually need (not for aesthetics)
 
+% extra packages
+\usepackage{placeins} %to enable float barriers
+%\usepackage{CJKutf8} %chinese caracthers
+\usepackage[table,dvipsnames]{xcolor} %for specifying colors
+\usepackage{amsmath} % for equations
+\usepackage{booktabs} % for nice looking tables
+\usepackage{longtable} %for tables stretching several pages
+\usepackage{pdflscape} %for making things landscape
+\usepackage{multirow} %merging rows in tables
+\usepackage{rotating} %for sideways figures
+\usepackage{caption} %for making subfigures
+\usepackage{subcaption} %for making subfigures
+\usepackage{newfloat} %making it possible to treat lists as gloats
+\DeclareFloatingEnvironment[placement={!ht},name=List]{mylist} %setting a float environment for lists
+\usepackage{enumitem} %make it possible to have other enumerate items, like roman
 
-\usepackage{lipsum}
-
-%chinese caracthers
-\usepackage{CJKutf8}
-
-
-\usepackage{footnote}
-\usepackage{tipx}
-
-\usepackage{wrapfig}
-\usepackage[table,dvipsnames]{xcolor}
-\usepackage{multirow}
-
-\usepackage{titlesec}
-
-\setcounter{secnumdepth}{4}
-
-
-\usepackage{color}  
-\usepackage{hyperref}
+\usepackage{hyperref} %for nice looking links
 \hypersetup{
     colorlinks=true, %set true if you want colored links
     linktoc=all,     %set to all if you want both sections and subsections linked
@@ -72,8 +42,7 @@
             citecolor=Thistle,
 }
 
-\usepackage{xcolor}
-
+%define special colors for tables
 \definecolor{spec_color_blue}{HTML}{7D81F5}
 \definecolor{spec_color_lightgreen}{HTML}{81F093}
 \definecolor{spec_color_darkgreen}{HTML}{0B8C1F}
@@ -83,30 +52,18 @@
 
 
 
-\setcitestyle{notesep={:},aysep={},aasep={\&}}
-%\renewcommand{\labelitemi}{$\rightarrow$}
-\usepackage{gb4e}
 
-%\usepackage{draftwatermark}
-%\SetWatermarkText{DRAFT}
-%\SetWatermarkScale{4}
-
-\pagestyle{myheadings}
-\markright{\hfill \textcolor{red}{DRAFT}  \hfill Last update: \today \hfill} 
-
-
-\noautomath
+%%% preamble
 \title{Disentangling Ancestral State Reconstruction in Historical Linguistics - comparing classic approaches and new methods with Oceanic grammar}
-\author{anon}
+\author{Hedvig Skirgård}
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
 
 \begin{document}
-\def\code#1{\texttt{#1}}
+%\def\code#1{\texttt{#1}}
 
 \thispagestyle{empty}
-%\singlespacing
+
 
 \maketitle
 \thispagestyle{empty}
@@ -117,8 +74,7 @@
 
 
 \begin{abstract}
-\doublespacing
-\normalsize
+
 Ancestral State Reconstruction (ASR) is an essential part of historical linguistics (HL). Conventional reconstruction in HL relies on three core principles: fewest changes on the tree,  plausibility of changes, and plausibility of the resulting combinations of features in proto-languages. This study compares the results of this process to computational approaches (Maximum Parsimony and Maximum Likelihood) based on Grambank data in order to assess the overlap and evaluate the implications of the different methodologies. The results show that there is a high degree of agreement. A combination of computational methods and qualitative knowledge is possible in future and would be of great benefit.
 
 %Reconstruction is an essential part of historical linguistics. Conventional reconstruction in historical linguistics (HL) infers states in proto-languages by three core principles: assume the fewest changes on the tree, assume plausible changes, and assume plausible combinations of features in proto-languages. However, there is no clear consensus on how to weigh the principles against each other, and many studies are not fully transparent regarding how precisely the principles are applied. This allows for subjective differences between studies which are hard to discern and replicate. This study aims to better understand the toolbox of historical linguistics in general and Oceanic grammatical history in particular by comparing the reconstruction of structural features by classical historical linguists to computational reconstructions with explicit and transparent mechanisms: Maximum Parsimony (MP) and Marginal Maximum Likelihood (ML). MP is similar to conventional HL in that it infers the fewest amounts of changes along the tree. ML on the other hand infers rates of change based on the distribution of values and takes into account branch lengths. In addition, we explore an even simpler method of reconstruction, which ignores tree structure and takes into account only the most common feature in the daughter languages. The results indicate that all methods applied achieve a high level of concordance with predictions from historical linguistics, which lets us understand the mechanisms of CM better. The more methodology is made explicit, the better off we are as a field.
@@ -134,15 +90,18 @@ Ancestral State Reconstruction (ASR) is an essential part of historical linguist
 %Historical linguists use the comparative method to find sound correspondences, to reconstruct unattested forms and structures of proto-languages and to propose subgroups. Part of this process can be done computationally with new methods such as Maximum Likelihood. Such methods are more explicit in terms of the assumed underlying tree structure, data weighting etc. Studies in historical linguistics are not always as explicit. In this paper, we attempt to reconstruct the assumptions and implicit inner workings of the comparative method by comparing reconstructions made "by hand" by historical linguists to those derived from computational means. We also address areas of conflicts where different historical linguistics scholars disagree and evaluate what we can learn from computational methods regarding these issues. We estimate the grammatical structures of Oceanic languages in particular, using the Grambank dataset and trees published by Glottolog and \citet{grayetal_2009}. The results show that classical historical linguistics, for this dataset and trees, appears to mainly be an application of Maximum Parsimony, and we further discuss what this implies for the field of reconstruction of proto-languages. In the cases where historical linguists disagree, the results further show that the most likely scenario is that proto-polynesian was ergative.
 \end{abstract}
 
-\singlespacing
-\tableofcontents
-\newpage
+
+\noindent\textbf{Keywords:} oceanic languages, ancestral state reconstruction, grammar
 
 
-\doublespacing
+%\tableofcontents
+
+%\newpage
+
+
 \section{Introduction}
 \label{acr:intro}
-Historical\footnote{I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, among these are: Stephen Mann, Angela Chira, \begin{CJK*}{UTF8}{bsmi} 華夏\end{CJK*} Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset and Hannah Haynie. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.} linguistics offers us a unique and insightful window into our human past. By reconstructing the paths languages take, we can learn about our history and infer the migration paths of people and cultures. By reconstructing the words, sounds and grammar of ancient languages, we can learn about communities long gone. Historical linguistics is devoted to this endeavour and has made great strides in our understanding of human history since its inception. The field has established methods that have enabled us to classify languages into language families and reconstruct words and sounds of proto-languages (unobserved ancestors of observed languages). Conclusions from historical linguistics are also influential in other historical sciences, for example archaeology (c.f. \citet[S364]{bellwood2011holocene}).
+Historical linguistics offers us a unique and insightful window into our human past. By reconstructing the paths languages take, we can learn about our history and infer the migration paths of people and cultures. By reconstructing the words, sounds and grammar of ancient languages, we can learn about communities long gone. Historical linguistics is devoted to this endeavour and has made great strides in our understanding of human history since its inception. The field has established methods that have enabled us to classify languages into language families and reconstruct words and sounds of proto-languages (unobserved ancestors of observed languages). Conclusions from historical linguistics are also influential in other historical sciences, for example archaeology (c.f. \citet[S364]{bellwood2011holocene}).
 
 Scholars who work in historical linguistics produce valuable and greatly inspiring work and they possess a wealth of knowledge not only of the languages themselves, but also the cultures, societies and history of the region. At times, it is difficult to be explicit about all the background information and context that goes into an analysis in historical linguistics --- which makes it hard for someone else to replicate and assess the study thoroughly. When the information is made explicit in publications, it can be hard to aggregate across publications while keeping definitions and weights consistent.
 
@@ -833,15 +792,22 @@ The more information is made explicit in the methodology the easier it is to ass
 %more carefully coded data from HL to input to reasonable computational models
 
 
-\singlespacing
-\bibliographystyle{bibtex_style_PhD}
+\bibliographystyle{unified}
 \bibliography{ASR_Oceanic}
-%\singlespacing
 
 \FloatBarrier
 
+%\section*{Funding information}
+%Grant or other funding acknowledgements should go here.
+
+\section*{Acknowledgements}
+I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, among these are: Stephen Mann, Angela Chira, 華夏 Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset and Hannah Haynie. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.
+
+%\section*{Abbreviations}
+%A list of abbreviations used in the text should appear here.
+
 \newpage
-\singlespacing
+
 \appendix
 \section*{Appendices}
 \addcontentsline{toc}{section}{Appendices}
@@ -1304,7 +1270,6 @@ Most of the feature questions are binary (GB027: Are nominal conjunction and com
 \subsection{Grambank features}
 \label{Grambank_features}
 
-\singlespacing
 \begin{landscape}
 \input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
 \end{landscape}
@@ -1383,13 +1348,15 @@ Another example of how information in the publications was turned into Grambank 
 
 This statement, together with a verb schema provided in the section, support the notion that Proto-Oceanic had subject proclitics and object enclitics. We can also infer from this publication as a whole that the authors believe Proto-Oceanic in fact did \emph{not} have subject \emph{en}clitics and object \emph{pro}clitics. This second prediction relies on absence of evidence and is less strong than the first, but given that the whole paper is void of any description of object proclitics or subject enclitics being a possibility (including the verb schema) and argument structure is well-discussed, we may dare to make this leap. This information can be translated into the Grambank questionnaire by positing absence and presence for the six relevant features that concern argument marking on the verb (where S stands for subject of intransitive, A for subject of transitive and O for object; see table~\ref{example_HL_prediction_table}).
 
-\begin{table}[ht] %one of ste's favourite tables
-\centering
+ %one of ste's favourite tables
+\begin{table}
 \caption{Example of predictions from historical linguistics as rendered in Grambank features.}
 \label{example_HL_prediction_table}
-\begin{tabular}{|l| p{3cm}|  p{3cm}| p{3cm} | p{3cm} |}
+
+\begin{tabular}{|p{3cm}| p{4.5cm}|  p{2.5cm}| p{2.5cm} | p{3cm} |p{2cm}| }
 \hline
-\textbf{Grambank ID} & \textbf{Question} & \textbf{Proto-language} & \textbf{Expert prediction}& \textbf{Reference} \\ \hline
+\textbf{Grambank ID} & \textbf{Question} & \textbf{Proto-language} & \textbf{Expert prediction} & \textbf{Reference} \\ 
+\hline
 GB089  &Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent & \citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
 GB090 &Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause? &Proto-Oceanic &Present &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic}  \\ \hline
 GB091 &Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause? &Proto-Oceanic &Absent &\citet[498-499]{ross2004morphosyntactic}, \citet[83]{lynchrosscrowley_proto_grammar_oceanic} \\ \hline
@@ -1400,6 +1367,7 @@ GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the s
 \end{table}
 
 \FloatBarrier
+\newpage
 \subsection{Table of historical linguistics sources surveyed}
 \label{supp:proto_lg_coding_table}
 
@@ -1445,7 +1413,6 @@ GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the s
 \FloatBarrier
 %\subsection{Table of new predictions}
 %\label{asr_table_extra}
-%\singlespacing
 %\begin{landscape}
 %\input{"illustrations/plots_from_R/results/extra_predictions.tex"}
 %\end{landscape}
