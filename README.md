@@ -32,7 +32,7 @@ GitHub locations:
     -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
 * dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
-It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
+It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary  for this particular studdy and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
 
 The necessary code for updating and initialising the submodules is:
 
@@ -49,6 +49,8 @@ git -C dplace-data checkout v2.2.1
 ```
 
 After this, it is advisable to run `git submodule update --init --recursive` again to make sure all is fetched correctly.
+
+In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if the git submodules aren't working.
 
 # General analysis workflow
 
