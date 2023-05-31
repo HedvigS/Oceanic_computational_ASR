@@ -22,7 +22,7 @@ get_zenodo_dir(url ="https://zenodo.org/record/5772649/files/glottolog/glottolog
 
 if(!dir.exists("../dplace-data/")){
   
-options(timeout=400)
+options(timeout=400) #dplace-data is so large,we need  to set the timeout to larger than default (default = 60).
 
 get_zenodo_dir(url = "https://zenodo.org/record/5554395/files/D-PLACE/dplace-data-v2.2.1.zip", exdir = "../dplace-data")
 }
