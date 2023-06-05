@@ -55,6 +55,7 @@ h_load(dependencies = T, pkg = c(
 #  ggmap",
   "glue",
   "stringi",
+  "data.table",
   "ape", 
   "caper",
   "castor",
