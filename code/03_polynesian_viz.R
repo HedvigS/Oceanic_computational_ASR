@@ -46,6 +46,7 @@ dotTree(tree = ladderize(poly_tree,right = T),
         x = fmode,
         colors=setNames(colours_binary, c("0","1")),
         fsize=1, 
+        cex.dot=1.3,
 #        legend = F,
         border="transparent")
 
