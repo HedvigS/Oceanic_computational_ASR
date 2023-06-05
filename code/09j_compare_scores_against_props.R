@@ -38,7 +38,7 @@ joined <- reconstruction_results_df %>%
   left_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
   mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)"))
-  
+
 joined %>% 
   filter(!is.na(HL_agreement)) %>% 
   filter(!is.na(min_percent)) %>% 
@@ -50,7 +50,8 @@ joined %>%
   geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method) +
   theme_minimal() +
-  scale_x_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent, limits = c(0,0.5), breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5)) +
+  scale_y_continuous(labels = scales::percent, limits = c(-0,1.1), breaks = c(0,0.25, 0.5, 0.75, 1)) +
   theme(legend.position =  0) +
   scale_color_manual(values= wes_palette("Darjeeling1", n = 3)) +
   xlab ("Percentage of minority state") +
