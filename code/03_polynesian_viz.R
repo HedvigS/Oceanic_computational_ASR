@@ -114,6 +114,11 @@ for(tree_n in 1:length(trees)){
 }
 
 png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example_brlen_gray_posterios.png"), width = 8.27, height = 10.69, units = "in", res = 600)
-phangorn::densiTree(trees, col="black",  tip.color = "black", scale.bar = F, type = "phylogram")
+phangorn::densiTree(trees, 
+                    col=colours_binary[1],  
+                    tip.color = "black", 
+                    scale.bar = F, 
+                    alpha = 0.05,
+                    type = "cladogram")
 x <- dev.off()
 
