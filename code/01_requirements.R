@@ -61,7 +61,7 @@ h_load(dependencies = T, pkg = c(
   "castor",
   "naniar", 
 #  fields",
-  "phytools",
+#  "phytools",
   "adephylo",
   "phylobase",
   "nloptr", 
@@ -75,6 +75,13 @@ h_load(dependencies = T, pkg = c(
   "scales", 
 "janitor")
 )
+
+#Liam fixed a specific issue with dottree, therefore we want to install a development version of phytools
+#do a binary install of all of tidyverse specifically
+if(!"phytools" %in% rownames(installed.packages())  ){
+  remotes::install_github("liamrevell/phytools", ref = "c4c8c72", force = T)
+}
+library("phytools")
 
 h_load("Rmpfr")
 
@@ -208,3 +215,6 @@ GB_df_desc_fn <- "output/GB_wide/parameters_binary.tsv"
 GB_binary_fn <- "output/GB_wide/GB_wide_binarized.tsv"
 
 glottolog_df_fn <- "output/processed_data/glottolog_language_table_wide_df.tsv"
+
+#colors
+colours_binary <- viridisLite::viridis(n=2, end = 0.9)
