@@ -160,7 +160,7 @@ phylo_d_summarised_table <-  joined_df %>%
   mutate(mean_D = round(mean_D, 2)) %>%
   filter(Pval0_sig == "yes") %>%
   mutate(prop = paste0(round(prop, 2)*100, "%")) %>%
-  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features signficantly similar to 0` = prop)
+  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0` = prop)
 
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
   
@@ -173,11 +173,12 @@ phylo_d_summarised_table %>%
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{4cm}","p{1.8cm}","p{3.5cm}", "p{2.3cm}", "p{2.3cm}") 
+ align <- c("r", "p{7cm}","p{1.8cm}","p{3.5cm}", "p{2.3cm}") 
 
  
 phylo_d_summarised_table %>% 
   left_join(phylo_d_df_missing, by = "tree") %>%
+  data.table::transpose(make.names = 1, keep.names = " ") %>%
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
