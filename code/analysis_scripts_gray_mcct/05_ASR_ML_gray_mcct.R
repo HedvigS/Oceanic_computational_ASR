@@ -127,17 +127,16 @@ results_df <- data.frame(
   nTips_state_1 = nTips_state_1
 )
 
-corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
+png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".png"), width = 15, height = 22, units = "cm", res = 400)
+corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0.4,
                   use.edge.length = TRUE,
                   piecolors=colours_binary,
-                  title = sprintf(
-                    "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
-                    feature, corHMM_result_direct$loglik,
-                    corHMM_result_direct$states[1, 1], corHMM_result_direct$states[1, 2]
-                  ),
-                  file = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".pdf"),
-                  width=8, height=16
+                  title = paste0("Gray et al (2009)-mcct, ML: ", feature)
+                  #,
+                  #file = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".png"),
+#                  width=8, height=16
 )
+x <- dev.off()
 
 cat("Done with ASR ML on ", feature, ".\n", sep = "")
 
