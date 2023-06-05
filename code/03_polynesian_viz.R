@@ -32,19 +32,22 @@ poly_tree_tip_value_df <- poly_tree$tip.label %>%
 
 poly_tree$tip.label <- poly_tree_tip_value_df$Name
 
-colours <- c("#ffffbf","#8856a7","#000000")
 feature_vec <- poly_tree_tip_value_df$GB409 %>% as.character()
 
 #insert ? for missing
-poly_tree_tip_value_df$GB409 <- ifelse(is.na(poly_tree_tip_value_df$GB409), "?",  poly_tree_tip_value_df$GB409)
+#poly_tree_tip_value_df$GB409 <- ifelse(is.na(poly_tree_tip_value_df$GB409), "?",  poly_tree_tip_value_df$GB409)
 
 fmode <- as.factor(setNames(poly_tree_tip_value_df$GB409,poly_tree_tip_value_df$Name))
 
 png(file = paste0(OUTPUTDIR_plots, "/tree_plots/poly_tree_example.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
 
-dotTree(ladderize(poly_tree,right = T),x = fmode,colors=setNames(colours,
-                                       c("0","1", "?")),fsize=1, legend = F)
+dotTree(tree = ladderize(poly_tree,right = T),
+        x = fmode,
+        colors=setNames(colours_binary, c("0","1")),
+        fsize=1, 
+#        legend = F,
+        border="white")
 
 x <- dev.off()
 

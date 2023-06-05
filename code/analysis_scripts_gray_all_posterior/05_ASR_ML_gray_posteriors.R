@@ -144,7 +144,7 @@ results_df <- data.frame(
 # plotting trees if necessary
 # corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1,
 #                   use.edge.length = TRUE,
-#                   piecolors=c("#8856a7", "#ffffbf"),
+#                   piecolors=colours_binary,
 #                   title = sprintf(
 #                     "Feature: %s (lh=%0.3f, p(root)=%0.2f, %0.2f)",
 #                     feature, corHMM_result_direct$loglik,

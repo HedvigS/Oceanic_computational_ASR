@@ -110,7 +110,7 @@ df_parsimony_gray %>%
 ####PLOTTING TIME
 
 #colors for piecharts
-colours <- c("#8856a7", "#ffffbf")
+colours <- colours_binary
 ############################################
 
 ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
