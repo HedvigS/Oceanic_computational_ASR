@@ -173,7 +173,7 @@ phylo_d_summarised_table %>%
 
  cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
  lbl <- "d_estimate_summary"
- align <- c("r", "p{7cm}","p{1.8cm}","p{3.5cm}", "p{2.3cm}") 
+ align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
 
  
 phylo_d_summarised_table %>% 
