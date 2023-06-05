@@ -47,7 +47,7 @@ dotTree(tree = ladderize(poly_tree,right = T),
         colors=setNames(colours_binary, c("0","1")),
         fsize=1, 
 #        legend = F,
-        border="white")
+        border="transparent")
 
 x <- dev.off()
 
