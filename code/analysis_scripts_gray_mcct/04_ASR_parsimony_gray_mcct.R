@@ -44,7 +44,7 @@ fun_GB_ASR_Parsimony <- function(feature){
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Glottocode, {{feature}})
   
-  gray_tree_pruned <- keep.tip(gray_tree, to_keep$Glottocode)  
+  gray_tree_pruned <- keep.tip(gray_tree, to_keep$Glottocode)  %>% ladderize(right = T)
 
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
   feature_vec <-  gray_tree_pruned$tip.label %>% 
@@ -132,7 +132,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
-  plotTree(ladderize(feature_tree , right = F), offset = 0.8, fsize = fsize)
+  plotTree(feature_tree, offset = 0.8, fsize = fsize)
   
   tiplabels(pie= to.matrix(feature_vec, sort(unique(feature_vec))), piecol=colours, cex = cex_tip, offset = 0.002)
   
