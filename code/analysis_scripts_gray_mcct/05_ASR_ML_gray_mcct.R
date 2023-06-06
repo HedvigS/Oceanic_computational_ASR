@@ -41,7 +41,7 @@ to_keep <- gray_tree$tip.label %>%
   filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Language_ID, {{feature}})
 
-gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID) 
+gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  %>% ladderize(right = T)
 
 feature_df <-  gray_tree_pruned$tip.label %>% 
   as.data.frame() %>% 
@@ -127,14 +127,23 @@ results_df <- data.frame(
   nTips_state_1 = nTips_state_1
 )
 
+gray_tree_pruned_tip.labels_df <- gray_tree_pruned$tip.label %>% 
+  as.data.frame() %>% 
+  rename(Glottocode = ".") %>% 
+  left_join(glottolog_df, by = "Glottocode") 
+
+gray_tree_pruned$tip.label <- gray_tree_pruned_tip.labels_df$Name
+
 png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".png"), width = 15, height = 22, units = "cm", res = 400)
-corHMM::plotRECON(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0.4,
+
+plotRECON_tweaked(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0.4,
                   use.edge.length = TRUE,
                   piecolors=colours_binary,
+                  show.legend = F,
+                  no.margin = T,
+                  tip_states = feature_df[,2],
+                  text.x = 128, text.pos = 4, text.cex = 1,
                   title = paste0("Gray et al (2009)-mcct, ML: ", feature)
-                  #,
-                  #file = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".png"),
-#                  width=8, height=16
 )
 x <- dev.off()
 
