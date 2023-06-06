@@ -124,15 +124,20 @@ results_df <- data.frame(
       nTips_state_1 =  nTips_state_0
     )
 
+    
 png(filename = file.path(OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML",paste0( "ML_glottolog_tree_", feature, ".png")), width = 15, height = 22, units = "cm", res = 400)
-    corHMM::plotRECON(tree_pruned, corHMM_result_direct$states, font=1,
+
+plotRECON_tweaked(tree_pruned, corHMM_result_direct$states, font=1,
                       use.edge.length = TRUE,
                       piecolors=colours_binary,
-                      title = paste0("Glottolog, ML: ", feature)#,
-#                      file = file.path(OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML",paste0( "ML_glottolog_tree_", feature, ".pdf")),
-#                      width=8, height=16
+                      show.legend = F,
+                      no.margin = T,
+                      tip_states = feature_df[,2],
+                      text.x = 258, text.pos = 4, text.cex = 1,
+                      title = paste0("Gray et al (2009)-mcct, ML: ", feature)
     )
-    
+
+    x <- dev.off()
     cat("Done with ASR ML on ", feature, ".\n", sep = "")
     
     #beepr::beep(2)
