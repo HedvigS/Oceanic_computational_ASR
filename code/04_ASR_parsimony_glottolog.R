@@ -44,7 +44,7 @@ fun_GB_ASR_Parsimony <- function(feature){
     sample_n(1) %>% #removing all duplicate tips. This is done randomly for each iteration, i.e. everytime the function is run on each feature.
     dplyr::select(Glottocode, {{feature}})
   
-  Glottolog_tree_full_pruned <- keep.tip(glottolog_tree, to_keep$Glottocode)  
+  Glottolog_tree_full_pruned <- keep.tip(glottolog_tree, to_keep$Glottocode)   %>% ladderize(right = T)
   Glottolog_tree_full_pruned <- compute.brlen(Glottolog_tree_full_pruned, method = 1)
 
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
@@ -117,7 +117,7 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
   
   png(file = FN_ACR, width = 8.27, height = 11.69, units = "in", res = 400)
   
-  plotTree(ladderize(feature_tree , right = F), offset = 0.8, fsize = fsize)
+  plotTree(feature_tree, offset = 0.8, fsize = fsize)
   
   tiplabels(pie= to.matrix(feature_vec, sort(unique(feature_vec))), piecol=colours, cex = cex_tip, offset = 0.002)
   
