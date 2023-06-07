@@ -44,7 +44,7 @@ fun_GB_ASR_Parsimony <- function(feature){
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Glottocode, {{feature}})
   
-  gray_tree_pruned <- keep.tip(gray_tree, to_keep$Glottocode)  %>% ladderize(right = T)
+  gray_tree_pruned <- keep.tip(gray_tree, to_keep$Glottocode)  %>% ladderize(right = F)
 
   #making a named vector for castor__asr_max_parsimony that has the tip labels in the exact same order as the current tree and the assocaited feature values as values
   feature_vec <-  gray_tree_pruned$tip.label %>% 

@@ -37,7 +37,7 @@ fun_GB_ASR_ML <- function(feature) {
     filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
     dplyr::select(Language_ID, {{feature}})
   
-  tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  
+  tree_pruned <- keep.tip(glottolog_tree, to_keep$Language_ID)  %>% ladderize(right = F)
 
   tree_pruned <- compute.brlen(tree_pruned, method = 1) #making all branch lenghts one in case pruning made some 0
   

@@ -41,7 +41,7 @@ to_keep <- gray_tree$tip.label %>%
   filter(eval(parse(text = filter_criteria))) %>% #removing all tips that don't have data for the relevant feature
   dplyr::select(Language_ID, {{feature}})
 
-gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  %>% ladderize(right = T)
+gray_tree_pruned <- keep.tip(gray_tree, to_keep$Language_ID)  %>% ladderize(right = F)
 
 feature_df <-  gray_tree_pruned$tip.label %>% 
   as.data.frame() %>% 
