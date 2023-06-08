@@ -39,7 +39,7 @@ glottolog_df_tip_values <- GB_df %>%
   filter(Glottocode != "cent2060") 
 
 color_vector_tree <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
-color_vector_map <- c("#8856a7", "#ffffbf", "#c9c9c9")
+color_vector_map <- c(colours_binary, "#c9c9c9")
 
 ###COVERAGE PLOT: MAP
 
@@ -56,7 +56,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
   geom_polygon(data=lakes, aes(x=long, 
                                y=lat,group=group),
                colour="gray87", 
-               fill="white", size = 0.3)  + 
+               fill="white", linewidth = 0.3)  + 
   theme(panel.grid.major = element_blank(), #all of these lines are just removing default things like grid lines, axises etc
         panel.grid.minor = element_blank(),
         axis.title.x=element_blank(),
