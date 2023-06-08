@@ -23,8 +23,8 @@ h_load(dependencies = T, pkg = c(
   "qs",
   "viridis",
 #  rlang",
-"snakecase",
-  "readODS",
+#"snakecase",
+#  "readODS",
 "assertthat",
 "beepr",
 #  lazyeval",
@@ -48,10 +48,10 @@ h_load(dependencies = T, pkg = c(
   "data.table",
 
     #making maps
-  "mapdata",
-  "maptools",
+#  "mapdata",
+#  "maptools",
   "maps",
-  "mapproj",
+#  "mapproj",
 #  ggmap",
   "glue",
   "stringi",
@@ -72,7 +72,7 @@ h_load(dependencies = T, pkg = c(
   "broom", 
 #  sf",
 #  raster", 
-  "scales", 
+#  "scales", 
 "janitor")
 )
 
@@ -221,3 +221,22 @@ colours_binary <- viridisLite::viridis(n=2, end = 0.9)
 
 
 source("fun_def_plotRECON_tweaked.R")
+
+
+
+gray_dup_to_remove <- c("Sisingga", 
+                   "Carolinian",
+                   "Futuna", 
+                   "Aria",
+                   "Madara",
+                   "Maututu",
+                   "Chuukese",
+                   "NakanaiBileki_D",
+                   "LwepeSantaCruz",
+                   "Buma",
+                   "NehanHape",
+                   "Woleai",
+                   "Marshallese", 
+                   "FutunaWest", #mystery language with no entries
+                   "Baliledo" #can't get a glottocode match
+)
