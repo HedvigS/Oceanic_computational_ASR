@@ -4,6 +4,9 @@ source("fun_def_h_load.R")
 h_load("NCmisc")
 source("fun_def_list.functions.R")
 
+dir <- "../tex/bib_from_r/"
+if(!dir.exists(dir)){dir.create(dir)}
+
 r_fns <- list.files(path = ".", pattern = "*.R$", full.names = T, recursive = T)
 
 r_grambank <- c("../grambank-analysed/R_grambank/make_wide.R", "../grambank-analysed/R_grambank/make_wide_binarized.R", "../grambank-analysed/R_grambank/make_glottolog-cldf_table.R")
@@ -103,9 +106,6 @@ cat(paste0("Wrote citations for packages you've used to", output_fn, ".\n There 
 h_load("bib2df")
 
 bibdf <- suppressWarnings(suppressMessages(bib2df(output_fn)))
-
-dir <- "../tex/bib_from_r/"
-if(!dir.exists(dir)){dir.create(dir)}
 
 #solution to getting an "and" on the last line from SO
 # https://stackoverflow.com/questions/42456452/changing-vector-to-string-special-separator-for-last-element
