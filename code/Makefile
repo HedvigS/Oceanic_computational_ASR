@@ -25,6 +25,7 @@ other_prep:
 	Rscript 03_coverage_viz.R
 	Rscript 03_densitree.R
 	Rscript 03_polynesian_viz.R
+	Rscript 03_tree_heatmap.R
 
 parsimony:
 	#run analysis
