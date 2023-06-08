@@ -66,16 +66,20 @@ joined <-glottolog_tree_dist_list %>%
   full_join(gray_posterios_dists_list, by = c("Var1", "Var2") ) %>% 
   full_join(gb_dist_list, by = c("Var1", "Var2"))
 
+png(filename = "../tex/illustrations/plots_from_R/SPLOM_tree_dists.png", width = 20, height = 20, units = "cm", res = 400)
+
 joined %>% 
+  rename(`Glottolog\ntree tip dist` = glottolog_dist, `Gray et al (2009)\ntree tip dist\nMCCT` = gray_mcct_dist, `Gray et al (2009)\ntree tip dist\n100 posterior trees` = gray_posteriors_dist , `Grambank\ndist` = GB_dist) %>% 
   dplyr::select(-Var1, -Var2) %>% 
   psych::pairs.panels(
   method = "pearson", # correlation method
   hist.col = "#a3afd1",# "#a9d1a3","",""),
   density = TRUE,  # show density plots
   ellipses = F, # show correlation ellipses
-  #cex.labels= 3,
+  cex.labels= 1.2,
   #           smoother= T,
   cor=T,
   lm=T,
-  ci = T, cex.cor = 0.9,stars = T)
+  ci = T, cex.cor = 0.8,stars = T)
 
+x <- dev.off()
