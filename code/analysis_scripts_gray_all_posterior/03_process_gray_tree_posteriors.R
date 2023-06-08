@@ -1,4 +1,6 @@
 source("01_requirements.R")
+source("02_get_zenodo_dirs.R")
+
 
 #fetching the gray et al 2009 trees from dplace's github repos, dropping unwanted duplicates and renaming all tips to their respective language level glottocodes
 
