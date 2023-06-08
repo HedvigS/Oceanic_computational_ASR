@@ -31,23 +31,6 @@ glottolog_df <- read_tsv("output/processed_data/glottolog_language_table_wide_df
 
 ##remove duplicates manually
 # For each set of tips which have the same glottocode or are dialects of the same languages (and are in GB and in the Oceanic subbranch) I've gone through and examined the coding in ABVD. I've removed the tip with less data, or in cases where two have similar amounts removed the one which isn't listed as having been "checked" by anyone (assuming that means less reliable). The list below represent the tips that should be removed within the different dialect clusters.
-dup_to_remove <- c("Sisingga", 
-                   "Carolinian",
-                   "Futuna", 
-                   "Aria",
-                   "Madara",
-                   "Maututu",
-                   "Chuukese",
-                   "NakanaiBileki_D",
-                   "LwepeSantaCruz",
-                   "Buma",
-                   "NehanHape",
-                   "Woleai",
-                   "Marshallese", 
-                   "FutunaWest", #mystery language with no entries
-                   "Baliledo" #can't get a glottocode match
-)
-
 
 index <- 0
 multiPhylo_obj <- ""
@@ -57,10 +40,10 @@ n_rerooted <- 0
 
 for(tree in 1:length(Gray_et_al_trees)){
   index <- index +1
-#  tree <- 14
+#  tree <- 81
   
 tree <- Gray_et_al_trees[[tree]]
-tree_removed_dups <- drop.tip(tree, tip = dup_to_remove)
+tree_removed_dups <- drop.tip(tree, tip = gray_dup_to_remove)
 
 #renaming tips in the tree to glottocodes. Keeping dialect glottocodes if they are also represented in grambank
 tree_tip.label_df <- tree_removed_dups$tip.label %>% 
@@ -81,6 +64,11 @@ tips_to_keep <- tree_removed_dups$tip.label %>%
   filter(str_detect(classification, "ocea1241"))
 
 tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode)
+
+#cat(paste0(tree_pruned$root.edge, "\n"))
+
+#https://github.com/emmanuelparadis/ape/issues/32
+tree_pruned$root.edge <- 0
 
 if(!is.rooted(tree_pruned)){
   
