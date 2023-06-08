@@ -37,5 +37,5 @@ phytools::phylo.heatmap(tree = gray_tree,X = GB_df_all,
                         labels = F,
                         fsize = 0.5,
                         legend = F, 
-                        offset = 0.0001, colors = c( "#ffffbf", "#8856a7"))
+                        offset = 0.0001, colors = c( "#ffffbf", colours_binary[1]))
 x <- dev.off()
