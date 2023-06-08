@@ -2,8 +2,13 @@ source("01_requirements.R")
 source("fun_def_h_load.R")
 
 h_load("NCmisc")
+source("fun_def_list.functions.R")
 
 r_fns <- list.files(path = ".", pattern = "*.R$", full.names = T, recursive = T)
+
+r_grambank <- c("../grambank-analysed/R_grambank/make_wide.R", "../grambank-analysed/R_grambank/make_wide_binarized.R", "../grambank-analysed/R_grambank/make_glottolog-cldf_table.R")
+
+r_fns <- c(r_fns, r_grambank)
 
 df <- data.frame("packages" = as.character(),
                  "functions" = as.character(),
@@ -16,7 +21,7 @@ for(fn in r_fns){
   
   cat(paste0("I'm on ", fn, ".\n"))
   
-x <- NCmisc::list.functions.in.file(filename = fn) %>% 
+x <- list.functions.in.file_tweaked(filename = fn, unique = F) %>% 
   as.data.frame() %>% 
   rownames_to_column("packages") %>% 
   rename("functions" = 2) %>% 
@@ -53,16 +58,15 @@ unused_but_loaded <- joined_df %>%
 cat("There are ", nrow(unused_but_loaded), "packages that it seems like you're not using, but that are loaded.\n They are: ", unused_but_loaded$packages, ".\n" )
 
 most_used <- used_packages %>% 
-  distinct(packages, functions) %>% 
+  filter(packages != ".GlobalEnv") %>% 
+  filter(!is.na(packages)) %>% 
+  filter(!is.na(used)) %>% 
   group_by(packages) %>% 
   summarise(n = n()) %>% 
   arrange(desc(n)) 
   
-
-cat("The top 5 packages from which you use the most different functions are:\n ")
+cat("The top 5 packages from which you use the most functions are:\n ")
 most_used[1:5,]
-
-cat("Keep in mind, this is not top-5 per times you use the package but the top-5 of pacakges from which you use the most functions.")
 
 most_used$packages <- fct_reorder(most_used$packages, most_used$n)
 
@@ -76,27 +80,18 @@ most_used %>%
 ggsave("output/processed_data/used_packages.png")
 
 script_with_most_functions <-  used_packages %>% 
-  distinct(scripts, functions) %>% 
+#  distinct(scripts, functions) %>% 
   group_by(scripts) %>% 
   summarise(n = n()) %>% 
   arrange(desc(n)) 
 
-cat("The top 5 scripst which use the most differenty functions:\n ")
+cat("The top 5 scripst which use the most functions:\n ")
 script_with_most_functions [1:5,]
-
-packages_in_most_scripts <-  used_packages %>% 
-  distinct(scripts, packages) %>% 
-  group_by(packages) %>% 
-  summarise(n = n()) %>% 
-  arrange(desc(n)) 
-
-cat("The top 5 packages that are used in the most scripts:\n ")
-packages_in_most_scripts[1:5,]
 
 #generating bibtex file of all the packages where you've used at least one funciton
 h_load("knitr")
 
-output_fn <- "output/processed_data/used_pkgs.bib"
+output_fn <- "../tex/bib_from_r/used_pkgs.bib"
 
 knitr::write_bib(most_used$packages, file = output_fn)
 
@@ -107,7 +102,16 @@ cat(paste0("Wrote citations for packages you've used to", output_fn, ".\n There 
 
 h_load("bib2df")
 
-bibdf <- suppressMessages(bib2df(output_fn))
+bibdf <- suppressWarnings(suppressMessages(bib2df(output_fn)))
 
-bibdf$BIBTEXKEY %>% 
-  writeLines(sep = ", ", con = "output/processed_data/citation_keys.txt")
+dir <- "../tex/bib_from_r/"
+if(!dir.exists(dir)){dir.create(dir)}
+
+#solution to getting an "and" on the last line from SO
+# https://stackoverflow.com/questions/42456452/changing-vector-to-string-special-separator-for-last-element
+fPaste <- function(vec) sub(",\\s+([^,]+)$", " and \\1", toString(vec))
+
+vec <- paste0("\\citet{", bibdf$BIBTEXKEY, "}")
+
+fPaste(vec)   %>% 
+  writeLines(con = "../tex/bib_from_r/citation_keys.txt")
