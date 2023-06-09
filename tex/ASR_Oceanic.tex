@@ -433,8 +433,7 @@ All analysis have been calculated in \texttt{R} \citep{R} using the packages \te
 
 All of the R-code and data necessary for the analysis in this paper will be published alongside the paper, in Supplementary Materials and in archived web-storage (Zenodo).
 
-\textcolor{red}{Stand-in URL until all is cleared:}
-
+\textcolor{red}{Stand-in URL until zenodo-release (in case editing staff want a change in plots etc):}
 \url{https://github.com/HedvigS/Oceanic_computational_ASR}
 
 %The third method employed is \textbf{Stochastic Character mapping}. This method was proposed by \citet{huelsenbeck2003stochastic} and is an extension of an approach suggested by \citet{nielsen2002mapping}. 
@@ -639,7 +638,7 @@ Most of the time, the scholars of Proto-Oceanic are in agreement in their predic
 %ne such case is the alignment system of Proto-Polynesian. \citet{clark1973aspects} claims that the system was ergative while \citet{hale_1968}, \citet{hohepa_1967,hohepa_1969} and \citet{chung1978} argue that Proto-Polynesian was accusative and several of the daughter languages developed ergativity later. \citet{kikusawa2002proto} and \citet{ball2007ergativity} also disagree on the alignment of Proto-Central Pacific. Because of this disagreement, the results for the computational ancestral reconstruction for Grambank features regarding the alignment of these two proto-languages are presented separately.
 
 \FloatBarrier
-\section{Results}
+\section{Results of practical example}
 We are examining results from three approaches in total: a) Maximum Parsimony (MP), b) Maximum Likelihood (ML) and c) Most Common value in daughter languages (MC). For (a) and (b) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCC-tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 1 results, i.e. 7.
 
 The results are divided up into three sections: 1) Concurrence with conventional historical linguistics, 2) new predictions and 3) disagreements among historical linguists.
@@ -673,7 +672,7 @@ Overall, however, the methods perform similarly. There is very little that tells
 
 We also carried out an analysis on whether phylogenetic signal \citep{fritz2010selectivity} or the distribution of tips in either state predicts the level of agreement between each method and conventional historical linguistics (see Supplementary Materials \ref{supp:cor_d_HL} and \ref{supp:cor_min_p_HL}). The results show that there is no relationship between phylogenetic signal (as measured by the D-estimate \citep{fritz2010selectivity}) and concurrence with HL, but that there is a weak to moderate correlation with prevalence in daughter languages. If almost all languages have a given feature, HL and the computational methods tend to both reconstruct the same state. However, if the feature values varied more, however, the agreement is reduced. This is not unexpected, if most of the languages have the same profile it is not surprising that the ancestral nodes are reconstructed the same despite differing methods.
 
-In section \ref{sec:is_it_valid} we suggested that features with D-estimates dissimilar to Brownian evolution according to the D-estimates p-values may not be suitable for ASR. The Grambank features in this category did not show any different behaviour from the rest in terms of agreement with HL, like the other features they did not show a significant correlation between agreement with HL and D-estimate. The vast majority agreed with HL. This may tell us that either a) there is no robust relationship between the agreement between methods and phylogenetic signal or b) that this particular measure of phylogenetic signal is faulty (for example that Brownian motion is not a reasonable assumption). Future studies should delve further into different kinds of measurements of phylogenetic signal and their potential applicability to linguistic data.
+In section \ref{sec:is_it_valid} we suggested that features with D-estimates dissimilar to Brownian evolution according to the D-estimates p-values may not be suitable for ASR. The Grambank features in this category did not show any different behaviour from the rest in terms of agreement with HL (see appendix \ref{supp:cor_d_HL}), like the other features they did not show a significant correlation between agreement with HL and D-estimate. The vast majority agreed with HL. This may tell us that either a) there is no robust relationship between the agreement between methods and phylogenetic signal or b) that this particular measure of phylogenetic signal is faulty (for example that Brownian motion is not a reasonable assumption). Future studies should delve further into different kinds of measurements of phylogenetic signal and their potential applicability to linguistic data.
 
 We can also compare the methods to each other. Fig. \ref{heatmap_accuracy_score_methods} shows the pairwise concurrence (including half-results) scores between all of the methods. All of the computational methods agree more with each other than any of them do with conventional historical linguistics. The reason is most likely related to not only the difference in methodology but also the underlying data. All of the computational methods are using Grambank data and partially the same trees, whereas the underlying language-level data in conventional historical linguistics ASR is different and the tree-structure as well. For the purposes of this study, the historical linguistics literature has been translated into Grambank data-points, but there is likely to be some discrepancy in the definitions of grammatical concepts and how to apply them to each and every language in the data-set. Reconstruction in conventional historical linguistics does not always spell out the specifics of the tree structure in terms of particular splits and branches, but is rather based on broader subgroups --- this can also be a contributing factor.
 
@@ -913,7 +912,7 @@ The method relies on generating two kinds of simulated data: a Brownian threshol
 
 The results are sensitive to how many random permutations it runs for the second set of simulated data. \cite{fritz2010selectivity} recommends 1,000 permutations, which is also what the default value is set to for the function phylo.d in the R-package caper. However, during the work for this paper we have found further considerations that should be taken into account when working with this method --- specifically in regard to the number of random permutations and skewed distributions.
 
-\subsubsection{Sensitivity to skewed distributions}
+\subsubsection{D-estimate: Sensitivity to skewed distributions}
 \label{sec:SM_phylo_d_sensitive}
 While it is true that D-estimates can be smaller than 0 and larger than 1, in my experience values lower than -7 (very strong signal) and larger than 7 (very over-dispersed) are rare in empirical data. Furthermore, we would expect that if we re-run the algorithm a second time using the same data, same tree and same settings we get a similar result to the first time. This is generally true, except in certain specific situations. When the data is such that only one data point has a diverging value from the rest --- for example in a set of 155 tips only one of them has the value 1 for the binary trait and all others 0 --- then the algorithm struggles and produces very different results on each run, and very extreme values such as -10 on one run and 10 on another. This is problematic, and was probably not discovered by \cite{fritz2010selectivity} and \cite{orme2013caper} because their empirical data rarely exhibited this kind of distribution (1 - 154). However, for some of the linguistic features of this study this can indeed happen. 
 
@@ -981,16 +980,17 @@ If we look at the non-singleton features (the pairs, triplets, quadruplets and l
 
 In the data in this study there were cases of inappropriate D-estimates, which were possible to diagnose both by the extremity of the D-estimates, but also by examining the p-values (dissimilarity to 0 / 1). We grouped the output into 2 groups, with 4 sub-groups each. The output in the second group is not possible to include in the analysis because the conditions do not meet the model requirements, it is either impossible to conduct the analysis (all tips one state), would generate seriously unreliable results (singleton states) or shows evidence of Brownian and random being similar which also throw suspicion on the outcome. In all four cases of the kinds of data that is not possible to include the distribution of tips over the two states is heavily skewed. For future work, it would be desirable if the function also output a p-value which represents the dissimilarity between the random and Brownian simulations and generated a warning when the distributions are heavily skewed (for example, only 5\% tips in one state). 
 
+
 \begin{itemize}
     \item \colorbox{spec_color_lightgreen!50}{possible to include in analysis}
-    \begin{enumerate}[label=\alph*]
+    \begin{enumerate}[label=(\roman*)]
      \item p-values indicate similarity to Brownian only
       \item p-values indicate similarity to random only
       \item p-values indicate similarity to both random and Brownian, D-estimate is between 0 and 1
       \item p-values indicate \emph{dis}similarity to both random and Brownian, D-estimate is between 0 and 1
     \end{enumerate}
     \item \colorbox{spec_color_orange!50}{\emph{not} possible to include in analysis}
-    \begin{enumerate}[label=\alph*]
+    \begin{enumerate}[label=(\roman*)]
         \item all tips same state (phylo.d does not even run)
         \item singleton
         \item p-values indicate similarity to both Brownian and random, D-estimate is above 1
