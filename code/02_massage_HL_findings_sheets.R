@@ -3,19 +3,19 @@ source("01_requirements.R")
 #reading in old sheet with HL-predictions
 #the reason for reading them in like this instead of subsetting the GB_wide table is because I'd like to use the LaTeX source formatting which exists in an extra col in the raw sheets
 
-HL_findings_sheet <- read_tsv("../grambank-analysed/grambank/raw/Grambank/original_sheets/HS_cent2060.tsv", col_types = cols(.default = "c")) %>% 
+HL_findings_sheet <- read_tsv("data/grambank.raw.HL/HS_cent2060.tsv", col_types = cols(.default = "c")) %>% 
   mutate("Proto-language" = "Proto-Central Pacific",
          Language_ID = "cent2060") %>% 
   filter(Feature_ID != "GB409") %>% 
-  full_join(read_tsv("../grambank-analysed/grambank/raw/Grambank/original_sheets/HS_east2449.tsv", col_types = cols(.default = "c")) %>% 
+  full_join(read_tsv("data/grambank.raw.HL/HS_east2449.tsv", col_types = cols(.default = "c")) %>% 
               mutate("Proto-language" = "Proto-Eastern Polynesian",
                      Language_ID =  "east2449"),
             by = c("Feature_ID", "Feature", "Value", "Source (Latex)", "Source", "Comment", "Proto-language", "Language_ID")) %>% 
-  full_join(read_tsv("../grambank-analysed/grambank/raw/Grambank/original_sheets/HS_poly1242.tsv", col_types = cols(.default = "c")) %>% 
+  full_join(read_tsv("data/grambank.raw.HL/HS_poly1242.tsv", col_types = cols(.default = "c")) %>% 
               mutate("Proto-language" = "Proto-Polynesian",
                      Language_ID = "poly1242"),
             by = c("Feature_ID", "Feature", "Value", "Source (Latex)", "Source", "Comment", "Proto-language", "Language_ID")  ) %>% 
-  full_join(read_tsv("../grambank-analysed/grambank/raw/Grambank/original_sheets/HS_ocea1241.tsv", col_types = cols(.default = "c"))%>% 
+  full_join(read_tsv("data/grambank.raw.HL/HS_ocea1241.tsv", col_types = cols(.default = "c"))%>% 
               mutate("Proto-language" = "Proto-Oceanic",
                      Language_ID =   "ocea1241"),
             by = c("Feature_ID", "Feature", "Value", "Source (Latex)", "Source", "Comment", "Proto-language", "Language_ID")) %>% 
