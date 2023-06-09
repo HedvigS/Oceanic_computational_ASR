@@ -12,9 +12,9 @@
 
 
 #folders
-*code/output/glottolog-tree/*
-*code/output/gray_et_al_2009/*
-*code/output/HL_comparison/*
+#*code/output/glottolog-tree/*
+#*code/output/gray_et_al_2009/*
+#*code/output/HL_comparison/*
 
 #latex
 *tex/*log
