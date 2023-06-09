@@ -142,7 +142,7 @@ plotRECON_tweaked(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0
                   show.legend = F,
                   no.margin = T,
                   tip_states = feature_df[,2],
-                  text.x = 128, text.pos = 4, text.cex = 1,
+                  text.x = 132, text.pos = 4, text.cex = 1,
                   title = paste0("Gray et al (2009)-mcct, ML: ", feature)
 )
 x <- dev.off()
