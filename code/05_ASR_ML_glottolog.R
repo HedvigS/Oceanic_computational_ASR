@@ -123,7 +123,15 @@ results_df <- data.frame(
       nTips_state_0 =  nTips_state_0,
       nTips_state_1 =  nTips_state_0
     )
-
+    
+  tree_pruned_tip.labels_df <- tree_pruned$tip.label %>% 
+      as.data.frame() %>% 
+      rename(Glottocode = ".") %>% 
+      left_join(glottolog_df, by = "Glottocode") 
+    
+    tree_pruned$tip.label <- tree_pruned_tip.labels_df$Name
+    
+    tree_pruned$root.edge <- 0.3
     
 png(filename = file.path(OUTPUTDIR_plots , "tree_plots", "glottolog-tree", "ML",paste0( "ML_glottolog_tree_", feature, ".png")), width = 15, height = 22, units = "cm", res = 400)
 
