@@ -769,15 +769,15 @@ This paper has compared different methodology for ASR in regards to historical l
 \begin{tabular}{m{4.5cm}m{5cm}m{5cm}}
   \toprule
 \textbf{ASR-Method} & \textbf{Pros} & \textbf{Cons} \\ \midrule
-Conventional HL &  widely used and attested; human-friendly ; takes into account complexities regarding item- and language-specific nuance and context &  ignores branch lengths; plausibility/rates of changes and plausibility of combined states are under-specified which leads to hard-to-resolve conflicts; possible: assumes slowest rate = most plausible rate\\ \midrule
-Maximum Parsimony &  easy to understand; consistent & ignores branch lengths; assumes slowest rate = most plausible rate; does not allow asymmetric transition rates\\ \midrule
-Maximum Likelihood & takes into account branch lengths; dynamically estimates rates; can take further input such as priors on root state, rates etc & requires more knowledge of computational mathematics \\ \midrule
+Conventional HL &  widely used and attested; human-friendly ; takes into account complexities regarding item- and language-specific nuance and context &  may ignore branch lengths; plausibility/rates of changes and plausibility of combined states are under-specified which leads to hard-to-resolve conflicts; possible: assumes slowest rate = most plausible rate\\ \midrule
+Maximum Parsimony &  easy to understand; consistent; explicit  & ignores branch lengths; assumes slowest rate = most plausible rate; does not allow asymmetric transition rates\\ \midrule
+Maximum Likelihood & consistent; explicit; takes into account branch lengths; dynamically estimates rates; can take further input such as priors on root state, rates etc & requires more knowledge of computational mathematics \\ \midrule
 Most Common & easy to understand & ignores the tree altogether; estimates no rates  \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-
+Given the basic assumption that branch lengths matter, that languages that are spoken at a similar time in history have a similar distance to the shared ancestral community's language (the root), we should choose methods that take that into account. If conventional HL-ASR does take into account branch lengths, it is often under-specified. Furthermore, it is desirable in science to be as consistent and explicit as possible. This enables others to interrogate the research and replication. 
 
 In this paper, we have investigated the history of structural features of Oceanic languages to examine how computational ASR-methods compare to reconstructions by historical linguists, including contributing to the debate on  alignment in Oceanic proto-languages.
 
