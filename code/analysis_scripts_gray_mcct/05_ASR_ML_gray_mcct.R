@@ -134,6 +134,8 @@ gray_tree_pruned_tip.labels_df <- gray_tree_pruned$tip.label %>%
 
 gray_tree_pruned$tip.label <- gray_tree_pruned_tip.labels_df$Name
 
+gray_tree_pruned$root.edge <- 0.3
+
 png(filename = paste0(OUTPUTDIR_plots, "/tree_plots/gray_et_al_2009/ML/", "ML_gray_mcct_-", feature, ".png"), width = 15, height = 22, units = "cm", res = 400)
 
 plotRECON_tweaked(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0.4,
@@ -141,6 +143,7 @@ plotRECON_tweaked(gray_tree_pruned, corHMM_result_direct$states, font=1, cex = 0
                   piecolors=colours_binary,
                   show.legend = F,
                   no.margin = T,
+                  root.edge = T,
                   tip_states = feature_df[,2],
                   text.x = 132, text.pos = 4, text.cex = 1,
                   title = paste0("Gray et al (2009)-mcct, ML: ", feature)
