@@ -10,12 +10,6 @@
 *.Rdata*
 .Rproj.user
 
-
-#folders
-#*code/output/glottolog-tree/*
-#*code/output/gray_et_al_2009/*
-#*code/output/HL_comparison/*
-
 #latex
 *tex/*log
 *tex/*bbl
@@ -29,6 +23,3 @@ tex/ASR_Oceanic.synctex(busy)
 tex/ASR_Oceanic.synctex
 tex/ASR_Oceanic.dvi
 *.bak
-code/output/processed_data/used_pkgs.bib
-code/output/D_estimate_summary.tsv
-code/output/processed_data/used_packages.png
