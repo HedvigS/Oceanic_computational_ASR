@@ -65,19 +65,14 @@ tips_to_keep <- tree_removed_dups$tip.label %>%
 
 tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode) %>% ladderize()
 
-#write.tree(tree_pruned, "example_tree_posterio_81.tree")
-
-cat(paste0(is.rooted(tree_pruned), "\n"))
-
-#plot(tree_pruned)
-
-#https://github.com/emmanuelparadis/ape/issues/32
-tree_pruned$root.edge <- 0
-
 if(!is.rooted(tree_pruned)){
   
-  cat(paste0("Resulting pruned tree isn't rooted. Rooting with Nanggu as outgroup.\n"))
-  tree_pruned <- ape::root(phy = tree_pruned, outgroup = "nang1262", resolve.root = T)
+  cat(paste0("Resulting pruned tree isn't rooted. Rooting using castor::root_at_midpoint().\n"))
+  
+  #https://github.com/emmanuelparadis/ape/issues/32
+  #tree_pruned$root.edge <- 0
+  
+  tree_pruned <- castor::root_at_midpoint(tree_pruned) %>% ladderize()
   n_rerooted <-  n_rerooted +1
    }
 
