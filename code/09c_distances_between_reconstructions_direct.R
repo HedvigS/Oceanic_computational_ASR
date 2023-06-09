@@ -76,26 +76,27 @@ df_for_daisy <- mutate_all(df_for_daisy, function(x) as.numeric(as.character(x))
 mdat <- df_for_daisy %>% 
   t() 
 
-dist_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(abs((mdat[i,]-mdat[j,])), na.rm = T) }))
+diff_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(abs((mdat[i,]-mdat[j,])), na.rm = T) }))
 
-colnames(dist_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
-rownames(dist_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
+colnames(diff_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
+rownames(diff_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
 
 count_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(!is.na(mdat[i,]) & !is.na(mdat[j,]), na.rm = T) }))
 
 colnames(count_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
 rownames(count_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
 
-new_dist <- dist_matrix / count_matrix
+dist_matrix <- diff_matrix / count_matrix
 
-new_dist[lower.tri(new_dist , diag = T)] <- NA
+#dist_matrix[lower.tri(dist_matrix , diag = T)] <- NA
 
-#diag(new_dist) <- NA
-new_dist <- new_dist[-8, -1]
+diag(dist_matrix) <- NA
+#dist_matrix <- dist_matrix[-8, -1]
+dist_matrix <- 1- dist_matrix
 
 png(filename = paste0(OUTPUTDIR_plots, "/results/dist_heatmap_all_methods.png"),   width = 8, height = 8, units = "in", res = 400)
 
-new_dist %>% 
+dist_matrix %>% 
   heatmap.2(  key = F, 
                       symm = T,
    dendrogram = "none",
@@ -103,46 +104,18 @@ new_dist %>%
    Rowv = F,
    Colv = F,
    lwid=c(0.1,4), lhei=c(0.1,4),
-   trace = "none", cellnote = round(new_dist, 2),
+   trace = "none", cellnote = round(dist_matrix, 2),
    margin=c(20,20), 
    col=viridis(15, direction = -1))
 
 x <- dev.off()
 
-dist_matrix %>% 
+diff_matrix %>% 
   as.data.frame() %>% 
   rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/dist_hl_comparison.tsv")
 
-new_dist %>% 
+dist_matrix %>% 
   as.data.frame() %>% 
   rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/dist_hl_comparison_new.tsv")
-
-
-
-accuract_table <- read_tsv("output/HL_comparison/accuracy_tables.tsv")[11,] %>% t() 
-colnames(accuract_table) <- accuract_table[1,]
-
-accuract_table <- accuract_table %>% 
-  as.data.frame() %>% 
-  rownames_to_column("method") %>% 
-  filter(method != "score") %>% 
-  mutate(method = str_replace_all(string = method, pattern = "Parsimony_glottolog", replacement = "glottolog parsimony prediction")) %>% 
-  mutate(method = str_replace_all(string = method, pattern = "Parsimony_gray_mcct", replacement = "gray mcct parsimony prediction")) %>% 
-  mutate(method = str_replace_all(string = method, pattern = "Parsimony_gray_posteriors", replacement = "gray posteriors parsimony prediction")) %>% 
-    mutate(method = str_replace_all(string = method, pattern = "ML_glottolog", replacement = "glottolog ML prediction")) %>% 
-    mutate(method = str_replace_all(string = method, pattern = "ML_gray_mcct", replacement = "gray mcct ML prediction")) %>% 
-    mutate(method = str_replace_all(string = method, pattern = "ML_gray_posteriors", replacement = "gray posteriors ML prediction")) %>% 
-    mutate(method = str_replace_all(string = method, pattern = "most_common", replacement = "most common prediction")) 
-    
-      
-new_dist %>% 
-  as.data.frame() %>% 
-  dplyr::select(`HL prediction`) %>% 
-  rownames_to_column("method") %>% 
-  full_join(accuract_table) %>% 
-  ggplot() +
-  geom_point(mapping = aes(x = `HL prediction`, y = Accuracy_incl_half))
-  
-  
