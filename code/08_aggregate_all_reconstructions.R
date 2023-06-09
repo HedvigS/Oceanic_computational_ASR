@@ -103,9 +103,6 @@ ML_gray_mcct <- read_tsv("output/gray_et_al_2009/ML/mcct/all_reconstructions.tsv
   filter(gray_mcct_ML_prediction != "Not enough languages")
 
 
-#ML_gray_mcct %>% 
-#  filter(!is.na(`ML result (Gray et al 2009-tree)`)) %>% nrow()
-
 ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions_posteriors_aggregated.tsv") %>% 
   dplyr::select(Feature_ID, 
                 `Proto-language`,
@@ -123,13 +120,13 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
 
 #merging
 full_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "Proto-language")) %>% 
-  full_join(parsimon_gray_posteriors_df, by = c("Feature_ID", "Proto-language")) %>% 
-  full_join(ML_glottolog_df, by = c("Feature_ID", "Proto-language")) %>% 
-  full_join(ML_gray_mcct, by = c("Feature_ID", "Proto-language")) %>% 
-  full_join(ML_gray_posteriors_df, by = c("Feature_ID", "Proto-language")) %>% 
-  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language")) %>%
-  full_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language")) %>% 
+  full_join(parsimony_gray_mcct_df, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
+  full_join(parsimon_gray_posteriors_df, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
+  full_join(ML_glottolog_df, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
+  full_join(ML_gray_mcct, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
+  full_join(ML_gray_posteriors_df, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
+  full_join(most_common_values_df, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>%
+  full_join(HL_findings_sheet, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
   full_join(values_df, by = "Feature_ID") %>% 
   dplyr::select(glottolog_parsimony_prediction, 
                 gray_mcct_parsimony_prediction, 
@@ -142,7 +139,7 @@ full_df <- parsimony_glottolog_df %>%
 
 #writing
 full_df %>% 
-  left_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
+  left_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
   write_tsv(file = "output/all_reconstructions_all_methods.tsv", na = "")
 
 full_df_long <- full_df %>% 
@@ -169,7 +166,7 @@ full_df_long <- full_df %>%
   mutate(variable_cleaned = ifelse(str_detect(variable, "prediction_0"), "prediction_0", variable_cleaned)) %>%
     dplyr::select(-variable) %>% 
   rename(variable = variable_cleaned) %>% 
-  full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language")) %>% 
+  full_join(HL_findings_sheet_conflicts, by = c("Feature_ID", "Proto-language"), relationship = "many-to-many") %>% 
   distinct() 
 
 full_df_long %>%
@@ -187,6 +184,6 @@ full_df_long %>%
   filter(!is.na(`Proto-language`)) %>% 
   dplyr::select(-result) %>%  
   unite("method", "tree_type", col = "method") %>% 
-  pivot_wider(names_from = "method", values_from = "prediction") %>% 
+  pivot_wider(names_from = "method", values_from = "prediction") %>%
   write_tsv(file = "output/all_reconstructions_all_methods_wide_easy.tsv", na = "")
 
