@@ -62,9 +62,16 @@ posteriors:
 compare_HL: 
 	Rscript 09a_compare_to_HL.R
 	Rscript 09b_compare_to_HL_conflicts.R
-	Rscript 09c_distances_between_reconstructions.R
-	Rscript 9d_compare_method_rankings.R
+	Rscript 09c_distances_between_reconstructions_direct.R
+	Rscript 09d_extra_predictions.R
+	Rscript 09e_compare_scores_against_props.R
 	
+d_estimates:
+	Rscript	10a_phylo_d_investigation.R
+	Rscript	10b_get_phylo_D_estimate.R
+	Rscript	10c_aggregate_phylo_D_estimate.R
+	Rscript	10d_phylo_d_estimate_plotting.R
+
 wrapping_up:
 	Rscript 09e_extra_predictions.R
 	Rscript 10_make_supp_tables.R
