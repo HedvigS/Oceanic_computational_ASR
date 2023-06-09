@@ -217,7 +217,7 @@ GB_binary_fn <- "output/GB_wide/GB_wide_binarized.tsv"
 glottolog_df_fn <- "output/processed_data/glottolog_language_table_wide_df.tsv"
 
 #colors
-colours_binary <- viridisLite::viridis(n=2, end = 0.9)
+colours_binary <- viridisLite::viridis(n=2, end = 0.9, direction = -1)
 
 
 source("fun_def_plotRECON_tweaked.R")
