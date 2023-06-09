@@ -40,7 +40,7 @@ n_rerooted <- 0
 
 for(tree in 1:length(Gray_et_al_trees)){
   index <- index +1
-#  tree <- 81
+#  tree <- 82
   
 tree <- Gray_et_al_trees[[tree]]
 tree_removed_dups <- drop.tip(tree, tip = gray_dup_to_remove)
@@ -63,9 +63,13 @@ tips_to_keep <- tree_removed_dups$tip.label %>%
   left_join(glottolog_df, by = "Glottocode") %>%
   filter(str_detect(classification, "ocea1241"))
 
-tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode)
+tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode) %>% ladderize()
 
-#cat(paste0(tree_pruned$root.edge, "\n"))
+#write.tree(tree_pruned, "example_tree_posterio_81.tree")
+
+cat(paste0(is.rooted(tree_pruned), "\n"))
+
+#plot(tree_pruned)
 
 #https://github.com/emmanuelparadis/ape/issues/32
 tree_pruned$root.edge <- 0
