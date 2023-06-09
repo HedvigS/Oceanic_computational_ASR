@@ -17,6 +17,7 @@ plotRECON_tweaked <- function(phy,
                               label.offset = 0.05, 
                               title=NULL, 
                               no.margin = F,
+                              root.edge = F,
                               text.x = NULL, 
                               text.pos = NULL, 
                               text.cex = NULL, 
@@ -27,7 +28,8 @@ plotRECON_tweaked <- function(phy,
   if(!is.null(file)){
     pdf(file, height=height, width=width,useDingbats=FALSE)
   }
-  ape::plot.phylo(phy, cex=cex, show.tip.label=show.tip.label, label.offset = label.offset, no.margin = no.margin,...)
+  ape::plot.phylo(phy, cex=cex, show.tip.label=show.tip.label, root.edge = root.edge,
+                  label.offset = label.offset, no.margin = no.margin,...)
   
   if(!is.null(title) & no.margin == T){
     text(labels=title, x = text.x, pos = text.pos, cex = text.cex)
