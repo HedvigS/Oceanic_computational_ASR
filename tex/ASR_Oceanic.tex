@@ -422,7 +422,7 @@ Maximum Parsimony may be simple and intuitive, but it is not without its critics
 
 %The second method which will be applied in this study is that of \textbf{Maximum Likelihood}. 
 %\subsection{Maximum Likelihood}
-Ancestral state reconstruction using \textbf{Maximum Likelihood} posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different values, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions based on branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximum Likelihood allows us to use a model of change where we do not assume that the rates for losses (1$\rightarrow$0) are equal to the rate of gains (0$\rightarrow$ 1). In this study, we use an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different\footnote{Similarly to the studies by \citet{carling2021reconstructing} and \citet{goldstein_2022}, rates cannot vary within the tree in this study.}. Specifically, we are also using a marginal Maximum Likelihood estimation, for more details see supplementary material \ref{supp:tech_details}.
+Ancestral state reconstruction using \textbf{Maximum Likelihood} posits the most likely ancestral state distributions based on the overall probabilities given all the nodes in the tree and all branches. This approach does not assume that the slowest rate of change is the most probable one. If, for example, the distribution of values at the tips is very scattered, with sibling pairs frequently having different values, Maximum Likelihood will infer that the feature has a high rate of change and use that information when positing ancestral states as well. The Maximum Likelihood algorithm assigns probabilities of state changes and distributions based on branch lengths. A mutation along a shorter branch is given more weight in the likelihood calculations than if it occurred in a longer branch. Furthermore, reconstruction using Maximum Likelihood allows us to use a model of change where we do not assume that the rates for losses (1$\rightarrow$0) are equal to the rate of gains (0$\rightarrow$ 1). In this study, we use an ``All Rates are Different" (ARD) model, which allows for the rate of loss and gain to be different\footnote{Similarly to the studies by \citet{carling2021reconstructing} and \citet{goldstein_2022}, rates cannot vary within the tree in this study.}. It is possible to further specify the model, for example by specifying transition rates, specify certain nodes beforehand etc. For this study, this was not done since there is no information to base these decisions on. Specifically, we are also using a marginal Maximum Likelihood estimation, for more details see supplementary material \ref{supp:tech_details}.
 
 While Maximum Parsimony and conventional HL-ASR are similar, they have differences as well. It is impossible for Maximum Parsimony to take into account branch lengths, nor can it assume anything but the slowest rate of change or posit different rates for losses and gains. It is, however, possible that historical linguists estimate something similar when they take into account the ``plausibility of the changes posited''. It is possible that scholars of historical linguistics take the length of time into account or assume that a loss is more likely than a gain for a given feature. In this study, we compare Maximum Parsimony and Maximum Likelihood reconstructions to the conventional ASR in historical linguistics. If the results from conventional historical linguistics are more similar to that of Maximum Likelihood, a potential explanation would be that the ``plausibility of changes posited'' is indeed operating along similar lines as Maximum Likelihood by taking branch length into account and assuming varying rates of change.
 
@@ -644,6 +644,7 @@ We are examining results from three approaches in total: a) Maximum Parsimony (M
 The results are divided up into three sections: 1) Concurrence with conventional historical linguistics, 2) new predictions and 3) disagreements among historical linguists.
 
 \subsection{Concordance between traditional historical linguistics and computational methods}
+\label{sec:results_concorance}
 
 %The match between languages in Grambank and the Gray et al-tree is 112, meaning that results with less than 56 tips are ignored. %#update
 
@@ -759,6 +760,25 @@ Concerning the alignment of Proto-Central Pacific, all the results, save the Mos
 
 \FloatBarrier
 \section{Conclusions}
+This paper has compared different methodology for ASR in regards to historical linguistics, both conceptually (sections \ref{sec:ars:metod:hist}, \ref{sec:asr_methods} and \ref{sec:MP_ML_MC}) and practically (\ref{sec:results_concorance}). Table \ref{methods_pros_cpns} summarises the pros and cons of the different methods conceptually, \emph{a priori}.
+
+\begin{table}[ht]
+\centering
+\caption{Summary of conceptual pros and cons of the ASR-methods}
+\label{methods_pros_cpns}
+\begin{tabular}{m{4.5cm}m{5cm}m{5cm}}
+  \toprule
+\textbf{ASR-Method} & \textbf{Pros} & \textbf{Cons} \\ \midrule
+Conventional HL &  widely used and attested; human-friendly ; takes into account complexities regarding item- and language-specific nuance and context &  ignores branch lengths; plausibility/rates of changes and plausibility of combined states are under-specified which leads to hard-to-resolve conflicts; possible: assumes slowest rate = most plausible rate\\ \midrule
+Maximum Parsimony &  easy to understand; consistent & ignores branch lengths; assumes slowest rate = most plausible rate; does not allow asymmetric transition rates\\ \midrule
+Maximum Likelihood & takes into account branch lengths; dynamically estimates rates; can take further input such as priors on root state, rates etc & requires more knowledge of computational mathematics \\ \midrule
+Most Common & easy to understand & ignores the tree altogether; estimates no rates  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
 In this paper, we have investigated the history of structural features of Oceanic languages to examine how computational ASR-methods compare to reconstructions by historical linguists, including contributing to the debate on  alignment in Oceanic proto-languages.
 
 We have found that computational reconstructions show a high degree of concordance with reconstructions from expert historical linguists. Reconstructions by both Maximum Parsimony and Maximum Likelihood agreed to a very large extent with the findings from historical linguistics. This suggests that the mechanisms at work in historical linguistic reconstruction may be similar to the concepts underlying the computational methods presented in this paper. The agreement was the highest when most of the languages had or lacked the same feature (see Supplementary Material \ref{supp:cor_min_p_HL}), but it was generally high also when there was more variability.
