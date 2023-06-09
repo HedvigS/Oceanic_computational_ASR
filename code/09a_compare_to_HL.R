@@ -30,8 +30,8 @@ accuracy_tables <- full_df %>%
         Recall_incl_half = (`True Positive`+ (Half*0.5) )/ (`True Positive` + `False Negative` + Half)) %>%
     mutate(F1_score = 2 * ((Precision*Recall)/(Precision + Recall)), 
            F1_score_incl_half = 2 * ((Precision_incl_half *Recall_incl_half)/(Precision_incl_half + Recall_incl_half)) )%>% 
-  mutate(across(where(is.numeric), round, 3)) %>% 
-  ungroup()
+  ungroup %>% 
+  mutate_if(is.numeric, round, 3) 
 
 HL_findings_sheet <- read_csv(HL_findings_sheet_conflicts_fn) %>% 
   rename(Prediction = Value) %>% 
