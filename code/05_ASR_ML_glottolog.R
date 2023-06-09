@@ -132,6 +132,7 @@ plotRECON_tweaked(tree_pruned, corHMM_result_direct$states, font=1,
                       piecolors=colours_binary,
                       show.legend = F,
                       no.margin = T,
+                      root.edge = T,
                       tip_states = feature_df[,2],
                       text.x = 258, text.pos = 4, text.cex = 1,
                       title = paste0("Gray et al (2009)-mcct, ML: ", feature)
