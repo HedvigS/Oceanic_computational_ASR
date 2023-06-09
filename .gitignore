@@ -23,3 +23,6 @@ tex/ASR_Oceanic.synctex(busy)
 tex/ASR_Oceanic.synctex
 tex/ASR_Oceanic.dvi
 *.bak
+
+
+*.qs
