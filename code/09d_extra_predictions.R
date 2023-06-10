@@ -19,6 +19,9 @@ full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types
   filter(!is.na(`Proto-language`)) %>% 
   dplyr::select(-result)
 
+full_df  %>% 
+  write_tsv("output/HL_comparison/extra_predictions.tsv", na = "")
+
 df_agreement <- full_df %>% 
   filter(!str_detect(method, "HL")) %>% 
   group_by(Feature_ID, `Proto-language`, prediction) %>% 
