@@ -3,7 +3,7 @@ source("01_requirements.R")
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
 phylo_d_df_raw <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
-  inner_join(HL_findings_sheet, by = "Feature_ID") %>% 
+  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") %>% 
   distinct(Feature_ID, mean_D, mean_Pval1, mean_Pval0, summarise_col, tree_type, Feature_tree, min_p)
 
 #df of features that were exlcuded because too few tips
@@ -34,7 +34,7 @@ reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_lo
 #joning and plotting
 
 joined_df <- reconstruction_results_df %>% 
-  inner_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type")) %>% 
+  inner_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type"), relationship = "many-to-many") %>% 
   mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
   distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
