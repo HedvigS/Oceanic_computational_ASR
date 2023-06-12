@@ -205,7 +205,7 @@ island_groups_table <-   island_groups_table %>%
 
 cap <- "Table showing coverage of Oceanic languages in Grambank per island group."
 lbl <- "GB_coverage_table_island_group"
-align <- c("r", "l","p{3cm}", "p{3cm}", "p{3cm}","p{3cm} ") 
+align <- c("p{3cm}", "p{3.5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
   dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "grammar doesn't exist") %>% 
