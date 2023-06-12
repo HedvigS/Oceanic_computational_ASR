@@ -3,20 +3,25 @@ source("01_requirements.R")
 #Make supplementary table of all GB features
 GB_df_desc <- read_tsv(GB_df_desc_fn) %>% 
   filter(Binary_Multistate != "Multi") %>% 
-  dplyr::select(`Feature_ID` = ID, Name)
+  dplyr::select(`Feature ID` = ID, Name)
 
 cap <- "Table of Grambank fetures"
 lbl <- "GB_features_table"
 align <- c("r","p{3cm}", "p{12cm}") 
 
+fn <- file.path( OUTPUTDIR_plots , "results", "GB_features_supp_table.tex")
+
 GB_df_desc %>% 
 xtable(caption = cap, label = lbl,
        digits = 0, 
        align = align) %>% 
-  xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "results", "GB_features_supp_table.tex"), sanitize.colnames.function = function(x){x},
+  xtable::print.xtable(file = fn, sanitize.colnames.function = function(x){x},
                        include.rownames = FALSE, math.style.negative = F,
                        booktabs = TRUE, tabular.environment = "longtable", floating = F) 
 
+#something went awry with the quote marks, correcting here.
+read_lines(file = fn) %>% str_replace_all(pattern = "\"\"\"\"\"\"\"\"", replacement = "\"") %>% 
+  write_lines(file = fn)
 
  ##make a table of all reconstructions that the 6 main methods agree on as present
 extra_reconstructions <- read_tsv("output/HL_comparison/extra_predictions.tsv") %>% 
