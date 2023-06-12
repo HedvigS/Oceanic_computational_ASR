@@ -42,7 +42,7 @@ joined <- reconstruction_results_df %>%
 joined %>% 
   filter(!is.na(HL_agreement)) %>% 
   filter(!is.na(min_percent)) %>% 
-  filter(!str_detect(tree_type, "common")) %>% 
+  filter(!str_detect(tree_type, "common")) %>%
   ggplot(mapping = aes(x = min_percent, y = HL_agreement)) +
   geom_point(mapping = aes(color = tree_type)) +
   ggpubr::stat_cor(method = "pearson", p.digits = 3, geom = "label", color = "blue",
@@ -50,8 +50,10 @@ joined %>%
   geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method) +
   theme_minimal() +
-  scale_x_continuous(labels = scales::percent, limits = c(0,0.5), breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5)) +
-  scale_y_continuous(labels = scales::percent, limits = c(-0,1.1), breaks = c(0,0.25, 0.5, 0.75, 1)) +
+  scale_x_continuous(labels = scales::percent, 
+                     breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5)) +
+  scale_y_continuous(labels = scales::percent, 
+                     breaks = c(0,0.25, 0.5, 0.75, 1)) +
   theme(legend.position =  0) +
   scale_color_manual(values= wes_palette("Darjeeling1", n = 3)) +
   xlab ("Percentage of minority state") +
