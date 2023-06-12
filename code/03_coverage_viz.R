@@ -205,7 +205,7 @@ island_groups_table <-   island_groups_table %>%
 
 cap <- "Table showing coverage of Oceanic languages in Grambank per island group."
 lbl <- "GB_coverage_table_island_group"
-align <- c("p{3cm}", "p{3.5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
+align <- c("p{3cm}", "p{5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
   dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "grammar doesn't exist") %>% 
@@ -222,5 +222,5 @@ island_groups_table_latex_formatting  %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "coverage_plots", "tables","island_groups_table.tex"), sanitize.colnames.function = function(x){x},
           include.rownames = FALSE, 
           math.style.negative = F,
-          table.placement = "H",
+          table.placement = "ht",
           booktabs = TRUE, hline.after = c(-1, 0, nrow(island_groups_table_latex_formatting)-1, nrow(island_groups_table_latex_formatting))) 
