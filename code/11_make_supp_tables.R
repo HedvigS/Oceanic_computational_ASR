@@ -20,34 +20,34 @@ xtable(caption = cap, label = lbl,
 
  ##make a table of all reconstructions that the 6 main methods agree on as present
 extra_reconstructions <- read_tsv("output/HL_comparison/extra_predictions.tsv") %>% 
-  distinct()
+  distinct() 
 
 six_out_of_six_agree <- extra_reconstructions %>% 
-  reshape2::melt(id.vars = c("Feature_ID", "Proto-language")) %>% 
-  filter(variable != "most_common_prediction") %>% 
-  filter(!str_detect(value, "enough")) %>% 
-  group_by(Feature_ID, `Proto-language`, value) %>% 
-  summarise(n = n()) %>% 
+  filter(!str_detect(method, "common")) %>% 
+  filter(!str_detect(prediction, "enough")) %>% 
+  group_by(Feature_ID, `Proto-language`, prediction) %>% 
+  mutate(n = n(), .groups = "drop") %>% 
+  ungroup() %>% 
   filter(n >= 6) %>% 
-  filter(value == "Present") %>% 
-  dplyr::select("Feature_ID", "Proto-language")
+  filter(prediction == "Present") %>%  
+  dplyr::select(Feature_ID, "Proto-language") %>% 
+  distinct()
 
 extra_reconstructions_for_xtable <- extra_reconstructions %>%
-  inner_join(six_out_of_six_agree) %>% 
-#  left_join(GB_df_desc) %>%  View()
-  rename(`Feature\\_ID` = Feature_ID,
-    `Glottolog Parsimony`= glottolog_parsimony_prediction,
-         `Gray parismony -MCCT` = gray_parsimony_prediction,
-         `Gray parismony -posteriors` = gray_parsimony_prediction_posteriors,
-         `Glottolog ML` =glottolog_ML_prediction,
-          `Gray ML -MCCT` = gray_ML_prediction,
-          `Gray ML -posteriors` = gray_ML_prediction_posteriors,
-`Most Common`= most_common_prediction) %>% 
-  dplyr::select(-Name)
+  inner_join(six_out_of_six_agree, by = c("Feature_ID", "Proto-language")) %>% 
+  pivot_wider(id_cols = c("Feature_ID", "Proto-language"), names_from = "method", values_from = "prediction") %>% 
+  dplyr::select(`Feature\\_ID` = Feature_ID,
+    `Glottolog Parsimony`= parsimony_glottolog,
+         `Gray parismony -MCCT` = parsimony_gray_mcct,
+         `Gray parismony -posteriors` = parsimony_gray_posteriors,
+         `Glottolog ML` =ML_glottolog,
+          `Gray ML -MCCT` = ML_gray_mcct,
+          `Gray ML -posteriors` = ML_gray_posteriors,
+`Most Common`= most_common_most_common) 
   
 cap <- "Table showing predictions where the six MP and ML methods agree on presence"
 lbl <- "extra_predictions_table"
-align <- c("p{1.5cm}", "p{1.5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}") 
+align <- c("p{1.5cm}", "p{1.5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}", "p{2.5cm}")
 
 extra_reconstructions_for_xtable %>% 
 xtable(caption = cap, label = lbl,
