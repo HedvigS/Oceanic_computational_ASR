@@ -92,7 +92,7 @@ results_df <- data.frame(
       q10 = NA,
       nTips = nTips(tree_pruned),
       nTips_state_0 =  nTips_state_0,
-      nTips_state_1 = nTips_state_0)
+      nTips_state_1 = nTips_state_1)
     
     output <- list("NA", results_df)
     output
@@ -121,7 +121,7 @@ results_df <- data.frame(
       q10 = corHMM_result_direct$solution[2,][1],
       nTips = phylobase::nTips(tree_pruned), 
       nTips_state_0 =  nTips_state_0,
-      nTips_state_1 =  nTips_state_0
+      nTips_state_1 =  nTips_state_1
     )
     
   tree_pruned_tip.labels_df <- tree_pruned$tip.label %>% 
