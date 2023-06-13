@@ -60,7 +60,6 @@ filter(summarise_col != "similar to both, above 1") %>%
  filter(mean_D > -5) %>%
  ggplot(mapping = aes(x = mean_D, y = value)) +
  geom_point(mapping = aes(color = summarise_col)) +
- xlim(c(0, 2)) +
  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
                   label.y.npc="bottom", label.x.npc = "left", alpha = 0.8)
 
