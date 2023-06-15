@@ -55,7 +55,7 @@ polytomies_n <- pruned_tree$edge %>%
 
 splits <- pruned_tree$edge[,1] %>% length()
 
-message("The Oceanic tree (pruned for Grambank matches) has ", splits, " splits. Out of these ",  round(polytomies_n/splits*100, 0), "% are non-binary.")
+message("The Glottolog Oceanic tree (pruned for Grambank matches) has ", splits, " splits. Out of these ",  round(polytomies_n/splits*100, 0), "% are non-binary.")
 
 #prune tree to only languages in oceanic subgroup
 oceanic_tree <-keep_as_tip(oceanic_tree_full, oceanic_lgs)
