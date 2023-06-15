@@ -152,7 +152,7 @@ df_for_bar_plot %>%
   mutate(variable = str_replace_all(variable, "Accuracy", "Concordance")) %>% 
   mutate(variable = str_replace_all(variable, "incl half", "(incl half) ")) %>% 
   ggplot() +
-  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity", color = "black") +
+  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity") +
   coord_cartesian(ylim=c(0.7, 1)) +
   theme_classic(base_size = 20) +
   scale_alpha(range = c(0.3, 1)) +
