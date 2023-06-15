@@ -12,13 +12,11 @@ phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>%
 posteriors <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt") %>% length()
 
 #df of features that were exlcuded because too few tips
-phylo_d_df_missing <- phylo_d_df %>%  
-  mutate(missing = ifelse(is.na(mean_D), 1, 0)) %>% 
-  mutate(tree = str_replace(tree_type, "_", " - ")) %>% 
-  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
-  group_by(tree) %>% 
+phylo_d_df_missing <- phylo_d_df_full %>%  
+  mutate(missing = ifelse(is.na(Destimate), 1, 0)) %>% 
+  group_by(tree_type) %>% 
   summarise(`Too few tips altogether` = sum(missing))  %>% 
-  mutate(`Too few tips altogether` = ifelse(str_detect(tree, "poster"),`Too few tips altogether`/posteriors, `Too few tips altogether`))  
+  mutate(`Too few tips altogether` = ifelse(str_detect(tree_type, "poster"),`Too few tips altogether`/posteriors, `Too few tips altogether`))  
   
 phylo_d_df <-  phylo_d_df %>% 
     filter(!is.na(mean_D))
@@ -149,14 +147,7 @@ table_P_values_summarised_latex_orange  %>%
                        table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
-if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
-  
-  phylo_d_summarised_table$`Not suitable for analysis due to skewed distribution` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
-  
-}
-
 #summary
-
 phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>% 
   filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col != "all same") %>% 
@@ -175,7 +166,6 @@ phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>%
   mutate(prop = paste0(round(x = prop,  digits = 2)*100, "%")) %>%
   dplyr::select(tree_type, `Proportion of features significantly similar to 0` = prop)
 
-
 phylo_d_summarised_table <- phylo_d_df_full %>%   
   filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col != "all same") %>% 
@@ -185,7 +175,8 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   group_by(tree_type) %>% 
   summarise(mean_D = mean(Destimate) %>% round(2)) %>%
   full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
-  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`)
+  full_join(  phylo_d_df_missing, by = "tree_type") %>% 
+  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `Too few tips altogether`)
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
@@ -196,11 +187,10 @@ align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}")
 
 
 phylo_d_summarised_table %>% 
-  left_join(phylo_d_df_missing, by = "tree") %>% 
-  mutate(tree = str_replace(tree, "_", " - ")) %>% 
+  mutate(tree = str_replace(tree, "_", " - ")) %>%
   mutate(tree = str_replace(tree, "glottolog", "Glottolog")) %>% 
-  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
-  data.table::transpose(make.names = 1, keep.names = " ") %>% 
+  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>%
+  data.table::transpose(make.names = 1, keep.names = "tree") %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
