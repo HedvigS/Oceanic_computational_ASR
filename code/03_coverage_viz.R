@@ -143,7 +143,6 @@ x <- gray_tree_tip_value_df$tip_value
 
 png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
-par(mar=c(0,0,0,0))
 plot.phylo(ladderize(gray_tree , right = F), col="grey", tip.color = gray_tree_tip_value_df$tip_color, type = "fan", cex = 0.7,label.offset = 0.1)
 
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
