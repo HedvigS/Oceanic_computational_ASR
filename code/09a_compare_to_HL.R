@@ -152,13 +152,14 @@ df_for_bar_plot %>%
   mutate(variable = str_replace_all(variable, "Accuracy", "Concordance")) %>% 
   mutate(variable = str_replace_all(variable, "incl half", "(incl half) ")) %>% 
   ggplot() +
-  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity") +
+  geom_bar(aes(x = Method, y = value, fill = variable, alpha = value), stat = "identity", color = "black") +
   coord_cartesian(ylim=c(0.7, 1)) +
   theme_classic(base_size = 20) +
+  scale_alpha(range = c(0.3, 1)) +
   theme(legend.position = "None", 
         axis.text.x = element_text(angle = 50, hjust=1), 
         axis.title = element_blank()) +
-  geom_text(aes(x = `Method`, y =value+0.03, label = round(value, 2)), size=8, colour = "black") +
+  geom_text(aes(x = `Method`, y =value+0.03, label = round(value, 2)), size=8) +
   scale_fill_manual(values= wes_palette("Zissou1", n = 2)) +
   theme(plot.margin = unit(c(0.2,0.2,0.2,1), "cm")) +
   facet_wrap(~variable, ncol = 1)
