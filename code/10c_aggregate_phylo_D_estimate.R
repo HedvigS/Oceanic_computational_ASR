@@ -49,14 +49,37 @@ phylo_d_full <- df_all %>%
   mutate(one_is_one = ifelse(ones == 1 |zeroes== 1, "yes", "no")) %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   mutate(min = ifelse(ones < zeroes, ones, zeroes)) %>% 
-  mutate(min_p = min / (ones + zeroes))
-#phylo_d_full <- fns %>%
-#  map_df(
-#    function(x) qs::qread(x)) %>% 
+  mutate(min_p = min / (ones + zeroes)) %>% 
+  mutate(summarise_col = ifelse(Pval0 > 0.05 &
+                                  Pval1 > 0.05 & 
+                                  Destimate < 0, 
+                                "similar to both, below 0", NA)) %>%   
+  mutate(summarise_col = if_else(Pval0 > 0.05 &
+                                   Pval1 > 0.05 & 
+                                   Destimate > 1, 
+                                 "similar to both, above 1", summarise_col))   %>% 
+  mutate(summarise_col = if_else(Pval0 > 0.05 &
+                                   Pval1 > 0.05 & 
+                                   between(Destimate, lower = 0, upper = 1), 
+                                 "similar to both, between 0 & 1", summarise_col))   %>% 
+  mutate(summarise_col = if_else(Pval0 > 0.05 &
+                                   Pval1 < 0.05, 
+                                 "similar to 0", summarise_col))   %>% 
+  mutate(summarise_col = if_else(Pval0 < 0.05 &
+                                   Pval1 > 0.05, 
+                                 "similar to 1", summarise_col))  %>% 
+  mutate(summarise_col = if_else(Pval0 < 0.05 &
+                                   Pval1 < 0.05 & 
+                                   between(Destimate, lower = 0, upper = 1), 
+                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
+  
+  mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
+  mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
 
-#ntips_half_glottolog
-#ntips_half_gray
+phylo_d_full  %>% 
+  write_tsv("output/HL_comparison/phylo_d/phylo_d_full.tsv", na = "")
 
+### grouping over tree and feature
 phylo_d_df <- phylo_d_full %>% 
   unite(Feature_ID, tree_type, col = "Feature_tree", remove = F) %>% 
   group_by(tree_type, Feature_ID, Feature_tree) %>% 
@@ -102,5 +125,3 @@ phylo_d_df <- phylo_d_full %>%
 phylo_d_df %>% 
   write_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv", na = "")
 
-phylo_d_full %>% 
-  write_tsv("output/HL_comparison/phylo_d/phylo_d_full.tsv", na = "")
