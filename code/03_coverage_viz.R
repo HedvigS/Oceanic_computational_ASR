@@ -143,6 +143,7 @@ x <- gray_tree_tip_value_df$tip_value
 
 png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_tree_desc_status_gray_et_al_tree_mcct.png"), width = 8.27, height = 10.69, units = "in", res = 600)
 
+par(mar=c(0,0,0,0))
 plot.phylo(ladderize(gray_tree , right = F), col="grey", tip.color = gray_tree_tip_value_df$tip_color, type = "fan", cex = 0.7,label.offset = 0.1)
 
 lastPP<-get("last_plot.phylo",env=.PlotPhyloEnv)
@@ -154,6 +155,13 @@ add.simmap.legend(colors=colors,vertical=T,x=-4.5,
 
 title("Coverage of the Oceanic subgroup in Grambank (Gray et al 2009 MCCT tree)", cex.main = 1, line = 1)
 
+x <- dev.off()
+
+
+png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_gray_et_al_tree_mcct_bare.png"), width = 8, height = 8, units = "in", res = 600)
+par(mar=c(0,0,0,0))
+plot.phylo(ladderize(gray_tree , right = F), show.tip.label = F, 
+           col="grey", type = "fan")
 x <- dev.off()
 
 ###Glottolog_tree
@@ -181,6 +189,14 @@ add.simmap.legend(colors=colors,
                   x=-10.5,
                   y=-10.1,prompt=F)
 title("Coverage of the Oceanic subgroup in Grambank (Glottolog 4.0-tree)", cex.main = 1, line = 1)
+
+x <- dev.off()
+
+png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_glottolog_tree_bare.png"), width = 8, height = 8, units = "in", res = 600)
+
+par(mar=c(0,0,0,0))
+plot.phylo(ladderize(Glottolog_tree_full , right = F), show.tip.label = F, 
+           col="grey", type = "fan")
 
 x <- dev.off()
 
