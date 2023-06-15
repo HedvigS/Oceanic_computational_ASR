@@ -61,3 +61,13 @@ tree_pruned <- keep.tip(tree_removed_dups, tips_to_keep$Glottocode)
 tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch length to every branch so that there are no branches with 0 length
 
 ape::write.tree(tree_pruned, file = "output/processed_data/trees/gray_et_al_tree_pruned_newick_mcct.txt")
+
+polytomies_n <- tree_pruned$edge %>% 
+  as.data.frame() %>% 
+  group_by(V1) %>% 
+  summarise(n = n()) %>% 
+  filter(n > 2) %>% nrow()
+
+splits <- tree_pruned$edge[,1] %>% length()
+
+message("The Gray et al (2009) MCCT Oceanic tree (pruned for Grambank matches) has ", splits, " splits. Out of these ",  round(polytomies_n/splits*100, 0), "% are non-binary.")
