@@ -72,10 +72,10 @@ filter(summarise_col != "similar to both, above 1") %>%
 #plot of correlation between d-estimate and agreement with HL, excluding d-estimates that are inappropriate
 joined_df %>% 
   filter(tree_type != "most_common") %>% 
-    filter(summarise_col == "similar to 1"|
-             summarise_col == "similar to 0"|
-             summarise_col == "similar to both, between 0 & 1"|
-             summarise_col == "dissimilar to both, between 0 & 1")  %>% 
+  filter(summarise_col != "all same"|
+           summarise_col != "similar to both, above 1"|
+           summarise_col != "similar to both, below 0",
+         summarise_col != "singleton")  %>%
   filter(!is.na(value)) %>% 
   ggplot(mapping = aes(x = mean_D, y = value)) +
   geom_point(mapping = aes(color = summarise_col)) +
@@ -149,31 +149,43 @@ table_P_values_summarised_latex_orange  %>%
                        table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
-
-phylo_d_summarised_table <-  phylo_d_df_full %>% 
-  filter(!str_detect(tree_type, "common")) %>%
-  filter(summarise_col == "similar to 1"|
-           summarise_col == "similar to 0"|
-           summarise_col == "similar to both, between 0 & 1"|
-           summarise_col == "dissimilar to both, between 0 & 1")  %>%
-  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
-  group_by(tree_type, Pval0_sig) %>%
-  summarise(n = n(),
-            mean_D = mean(Destimate),
-            .groups = "drop") %>%
-  group_by(tree_type) %>%
-  mutate(sum = sum(n)) %>%
-  mutate(prop = n/sum) %>%
-  mutate(mean_D = round(mean_D, 2)) %>%
-  filter(Pval0_sig == "yes") %>%
-  mutate(prop = paste0(round(prop, 2)*100, "%")) %>%
-  dplyr::select(tree = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0` = prop)
-
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
   
   phylo_d_summarised_table$`Not suitable for analysis due to skewed distribution` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
   
 }
+
+#summary
+
+phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>% 
+  filter(!str_detect(tree_type, "common")) %>%
+  filter(summarise_col != "all same") %>% 
+  filter(summarise_col != "similar to both, above 1") %>% 
+  filter(summarise_col != "similar to both, below 0") %>% 
+  filter(summarise_col != "singleton")  %>%
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
+  group_by(tree_type, Pval0_sig) %>%
+  summarise(n = n(), .groups = "drop") %>% 
+  mutate(n = ifelse(str_detect(tree_type, "poster"),n/posteriors, n))  %>% 
+  group_by(tree_type) %>%
+  mutate(sum = sum(n)) %>%
+  mutate(prop = n/sum) %>% 
+  filter(Pval0_sig == "yes") %>% 
+  ungroup() %>% 
+  mutate(prop = paste0(round(x = prop,  digits = 2)*100, "%")) %>%
+  dplyr::select(tree_type, `Proportion of features significantly similar to 0` = prop)
+
+
+phylo_d_summarised_table <- phylo_d_df_full %>%   
+  filter(!str_detect(tree_type, "common")) %>%
+  filter(summarise_col != "all same") %>% 
+  filter(summarise_col != "similar to both, above 1") %>% 
+  filter(summarise_col != "similar to both, below 0") %>% 
+  filter(summarise_col != "singleton")  %>%
+  group_by(tree_type) %>% 
+  summarise(mean_D = mean(Destimate) %>% round(2)) %>%
+  full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
+  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`)
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
@@ -184,8 +196,11 @@ align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}")
 
 
 phylo_d_summarised_table %>% 
-  left_join(phylo_d_df_missing, by = "tree") %>%
-  data.table::transpose(make.names = 1, keep.names = " ") %>%
+  left_join(phylo_d_df_missing, by = "tree") %>% 
+  mutate(tree = str_replace(tree, "_", " - ")) %>% 
+  mutate(tree = str_replace(tree, "glottolog", "Glottolog")) %>% 
+  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
+  data.table::transpose(make.names = 1, keep.names = " ") %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
