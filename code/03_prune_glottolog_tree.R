@@ -47,9 +47,21 @@ pruned_tree <- compute.brlen(pruned_tree, method = 1)
 
 pruned_tree  %>% ape::write.tree( "output/processed_data/trees/glottolog_tree_newick_GB_pruned.txt")
 
+polytomies_n <- pruned_tree$edge %>% 
+  as.data.frame() %>% 
+  group_by(V1) %>% 
+  summarise(n = n()) %>% 
+  filter(n > 2) %>% nrow()
+
+splits <- pruned_tree$edge[,1] %>% length()
+
+message("The Oceanic tree (pruned for Grambank matches) has ", splits, " splits. Out of these ",  round(polytomies_n/splits*100, 0), "% are non-binary.")
+
 #prune tree to only languages in oceanic subgroup
-languages_only_tree <-keep_as_tip(oceanic_tree_full, oceanic_lgs)
+oceanic_tree <-keep_as_tip(oceanic_tree_full, oceanic_lgs)
 
-languages_only_tree <- compute.brlen(languages_only_tree, method = 1)
+oceanic_tree <- compute.brlen(oceanic_tree, method = 1)
 
-languages_only_tree  %>% ape::write.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")
+
+
+oceanic_tree  %>% ape::write.tree("output/processed_data/trees/glottolog_tree_newick_all_oceanic.txt")
