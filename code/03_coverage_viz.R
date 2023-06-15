@@ -160,7 +160,7 @@ x <- dev.off()
 png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_gray_et_al_tree_mcct_bare.png"), width = 8, height = 8, units = "in", res = 600)
 par(mar=c(0,0,0,0))
 plot.phylo(ladderize(gray_tree , right = F), show.tip.label = F, 
-           col="grey", type = "fan")
+           col="grey", type = "cladogram")
 x <- dev.off()
 
 ###Glottolog_tree
@@ -195,7 +195,7 @@ png(file = paste0(OUTPUTDIR_plots, "/coverage_plots/tree/Oceanic_glottolog_tree_
 
 par(mar=c(0,0,0,0))
 plot.phylo(ladderize(Glottolog_tree_full , right = F), show.tip.label = F, 
-           col="grey", type = "fan")
+           col="grey", type = "cladogram")
 
 x <- dev.off()
 
