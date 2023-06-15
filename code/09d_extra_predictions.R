@@ -49,11 +49,15 @@ cap <- "Table showing the four Grambank features that were predicted as present 
 lbl <- "table_extra_predictions_four"
 align <- c("r", "p{2cm}","p{4cm}","p{8cm}" ) 
 
-colnames(df_agreement_without_common) <- paste0("$\\textbf{", colnames(df_agreement_without_common), "}$")
+colnames(df_agreement_without_common) <- paste0("\\textbf{", colnames(df_agreement_without_common), "}")
 
 df_agreement_without_common %>% 
   xtable(caption = cap, label = lbl,
-         align = align) %>%
+         align = align) %>% 
   xtable::print.xtable(file = file.path( OUTPUT_DIR , "extra_predictions_minus_MC.tex"),
+                       sanitize.colnames.function = function(x){x},
+                       math.style.negative = F,
+                       booktabs = TRUE,
+#                       hline.after = c(-1, 0, nrow(df_agreement_without_common)),
                        include.rownames = FALSE)
   
