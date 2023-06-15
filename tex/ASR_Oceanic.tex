@@ -165,9 +165,10 @@ The Double Cognacy Criterion is often more difficult to apply when reconstructin
 %The Comparative Method provides us with a) sets of words which derive from the same word in an ancestor language (cognates), b) sequences of sound changes from proto-languages to the current observable daughter languages and c) a tree or network structure of the relationships between languages. 
 %historical linguistics engage in proposing sub-groupings based on shared innovations and developing hypotheses about forms in unobserved proto-languages at the same time. 
 
-Besides finding cognates, traditional historical linguists also propose subgroups of languages as a way of modelling their history --- typically in the form of trees. The estimation of historical relationships between languages in traditional historical linguistics is mainly/only focused on sub-grouping, which has the consequence that branch/edge lengths are typically not estimated at all. As one anonymous reviewer of this paper noted, branch length estimation is not a goal of the Comparative Method at all. This is important, because, as we will see, trees without branch lengths are most likely implausible and make for sub-optimal ASR.
+Besides finding cognates, traditional historical linguists also propose subgroups of languages as a way of modelling their history --- typically in the form of trees. The estimation of historical relationships between languages in traditional historical linguistics is mainly/only focused on sub-grouping, which has the consequence that branch/edge lengths are typically not estimated at all. As one anonymous reviewer of this paper noted, branch length estimation is not a goal of the Comparative Method at all. This is important, because, as we will see, trees without branch lengths are most likely implausible and make for sub-optimal ASR. There is some work in traditional historical linguistics to establish branch-lengths through relative chronology of changes and archaeological anchor points (dating of clay tablets, texts etc, c.f. \citet{pereltsvaig2015indo_dates}), but that is mainly related to Indo-European. Note that estimating branch lengths need not be the same as precise chronological dating. For ASR, the key is the relative order of events rather than their precise timestamps (contrary to estimating urheimat, where dates matter more). It is also possible to incorporate uncertainty about splits - for example by positing many different trees with varying branches and splits that fit within a certain probability scope (e.g. a Bayesian posterior).
 
-The processes of suggesting sub-grouping and ASR are done in tandem in historical linguistics; they are estimated simultaneously. Subgroups are proposed based on \textbf{shared innovations}. In order to determine what is and what is not an innovation, a certain amount of reconstruction of proto-languages words and sounds (ASR) is necessary. In order to do ASR, some of the tree structure needs to be approximated. The tasks are done together.
+The processes of suggesting sub-grouping and ASR are done in tandem in historical linguistics; they are estimated simultaneously (c.f. \citet[7]{protooceanicvol1}
+). Subgroups are proposed based on \textbf{shared innovations}. In order to determine what is and what is not an innovation, a certain amount of reconstruction of proto-languages words and sounds (ASR) is necessary. In order to do ASR, some of the tree structure needs to be approximated. The tasks are done together.
 
 This is different from analysis in biology and cultural evolution where ASR is typically carried out as a separate next step after a reliable model of history is constructed (c.f. \citet{holland2020accuracy} \& \citet{evans2021uses}). In this paper, we are comparing specifically conventional historical approaches to ASR with computational approaches to ASR. The computational methods reviewed in this paper only does ASR, they do not suggest alternative sub-groups or trees. This makes them a bit different from classical historical linguistics approaches to ASR where sub-grouping and ASR are done simultaneously. Thankfully, this feedback loop between ASR and sub-grouping is primarily a factor in the classical historical linguistics analysis of linguistic matter (sounds and words) --- and less relevant for linguistic patterns (structural features) which is the topic of this paper.
 
@@ -245,9 +246,9 @@ Plausibility is important for ASR, both in linguistics, cultural studies and bio
 
 \citet{clark1973aspects} disagrees with \citet{hale_1968}, \citet{hohepa_1969}, and \citet{chung1978} on the case-marking systems of Proto-Polynesian on grounds of plausibility. Chung, Hale and Hohepa argue for a reconstruction that is technically less parsimonious on most trees of the languages (i.e. involves more changes), but which they say is more plausible. They posit that Proto-Polynesian had a nominative-accusative case marking system\footnote{Hale, Hohepa and Chung actually suggest three different theories which differ in specific details. For a summary of the differences between the proposals, see \citet[247-249]{chung1978}.}. If this was the case, that would mean positing more changes along the tree than if we assumed, as \citet{clark1973aspects} does, that the Proto-Polynesian language was ergative-absolutive. This is due to S\={a}moan and Tongan both having ergative-absolutive marking and both splitting off early (in most accounts of the Polynesian tree) from Proto-Polynesian. Fig. \ref{poly_GB409_tree} shows the Polynesian tree with Grambank feature GB409 values marked out\footnote{Grambank feature GB409 asks if \emph{any} ergative flagging is present. In some instances, the system is not wholly or primarily ergative, but ergative marking is present. It is possible that the scholars involved in the debate would not classify such languages as ``ergative-absolute'' languages \emph{per se}.}.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=15cm]{illustrations/plots_from_R//tree_plots/poly_tree_example.png}
+\includegraphics[width=14cm]{illustrations/plots_from_R//tree_plots/poly_tree_example.png}
 \caption{{The Polynesian languages in the \citet{grayetal_2009} Maximum Clade Credibility Tree-tree, with the coding of Grambank feature GB409 ``Is there any ergative alignment of flagging?'' marked out. Purple = Yes, Green = No and absence of dot = Not enough information/not clear.}}
 \label{poly_GB409_tree}
 \end{figure} 
@@ -522,7 +523,7 @@ This study is focused on the Oceanic subgroup of the Austronesian language famil
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{illustrations/ross_pawley_osmond_protooceanic_vol5.png}
+\includegraphics[width=17cm]{illustrations/ross_pawley_osmond_protooceanic_vol5.png}
 \caption{{Map of the Austronesian language family and major subgroups, from \citet[2]{protooceanicvol5}.}}
 \label{Oceanic_map}
 \end{figure} 
@@ -543,7 +544,13 @@ The coverage of Grambank data for the Oceanic subgroup is in general better in t
 \FloatBarrier
 \subsubsection{The trees}
 \label{the_trees}
-The tree phylogenies used in this study are: a) the Maximum Clade Credibility Tree (MCCT) from \citet{grayetal_2009}; b) a random sample of 100 posterior trees from \citet{grayetal_2009} and c) the tree from Glottolog 4.5\footnote{The tree of Glottolog 4.5 \citep{glottolog4_5} is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}. 
+The tree phylogenies used in this study are: 
+
+\begin{enumerate}[label=(\alph*)]
+    \item the Maximum Clade Credibility Tree (MCCT) from \citet{grayetal_2009}
+    \item a random sample of 100 posterior trees from \citet{grayetal_2009} 
+    \item the tree from Glottolog 4.5\footnote{The tree of Glottolog 4.5 \citep{glottolog4_5} is based on work by \citet{blust_2009, blust_2014} and \citet{blust_chen_2017}.}
+\end{enumerate}
 
 Figure \ref{tree_coverage_oceanic_gray} and Figure \ref{tree_coverage_oceanic_glottolog} show the Grambank coverage of languages over the phylogenies from the Gray et al 2009-MCC-tree and the Glottolog-tree respectively. 
 
@@ -561,7 +568,9 @@ Figure \ref{tree_coverage_oceanic_gray} and Figure \ref{tree_coverage_oceanic_gl
 \label{tree_coverage_oceanic_glottolog}
 \end{figure}
 
-One of the major differences between the trees is that the Glottolog-tree does not contain \emph{any} information on branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_glottolog} where the first has varying lengths of branches but the latter all have a uniform length (1). This has the consequence that some tips in the Glottolog-tree are \emph{much further} from the root than others. This is a big disadvantage with this type of tree, since it suggests that different amounts of time has passed between the root and the languages at the tips. Further technical details of the trees can be found in Supplementary Material \ref{supp:tree_details}.
+One of the major differences between the trees is that the Glottolog-tree does not contain \emph{any} information on branch lengths. All the branches in the Glottolog-tree are of the same length (1), whereas the branches in the Gray et al 2009-trees (the MCCT and the posteriors) have meaningful branch lengths based on rates of change in the underlying data (basic vocabulary) and calibration points (archaeological dates). This can be seen in the visualisations in Figures ~\ref{tree_coverage_oceanic_gray} and \ref{tree_coverage_oceanic_glottolog} where the first has varying lengths of branches but the latter all have a uniform length (1). This has the consequence that some tips in the Glottolog-tree are \emph{much further} from the root than others. This is a big disadvantage with this type of tree, since it suggests that different amounts of time has passed between the root and the languages at the tips. 
+
+In addition, the Glottolog trees contains more non-binary splits (polytomies) than the \cite{grayetal_2009}-trees. Binary splits ought to be more plausible, since it is unlikely that a set of 3 or more languages are all \emph{exactly} equally related to each other. Polytomies can be a way of signalling uncertainty, when it is not clear how to structure the group it may be preferably to suggest a polytomy than a less certain binary branching. In the Glottolog Oceanic tree (pruned for matches to Grambank), 10\% of splits are not binary. In the \cite{grayetal_2009} MCC-tree, only 3\% are non-binary. Taking into account samples from the posterior is another way of accounting for uncertainty without needing polytomies as much. In the random sample of 100 trees from the \cite{grayetal_2009} posterior 39 trees had binary splits, the mean percentage of non-binary splits across all 100 is 0.15\%. Further technical details of the trees can be found in Supplementary Material \ref{supp:tree_details}.
 
 The Glottolog-tree contains all the languages in the Oceanic subgroup. Therefore the coverage per island group that is summarised in table ~\ref{GB_coverage_table_island_group} in the previous section applies to the Glottolog-tree as well. However, the \cite{grayetal_2009}-trees do not contain all Oceanic languages, but rather 155. Out of these, 132 also occur in the Grambank dataset. %A breakdown of coverage for the\cite{grayetal_2009}-trees per island group is found in table ~\ref{GB_coverage_table_island_group_gray}.
 
@@ -569,7 +578,7 @@ Finally, we are also using a sample of the posterior trees from \cite{grayetal_2
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=19cm]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
+\includegraphics[width=18cm]{illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}
 \caption{\textbf{DensiTree \citep{bouckaert2014densitree} visualisation of the 100 random sampled trees from the Gray et al 2009-posterior.} Made with the function densiTree() from the R-package Phangorn \citep{phangorn}.}
 \label{densitree_plot}
 \end{figure}
@@ -624,7 +633,7 @@ This is a difference in the kind of data that goes into the analysis, not a diff
 
 While this principal difference is important, it should also be noted that Grambank feature GB022 have strong phylogenetic signal (negative D-estimates which are statistically similar to 0, see section \ref{sec:is_it_valid} for details). This gives us confidence that we can move ahead.
 
-As we have seen, Grambank data is composed of abstract features such as ``is a grammatical distinction made between X and Y?''. This makes it different from most ASR-studies of grammar in historical linguistics, which tend to be more focussed on particular grammatical expressions such as morphemes. Two languages can be coded alike in Grambank and many other typological surveys, but not share ancestry. It is also possible that such abstract features track inheritance beyond the particular forms. \citet[503]{ross2004morphosyntactic} notes that a particular structure of the pronominal system of Mokilese is maintained, despite the formal markers being continuously replaced. He argues that there are discourse-related reasons for maintaining this system and that the interaction between this construction and the rest of the grammar is such that the distinction is maintained. When particular markers are lost in this system, new ones appear in their place\footnote{ \citet{ross2004morphosyntactic} also notes that Goddard has observed similar patterns in Algonquian languages \citep{goddard1993algonquian}.}. This may be true of more features, and in such cases, languages can share a grammatical structure due to inheritance but not have the same particular forms.% In addition, in many instances --- particularly within families --- abstract features such as 'GB022: \emph{Are there prenominal articles?}' are in fact correlated with specific forms even if the forms are not explicitly being tracked.
+As we have seen, Grambank data is composed of abstract features such as ``is a grammatical distinction made between X and Y?''. This makes it different from most ASR-studies of grammar in historical linguistics, which tend to be more focussed on particular grammatical expressions such as morphemes. Two languages can be coded alike in Grambank and many other typological surveys, but not share ancestry. It is also possible that such abstract features track inheritance beyond the particular forms. \citet[503]{ross2004morphosyntactic} notes that a particular structure of the pronominal system of Mokilese is maintained, despite the formal markers being continuously replaced. He argues that there are discourse-related reasons for maintaining this system and that the interaction between this construction and the rest of the grammar is such that the distinction is maintained. When particular markers are lost in this system, new ones appear in their place\footnote{\citet{ross2004morphosyntactic} also notes that Goddard has observed similar patterns in Algonquian languages \citep{goddard1993algonquian}.}. This may be true of more features, and in such cases, languages can share a grammatical structure due to inheritance but not have the same particular forms. \citet[400-401]{evans2003study} also notes that while reconstructions based on lexical data are seen as more secure, they're not always possible or practical. It can be beneficial and necessary to aim to reconstruct patterns. % In addition, in many instances --- particularly within families --- abstract features such as 'GB022: \emph{Are there prenominal articles?}' are in fact correlated with specific forms even if the forms are not explicitly being tracked.
 
 In the Grambank project, research assistants read published grammatical descriptions and extract information such that it fits with the definitions of our typological questionnaire (see Supplementary Material \ref{Grambank_features}). This survey of the literature on Proto-Oceanic grammar is essentially the same task. Just as with the literature on reconstructed languages, scholars sometimes disagree on the nature of contemporary languages and how they should best be analysed. It is up to the coder to make calls on which analysis to apply, what can be inferred from the literature and what should be left as unknown. It is possible to squeeze even more findings out of these publications; I have tended to be conservative in my interpretations the literature on Oceanic proto-languages. Out of the 201 (binarised) features in our questionnaire, 33\% (67) were answerable for Proto-Oceanic given the existing studies in historical linguistics. The average completion per language in the whole of the Grambank data set is 85\% (170). 
 
@@ -638,7 +647,7 @@ Most of the time, the scholars of Proto-Oceanic are in agreement in their predic
 %ne such case is the alignment system of Proto-Polynesian. \citet{clark1973aspects} claims that the system was ergative while \citet{hale_1968}, \citet{hohepa_1967,hohepa_1969} and \citet{chung1978} argue that Proto-Polynesian was accusative and several of the daughter languages developed ergativity later. \citet{kikusawa2002proto} and \citet{ball2007ergativity} also disagree on the alignment of Proto-Central Pacific. Because of this disagreement, the results for the computational ancestral reconstruction for Grambank features regarding the alignment of these two proto-languages are presented separately.
 
 \FloatBarrier
-\section{Results of practical example}
+\section{Results}
 We are examining results from three approaches in total: a) Maximum Parsimony (MP), b) Maximum Likelihood (ML) and c) Most Common value in daughter languages (MC). For (a) and (b) we are also using three different trees: i) Glottolog, ii) \citet{grayetal_2009} MCC-tree and ii) the mean values of reconstruction of a random selection of 100 (out of 4,200) trees in the Bayesian posterior of \citet{grayetal_2009}. That gives 2 * 3 + 1 results, i.e. 7.
 
 The results are divided up into three sections: 1) Concurrence with conventional historical linguistics, 2) new predictions and 3) disagreements among historical linguists.
@@ -660,7 +669,7 @@ Given these counts, we can calculate the concordance scores (see section \ref{re
 \begin{figure}[ht]
 \centering
 \includegraphics[width=12cm]{illustrations/plots_from_R/results/barplot_facet_scores_exclude_f1.png}
-\caption{\textbf{Barplots of concordance scores of each method.} NB that the y-axis starts from 0.7.}
+\caption{\textbf{Barplots of concordance scores of each method.}}
 \label{barplot_facet_results}
 \end{figure}
 
@@ -681,7 +690,7 @@ We can also compare the methods to each other. Fig. \ref{heatmap_accuracy_score_
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=16cm]{illustrations/plots_from_R/results/accuracy_score_heatmap_all_methods.png}
+\includegraphics[width=17cm]{illustrations/plots_from_R/results/dist_heatmap_all_methods.png}
 \caption{\textbf{Heatmap of accuracy score (including half) between reconstruction, per tree and method. Dark blue = high concurrence, yellow = low concurrence.}}
 \label{heatmap_accuracy_score_methods}
 \end{figure}
@@ -760,13 +769,15 @@ Concerning the alignment of Proto-Central Pacific, all the results, save the Mos
 
 \FloatBarrier
 \section{Conclusions}
-This paper has compared different methodology for ASR in regards to historical linguistics, both conceptually (sections \ref{sec:ars:metod:hist}, \ref{sec:asr_methods} and \ref{sec:MP_ML_MC}) and practically (\ref{sec:results_concorance}). Table \ref{methods_pros_cpns} summarises the pros and cons of the different methods conceptually, \emph{a priori}.
+We have investigated the history of structural features of Oceanic languages to examine how computational ASR-methods compare to reconstructions by historical linguists, including contributing to the debate on  alignment in Oceanic proto-languages. This paper has compared different methodologies of ASR, both conceptually and practically (\ref{sec:results_concorance}). First we go through the conclusions based on the conceptually comparison, and then the results from the specific study of grammar in Oceanic languages.
+
+Table \ref{methods_pros_cpns} summarises the pros and cons of the different methods conceptually, as discussed in sections \ref{sec:ars:metod:hist}, \ref{sec:asr_methods} and \ref{sec:MP_ML_MC}).
 
 \begin{table}[ht]
 \centering
 \caption{Summary of conceptual pros and cons of the ASR-methods}
 \label{methods_pros_cpns}
-\begin{tabular}{m{4.5cm}m{5cm}m{5cm}}
+\begin{tabular}{m{4cm}m{5cm}m{5cm}}
   \toprule
 \textbf{ASR-Method} & \textbf{Pros} & \textbf{Cons} \\ \midrule
 Conventional HL &  widely used and attested; human-friendly ; takes into account complexities regarding item- and language-specific nuance and context &  may ignore branch lengths; plausibility/rates of changes and plausibility of combined states are under-specified which leads to hard-to-resolve conflicts; possible: assumes slowest rate = most plausible rate\\ \midrule
@@ -777,35 +788,65 @@ Most Common & easy to understand & ignores the tree altogether; estimates no rat
 \end{tabular}
 \end{table}
 
-Given the basic assumption that branch lengths matter, that languages that are spoken at a similar time in history have a similar distance to the shared ancestral community's language (the root), we should choose methods that take that into account. If conventional HL-ASR does take into account branch lengths, it is often under-specified. Furthermore, it is desirable in science to be as consistent and explicit as possible. This enables others to interrogate the research and replication. 
+Given the basic assumption that branch lengths matter (languages that are spoken at a similar time in history ought to have a similar distance to the shared ancestral language), we should choose methods that take that into account. If conventional HL-ASR does take branch lengths into account, it is often under-specified. It is desirable to be as consistent and explicit as possible. This enables others to interrogate the research and replicate. Computational methods allow us to be explicit about each analytical choice, which is difficult to do with conventional approaches. Given the importance of taking into account branches and the desirability of not assuming the slowest rate of change, Maximal Likelihood is the best approach out of these four.
 
-In this paper, we have investigated the history of structural features of Oceanic languages to examine how computational ASR-methods compare to reconstructions by historical linguists, including contributing to the debate on  alignment in Oceanic proto-languages.
+Table \ref{trees_pros_cons} compares the pros and cons of the different phylogenies of this paper.
 
-We have found that computational reconstructions show a high degree of concordance with reconstructions from expert historical linguists. Reconstructions by both Maximum Parsimony and Maximum Likelihood agreed to a very large extent with the findings from historical linguistics. This suggests that the mechanisms at work in historical linguistic reconstruction may be similar to the concepts underlying the computational methods presented in this paper. The agreement was the highest when most of the languages had or lacked the same feature (see Supplementary Material \ref{supp:cor_min_p_HL}), but it was generally high also when there was more variability.
+\begin{table}[ht]
+\centering
+\caption{Summary of conceptual pros and cons of the trees.}
+\label{trees_pros_cons}
+\begin{tabular}{m{3cm}m{3.5cm}m{3.8cm}m{3.8cm}}
+  \toprule
+\textbf{Tree} & &\textbf{Pros} & \textbf{Cons} \\ \midrule
+Glottolog 4.5 & \includegraphics[width=3.5cm]{illustrations/plots_from_R/coverage_plots/tree/Oceanic_glottolog_tree_bare.png} &includes all Oceanic languages & has no branch lengths; possibly inconsistent sub-grouping; many polytomies (10\%); lowest proportion of D-estimates similar to 0 \\
+\midrule
+\citet{grayetal_2009} - MCCT & \includegraphics[width=3.5cm]{illustrations/plots_from_R/coverage_plots/tree/Oceanic_gray_et_al_tree_mcct_bare.png} &has branch lengths; is based on explicit lexical data; transparent methodology at each step; fewer polytomies (3\%) & includes fewer languages \\
+\midrule
+\citet{grayetal_2009} - random sample of 100 from posterior &  \includegraphics[width=3.5cm]{tex/illustrations/plots_from_R/coverage_plots/tree/gray_et_al_2009_100_sample_densitree.png}& has branch lengths; is based on explicit lexical data; transparent methodology at each step; much fewer polytomies (0.15\%); encompasses more variation than MCCT; highest proportion of D-estimates similar to 0 & includes fewer languages; takes longer time to calculate over\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Computational methods need not be in conflict with conventional approaches, they can be complementary. There is certainly room for improvements based on knowledge from classical historical linguistics. When there were disagreements among linguists in regard to the structure of proto-languages, we saw more clearly the impact of the lack of information on the plausibility of changes and combinations, as well as contact-induced change. Currently, it is not possible to include information on these parameters directly into the computational ASR-models, because it has not been formalised in such a way that it can be included. If more work was dedicated to formalising such knowledge this may be possible in future. For example, it is possible to supply Maximum Likelihood ASR with a rates matrix that represents the plausibility of changes from one state to another \citep[8-9]{R-corHMM}.
+\FloatBarrier
 
+Once more, given that branch lengths matter if we want to understand the past we ought to go with the trees from \cite{grayetal_2009}. After all, an equal amount of time has passed between the existence of a proto-community to today's extant languages, and we take our trees to estimate that history. It is possible that some languages are more conservative than others in their sounds, words or grammar, but in such cases, we should let the models figure that out rather than set all branches to the same length. When it comes to ancient languages, like Latin, Akkadian etc, it makes sense to place these at a closer distance to the root (as done for example in \citet{carling2021reconstructing}). However, the differences in root-to-tip distances that a tree like Glottolog suggests for Oceanic seem extreme see Fig. \ref{fig:branch_lengths} in Supplementary Material \ref{supp:tree_details}). 
+
+While the MCCT is a practical summary of the 4,200 posterior trees, sampling over the actual set of posterior trees is preferable since it incorporates uncertainly in a better way and involves fewer polytomies.
+
+Conceptually, the most reliable results \emph{a priori} are those derived from Maximal Likelihood + random sample over posterior.
+
+Now to the practical comparison, how does the computational approaches compare to conventional HL? Overall there is a high degree of concordance with reconstructions from expert historical linguists and all approaches. Reconstructions by both Maximum Parsimony and Maximum Likelihood agreed to a very large extent with the findings from historical linguistics. This suggests that the mechanisms at work in historical linguistic reconstruction may be similar to the concepts underlying the computational methods presented in this paper. The agreement was the highest when most of the languages had or lacked a feature (see Supplementary Material \ref{supp:cor_min_p_HL}), but it was generally high also when there was more variability.
+
+The preferable method conceptually, Maximal Likelihood + random sample over \citet{grayetal_2009} posterior, did not have the highest concordance (including half-results) score with HL - 0.87. The variation between the results was not large, however. The method that was the most similar to conventional HL, Parsimony + Glottolog, achieved a concordance of 0.9. The Glottolog-tree contained more matches to Grambank data-points, which is probably why it out-achieved the \cite{grayetal_2009}-trees in concordance with conventional HL.
+
+The methods which do not take into account branch lengths (Maximum Parsimony and Most Common) achieve a somewhat higher concordance with historical linguistics predictions. This is potentially troubling since it seems a sound principle that branch lengths in trees matter.
+
+However, the general concordance between the outcomes of the different methods studied here gives us confidence that computational approaches are not so foreign to historical linguistics as they first may appear. 
+
+The classical historical linguistics toolkit is well-developed in terms of sub-grouping, but for future analysis, it would be beneficial to develop a framework regarding branch estimation as well. Pawley (personal correspondence) notes that most of the sub-grouping done in historical linguistics tends to be at the lower level, which suggests that further work on deeper relationships is also needed in order to improve the overall tree-structure (unless we have cause to believe in more community splitting events in recent time compared to long ago). 
+
+Computational methods need not be in conflict with conventional approaches, they can be complementary. There is certainly room for improvements based on knowledge from classical historical linguistics. When there were disagreements among linguists in regard to the structure of proto-languages, we saw more clearly the impact of the lack of information on the plausibility of changes and combinations, as well as contact-induced change. Currently, it is not possible to include information on these parameters directly into the computational ASR-models, because it has not been formalised in such a way that it can be included. If more work was dedicated to formalising such knowledge this may be possible in future. For example, it is possible to supply Maximum Likelihood ASR with a rates matrix that represents the plausibility of changes from one state to another \citep[8-9]{R-corHMM}. It is also possible in other computational approaches to fix certain node states and study what the implications are.
 
 %These results can be interpreted to mean that we have reasons to trust in the results of computational approaches to ASR in linguistics. 
 
 %This means that we have support for using conclusions regarding rate of change etc from the computational methods to estimate knowledge of historical linguists. This can aid us in making the implicit explicit. Whether or not the predictions from classical historical linguistics are correct or not is a different matter, which should be investigated by assessing the soundness of the principles at play and comparing with other evidence.
 
-The results show that the methods which do not take into account branch lengths (Maximum Parsimony and Most Common) achieve a somewhat higher concordance with historical linguistics predictions. This is potentially troubling since it seems a sound principle that branch lengths in trees matter. After all, an equal amount of time has passed between the existence of a proto-community to today's extant languages, and we take our trees to estimate that history. It is possible that some languages are more conservative than others in their sounds, words or grammar, but in such cases, we should let the models figure that out rather than set all branches to the same length. When it comes to ancient languages, like Latin, Akkadian etc, it makes sense to place these at a closer distance to the root (as done for example in \citet{carling2021reconstructing}). However, the differences in root-to-tip distances that a tree like Glottolog suggests for Oceanic seem extreme see Fig. \ref{fig:branch_lengths} in Supplementary Material \ref{supp:tree_details}). 
-
-The classical historical linguistics toolkit is well-developed in terms of sub-grouping, but for future analysis, it would be beneficial to develop a framework regarding branch estimation as well. Pawley (personal correspondence) notes that most of the sub-grouping done in historical linguistics tends to be at the lower level, which suggests that further work on deeper relationships is also needed in order to improve the overall tree-structure (unless we have cause to believe in more community splitting events in recent time compared to long ago). In parallel with branch estimation, ASR in historical linguistics ought also to move in a direction that explicitly incorporates the lengths of these branches. 
 
 %but the estimation of branch lengths has received less attention. It is not necessary to ``do dates'' (c.f. \citet[371]{greenhill2015evolution}) precisely to make improvements here, relative chronology that is not tied to specific dates is also 
 
 %\cite{mcmahon_2006}
 %This need not mean a return to glottochonology, this appears to be a misguided and overly simplistic approach , there are other alternatives.
 
-The future of research on the history of languages probably lies in the combination of human and computational labour. Curating lexical cognate data \citep{list2022lexibank} and constructing trees \citep{grayetal_2009} still rely on teams of expert linguists annotating word-lists for cognacy. Methods are being developed for automatic cognate detection (c.f. \citet{list2017potential}), but they are not yet ready to replace the vast human knowledge and experience of the experts in historical linguistics. However, once cognate classes, regular sound correspondences and structural features are identified, the work then turns to reconstructing history (subgrouping or constructing trees/networks) and ASR (c.f. \ref{fig:HL_tasks}). For these tasks, there are suitable computational methods that can be applied such as those in this paper and others (\citet{greenhill2015evolution}; \citet{gray_greenhill_defend_bayes}). Research into linguistic history can be greatly improved and effectivized by computational tools, which in turn can be given sensible priors and parameters to produce more reliable results in a future joint venture between classical and novel methods.
+The future of research on the history of languages probably lies in the combination of human and computational labour. Curating lexical cognate data \citep{list2022lexibank} and constructing trees \citep{grayetal_2009} still rely on teams of expert linguists annotating word-lists for cognacy. Methods are being developed for automatic cognate detection (c.f. \citet{list2017potential}), but they are not yet ready to replace the vast human knowledge and experience of the experts in historical linguistics. However, once cognate classes, regular sound correspondences and structural features are identified, the work then turns to reconstructing history (sub-grouping or constructing trees/networks) and ASR (c.f. \ref{fig:HL_tasks}). For these tasks, there are suitable computational methods that can be applied such as those in this paper - and others (c.f. \citet{greenhill2015evolution}; \citet{gray_greenhill_defend_bayes} and \citet{joy2016ancestral}). Research into linguistic history can be greatly improved and effectivized by computational tools, which in turn can be given sensible priors and parameters to produce more reliable results in a future joint venture between classical and novel methods.
 
-In order to improve these methods, we should attempt to include the knowledge that historical linguists have about plausibility of changes, harmonics of traits and contact events. Scholars of Oceanic languages have also acquired an immense knowledge of the languages, cultures and societies of the Pacific. This is why their research is so valuable and trusted. It is no doubt difficult to convey this wealth of contextual information in each and every academic paper. The task becomes further complex when we need to aggregate the knowledge and make it comparable and consistent across publications. Perhaps a new style of supplementary material is necessary. Some or all of this kind of information can be incorporated to guide computational methods, for example as priors in models. They should not be given the power to entirely constrain the outcomes, but guide the conclusions the method reaches given the priors and data. In order for this to happen, more information needs to be made explicit in historical linguistics studies.
+In order to improve these methods, we should attempt to include the knowledge that historical linguists have about plausibility of changes, harmonics of traits and contact events. Scholars of Oceanic languages have also acquired an immense knowledge of the languages, cultures and societies of the Pacific. This is why their research is so valuable and trusted. Some or all of this kind of information can be incorporated to guide computational methods, for example as priors in models. These priors should not be given the power to entirely constrain the outcomes, but guide the conclusions the method reaches given the data. In order for this to happen, more information needs to be made explicit in historical linguistics studies.
 
-Conversely, it is also desirable that computational methodologies and phylogenetics are made more accessible to the wider linguistics community and incorporated into historical linguistics education. It is my perception that there is at times a disconnect between newer and classical approaches in this space, which is unnecessary and detrimental. It is my hope that this paper has made some advancements in both introducing historical linguists to some concepts in computational approaches to ASR and introducing non-linguists to ASR in historical linguistics generally.
+It is no doubt difficult to convey this wealth of contextual information in each and every academic paper. The task becomes further complex when we need to aggregate the knowledge and make it comparable and consistent across publications. Nevertheless, this is where I believe that the path of scientific discovery leads us next - computers and humans together.
 
-The more information is made explicit in the methodology the easier it is to assess the soundness of the study, replicate it and improve upon it. There are areas of this study that I look forward to receiving feedback on so that we can advance together as a field. This study aims at increasing the transparency of both the principles of reconstruction in classical historical linguistics and the corresponding computational approaches. Hopefully, this study (alongside \citet{carling2021reconstructing} and \citet{goldstein_2022}) can be a starting point for more joint ventures into our grammatical past.
+Conversely, it is also desirable that computational methodologies and phylogenetics are made more accessible to the wider linguistics community and incorporated into historical linguistics education. It is my perception that there is at times a disconnect between newer and classical approaches in this space, which is unnecessary and detrimental. It is my hope that this paper has made some advancements in both introducing historical linguists to some concepts in computational approaches to ASR and introducing non-linguists to ASR in historical linguistics more generally.
+
+The more methodology and analytical choices are made explicit, the easier it is to assess the soundness of the study, replicate it and improve upon it. There are areas of this study that I look forward to receiving feedback on so that we can advance together as a field. This study aims at increasing the transparency of both the principles of reconstruction in classical historical linguistics and the corresponding computational approaches. Hopefully, this study (alongside \citet{carling2021reconstructing} and \citet{goldstein_2022}) can be a starting point for more joint ventures into our cultural past.
 
 
 
@@ -814,7 +855,7 @@ The more information is made explicit in the methodology the easier it is to ass
 
 %One of the key pieces of information that is missing from this analysis is plausibility of changes and combinations of features.
 
-%Within Oceanic historical linguistics, there exists a debate regarding the nature of the alignment system of Proto-Polynesian. The results of this study support the analysis that it was ergative. However, since the computational reconstructions are unable to take into account considerations of plausibility, which is the main difference between the different proposals, this cannot be taken as hard evidence. Further work in this area should seek to incorporate information about plausibility in order to increase the reliability of this result.
+%Within Oceanic historical linguistics, there exists a debate regarding the nature of the alignment system of Proto-Polynesian. The results of this study support the analysis that it was ergative. However, since the computational reconstructions are unable to take into account considerations of plausibility, which is the main difference between the different proposals, this cannot be taken as hard evidence. Further work in this area should seek to incorporate information about plausibility in order to increase the reliability of this result.m
 
 %explicit information on plausibility of rate of change and combinations of traits
 %ways of estimating contact events
@@ -831,6 +872,7 @@ The more information is made explicit in the methodology the easier it is to ass
 %\section*{Funding information}
 %Grant or other funding acknowledgements should go here.
 
+\newpage
 \section*{Acknowledgements}
 I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, these are: Stephen Mann, Angela Chira, Jordan Brock, 華夏 Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset, Russell Gray and Hannah Haynie. Mary Walworth has been very helpful in reviewing the Grambank coding of Oceanic proto-languages. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.
 
@@ -846,19 +888,19 @@ I am fortunate enough to have colleagues in academia who have been generous and 
 
 \subsection{Data and code availability}
 \label{supp_data_availability}
-This study involves data from Grambank (v1.0, \cite{grambank_release}, D-PLACE (v2.2.1 \citet{d_place_all} and Glottolog (v4.5, \citet{glottolog4_5}. The study also involves the use of some scripts associated with the release of Grambank v1.0 which are found in the repository `grambank-analysed` (v1.0, \citet{grambank_analysed_1_0}). The trees from \citet{grayetal_2009} are stored in the D-PLACE repository, the Glottolog tree in the glottolog-cldf repository.
+This study involves data from Grambank (v1.0, \cite{grambank_dataset_zenodo_v1, grambank_release}, D-PLACE (v2.2.1 \citet{d_place_all} and Glottolog (v4.5, \citet{glottolog4_5}. The study also involves the use of some scripts associated with the release of Grambank v1.0 which are found in the repository `grambank-analysed` (v1.0, \citet{grambank_analysed_1_0}). Inside of the `grambank-analysed` project lies Glottolog and Grambank. The trees from \citet{grayetal_2009} are stored in the D-PLACE repository, the Glottolog tree in the glottolog-cldf repository.
 
-All the R-scripts for data wrangling, analysis and plotting are found in a GitHub repos (Oceanic\_computational\_ASR) and will be published on Zenodo when publication of the paper is confirmed.
-
-For convenience, the code and data is available via links to public repositories already in the review stage of the journal submission. Until the paper is accepted for publication, please do not circulate the links below.
+All the R-scripts for data wrangling, analysis and plotting are found on GitHub and Zenodo.
 
 Zenodo locations:
 
 \begin{itemize}
-\item Oceanic\_computational\_ASR \emph{TBA}
+\item Oceanic\_computational\_ASR  \textcolor{red}{TBA Zenodo-url}
 \item Grambank-analysed (v1.0) \url{https://doi.org/10.5281/zenodo.7740822}
+\begin{itemize}
 \item Grambank (v.1.0) \url{https://doi.org/10.5281/zenodo.7740140}
 \item glottolog-cldf (v4.5) \url{https://doi.org/10.5281/zenodo.5772642}
+\end{itemize}
 \item dplace-data (v2.2.1) \url{https://doi.org/10.5281/zenodo.5554395}
 \end{itemize}
 
@@ -872,6 +914,71 @@ GitHub locations:
 \end{itemize}
 \item dplace-data (v2.2.1) \url{https://github.com/D-PLACE/dplace-data/tree/v2.2.1}
 \end{itemize}
+
+
+
+\subsection{Grambank features}
+\label{Grambank_features}
+Table \ref{GB_features_table} contains Grambank features which serves as the input to the analysis. Multistate features have been binarised. For more details, see appendix \ref{supp:dataset_details}, \citet{grambank_release}: Materials and methods: Data and the parameters-table in the CLDF-release on Zenodo of the grambank dataset version 1 \citep{grambank_dataset_zenodo_v1}. Documentation of the features, including procedures and examples are also found on a GitHub wiki  \url{https://github.com/grambank/grambank/wiki} that is updated continuously. Release-versions are published regularly, as data-sets on Zenodo.
+
+
+
+%\begin{landscape}
+\input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
+%\end{landscape}
+
+
+\FloatBarrier
+
+\subsection{Binarisation of the Grambank features}
+\label{supp:dataset_details}
+Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. The table in \ref{Grambank_features} contains a list of all the features used in this study, including the binarised features. The binarization results in a total of 201 features. 
+
+\FloatBarrier
+
+\subsection{Table of historical linguistics sources surveyed}
+\label{supp:proto_lg_coding_table}
+
+\begin{longtable}{|p{3cm}|  p{5cm}| p{4cm} | p{3cm}  | p{3cm} |}
+\caption{{Table of historical linguistics publications used in this dissertation for Proto-Oceanic grammar}}
+\label{HL_prediction_table_summary} \\
+\hline
+\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
+\endfirsthead
+
+\hline
+\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
+\endhead
+
+
+\citet{pawley1970change} & Grammatical reconstruction and change on Polynesia and Fiji & Proto-Central Pacific  &Verbal markers and aspect particles \\ \hline
+
+\citet{pawley1973some} & Some problems in Proto-Oceanic & Proto-Oceanic and Proto-Polynesian  & Possession, noun phrase marking, negation, verbal markers, clusivity, word order  \\ \hline
+
+\citet{clark1973aspects} & Aspects of Proto-Polynesian syntax & Proto-Oceanic and Proto-Polynesian  & Alignment, negation, word order, possession, noun phrase marking, voice \\ \hline
+
+\citet{chung1978}  & Case marking and grammatical relations in Polynesian languages & Proto-Polynesian  & Alignment, word order, voice, noun phrase marking \\ \hline
+
+\citet{crowley1985common}  & Common noun phrase marking in Proto-Oceanic & Proto-Oceanic &  noun phrase marking, clusivity  \\ \hline
+
+\citet{jonsson1998} & Det polynesiska verbmorfemet \emph{-Cia}; om dess funktion i Samoanska & Proto-Polynesian & Verbal marker \\ \hline
+
+\citet{marck2000_encyclo} & Polynesian languages (in Facts About the World's Languages: An encyclopaedia of the world's major languages, past and present)& Proto-Central Pacific and Proto-Polynesian & Word order, verbal markers, possession, clusivity \\ \hline
+
+\citet{evans2003study} & A study of valency-changing devices in Proto Oceanic & Proto-Oceanic & Verbal markers \\ \hline
+
+\citet{ball2007ergativity} & On ergativity and accusativity in Proto-Polynesian and proto-Central Pacific&Proto-Polynesian & Alignment, voice \\ \hline
+
+\citet{kikusawa2001rotuman} & Rotuman and Fijian case-marking strategies and their historical development  & Proto-Oceanic & Possession, pronominal number \\ \hline
+
+\citet{kikusawa2002proto}  & Proto Central Pacific ergativity: Its reconstruction and development in the Fijian, Rotuman and Polynesian languages & Proto-Central Pacific   & Alignment, word order \\ \hline
+
+\citet{lynchrosscrowley_proto_grammar_oceanic} & The Oceanic Languages, paper 4: Proto-Oceanic & Proto-Oceanic, Proto-Central Pacific and Proto-Polynesian & Negation, word order, verbal markers, clusivity, possession, pronominal number, polar interrogation, nominalisations and more \\ \hline
+
+\citet{ross2004morphosyntactic}\footnote{This paper makes statements about ``canonical'' Oceanic languages, which is technically different from \emph{reconstruction} of Proto-Oceanic. However, the author does state that the ``canonic type is probably also a reflection of the morphosyntax of Proto Oceanic'' \citep[492]{ross2004morphosyntactic} and has given personal approval for the paper to be included in this study in this manner.}  & The morphosyntactic typology of Oceanic languages &  Proto-Oceanic and Proto-Polynesian  & alignment, word order, verbal markers, possession, noun phrase marking \\ \hline
+\end{longtable}
+\FloatBarrier
+
 
 \subsection{R packages used}
 \label{supp:r_packages}
@@ -897,6 +1004,8 @@ Languages with missing data were pruned away in all analysis, no hidden state re
 
 For both Maximum Parsimony and Maximum Likelihood it is possible for a structural feature to appear and disappear several times along a lineage. This is different from cognate data where a cognate class cannot re-appear.
 
+\FloatBarrier
+\newpage
 \subsection{Supplementary Figure: distance Scatterplot Matrix}
 Fig. \ref{tree_dist_splom} shows the pairwise distances between the same tips in each of the different trees (in the case of the 100 random posterior trees it's the mean distances) and in addition Gower-distances between the same languages given all Grambank features.
 
@@ -907,7 +1016,8 @@ Fig. \ref{tree_dist_splom} shows the pairwise distances between the same tips in
 \label{tree_dist_splom}
 \end{figure}
 
-
+\FloatBarrier
+\newpage
 \subsection{Supplementary Figure: tree heatmap of Gray et al (2009)-MCCT and Grambank variables}
 \label{supp:fig_tree_heatmap}
 
@@ -915,13 +1025,14 @@ Fig. \ref{fig:tree_heatmap} shows the MCC-tree from \citet{grayetal_2009} and a 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=17cm]{illustrations/plots_from_R/coverage_plots/tree_heatmap_gray_mcct.png}
+\includegraphics[width=18cm]{illustrations/plots_from_R/coverage_plots/tree_heatmap_gray_mcct.png}
 \caption{MCC-tree from \citet{grayetal_2009} with Grambank data matrix. Purple = present, yellow = absent and striped = missing.}
 \label{fig:tree_heatmap}
 \end{figure}
 
 
-
+\FloatBarrier
+\newpage
 \subsection{Technical details on D-estimation}
 \label{supp:d_estimate}
 D-estimates are a tool for measuring phylogenetic signal in a set of binary data. Phylogenetic signal can be broadly described as the degree to which the data is generated by a given tree, or whether it was generated by some other process such as randomness. This particular method was proposed by \cite{fritz2010selectivity} and is implemented in the R-package caper by Fritz and Orome \citep{orme2013caper}. 
@@ -1349,32 +1460,19 @@ So we end up with \emph{the numerator of the numerator} on top of \emph{the nume
 
 \FloatBarrier
 
-\subsection{Binarisation of the Grambank features}
-\label{supp:dataset_details}
-Most of the feature questions are binary (GB027: Are nominal conjunction and comitative expressed by different elements?) but a few are multi-state (GB024 What is the order of numeral and noun in the NP? 1) Num-N, 2) N-Num, 3) both). For the analysis in this study, the multi-state features have been binarised. This is because the values of the multi-state features are not independent of each other; they all contain the value ``Both''. The value ``Num-N'' (numeral before noun) of GB024 is more similar to ``Both'' than it is to the other alternative ``N-Num''. The relationship between the three values are not equal or independent. The table in \ref{Grambank_features} contains a list of all the features used in this study, including the binarised features. The binarization results in a total of 201 features. 
 
-\FloatBarrier
+%
 
-
-\subsection{Grambank features}
-\label{Grambank_features}
-
-\begin{landscape}
-\input{"illustrations/plots_from_R/results/GB_features_supp_table.tex"}
-\end{landscape}
-\newpage
-
-
-\FloatBarrier
 
 \subsection{Further details on the tree phylogeny}
 \label{supp:tree_details}
 
-The tree from \citet{grayetal_2009} contains duplicates in terms of glottocodes (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language are included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate glottocodes were reduced to one, be it due to multiple word-lists or dialects. The specific analytical choices are found in the following two R-scripts:
+The tree from \citet{grayetal_2009} contains duplicates in terms of glottocodes (see for example Nakanai). This is because it is a tree of word-lists for languages (doculects) rather than languages themselves. There are also some instances where multiple dialects of one language are included. For the analysis, only one tip per language was retained, based on which had best coverage in the underlying data for the tree (i.e. the Austronesian Basic Vocabulary Database, ABVD \citep{ABVD}). This means that duplicate glottocodes were reduced to one, be it due to multiple word-lists or dialects. The specific analytical choices are found in the following three R-scripts:
 
 \begin{itemize}
-\item Oceanic\_computational\_ASR/code/analysis\_scripts\_gray\_mcct/03\_get\_gray\_tree\_mcct.R
-\item Oceanic\_computational\_ASR/code/analysis\_scripts\_gray\_all\_posterior/03\_process\_gray\_tree\_posteriors.R
+\item Oceanic\_computational\_ASR/code/01\_requirements.R
+\item Oceanic\_computational\_ASR/code/analysis\_scripts\_gray\_mcct/\\03\_get\_gray\_tree\_mcct.R
+\item Oceanic\_computational\_ASR/code/analysis\_scripts\_gray\_all\_posterior/\\03\_process\_gray\_tree\_posteriors.R
 \end{itemize}
 
 For both Maximum Parsimony and Maximum Likelihood the tree were first pruned down to only languages where there is data in Grambank for each given feature, i.e. the ASR-analysis never contains tips with missing or ambiguous data. Missing data varies with features, so each analysis per tree and method differs in number of tips.
@@ -1383,31 +1481,31 @@ For both Maximum Parsimony and Maximum Likelihood the tree were first pruned dow
 
 Regarding branch lengths, most of the trees in the analysis are not ultrametric, i.e. the distances between the tips and the roots are not all the same. If we use trees to represent history and time, then an ultrametric, or near-Ultrametric, tree is a more reasonable representation of said histories when we assume that the languages at the tips existed at the same time. Fig \ref{fig:branch_lengths} illustrates different configurations of branch lengths using only Nuclear Polynesian languages. It is reasonable to assume that the data gathered on these languages represent similar time-slices to each other, i.e. the representation of Rapa Nui is not considerably ``younger'' as a language than Tongan. If the tips included ancient languages, such as Sanskrit or Akkadian, it may be possible for such tips to have a shorter distance to the root than the others. However, if the languages are of a similar ``age'', the tree ought to be ultrametric or near-ultrametric if we understand tree length as representing time.
 
-The Glottolog genealogical classification follows common principles in historical linguistics by focusing on the validity of sub-grouping, not branch lengths. The Glottolog 4.5 tree does not include any information about branch lengths. This is interpreted as the same as if all branches are of the same length (they are explicitly all set to 1 in the analysis). In order to illustrate what this entails, consider the difference between Fig. \ref{glottolog_example_poly_1} and Fig. \ref{glottolog_example_poly_grafen}. The first is the Glottolog tree of Nuclear Polynesian as found originally, i.e. with all branches of the same length (1). The second is a transformation of the first, it has been made ultrametric by Grafen's transform \citep{grafen1989phylogenetic}, which is one of several approaches to making a tree ultrametric in lieu of branch lengths directly from the data. The second tree is \emph{not} used in the analysis, it is included here only to illustrate how the same sub-grouping of languages can be expressed when the branch lengths are changed. Transformations of branch lengths should be carried out with great care and with good reason. It is not clear what transformation of branch lengths in the Glottolog 4.5-tree is appropriate, which is why none has been carried out in the analysis of this paper.
+The Glottolog genealogical classification follows common principles in historical linguistics by focusing on the validity of sub-grouping, not branch lengths. The Glottolog 4.5 tree does not include any information about branch lengths. This is interpreted as the same as if all branches are of the same length (they are explicitly all set to 1 in the analysis). In order to illustrate what this entails, consider the difference between Fig. \ref{glottolog_example_poly_1} and Fig. \ref{glottolog_example_poly_grafen}. The first is the Glottolog tree of Nuclear Polynesian as found originally, i.e. with all branches of the same length (1). The second is a transformation of the first, it has been made ultrametric by Grafen's transform \citep{grafen1989phylogenetic}, which is one of several approaches to making a tree ultrametric in lieu of branch lengths directly from the data. The second tree is \emph{not} used in the analysis, it is included here only to illustrate how the same sub-grouping of languages can be expressed when the branch lengths are changed. Transformations of branch lengths should be carried out with great care and with good reason. It is not clear what transformation of branch lengths in the Glottolog 4.5-tree is appropriate, which is why none has been carried out in the analysis of this paper. Keeping the Glottolog 4.5-tree lacking branch lengths may also be more true to historical linguistics methodology.
 
 The branch lengths in the trees from \citet{grayetal_2009} are derived from the dynamics of the data --- the word-lists --- and certain priors regarding island settlement. The MCC-tree of \citet{grayetal_2009} is not ultrametric, but very close to it (see Fig \ref{gray_tree_branch_example}. After pruning to the subset that overlaps with Oceanic languages in Grambank (as described above), the difference between the tip with the largest distance to the root and the smallest is tiny (3.408377 -  3.408362). In the random sample of 100 from the 4,200 posteriors trees, the case is the same as with the MCCT --- they are not perfectly ultrametric but very close (see Fig \ref{gray_tree_branch_example_posteriors}. The trees from \citet{grayetal_2009} may not be perfectly ultrametric, but they are much more closer to ultrametric than the Glottolog tree, as can be seen by comparing the visualisations in Fig \ref{fig:branch_lengths}.
 
 \begin{figure}[ht]
 \centering
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.5\linewidth}
       \includegraphics[width=\textwidth]{illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_glottolog_1}
     \caption{Glottolog tree, all branches have the same length.}
     \label{glottolog_example_poly_1}
     \end{subfigure}
 \hfil
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.5\linewidth}
           \includegraphics[width=\textwidth]{illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_glottolog_grafen.png}
      \caption{Glottolog tree, made ultrametric with Grafen's method \citep{grafen1989phylogenetic}.}
       \label{glottolog_example_poly_grafen}
     \end{subfigure}
 
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.5\linewidth}
           \includegraphics[width=\textwidth]{illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_gray.png}
     \caption{\citet{grayetal_2009} MCCT.}
      \label{gray_tree_branch_example}
     \end{subfigure}
 \hfil
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.5\linewidth}
           \includegraphics[width=\textwidth]{illustrations/plots_from_R/tree_plots/poly_tree_example_brlen_gray_posterios.png}
     \caption{\citet{grayetal_2009} posteriors tree (random sample of 100). The densitree-visualisation is in phylogram-style.}
      \label{gray_tree_branch_example_posteriors}
@@ -1419,12 +1517,9 @@ The branch lengths in the trees from \citet{grayetal_2009} are derived from the 
 
 Concerning binary splits, there are non-binary splits in the Glottolog 4.5 tree, the \citet{grayetal_2009} MCCT and in 64 of the 100 posterior trees. For this analysis, we have chosen to not resolve these polytomies into binary splits in order to stay as true as possible to the original phylogeny. There are branches of length 0 in the MCCT and posterior trees. It is not possible to collapse these into polytomies as this may in cases introduce basal polytomies. Instead, 0.00011 length was added to all branches. Doing this removes branches of length 0 while maintaining the relative lengths of all branches in the tree.
 
-In some cases, pruning a given posterior tree to the relevant tips resulted in the tree becoming unrooted. In such cases, the tree was re-rooted using Nanggu [nang1262] as an outgroup. There were 4 such cases in the random sample of posteriors trees (random seed = 147).
+In some cases, pruning a given posterior tree to the relevant tips resulted in the tree becoming unrooted. In such cases, the tree was re-rooted using midpoint rooting \texttt{castor::root\_at\_midpoint()} \cite{R-castor}. There were 4 such cases in the random sample of posteriors trees (random seed = 147).
 
 All of the wrangling of the trees is found in the data analysis R-scripts that accompany this paper.
-
-
-
 \FloatBarrier    
 
 
@@ -1455,49 +1550,7 @@ GB094  &Can the P argument be indexed by a prefix/proclitic on the verb in the s
 \end{tabular}
 \end{table}
 
-\FloatBarrier
-\newpage
-\subsection{Table of historical linguistics sources surveyed}
-\label{supp:proto_lg_coding_table}
 
-\begin{longtable}{|p{3cm}|  p{5cm}| p{4cm} | p{3cm}  | p{3cm} |}
-\caption{{Table of historical linguistics publications used in this dissertation for Proto-Oceanic grammar}}
-\label{HL_prediction_table_summary} \\
-\hline
-\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
-\endfirsthead
-
-\hline
-\textbf{Citation}  & \textbf{Title} & \textbf{Proto-Languages}  & \textbf{Domains} \\ \hline
-\endhead
-
-
-\citet{pawley1970change} & Grammatical reconstruction and change on Polynesia and Fiji & Proto-Central Pacific  &Verbal markers and aspect particles \\ \hline
-
-\citet{pawley1973some} & Some problems in Proto-Oceanic & Proto-Oceanic and Proto-Polynesian  & Possession, noun phrase marking, negation, verbal markers, clusivity, word order  \\ \hline
-
-\citet{clark1973aspects} & Aspects of Proto-Polynesian syntax & Proto-Oceanic and Proto-Polynesian  & Alignment, negation, word order, possession, noun phrase marking, voice \\ \hline
-
-\citet{chung1978}  & Case marking and grammatical relations in Polynesian languages & Proto-Polynesian  & Alignment, word order, voice, noun phrase marking \\ \hline
-
-\citet{crowley1985common}  & Common noun phrase marking in Proto-Oceanic & Proto-Oceanic &  noun phrase marking, clusivity  \\ \hline
-
-\citet{jonsson1998} & Det polynesiska verbmorfemet \emph{-Cia}; om dess funktion i Samoanska & Proto-Polynesian & Verbal marker \\ \hline
-
-\citet{marck2000_encyclo} & Polynesian languages (in Facts About the World's Languages: An encyclopaedia of the world's major languages, past and present)& Proto-Central Pacific and Proto-Polynesian & Word order, verbal markers, possession, clusivity \\ \hline
-
-\citet{evans2003study} & A study of valency-changing devices in Proto Oceanic & Proto-Oceanic & Verbal markers \\ \hline
-
-\citet{ball2007ergativity} & On ergativity and accusativity in Proto-Polynesian and proto-Central Pacific&Proto-Polynesian & Alignment, voice \\ \hline
-
-\citet{kikusawa2001rotuman} & Rotuman and Fijian case-marking strategies and their historical development  & Proto-Oceanic & Possession, pronominal number \\ \hline
-
-\citet{kikusawa2002proto}  & Proto Central Pacific ergativity: Its reconstruction and development in the Fijian, Rotuman and Polynesian languages & Proto-Central Pacific   & Alignment, word order \\ \hline
-
-\citet{lynchrosscrowley_proto_grammar_oceanic} & The Oceanic Languages, paper 4: Proto-Oceanic & Proto-Oceanic, Proto-Central Pacific and Proto-Polynesian & Negation, word order, verbal markers, clusivity, possession, pronominal number, polar interrogation, nominalisations and more \\ \hline
-
-\citet{ross2004morphosyntactic}\footnote{This paper makes statements about ``canonical'' Oceanic languages, which is technically different from \emph{reconstruction} of Proto-Oceanic. However, the author does state that the ``canonic type is probably also a reflection of the morphosyntax of Proto Oceanic'' \citep[492]{ross2004morphosyntactic} and has given personal approval for the paper to be included in this study in this manner.}  & The morphosyntactic typology of Oceanic languages &  Proto-Oceanic and Proto-Polynesian  & alignment, word order, verbal markers, possession, noun phrase marking \\ \hline
-\end{longtable}
 
 \FloatBarrier
 %\subsection{Table of new predictions}
