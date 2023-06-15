@@ -2,20 +2,25 @@ source("01_requirements.R")
 
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
-phylo_d_df_raw <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
-  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") %>% 
-  distinct(Feature_ID, mean_D, mean_Pval1, mean_Pval0, summarise_col, tree_type, Feature_tree, min_p)
+phylo_d_df_full <-  read_tsv("output/HL_comparison/phylo_d//phylo_d_full.tsv") %>% 
+  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") 
+
+
+phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
+  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") 
+
+posteriors <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt") %>% length()
 
 #df of features that were exlcuded because too few tips
-phylo_d_df_missing <- phylo_d_df_raw %>% 
+phylo_d_df_missing <- phylo_d_df %>%  
   mutate(missing = ifelse(is.na(mean_D), 1, 0)) %>% 
   mutate(tree = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
   group_by(tree) %>% 
-  summarise(`Too few tips altogether` = sum(missing)) %>% 
-  mutate(`Too few tips altogether` = as.character(`Too few tips altogether`))
-
-phylo_d_df <-  phylo_d_df_raw %>% 
+  summarise(`Too few tips altogether` = sum(missing))  %>% 
+  mutate(`Too few tips altogether` = ifelse(str_detect(tree, "poster"),`Too few tips altogether`/posteriors, `Too few tips altogether`))  
+  
+phylo_d_df <-  phylo_d_df %>% 
     filter(!is.na(mean_D))
 
 #reading in reconstruction results
@@ -34,7 +39,7 @@ reconstruction_results_df <- read_tsv("output/all_reconstructions_all_methods_lo
 #joning and plotting
 
 joined_df <- reconstruction_results_df %>% 
-  inner_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "tree_type"), relationship = "many-to-many") %>% 
+  inner_join(phylo_d_df, by = c("Feature_tree", "Feature_ID", "Proto-language", "tree_type", "Prediction")) %>% 
   mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)")) %>% 
   distinct(Feature_tree, mean_D, summarise_col, method, `Proto-language`, .keep_all = T)
@@ -85,13 +90,18 @@ joined_df %>%
 
 ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_HL_concurrance.png"), width = 10, height = 9)
 
-table_P_values_summarised <- joined_df %>% 
+###############
+#latex tables##
+###############
+
+table_P_values_summarised <- phylo_d_df_full %>% 
   filter(!str_detect(tree_type, "common")) %>%
-  distinct(Feature_tree, tree_type, summarise_col) %>% 
   group_by(tree_type, summarise_col) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   complete(tree_type, summarise_col, fill = list(n = 0)) %>% 
-  reshape2::dcast(tree_type ~ summarise_col, value.var = "n") 
+  mutate(n = ifelse(str_detect(tree_type, "poster"),n/posteriors, n))  %>% 
+  reshape2::dcast(tree_type ~ summarise_col, value.var = "n")  
+  
 
 table_P_values_summarised_latex_green <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
@@ -118,7 +128,7 @@ table_P_values_summarised_latex_green  %>%
 
 table_P_values_summarised_latex_orange <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
-             #   "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
+                #   "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright singleton}}}$"= "singleton",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
@@ -140,18 +150,16 @@ table_P_values_summarised_latex_orange  %>%
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
 
-phylo_d_summarised_table <-  joined_df %>%
-  filter(!is.na(value)) %>% 
-  distinct(Feature_tree, tree_type, summarise_col, mean_D, mean_Pval0, mean_Pval1) %>% 
+phylo_d_summarised_table <-  phylo_d_df_full %>% 
   filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col == "similar to 1"|
            summarise_col == "similar to 0"|
            summarise_col == "similar to both, between 0 & 1"|
            summarise_col == "dissimilar to both, between 0 & 1")  %>%
-  mutate(Pval0_sig = ifelse(mean_Pval0 > 0.05 & mean_D < 1, "yes", "no")) %>%
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
   group_by(tree_type, Pval0_sig) %>%
   summarise(n = n(),
-            mean_D = first(mean_D),
+            mean_D = mean(Destimate),
             .groups = "drop") %>%
   group_by(tree_type) %>%
   mutate(sum = sum(n)) %>%
@@ -163,18 +171,18 @@ phylo_d_summarised_table <-  joined_df %>%
 
 if(all(phylo_d_summarised_table$tree == table_P_values_summarised_latex_orange$tree)) {
   
-phylo_d_summarised_table$`Not suitable for analysis due to skewed distribution` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
-
+  phylo_d_summarised_table$`Not suitable for analysis due to skewed distribution` <- table_P_values_summarised_latex_orange[,2] +  table_P_values_summarised_latex_orange[,3] + table_P_values_summarised_latex_orange[,4] 
+  
 }
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
- cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
- lbl <- "d_estimate_summary"
- align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
+cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
+lbl <- "d_estimate_summary"
+align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
 
- 
+
 phylo_d_summarised_table %>% 
   left_join(phylo_d_df_missing, by = "tree") %>%
   data.table::transpose(make.names = 1, keep.names = " ") %>%
