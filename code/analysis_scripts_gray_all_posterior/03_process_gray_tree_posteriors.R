@@ -37,6 +37,8 @@ multiPhylo_obj <- ""
 class(multiPhylo_obj) <- "multiPhylo"
 
 n_rerooted <- 0
+n_non_binary <- 0
+percent_non_binary_splits <- c()
 
 for(tree in 1:length(Gray_et_al_trees)){
   index <- index +1
@@ -74,10 +76,23 @@ if(!is.rooted(tree_pruned)){
   
   tree_pruned <- castor::root_at_midpoint(tree_pruned) %>% ladderize()
   n_rerooted <-  n_rerooted +1
-   }
+}
 
-# do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
-#tree_pruned <- ape::di2multi(tree_pruned)
+if(!is.binary(tree_pruned)){
+  # do not collapse 0-branches into polytomies, because it results in basal polytomies which breaks analysis
+  #tree_pruned <- ape::di2multi(tree_pruned)
+  n_non_binary <- n_non_binary + 1
+}
+
+polytomies_n <- tree_pruned$edge %>% 
+  as.data.frame() %>% 
+  group_by(V1) %>% 
+  summarise(n = n()) %>% 
+  filter(n > 2) %>% nrow()
+
+splits <- tree_pruned$edge[,1] %>% length()
+
+percent_non_binary_splits <- c(percent_non_binary_splits, polytomies_n / splits)
 
 tree_pruned$edge.length <- tree_pruned$edge.length + 1.1e-4 #add a tiny branch lenght to every branch so that there are no branches with 0 length
 
@@ -93,3 +108,12 @@ multiPhylo_obj[-1] %>%
   ape::write.tree(file = "output/processed_data/trees/gray_et_al_2009_posterios_pruned_multiPhylo.txt")
 
 cat(paste0("There were ", n_rerooted, " trees in the posterior that had to be re-rooted.\n"))
+
+
+mean_percent_non_binary_splits <- percent_non_binary_splits %>% mean() * 100
+
+
+
+cat(paste0("There were ", n_binary, " non-binary trees in the posterior. The mean percent of non-binary splits across all trees is ", round(mean_percent_non_binary_splits,digits = 2), "‰\n"))
+
+
