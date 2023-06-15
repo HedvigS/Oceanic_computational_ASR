@@ -68,12 +68,12 @@ basemap <- ggplot(glottolog_df_tip_values) +
         axis.text.y = element_blank(),  
         axis.ticks = element_blank())   +
   coord_map(projection = "vandergrinten") +
-  xlim(c(110, 255)) +
-  ylim(c(-56, 27))
+  scale_x_continuous(limits = c(110, 255) , expand=c(0,0)) +
+  scale_y_continuous(limits = c(-56, 27) , expand=c(0,0))
 
 
 #map plot for coverage of oceanic languages
-png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 15, units = "in", res = 300)
+png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 6, width = 10, units = "in", res = 300)
 
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
@@ -81,7 +81,8 @@ basemap +
               alpha = 0.5, shape = 17, width = 2) +
   scale_discrete_manual(aesthetics = c("color"), values = color_vector_tree) +
   labs(color='Coverage') +
-  theme(legend.position= c(0.8, 0.3))
+  theme(legend.position= c(0.8, 0.3)) 
+  
 
 x <- dev.off()
 
