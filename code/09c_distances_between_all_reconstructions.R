@@ -103,10 +103,12 @@ dist_matrix %>%
    revC = T,
    Rowv = F,
    Colv = F,
+   notecol = "white",
    lwid=c(0.1,4), lhei=c(0.1,4),
    trace = "none", cellnote = round(dist_matrix, 2),
    margin=c(20,20), 
-   col=viridis(15, direction = -1))
+   notecex = 1.5,
+   col=viridis(15, direction = -1, begin = 0, end = 0.8))
 
 x <- dev.off()
 
