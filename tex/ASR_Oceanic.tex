@@ -1,3 +1,5 @@
+%USE XeLaTeX compiler!!
+
 \documentclass[12pt,letterpaper]{article}
 \usepackage[lmargin=1.2in,rmargin=1.2in,tmargin=1in,bmargin=1in]{geometry}
 \usepackage[bf,tiny]{titlesec}
@@ -430,7 +432,7 @@ While Maximum Parsimony and conventional HL-ASR are similar, they have differenc
 %\subsection{Methods: Most Common}
 We will also compare the predictions of historical linguists with a ``dummy-model'' which is based solely on which value is the \textbf{Most Common} in the daughter languages of a given proto-language --- entirely disregarding the tree structure\footnote{This is similar to the frequency heuristic described in \citet{goldstein_2022}.}. In the toy example in Fig. \ref{fig:clark_tree}, this approach would reconstruct that the root had feature value ``X''. Whether we prefer Maximum Parsimony, Maximum Likelihood or another approach to reconstruction, it should be the case that actually taking the tree structure into account is the sounder methodology. %We expect that both methods has a higher degree of concordance with the findings in historical linguistics compared to only counting which value is most common.
 
-All analysis have been calculated in \texttt{R} \citep{R} using the packages \texttt{castor} (Parsimony, \citet{louca2017efficient}), \texttt{phangorn} (Parsimony, \citet{phangorn}) and \texttt{corHMM} (Maximum Likelihood, \citet{R-corHMM}). The packages \texttt{ape} \citep{paradis2004ape}, \texttt{adephylo} \citep{jombart2017package}, phytools \citep{revell2012phytools}, psych \citep{psych_r_package},  reshape2 \citep{wickham2020reshape2} and tidyverse \citep{tidyverse13} were also used for data wrangling, analysis, summarising and visualising\footnote{For a complete record of all R-packages used, see the supplementary material \ref{supp:r_packages}.}.
+All analysis have been calculated in \texttt{R} \citep{R} using the packages \texttt{castor} (Parsimony, \citet{louca2017efficient}), \texttt{phangorn} (Parsimony, \citet{phangorn}) and \texttt{R-corHMM} (Maximum Likelihood, \citet{R-corHMM}). The packages \texttt{ape} \citep{paradis2004ape}, \texttt{adephylo} \citep{jombart2017package}, phytools \citep{revell2012phytools}, psych \citep{psych_r_package},  reshape2 \citep{wickham2020reshape2} and tidyverse \citep{tidyverse13} were also used for data wrangling, analysis, summarising and visualising\footnote{For a complete record of all R-packages used, see the supplementary material \ref{supp:r_packages}.}.
 
 All of the R-code and data necessary for the analysis in this paper will be published alongside the paper, in Supplementary Materials and in archived web-storage (Zenodo).
 
@@ -865,7 +867,7 @@ The more methodology and analytical choices are made explicit, the easier it is 
 
 
 \bibliographystyle{unified}
-\bibliography{ASR_Oceanic, tex/bib_from_r/used_pkgs}
+\bibliography{ASR_Oceanic, bib_from_r/used_pkgs}
 
 \FloatBarrier
 
