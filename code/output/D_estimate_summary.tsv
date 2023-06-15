@@ -1,4 +1,4 @@
-tree	D-estimate (mean)	Proportion of features significantly similar to 0	Not suitable for analysis due to skewed distribution
-glottolog	0.25	49%	5
-Gray (2009) - mcct	0.45	62%	9
-Gray (2009) - posteriors	0.16	90%	12
+tree	D-estimate (mean)	Proportion of features significantly similar to 0	Too few tips altogether
+glottolog	0.3	52%	0
+gray_mcct	0.26	65%	1
+gray_posteriors	0.03	85%	1
