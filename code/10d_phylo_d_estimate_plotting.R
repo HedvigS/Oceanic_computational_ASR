@@ -189,8 +189,8 @@ align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}")
 phylo_d_summarised_table %>% 
   mutate(tree = str_replace(tree, "_", " - ")) %>%
   mutate(tree = str_replace(tree, "glottolog", "Glottolog")) %>% 
-  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>%
-  data.table::transpose(make.names = 1, keep.names = "tree") %>% 
+  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
+  data.table::transpose(make.names = 1, keep.names = " ") %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
