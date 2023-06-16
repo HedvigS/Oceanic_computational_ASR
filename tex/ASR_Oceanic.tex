@@ -21,7 +21,7 @@
 
 % extra packages
 \usepackage{placeins} %to enable float barriers
-\usepackage{CJKutf8} %chinese caracthers
+\usepackage{xeCJK} %for chinese characters
 \usepackage[table,dvipsnames]{xcolor} %for specifying colors
 \usepackage{amsmath} % for equations
 \usepackage{booktabs} % for nice looking tables
@@ -51,7 +51,7 @@
 \definecolor{spec_color_red}{HTML}{FFD9E0}
 \definecolor{spec_color_yellow}{HTML}{FCFFA8}
 
-
+%making chinese characters possible
 
 
 %%% preamble
@@ -842,7 +842,7 @@ Computational methods need not be in conflict with conventional approaches, they
 %\cite{mcmahon_2006}
 %This need not mean a return to glottochonology, this appears to be a misguided and overly simplistic approach , there are other alternatives.
 
-The future of research on the history of languages probably lies in the combination of human and computational labour. Curating lexical cognate data \citep{list2022lexibank} and constructing trees \citep{grayetal_2009} still rely on teams of expert linguists annotating word-lists for cognacy. Methods are being developed for automatic cognate detection (c.f. \citet{list2017potential}), but they are not yet ready to replace the vast human knowledge and experience of the experts in historical linguistics. However, once cognate classes, regular sound correspondences and structural features are identified, the work then turns to reconstructing history (sub-grouping or constructing trees/networks) and ASR (c.f. \ref{fig:HL_tasks}). For these tasks, there are suitable computational methods that can be applied such as those in this paper - and others (c.f. \citet{greenhill2015evolution}; \citet{gray_greenhill_defend_bayes} and \citet{joy2016ancestral}). Research into linguistic history can be greatly improved and effectivized by computational tools, which in turn can be given sensible priors and parameters to produce more reliable results in a future joint venture between classical and novel methods.
+The future of research on the history of languages probably lies in the combination of human and computational labour. Curating lexical cognate data \citep{list2022lexibank} and constructing trees \citep{grayetal_2009} still rely on teams of expert linguists annotating word-lists for cognacy. Methods are being developed for automatic cognate detection (c.f. \citet{list2017potential}), but they are not yet ready to replace the vast human knowledge and experience of the experts in historical linguistics. However, once cognate classes, regular sound correspondences and structural features are identified, the work then turns to reconstructing history (sub-grouping or constructing trees/networks) and ASR (c.f. Fig. \ref{fig:HL_tasks}). For these tasks, there are suitable computational methods that can be applied such as those in this paper - and others (c.f. \citet{greenhill2015evolution}; \citet{gray_greenhill_defend_bayes} and \citet{joy2016ancestral}). Research into linguistic history can be greatly improved and effectivized by computational tools, which in turn can be given sensible priors and parameters to produce more reliable results in a future joint venture between classical and novel methods.
 
 In order to improve these methods, we should attempt to include the knowledge that historical linguists have about plausibility of changes, harmonics of traits and contact events. Scholars of Oceanic languages have also acquired an immense knowledge of the languages, cultures and societies of the Pacific. This is why their research is so valuable and trusted. Some or all of this kind of information can be incorporated to guide computational methods, for example as priors in models. These priors should not be given the power to entirely constrain the outcomes, but guide the conclusions the method reaches given the data. In order for this to happen, more information needs to be made explicit in historical linguistics studies.
 
@@ -878,7 +878,7 @@ The more methodology and analytical choices are made explicit, the easier it is 
 
 \newpage
 \section*{Acknowledgements}
-I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, these are: Stephen Mann, Angela Chira, Jordan Brock, 華夏 Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, Sandra Auderset, Russell Gray and Hannah Haynie. Mary Walworth has been very helpful in reviewing the Grambank coding of Oceanic proto-languages. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.
+I am fortunate enough to have colleagues in academia who have been generous and helped me with technical matters and working through methodology conceptually, these are: Stephen Mann, Angela Chira, Jordan Brock,  華夏 Xià Huá, Cara Evans, Benedict King, Gerd Carling, Chundra Cathcart, Cristian Juárez, Viktor Martinović, Robert Tegethoff, Natalia Chousou-Polydouri, David Goldstein, Sandra Auderset, Russell Gray and Hannah Haynie. Mary Walworth has been very helpful in reviewing the Grambank coding of Oceanic proto-languages. I am also grateful to the two anonymous reviewers at Diachronica for their valuable feedback and to my former PhD supervisors Andrew Pawley, Nicholas Evans, Mark Ellison and Simon Greenhill who also provided valuable commentary. Any mistakes and misconceptions that remain are my own.
 
 %\section*{Abbreviations}
 %A list of abbreviations used in the text should appear here.
