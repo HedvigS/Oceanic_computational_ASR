@@ -72,7 +72,7 @@ accuracy_tables %>%
   mutate("Method" = str_replace_all(`Method`, "parsi", "Parsi")) %>% 
   mutate("Method" = str_replace_all(`Method`, "gray mcct", "Gray et al (2009) - MCCT ")) %>% 
   mutate("Method" = str_replace_all(`Method`, "gray posteriors", "Gray et al (2009) - posteriors ")) %>% 
-  mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog (4.4)")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog")) %>% 
   mutate("Method" = str_replace_all(`Method`, "most common most common", "Most common")) %>% 
   rename("$$\\textbf{\\parbox{2cm}{\\raggedright Method}}$$" = "Method") %>% 
         xtable(caption = cap, label = lbl,
