@@ -183,14 +183,16 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
   full_join(orange_for_summary, by = "tree_type") %>% 
   full_join(  phylo_d_df_missing, by = "tree_type") %>% 
-  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
+  mutate(`Too few tips altogether` = as.character(round(`Too few tips altogether`, digits = 0))) %>% 
+  mutate(`features unfit for D-estimate` = as.character(round(`features unfit for D-estimate`, digits = 0))) %>% 
+    dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
 
-phylo_d_summarised_table %>% 
+phylo_d_summarised_table %>%
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
 cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
 lbl <- "d_estimate_summary"
-align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
+align <- c("r", "p{4.5cm}","p{2.2cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
 
 
 phylo_d_summarised_table %>% 
