@@ -73,7 +73,7 @@ basemap <- ggplot(glottolog_df_tip_values) +
 
 
 #map plot for coverage of oceanic languages
-png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 6, width = 10, units = "in", res = 300)
+png(paste0(OUTPUTDIR_plots, "/coverage_plots/maps/coverage_map_oceanic.png"), height = 8, width = 14, units = "in", res = 300)
 
 basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
