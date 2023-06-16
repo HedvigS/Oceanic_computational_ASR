@@ -190,7 +190,7 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
 phylo_d_summarised_table %>%
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
-cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
+cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics. Posterios values are mean values over all 100 trees and features."
 lbl <- "d_estimate_summary"
 align <- c("r", "p{4.5cm}","p{2.2cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
 
