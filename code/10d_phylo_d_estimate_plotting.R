@@ -154,14 +154,14 @@ phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>%
   filter(summarise_col != "similar to both, above 1") %>% 
   filter(summarise_col != "similar to both, below 0") %>% 
   filter(summarise_col != "singleton")  %>%
-  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "yes", "no")) %>%
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "similar to 0", "dissimilar to 0")) %>% 
   group_by(tree_type, Pval0_sig) %>%
   summarise(n = n(), .groups = "drop") %>% 
   mutate(n = ifelse(str_detect(tree_type, "poster"),n/posteriors, n))  %>% 
   group_by(tree_type) %>%
   mutate(sum = sum(n)) %>%
   mutate(prop = n/sum) %>% 
-  filter(Pval0_sig == "yes") %>% 
+  filter(Pval0_sig == "similar to 0") %>% 
   ungroup() %>% 
   mutate(prop = paste0(round(x = prop,  digits = 2)*100, "%")) %>%
   dplyr::select(tree_type, `Proportion of features significantly similar to 0` = prop)
