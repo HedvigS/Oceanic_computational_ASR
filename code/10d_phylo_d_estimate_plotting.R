@@ -131,6 +131,12 @@ table_P_values_summarised_latex_orange <- table_P_values_summarised %>%
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
 
+orange_for_summary <- table_P_values_summarised_latex_orange %>% 
+  reshape2::melt(id.vars = "tree") %>% 
+  group_by(tree) %>% 
+  summarise(`features unfit for D-estimate` = sum(value)) %>% 
+  rename(tree_type = tree)
+
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
 lbl <- "phylo_d_summarise_col_orange"
@@ -175,22 +181,22 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   group_by(tree_type) %>% 
   summarise(mean_D = mean(Destimate) %>% round(2)) %>%
   full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
+  full_join(orange_for_summary, by = "tree_type") %>% 
   full_join(  phylo_d_df_missing, by = "tree_type") %>% 
-  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `Too few tips altogether`)
+  dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
 cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics."
 lbl <- "d_estimate_summary"
-align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
+align <- c("r", "p{6cm}","p{2.2cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}") 
 
 
 phylo_d_summarised_table %>% 
   mutate(tree = str_replace(tree, "_", " - ")) %>%
   mutate(tree = str_replace(tree, "glottolog", "Glottolog")) %>% 
   mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
-  data.table::transpose(make.names = 1, keep.names = " ") %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
