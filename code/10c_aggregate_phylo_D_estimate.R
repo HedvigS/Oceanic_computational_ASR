@@ -69,9 +69,8 @@ phylo_d_full <- df_all %>%
                                    Pval1 > 0.05, 
                                  "similar to 1", summarise_col))  %>% 
   mutate(summarise_col = if_else(Pval0 < 0.05 &
-                                   Pval1 < 0.05 & 
-                                   between(Destimate, lower = 0, upper = 1), 
-                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
+                                   Pval1 < 0.05, 
+                                 "dissimilar to both", summarise_col)) %>% 
   
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
@@ -115,9 +114,8 @@ phylo_d_df <- phylo_d_full %>%
                                    mean_Pval1 > 0.05, 
                                  "similar to 1", summarise_col))  %>% 
   mutate(summarise_col = if_else(mean_Pval0 < 0.05 &
-                                   mean_Pval1 < 0.05 & 
-                                   between(mean_D, lower = 0, upper = 1), 
-                                 "dissimilar to both, between 0 & 1", summarise_col)) %>% 
+                                   mean_Pval1 < 0.05, 
+                                 "dissimilar to both", summarise_col)) %>% 
   
   mutate(summarise_col = ifelse(min == 0, "all same", summarise_col)) %>%   
   mutate(summarise_col = if_else(min == 1, "singleton", summarise_col))
