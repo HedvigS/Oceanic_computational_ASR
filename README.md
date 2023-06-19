@@ -70,7 +70,9 @@ In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if t
 
 8.  comparison to HL predictions, including extra new predictions (code/09\_\*)
 
-9.  certain supplementary tables are created (code/10\_\*)
+9.  D-estimate analysis (code/10\_\*)
+
+10.  certain supplementary tables are created (code/11\_\*)
 
 # Running the analysis
 
