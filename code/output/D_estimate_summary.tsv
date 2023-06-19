@@ -1,4 +1,4 @@
-tree	D-estimate (mean)	Proportion of features significantly similar to 0	features unfit for D-estimate	Too few tips altogether
-glottolog	0.3	52%	6	0
-gray_mcct	0.26	65%	11	1
-gray_posteriors	0.03	85%	12	1
+tree	D-estimate (mean)	Proportion of features not significantly dissimilar to 0	features unfit for D-estimate	Too few tips altogether
+glottolog	0.34	47%	8	0
+gray_mcct	0.28	58%	17	1
+gray_posteriors	-0.01	81%	22	1
