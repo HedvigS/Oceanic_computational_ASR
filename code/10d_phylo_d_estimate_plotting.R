@@ -4,11 +4,11 @@ HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for
 
 phylo_d_df_full <-  read_tsv("output/HL_comparison/phylo_d//phylo_d_full.tsv") %>% 
   mutate(summarise_col = if_else(str_detect(summarise_col, "similar to both,"),"similar to both", summarise_col )) %>% #these three categories can be merged
-  inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many") 
+  inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many")  
 
 phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
   mutate(summarise_col = if_else(str_detect(summarise_col, "similar to both,"),"similar to both", summarise_col )) %>% #these three categories can be merged
-    inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many") 
+    inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many")
 
 posteriors <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt") %>% length()
 
@@ -17,7 +17,12 @@ phylo_d_df_missing <- phylo_d_df_full %>%
   mutate(missing = ifelse(is.na(Destimate), 1, 0)) %>% 
   group_by(tree_type) %>% 
   summarise(`Too few tips altogether` = sum(missing))  %>% 
-  mutate(`Too few tips altogether` = ifelse(str_detect(tree_type, "poster"),`Too few tips altogether`/posteriors, `Too few tips altogether`))  
+  mutate(`Too few tips altogether` = ifelse(str_detect(tree_type, "poster"),`Too few tips altogether`/posteriors, `Too few tips altogether`))  %>% 
+  mutate(tree_type =str_replace_all(tree_type, "glott", "Glott")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "gray_", "Gray ")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "mcct", "- MCCT")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "posteriors", "- posteriors")) 
+
   
 phylo_d_df <-  phylo_d_df %>% 
     filter(!is.na(mean_D))
@@ -82,7 +87,12 @@ table_P_values_summarised <- phylo_d_df_full %>%
   summarise(n = n(), .groups = "drop") %>% 
   complete(tree_type, summarise_col, fill = list(n = 0)) %>% 
   mutate(n = ifelse(str_detect(tree_type, "poster"),n/posteriors, n))  %>% 
-  reshape2::dcast(tree_type ~ summarise_col, value.var = "n")  
+  reshape2::dcast(tree_type ~ summarise_col, value.var = "n")   %>%
+  mutate(tree_type =str_replace_all(tree_type, "glott", "Glott")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "gray_", "Gray ")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "mcct", "- MCCT")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "posteriors", "- posteriors")) 
+
   
 
 table_P_values_summarised_latex_green <- table_P_values_summarised %>% 
@@ -161,6 +171,10 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   group_by(tree_type) %>% 
   summarise(mean_D = mean(Destimate) %>% round(2)) %>%
   full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
+  mutate(tree_type =str_replace_all(tree_type, "glott", "Glott")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "gray_", "Gray ")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "mcct", "- MCCT")) %>% 
+  mutate(tree_type =str_replace_all(tree_type, "posteriors", "- posteriors"))  %>%
   full_join(orange_for_summary, by = "tree_type") %>% 
   full_join(  phylo_d_df_missing, by = "tree_type") %>% 
   mutate(`Too few tips altogether` = as.character(round(`Too few tips altogether`, digits = 0))) %>% 
@@ -176,9 +190,6 @@ align <- c("r", "p{4.5cm}","p{2.2cm}","p{2.2cm}","p{2.2cm}", "p{2.2cm}")
 
 
 phylo_d_summarised_table %>% 
-  mutate(tree = str_replace(tree, "_", " - ")) %>%
-  mutate(tree = str_replace(tree, "glottolog", "Glottolog")) %>% 
-  mutate(tree = str_replace(tree, "gray", "Gray (2009)")) %>% 
   xtable(caption = cap, label = lbl,
          align = align) %>%
   xtable::print.xtable(file = file.path( OUTPUTDIR_plots , "D-estimate_summary.tex"),
