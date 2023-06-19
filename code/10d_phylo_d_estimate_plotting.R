@@ -3,11 +3,12 @@ source("01_requirements.R")
 HL_findings_sheet <- read_tsv("output/processed_data/HL_findings/HL_findings_for_comparison.tsv") 
 
 phylo_d_df_full <-  read_tsv("output/HL_comparison/phylo_d//phylo_d_full.tsv") %>% 
-  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") 
-
+  mutate(summarise_col = if_else(str_detect(summarise_col, "similar to both,"),"similar to both", summarise_col )) %>% #these three categories can be merged
+  inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many") 
 
 phylo_d_df <-  read_tsv("output/HL_comparison/phylo_d/phylo_d_df.tsv") %>% 
-  inner_join(HL_findings_sheet, by = "Feature_ID", relationship = "many-to-many") 
+  mutate(summarise_col = if_else(str_detect(summarise_col, "similar to both,"),"similar to both", summarise_col )) %>% #these three categories can be merged
+    inner_join(distinct(HL_findings_sheet, Feature_ID, .keep_all = T), by = "Feature_ID", relationship = "many-to-many") 
 
 posteriors <- list.files("output/processed_data/trees/gray_et_al_2009_posterior_trees_pruned/", pattern = "*.txt") %>% length()
 
@@ -54,26 +55,9 @@ joined_df %>%
 
 joined_df %>% 
   filter(tree_type != "most_common") %>% 
- filter(summarise_col != "similar to 0") %>%
- filter(summarise_col != "similar to both, below 0") %>%
-filter(summarise_col != "similar to both, above 1") %>%
- filter(summarise_col != "similar to both, between 0 & 1")  %>%
- filter(!is.na(value)) %>% 
- filter(mean_D < 5) %>%
- filter(mean_D > -5) %>%
- ggplot(mapping = aes(x = mean_D, y = value)) +
- geom_point(mapping = aes(color = summarise_col)) +
- ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
-                  label.y.npc="bottom", label.x.npc = "left", alpha = 0.8)
-
-
-#plot of correlation between d-estimate and agreement with HL, excluding d-estimates that are inappropriate
-joined_df %>% 
-  filter(tree_type != "most_common") %>% 
-  filter(summarise_col != "all same"|
-           summarise_col != "similar to both, above 1"|
-           summarise_col != "similar to both, below 0",
-         summarise_col != "singleton")  %>%
+  filter(summarise_col != "similar to both") %>%
+  filter(summarise_col != "all same") %>%
+  filter(summarise_col != "singleton") %>%
   filter(!is.na(value)) %>% 
   ggplot(mapping = aes(x = mean_D, y = value)) +
   geom_point(mapping = aes(color = summarise_col)) +
@@ -104,13 +88,12 @@ table_P_values_summarised <- phylo_d_df_full %>%
 table_P_values_summarised_latex_green <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
                 "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to 0}}}$"= "similar to 0", 
-                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to both, between 0 \\& 1}}}$" = "similar to both, between 0 & 1", 
                 "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright similar to 1}}}$"=  "similar to 1", 
-                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright dissimilar to both, between 0 \\& 1}}}$"=  "dissimilar to both, between 0 & 1")
+                "$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright dissimilar to both}}}$"=  "dissimilar to both")
 
 cap <- "Table of types of D-estimates per tree, data-points included."
 lbl <- "phylo_d_summarise_col_green"
-align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm}","p{3cm}") 
+align <- c("r","p{3cm}", "p{3cm}", "p{3cm}","p{3cm}") 
 
 table_P_values_summarised_latex_green  %>% 
   xtable(caption = cap, label = lbl,
@@ -126,17 +109,15 @@ table_P_values_summarised_latex_green  %>%
 
 table_P_values_summarised_latex_orange <- table_P_values_summarised %>% 
   dplyr::select(tree = tree_type, 
-                #   "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
+                   "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright all same}}}$"= "all same",
                 "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright singleton}}}$"= "singleton",
-                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, above 1}}}$"= "similar to both, above 1",
-                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both, below 0}}}$"= "similar to both, below 0")
+                "$\\textbf{\\cellcolor{spec_color_orange!50}{\\parbox{2.7cm}{\\raggedright similar to both}}}$"= "similar to both")
 
 orange_for_summary <- table_P_values_summarised_latex_orange %>% 
   reshape2::melt(id.vars = "tree") %>% 
   group_by(tree) %>% 
   summarise(`features unfit for D-estimate` = sum(value)) %>% 
   rename(tree_type = tree)
-
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
 lbl <- "phylo_d_summarise_col_orange"
@@ -153,14 +134,14 @@ table_P_values_summarised_latex_orange  %>%
                        table.placement = "ht",
                        booktabs = TRUE, hline.after = c(-1, 0, nrow(table_P_values_summarised_latex_orange))) 
 
+
 #summary
 phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>% 
   filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col != "all same") %>% 
-  filter(summarise_col != "similar to both, above 1") %>% 
-  filter(summarise_col != "similar to both, below 0") %>% 
+  filter(summarise_col != "similar to both") %>% 
   filter(summarise_col != "singleton")  %>%
-  mutate(Pval0_sig = ifelse(Pval0 > 0.05 & Destimate < 1, "similar to 0", "dissimilar to 0")) %>% 
+  mutate(Pval0_sig = ifelse(Pval0 > 0.05, "similar to 0", "dissimilar to 0")) %>% 
   group_by(tree_type, Pval0_sig) %>%
   summarise(n = n(), .groups = "drop") %>% 
   mutate(n = ifelse(str_detect(tree_type, "poster"),n/posteriors, n))  %>% 
@@ -170,14 +151,13 @@ phylo_d_summarised_table_pval0sig <-  phylo_d_df_full %>%
   filter(Pval0_sig == "similar to 0") %>% 
   ungroup() %>% 
   mutate(prop = paste0(round(x = prop,  digits = 2)*100, "%")) %>%
-  dplyr::select(tree_type, `Proportion of features significantly similar to 0` = prop)
+  dplyr::select(tree_type, `Proportion of features not significantly dissimilar to 0` = prop)
 
 phylo_d_summarised_table <- phylo_d_df_full %>%   
   filter(!str_detect(tree_type, "common")) %>%
   filter(summarise_col != "all same") %>% 
-  filter(summarise_col != "similar to both, above 1") %>% 
-  filter(summarise_col != "similar to both, below 0") %>% 
   filter(summarise_col != "singleton")  %>%
+  filter(summarise_col != "similar to both")  %>% 
   group_by(tree_type) %>% 
   summarise(mean_D = mean(Destimate) %>% round(2)) %>%
   full_join(phylo_d_summarised_table_pval0sig, by = "tree_type") %>% 
@@ -185,9 +165,9 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   full_join(  phylo_d_df_missing, by = "tree_type") %>% 
   mutate(`Too few tips altogether` = as.character(round(`Too few tips altogether`, digits = 0))) %>% 
   mutate(`features unfit for D-estimate` = as.character(round(`features unfit for D-estimate`, digits = 0))) %>% 
-    dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features significantly similar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
+    dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features not significantly dissimilar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
 
-phylo_d_summarised_table %>%
+phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
 
 cap <- "Table showing D-estimate (phylogenetic signal) of Grambank features that map onto research in traditional historical linguistics. Posterios values are mean values over all 100 trees and features."
