@@ -70,6 +70,7 @@ joined_df %>%
                    label.y.npc="bottom", label.x.npc = "left", alpha = 0.8) +
   geom_smooth(method='lm', formula = 'y ~ x') +
   facet_grid(tree_type~method) +
+  scale_y_continuous(breaks=c(0, 0.5, 1), limits = c(-0.1,1.1)) +
   theme_minimal() +
   theme(legend.title = element_blank()) +
   xlab ("D-estimate (mean)") +
