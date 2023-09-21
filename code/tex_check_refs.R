@@ -15,7 +15,7 @@ tex <- readLines("../tex/ASR_Oceanic.tex") %>%
   mutate(text = str_replace(text, "\\[.*\\]", "")) %>% #remove page number arguments
   mutate(text = str_replace(text, "\\\\cite.*\\{", "")) %>% #remove cite command
   mutate(text = str_replace(text, "\\}", "")) %>% #remove last curly bracket
-  mutate(text = str_replace(text, "\\}", "")) #remove last curly bracket
+  mutate(text = str_replace(text, "\\}.*", "")) #remove last curly bracket
 
 cat(paste0("You used ", tex %>% nrow(), " citations.\n"))
 cat(paste0("You cited ", distinct(tex) %>% nrow(), " unique papers.\n"))
