@@ -14,6 +14,7 @@ tex <- readLines("../tex/ASR_Oceanic.tex") %>%
   mutate(text = str_extract(text, "\\\\cite.*\\}")) %>% #extract so that irrelevant things are dropped
   mutate(text = str_replace(text, "\\[.*\\]", "")) %>% #remove page number arguments
   mutate(text = str_replace(text, "\\\\cite.*\\{", "")) %>% #remove cite command
+  mutate(text = str_replace(text, "\\}", "")) %>% #remove last curly bracket
   mutate(text = str_replace(text, "\\}", "")) #remove last curly bracket
 
 cat(paste0("You used ", tex %>% nrow(), " citations.\n"))
@@ -27,3 +28,7 @@ table(tex$text) %>%
   arrange(desc(Freq)) %>% 
   .[1:5,] %>% 
   as.matrix())
+
+tex %>% 
+  distinct(text) %>% 
+  write_tsv("output/processed_data/tex_refs.tsv")
