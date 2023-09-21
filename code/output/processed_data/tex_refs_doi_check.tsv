@@ -1,113 +1,107 @@
 text	added doi
-bellwood2011holocene	yes
-maclaurin2008biodiversity.	yes
-schulmeister2004comparative	yes
-Redelings_2021_BAli-Phy	yes
-savage2009single	yes
-grambank_release	yes
-walkden_2013	yes
-holland2020accuracy	yes
-evans2021uses	yes
-blomberg2002tempo	yes
-glottolog4_5	yes
-grayetal_2009	yes
-blust2004	yes
-greenhill2011pollex	yes
 ABVD	yes
-lightfoot_2002b	yes
-pereltsvaig2015indo_dates	yes
-goldstein_2022	yes
-wals-44	yes
-chung1978	yes
-kikusawa2002proto	yes
-ball2007ergativity	yes
-harris2008reconstruction	yes
-jager2016inferring	yes
-drummond2015bayesian	yes
-joy2016ancestral	yes
-watts2016ritual	yes
-pagel1999inferring	yes
-wals-81	yes
-grace1958position	NA
-pawley1972internal	NA
-geraghty1996	NA
-clark1973aspects	NA
-kikusawa_2006_pro_number	NA
-hale_1968	NA
-hohepa_1969	NA
-chung1977aspects	NA
-protooceanicvol1	ISBN
-felsenstein2004inferring	ISBN
-blust1996neogrammarian	ISBN
-campbell1996sound	ISBN
-pawley2005meaning	ISBN
 anttila1989historical	ISBN
-blomberg2003testing	yes
-borges2019measuring	yes
-ives2010phylogenetic	yes
-fritz2010selectivity	yes
-macklin2021phylogenetic	yes
-hubler2022phylogenetic	yes
-orme2013caper	NA
-schlegel1808sprache	ISBN
-lamarck1809philosophie	yes
-greenhill2015evolution	yes
-darwin1859origin	yes
 atkinson2005curious	yes
-jager2018using	yes
+ball2007ergativity	yes
+bellwood2011holocene	yes
+blomberg2002tempo	yes
+blomberg2003testing	yes
+blust_chen_2017	yes
+blust1996neogrammarian	ISBN
+blust2004	yes
+borges2019measuring	yes
+bouckaert2014densitree	yes
+campbell1996sound	ISBN
 carling2021reconstructing	yes
 chang2015ancestry	yes
-pagel2004bayesian	yes
-ronquist2004bayesian	yes
-liggett2010continuous	yes
-huelsenbeck2003stochastic	yes
+chung1977aspects	NA
+chung1978	yes
+clark1973aspects	NA
+crowley1985common	NA
+cunningham1998reconstructing	yes
+d_place_all	yes
+darwin1859origin	yes
+drummond2015bayesian	yes
+evans2003study	ISBN
+evans2021uses	yes
+felsenstein2004inferring	ISBN
+fritz2010selectivity	yes
+geraghty1996	NA
+glottolog4_5	yes
+goddard1993algonquian	yes
+goldstein_2022	yes
 goldstein_2022.	yes
-R	yes
-louca2017efficient	
-phangorn	
-R-corHMM	
-paradis2004ape	
-jombart2017package	
-revell2012phytools	
-psych_r_package	
-wickham2020reshape2	
-tidyverse13	
-sasaki2007truth	
-hammarstrom2018simultaneous	
-slingerland2020coding	
+grace1958position	NA
+grafen1989phylogenetic	yes
+grambank_analysed_1_0	yes
+grambank_dataset_zenodo_v1	yes
+grambank_release	yes
+gray_greenhill_defend_bayes	yes
+grayetal_2009	yes
+greenhill2011pollex	yes
+greenhill2015evolution	yes
+hale_1968	NA
+hammarstrom2018simultaneous	yes
+harris2008reconstruction	yes
+hohepa_1967	NA
+hohepa_1969	NA
+holland2020accuracy	yes
+hubler2022phylogenetic	yes
+huelsenbeck2003stochastic	yes
+ives2010phylogenetic	yes
+jager2016inferring	yes
+jager2018using	yes
+jombart2017package	R-package
+jonny_ML.	NA
+jonsson1998	NA
+joy2016ancestral	yes
+kikusawa_2006_pro_number	NA
+kikusawa2001rotuman	yes
+kikusawa2002proto	yes
+lamarck1809philosophie	yes
+liggett2010continuous	yes
+lightfoot_2002b	yes
+list2017potential	yes
+list2022lexibank	yes
+louca2017efficient	yes
+lynchrosscrowley_proto_grammar_oceanic	isbn
+macklin2021phylogenetic	yes
+maclaurin2008biodiversity	yes
+marck2000_encyclo	isbn
+orme2013caper	NA
+pagel1994detecting	yes
+pagel1999inferring	yes
+pagel2004bayesian	yes
+paradis2004ape	R-package
+pawley1970change	isbn
+pawley1972internal	NA
+pawley1973some	yes
+pawley2005meaning	ISBN
+pereltsvaig2015indo_dates	yes
+phangorn	R-package
+protooceanicvol1	ISBN
 protooceanicvol5	ISBN
-	
-ross2004morphosyntactic	
-blust_chen_2017).	
-bouckaert2014densitree	
-marck2000_encyclo	
-crowley1985common	
-hohepa_1967	
-jonsson1998	
-goddard1993algonquian	
-evans2003study	
-pawley1973some	
-lynchrosscrowley_proto_grammar_oceanic	
-pawley1970change	
-ross2007two	
-list2022lexibank	
-list2017potential	
-gray_greenhill_defend_bayes	
-d_place_all	
-grambank_analysed_1_0	
-grambank_dataset_zenodo_v1	
-kikusawa2001rotuman	
-sankoff1975minimal	
-wilks1938large	
-fisher1912absolute	
-pagel1994detecting	
-cunningham1998reconstructing	
-jonny_ML.	
-revell_2014	
-yang2006computational	
-flushright	
-van1979information.	
-van1979information	
-grafen1989phylogenetic	
-grafen1989phylogenetic.	
-R-castor	
+psych_r_package	R-package
+R	yes
+R-castor	R-package
+R-corHMM	R-package
+Redelings_2021_BAli-Phy	yes
+revell_2014	Na
+revell2012phytools	R-package
+ronquist2004bayesian	yes
+ross2007two	isbn
+sankoff1975minimal	yes
+sasaki2007truth	NA
+savage2009single	yes
+schlegel1808sprache	ISBN
+schulmeister2004comparative	yes
+slingerland2020coding	yes
+tidyverse13	R-package
+van1979information	isbn
+walkden_2013	yes
+wals-44	yes
+wals-81	yes
+watts2016ritual	yes
+wickham2020reshape2	R-package
+wilks1938large	yes
+yang2006computational	yes
