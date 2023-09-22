@@ -54,10 +54,6 @@ posteriors:
 	Rscript analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R
 	Rscript analysis_scripts_gray_all_posterior/07b_get_ancestral_states_ML_gray_posteriors.R
 	Rscript analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
-
-# cd Git/HedvigS/Oceanic_computational_ASR/code
-# Rscript analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.r 10 20
-# Rscript 10b_get_phylo_D_estimate.R 20 60
 	
 compare_HL: 
 	Rscript 09a_compare_to_HL.R
