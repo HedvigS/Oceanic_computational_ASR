@@ -4,13 +4,13 @@ This is a set of R scripts that take data on grammatical features of Oceanic lan
 
 This is a document outlining the structure of this research project's code.
 
-This project is entirely coded in R. The scripts are set up such that they can be called individually or from a makefile. Please note: they will *install required R packages* and make subdirectories for organising output.
+This project is entirely coded in R. The scripts are set up such that they can be called individually and by Makefile rules. Please note: they will do the following on your local machine: a) *install required R packages* if they are not installed and b) make subdirectories for organising output.
 
 # Location of data
 
 -   The coding of individual languages are found here: `code/output/GB_wide/GB_wide_binarized.tsv`
 -   The descriptions of features are found here: `code/output/GB_wide/parameters_binary.tsv`
--   The coding of proto-languages is also found her in a summarized form: `code/output/processed_data/HL_findings_for_comparison.tsv`
+-   The coding of proto-languages is also found her in a summarized form: `code/output/processed_data/HL_findings/HL_findings_for_comparison.tsv`
 -   The datapoints where historical linguists disagree are found here: `code/data/HL_findings_conflicts.tsv`
 -   The trees are found here: `code/output/processed_data/trees`
 -   The grouping of languages into island groups are found here: `code/data/island_groups.tsv`
@@ -96,7 +96,7 @@ All analysis is possible to run on a personal computer, cluster access it not ne
 
 The datasets and the trees are aggregated such that the tips and unit of analysis are languages, not a dialects (given Glottolog's definitions). For the grambank dataset, I'm choosing the dialect with the least amount of missing data.
 
-For the Gray et al 2009-tree I have hand picked which dialect to use if there is more than one based on data quality in ABVD (see 03_get_gray_tree_mcct.R and 03_process_gray_tree_posteriors.R). The remaining dialects are replaced by their language-leveled parent's glottocode.
+For the Gray et al 2009-tree I have hand-picked which dialect to use if there is more than one based on data quality in ABVD (see [list here for duplciates to drop](https://github.com/HedvigS/Oceanic_computational_ASR/blob/aec63bdc1e30f94ecaca4158ab4d2afbb4c59585/code/01_requirements.R#L227)). The remaining dialects are replaced by their language-leveled parent's glottocode.
 
 # Note on tree pruning
 
@@ -109,7 +109,7 @@ These scripts output TeX-formatted tables and plots which are in turn read into 
 # Requirements
 
 1.  R should be installed. I haven't done thorough testing, but it should most likely be at least R 3.0.
-2.  R packages. `code/01_requirements.R` will install R packages on your machine directly. It is called at the start of all analysis scripts.
+2.  R packages. `code/01_requirements.R` will install and load R packages on your machine directly. It is called at the start of all analysis scripts.
 
 # Feedback
 
