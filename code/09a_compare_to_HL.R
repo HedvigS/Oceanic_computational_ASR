@@ -8,9 +8,8 @@ full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv", col_types
   group_by(tree_type, method, value) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   unite(method, tree_type, remove = T, col = "Method", sep = " ") %>% 
-  reshape2::dcast(Method ~ value, value.var = "n")
-  
-full_df[is.na(full_df)] <- 0
+  reshape2::dcast(Method ~ value, value.var = "n") %>% 
+  mutate(`False Positive` = ifelse(Method =="most_common most_common" & is.na(`False Positive`), 0 ,`False Positive`)) # there are no False Positive for most common, so it should be 0.
 
 accuracy_tables <- full_df %>% 
 #  column_to_rownames("variable") %>% 
