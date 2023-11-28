@@ -116,8 +116,3 @@ diff_matrix %>%
   as.data.frame() %>% 
   rownames_to_column("score") %>% 
   write_tsv("output/HL_comparison/diff_hl_comparison.tsv")
-
-dist_matrix %>% 
-  as.data.frame() %>% 
-  rownames_to_column("score") %>% 
-  write_tsv("output/HL_comparison/dist_hl_comparison.tsv")
