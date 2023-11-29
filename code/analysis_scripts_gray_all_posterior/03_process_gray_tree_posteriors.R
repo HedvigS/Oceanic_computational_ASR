@@ -114,6 +114,6 @@ mean_percent_non_binary_splits <- percent_non_binary_splits %>% mean() * 100
 
 
 
-cat(paste0("There were ", n_binary, " non-binary trees in the posterior. The mean percent of non-binary splits across all trees is ", round(mean_percent_non_binary_splits,digits = 2), "‰\n"))
+cat(paste0("There were ", n_non_binary, " non-binary trees in the posterior. The mean percent of non-binary splits across all trees is ", round(mean_percent_non_binary_splits,digits = 2), "‰\n"))
 
 
