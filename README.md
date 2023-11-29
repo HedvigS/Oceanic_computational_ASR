@@ -92,6 +92,81 @@ The scripts will install R-packages if they are not already installed (see code/
 
 All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
 
+# List of content in the folder "code"
+
+**Makefile**
+Makefile - Makefile with rules  for running analysis that can be executed from command line. See section *Running the analysis* above.
+
+**Processing, analysis, visualisation and  results**
+01_check_used_functions.R - checks what functions are being used in all R-scripts and makes files for tex to use in order to cite every package appropriately
+01_requirements.R - installs and loads packages, creates output dirs if necessary and establishes certain stable variables called on later by other scripts
+02_get_zenodo_dirs.R - gets data-sets from Zenodo
+02_get_glottolog_language_table.R - creates a table of languiods from glottolog-cldf
+02_get_grambank_data.R - creates necessary grambank files, using Grambank-analysed scripts. Sets working directory to inside Grambank-analysed and then sets it back.
+02_massage_HL_findings_sheets.R - manipulates the sheets of coding of proto-languages based on classical linguistics
+analysis_scripts_gray_all_posterior/03_process_gray_tree_posteriors.R - samples 100 trees from the 
+posterior, checks for non-binary splits, prunes to dataset, change tips to glottocodes etc.
+analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R - reads in mcct tree, prunes to dataset, change tips to glottocodes etc.
+03_prune_glottolog_tree.R - prunes and manipulates glottolog trees
+03_compare_dists.R - compares the patristic distances between trees
+03_coverage_viz.R - makes plots to illustrate data coverage
+03_densitree.R - makes plot to show densities of posteriors
+03_polynesian_viz.R - makes plot to exemplify Polynesian languages for feature GB409
+03_tree_heatmap.R - makes plot of tree heat map (Gray et al 2009 MCCT
+04_ASR_parsimony_glottolog.R - runs analysis of MP on glottolog tree
+05_ASR_ML_glottolog.R - runs analysis of ML on glottolog-tree
+
+07a_get_ancestral_states_parsimony_glottolog.R - fetches the specific ancestral states given MP on the glottolog tree
+07b_get_ancestral_states_ML_glottolog.R - - fetches the specific ancestral states given ML on the glottolog tree
+
+analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mcct.R - runs analysis of MP on gray et al 2009 MCCT
+analysis_scripts_gray_mcct/05_ASR_ML_gray_mcct.R  - runs analysis of ML on gray et al 2009 MCCT
+analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R - fetches the specific ancestral states given MP on the gray et al 2009 MCCT
+analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R - fetches the specific ancestral states given ML on the gray et al 2009 MCCT
+
+
+analysis_scripts_gray_all_posterior/04_ASR_parsimony_gray_posteriors.R - runs analysis of MP on gray et al 2009 posteriors
+analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R - runs analysis of ML on gray et al 2009 posteriors
+analysis_scripts_gray_all_posterior/07a_get_ancestral_states_parsimony_gray_posteriors.R- fetches the specific ancestral states given MP on the gray et al 2009 posteriors
+analysis_scripts_gray_all_posterior07b_get_ancestral_states_ML_gray_posteriors.R
+analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
+
+07d_get_ancestral_states_most_common.R - - fetches the specific ancestral states given MC (disregards trees)
+
+08_aggregate_all_reconstructions.R - combines all the ancestral states from all methods and all trees 
+09a_compare_to_HL.R - compares the output of 08_aggregate_all_reconstructions.R to the classical HL coding (non-conflicts)
+09b_compare_to_HL_conflicts.R - compares the output of 08_aggregate_all_reconstructions.R to the classical HL coding specifically when HLs disagree
+09c_distances_between_all_reconstructions.R - compares the Gower-distances between all reoncstructions (including HL)
+09d_extra_predictions.R - compiles a table of reconstructions from MP, ML and MC for features that don't have a match to HL
+09e_compare_scores_against_props.R - compares the reconstruction agreement to the proportion of values that are in the most common state
+10a_phylo_d_investigation.R - script that investigates some perculariies of caper::phylo.d
+10b_get_phylo_D_estimate.R - gets phylo-d score for all features and all trees
+10c_aggregate_phylo_D_estimate.R - aggregates dat from 10b_get_phylo_D_estimate.R 
+10d_phylo_d_estimate_plotting.R - plots from 10c_aggregate_phylo_D_estimate.R 
+11_make_supp_tables.R - makes nice latex tables for supplementary material
+
+**Functions**
+
+fun_custom_parsimony_results_table.R - functions for making parsimony results table
+fun_def_get_zenodo.R - function for downloading Zenodo data
+fun_def_h_load.R - function  for checking packages are installed and if not installs them
+fun_def_list.functions.R - modified version of NCmisc::list.functions.in.file that reports all functions (doesn't run un ique())
+fun_def_plotRECON_tweaked.R - modified version of corHMM::plotRECON with some aesthetics options (e.g. removing margins)
+fun_get_ASR_nodes.R - function for fetching ancestral states
+fun_keep_as_tip.R - modified function of ape::keep.tip for internal nodes
+
+**misc**
+tex_check_refs.R - script to check references used in the tex-document
+config.json - json of file locations
+
+
+**Folders**
+
+output - all output. All contents of this folder can be deleted and then regenerated by running the scripts
+data - input data that is not fetched from Zenodo
+analysis_scripts_gray_mcct - R-scripts specifically dealing with the Gray et al 2009-MCCT
+analysis_scripts_gray_all_posterior - - R-scripts specifically dealing with the Gray et al 2009 posteriors
+
 # Notes on dialect aggregation
 
 The datasets and the trees are aggregated such that the tips and unit of analysis are languages, not a dialects (given Glottolog's definitions). For the grambank dataset, I'm choosing the dialect with the least amount of missing data.
