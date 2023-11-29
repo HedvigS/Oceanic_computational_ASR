@@ -88,7 +88,7 @@ script_with_most_functions <-  used_packages %>%
   summarise(n = n()) %>% 
   arrange(desc(n)) 
 
-cat("The top 5 scripst which use the most functions:\n ")
+cat("The top 5 scripts which use the most functions:\n ")
 script_with_most_functions [1:5,]
 
 #generating bibtex file of all the packages where you've used at least one funciton
@@ -96,9 +96,13 @@ h_load("knitr")
 
 output_fn <- "../tex/bib_from_r/used_pkgs.bib"
 
-knitr::write_bib(most_used$packages, file = output_fn)
+extra_packages <- c("ggpubr", "cluster", "psych", "bib2df", "knitr", "remotes")
 
-cat(paste0("Wrote citations for packages you've used to", output_fn, ".\n There were ", length(!is.na(most_used$packages %>% unique()))
+pkgs <- c(unique(as.character(most_used$packages)), extra_packages)
+
+knitr::write_bib(pkgs, file = output_fn)
+
+cat(paste0("Wrote citations for packages you've used to", output_fn, ".\n There were ", length(pkgs)
 , " entries.\n" ))
 
 #optional part, this generates a text string with the bibtex citation KEYS from earlier that you can then paste into LaTeX in order to cite all
