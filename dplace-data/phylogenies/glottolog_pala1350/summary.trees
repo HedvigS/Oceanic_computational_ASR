@@ -1,0 +1,4 @@
+#NEXUS
+Begin trees;
+    tree glottolog_pala1350 = (achu1247:1,atsu1245:1);
+end;
