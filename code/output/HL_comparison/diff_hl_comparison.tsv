@@ -1,0 +1,9 @@
+score	glottolog parsimony prediction	gray mcct parsimony prediction	gray posteriors parsimony prediction	glottolog ML prediction	gray mcct ML prediction	gray posteriors ML prediction	most common prediction	HL prediction
+glottolog parsimony prediction	0	35	25.5	32.5	55	11.5	49	12
+gray mcct parsimony prediction	35	0	16.5	61.5	60.5	11.5	54	16
+gray posteriors parsimony prediction	25.5	16.5	0	54	53	10.5	52.5	15
+glottolog ML prediction	32.5	61.5	54	0	72.5	13.5	67.5	15
+gray mcct ML prediction	55	60.5	53	72.5	0	7.5	57	15.5
+gray posteriors ML prediction	11.5	11.5	10.5	13.5	7.5	0	14	15
+most common prediction	49	54	52.5	67.5	57	14	0	13
+HL prediction	12	16	15	15	15.5	15	13	0
