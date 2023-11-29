@@ -32,7 +32,7 @@ GitHub locations:
     -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
 * dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
-It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary  for this particular studdy and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
+It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary  for this particular study and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necessary files based on external data.
 
 The necessary code for updating and initialising the submodules is:
 
@@ -50,7 +50,7 @@ git -C dplace-data checkout v2.2.1
 
 After this, it is advisable to run `git submodule update --init --recursive` again to make sure all is fetched correctly.
 
-In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if the git submodules aren't working.
+**In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if the git submodules aren't working.**
 
 # General analysis workflow
 
@@ -95,9 +95,11 @@ All analysis is possible to run on a personal computer, cluster access it not ne
 # List of content in the folder "code"
 
 **Makefile**
+
 Makefile - Makefile with rules  for running analysis that can be executed from command line. See section *Running the analysis* above.
 
 **Processing, analysis, visualisation and  results**
+
 01_check_used_functions.R - checks what functions are being used in all R-scripts and makes files for tex to use in order to cite every package appropriately
 01_requirements.R - installs and loads packages, creates output dirs if necessary and establishes certain stable variables called on later by other scripts
 02_get_zenodo_dirs.R - gets data-sets from Zenodo
