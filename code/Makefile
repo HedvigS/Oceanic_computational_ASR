@@ -2,7 +2,7 @@
 THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
 
 #analysis excluding getting the external data and excluding analysis of posteriors
-analysis_excl_posteriors: install_pkgs other_prep parsimony ML most_common 
+analysis_excl_posteriors: install_pkgs get_external other_prep parsimony ML most_common 
 
 #analysis excluding getting the external data and but including analysis of posteriors
 all_excl_external_incl_posteriors: analysis_excl_posteriors posteriors compare_HL wrapping_up
