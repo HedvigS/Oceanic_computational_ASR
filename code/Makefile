@@ -5,7 +5,7 @@ THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
 analysis_excl_posteriors: install_pkgs get_external other_prep parsimony ML most_common 
 
 #analysis excluding getting the external data and but including analysis of posteriors
-all_excl_external_incl_posteriors: analysis_excl_posteriors posteriors compare_HL wrapping_up
+all_excl_external_incl_posteriors: analysis_excl_posteriors posteriors compare_HL wrapping_up d_estimates
 
 all_incl_external: get_external all_excl_external_incl_posteriors
 
@@ -58,7 +58,7 @@ posteriors:
 compare_HL: 
 	Rscript 09a_compare_to_HL.R
 	Rscript 09b_compare_to_HL_conflicts.R
-	Rscript 09c_distances_between_reconstructions_direct.R
+	Rscript 09c_distances_between_all_reconstructions.R
 	Rscript 09d_extra_predictions.R
 	Rscript 09e_compare_scores_against_props.R
 	
@@ -69,5 +69,6 @@ d_estimates:
 	Rscript	10d_phylo_d_estimate_plotting.R
 
 wrapping_up:
-	Rscript 09e_extra_predictions.R
-	Rscript 10_make_supp_tables.R
+	Rscript 09d_extra_predictions.R
+	Rscript 09e_compare_scores_against_props.R
+	Rscript 11_make_supp_tables.R
