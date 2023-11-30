@@ -104,7 +104,8 @@ p <- df_for_bar_plot %>%
   geom_text(aes(x = `Method`, y = Accuracy_incl_half +0.02, label = round(Accuracy_incl_half, 2)), size=8, colour = "black") +
   ylab("\"Accuracy\" including half")
 
-ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"))
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"), 
+        height = 7, width = 7)
 
 
 p <- df_for_bar_plot %>% 
@@ -120,7 +121,8 @@ p <- df_for_bar_plot %>%
   geom_text(aes(x = `Method`, y =F1_score+0.02, label = round(F1_score, 2)), size=8, colour = "black") +
   ylab("F1 score")
 
-ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_F1_score.png"))
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_F1_score.png"), 
+       height = 7, width = 7)
 
 
 p <- df_for_bar_plot %>%
