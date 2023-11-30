@@ -69,6 +69,5 @@ d_estimates:
 	Rscript	10d_phylo_d_estimate_plotting.R
 
 wrapping_up:
-	Rscript 09d_extra_predictions.R
-	Rscript 09e_compare_scores_against_props.R
 	Rscript 11_make_supp_tables.R
+	Rscript tex_check_refs.R
