@@ -91,7 +91,7 @@ df_for_bar_plot <- accuracy_tables %>%
 
 df_for_bar_plot$Method <- factor(df_for_bar_plot$Method, levels = c("Parsimony glottolog", "Parsimony Gray (MCCT)", "Parsimony Gray (posteriors)", "ML glottolog" , "ML Gray (MCCT)"  , "ML Gray (posteriors)", "Most Common" ))
 
-df_for_bar_plot %>% 
+p <- df_for_bar_plot %>% 
       ggplot() +
   geom_bar(aes(x = Method, y = Accuracy_incl_half, alpha = Accuracy_incl_half), fill = wes_palette("Zissou1", n = 4)[1], stat = "identity") +
   coord_cartesian(ylim=c(0.7, 1)) +
@@ -104,10 +104,10 @@ df_for_bar_plot %>%
   geom_text(aes(x = `Method`, y = Accuracy_incl_half +0.02, label = round(Accuracy_incl_half, 2)), size=8, colour = "black") +
   ylab("\"Accuracy\" including half")
 
-ggsave(file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"))
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_accuracy_inl_half.png"))
 
 
-df_for_bar_plot %>% 
+p <- df_for_bar_plot %>% 
   ggplot() +
   geom_bar(aes(x = Method, y = F1_score, alpha = F1_score), fill = wes_palette("Zissou1", n = 4)[3], stat = "identity") +
   coord_cartesian(ylim=c(0.7, 1)) +
@@ -120,10 +120,10 @@ df_for_bar_plot %>%
   geom_text(aes(x = `Method`, y =F1_score+0.02, label = round(F1_score, 2)), size=8, colour = "black") +
   ylab("F1 score")
 
-ggsave(file.path(OUTPUT_DIR ,"/barplot_F1_score.png"))
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_F1_score.png"))
 
 
-df_for_bar_plot %>%
+p <- df_for_bar_plot %>%
   dplyr::select(Method, Accuracy, Accuracy_incl_half, F1_score, F1_score_incl_half) %>% 
   reshape2::melt(id.vars = "Method") %>%
   mutate(variable = str_replace_all(variable, "_", " ")) %>% 
@@ -141,11 +141,11 @@ df_for_bar_plot %>%
   theme(plot.margin = unit(c(0.2,0.2,0.2,1), "cm")) +
   facet_wrap(~variable, ncol = 1)
 
-ggsave(file.path(OUTPUT_DIR ,"/barplot_facet_scores.png"), width = 7, height = 12)
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_facet_scores.png"), width = 7, height = 12)
 
 
 
-df_for_bar_plot %>%
+p <- df_for_bar_plot %>%
   dplyr::select(Method, Accuracy, Accuracy_incl_half) %>% 
   reshape2::melt(id.vars = "Method") %>%
   mutate(variable = str_replace_all(variable, "_", " ")) %>% 
@@ -164,5 +164,5 @@ df_for_bar_plot %>%
   theme(plot.margin = unit(c(0.2,0.2,0.2,1), "cm")) +
   facet_wrap(~variable, ncol = 1)
 
-ggsave(file.path(OUTPUT_DIR ,"/barplot_facet_scores_exclude_f1.png"), width = 7, height = 10)
+ggsave(plot = p, file.path(OUTPUT_DIR ,"/barplot_facet_scores_exclude_f1.png"), width = 7, height = 10)
 
