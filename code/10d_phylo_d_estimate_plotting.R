@@ -58,7 +58,7 @@ joined_df %>%
   theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   facet_wrap(~summarise_col)
 
-joined_df %>% 
+p <- joined_df %>% 
   filter(tree_type != "most_common") %>% 
   filter(summarise_col != "similar to both") %>%
   filter(summarise_col != "all same") %>%
@@ -76,7 +76,7 @@ joined_df %>%
   xlab ("D-estimate (mean)") +
   ylab("Concurrance with HL")
 
-ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_HL_concurrance.png"), width = 10, height = 9)
+ggsave(plot = p, filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_HL_concurrance.png"), width = 10, height = 9)
 
 ###############
 #latex tables##
