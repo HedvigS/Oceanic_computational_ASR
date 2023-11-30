@@ -12,6 +12,7 @@ all_incl_external: get_external all_excl_external_incl_posteriors
 install_pkgs:
 	Rscript 01_requirements.R 
 	Rscript 01_check_used_functions.R
+	Rscript 01_tex_check_refs.R
 
 get_external:
 	Rscript 02_get_glottolog_language_table.R
@@ -70,4 +71,3 @@ d_estimates:
 
 wrapping_up:
 	Rscript 11_make_supp_tables.R
-	Rscript tex_check_refs.R
