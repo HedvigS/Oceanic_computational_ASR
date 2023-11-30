@@ -52,13 +52,20 @@ ML_gray_posteriors_df <- read_tsv("output/gray_et_al_2009/ML/all_reconstructions
   filter(gray_posteriors_ML_prediction != "Not enough languages")
   
 full_df <- parsimony_glottolog_df %>% 
-  full_join(parsimony_gray_mcct_df) %>% 
-  full_join(parsimon_gray_posteriors_df) %>% 
-  full_join(ML_glottolog_df) %>% 
-  full_join(ML_gray_mcct) %>% 
-  full_join(ML_gray_posteriors_df) %>% 
-  full_join(most_common_values_df) %>%
-  full_join(HL_findings_sheet) %>% 
+  full_join(parsimony_gray_mcct_df,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
+  full_join(parsimon_gray_posteriors_df,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
+  full_join(ML_glottolog_df,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
+  full_join(ML_gray_mcct,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
+  full_join(ML_gray_posteriors_df,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
+  full_join(most_common_values_df,
+            by = join_by(Feature_ID, `Proto-language`)) %>%
+  full_join(HL_findings_sheet,
+            by = join_by(Feature_ID, `Proto-language`)) %>% 
   dplyr::select(glottolog_parsimony_prediction, gray_mcct_parsimony_prediction, gray_posteriors_parsimony_prediction, 
                 glottolog_ML_prediction, gray_mcct_ML_prediction, gray_posteriors_ML_prediction, 
                 most_common_prediction, HL_prediction = Prediction, everything()) 
