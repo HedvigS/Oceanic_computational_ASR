@@ -20,7 +20,7 @@ tex <- readLines("../tex/ASR_Oceanic.tex") %>%
 cat(paste0("You used ", tex %>% nrow(), " citations.\n"))
 cat(paste0("You cited ", distinct(tex) %>% nrow(), " unique papers.\n"))
 
-cat(paste0("Your top five most cited references were: "))
+cat(paste0("Your top five most cited references were: \n"))
 
 print(
 table(tex$text) %>% 
