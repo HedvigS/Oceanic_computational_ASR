@@ -134,7 +134,7 @@ feature_order <- c("singleton_outlier" ,"singleton_middle" ,  "singleton_random"
            "cluster_random" )
 
 
-result_df %>%
+p <- result_df %>%
   dplyr::filter(ones < 154) %>% 
   ggplot() +
   geom_point(mapping = aes(x = Feature, y = Destimate, color = permut), size = 3, shape = 23) +
@@ -146,12 +146,12 @@ result_df %>%
         plot.background = element_rect(color = "white")) +
   ylab("D-estimate") 
 
-ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_permut_plot.png"), width = 8, height = 5, units = "in")
+ggsave(plot = p, filename = paste0(OUTPUTDIR_plots, "phylo_d_permut_plot.png"), width = 8, height = 5, units = "in")
 
 result_df$zeroes <- factor(result_df$zeroes, levels = c("1", "2", "3", "4", "31"))
 result_df$Feature <- factor(result_df$Feature, levels = feature_order)
 
-result_df %>% 
+p <- result_df %>% 
   group_by(permut, Feature) %>% 
   summarise(variance = var(Destimate), 
             sd = sd(Destimate), 
@@ -167,7 +167,7 @@ theme_minimal() +
         plot.background = element_rect(color = "white")) +
   ylab("Standard Deviation of D-estimates")
   
-ggsave(filename = paste0(OUTPUTDIR_plots, "phylo_d_sd_permut.png"), width = 8, height = 5, units = "in")
+ggsave(plot = p, filename = paste0(OUTPUTDIR_plots, "phylo_d_sd_permut.png"), width = 8, height = 5, units = "in")
 
 if(beep == 1){
   beep()
