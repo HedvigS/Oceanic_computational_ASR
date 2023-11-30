@@ -17,14 +17,11 @@ This project is entirely coded in R. The scripts are set up such that they can b
 -   If you run `code/03_coverage_viz.R` you will generate tree plots and a summary TeX-table of the coverage stats.
 
 # Data input
-This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full Git project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank. See below for versions and Zenodo and GitHub locations:
+This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. These data-sets can either be fetched from Zenodo or acquired via git submodules. The two approaches fetch exactly the same data, the only difference is how it's acquired.
 
-Zenodo locations:
+The git repository/folder for grambank-analysed in turn includes glottolog-cldf and grambank.
 
-*   Grambank-analysed (v1.0) <https://doi.org/10.5281/zenodo.7740822>
-*   Grambank (v.1.0) <https://doi.org/10.5281/zenodo.7740140>
-*   glottolog-cldf (v4.5) <https://doi.org/10.5281/zenodo.5772642>
-*   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
+## Git submodules 
 
 GitHub locations:
 * Grambank-analysed (v1.0) <https://github.com/grambank/grambank-analysed/tree/v1.0>
@@ -50,9 +47,29 @@ git -C dplace-data checkout v2.2.1
 
 After this, it is advisable to run `git submodule update --init --recursive` again to make sure all is fetched correctly.
 
-**In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if the git submodules aren't working.**
+## Fetch from Zenoddo
+
+Zenodo locations:
+
+*   Grambank-analysed (v1.0) <https://doi.org/10.5281/zenodo.7740822>
+*   Grambank (v.1.0) <https://doi.org/10.5281/zenodo.7740140>
+*   glottolog-cldf (v4.5) <https://doi.org/10.5281/zenodo.5772642>
+*   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
+
+
+`02_get_zenodo_dirs.R` will download the data from Zenodo-URLs. 
+
+# Beware
+
+The scripts will install R-packages if they are not already installed (see code/01_requirements.R for exact list).
+
+All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
 
 # General analysis workflow
+
+The basic idea of this project is that all scripts in the folder `code` can recreate everything inside `code/output`, and even some objects in `tex/illustrations/plots_from_R` if the folder `tex` exists. You can wipe out all content in these two folders and run all scripts and get all results files, tables, plots etc. again.
+
+The overall groups of scripts are as follows (descriptions of each script are also below):
 
 1.  packages are installed and file path's defined (code/01_requirements.R)
 
@@ -64,15 +81,15 @@ After this, it is advisable to run `git submodule update --init --recursive` aga
 
 5.  the ML analysis is run (code/\*05\_\*)
 
-6.  the ancestral state of the four proto-languages is extracted and the most common result is calculated (code/07\_\*)
+6.  <deleted step, used to include Stochastic Character Mapping ASR (SCM). The SCM results were  so similar to ML that they were removed for simplicity of article.>
 
-7.  the mean values are taken for the posteriors results (code/\*08\_\*)
+7. the ancestral states of the four proto-languages is extracted for each method and tree
 
 8.  comparison to HL predictions, including extra new predictions (code/09\_\*)
 
-9.  D-estimate analysis (code/10\_\*)
+10.  D-estimate analysis (code/10\_\*)
 
-10.  certain supplementary tables are created (code/11\_\*)
+11.  certain supplementary tables are created (code/11\_\*)
 
 # Running the analysis
 
@@ -86,11 +103,6 @@ Description of makefile rules. Because the analysis on the 100 sample of the pos
 -   `all_excl_external_incl_posteriors` runs the Parsimony and ML analysis for the glottolog tree, the MCCT-tree from Gray et al (2009) and the posterior sample. It does not fetch external data. It does including summing up of the analysis with tables and plots.
 -   `all_incl_external` runs all analysis, including featching external data
 
-# Beware
-
-The scripts will install R-packages if they are not already installed (see code/01_requirements.R for exact list).
-
-All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
 
 # List of content in the folder "code"
 
@@ -157,7 +169,7 @@ Makefile - Makefile with rules  for running analysis that can be executed from c
 
 **misc**
 -   01_check_used_functions.R - checks what functions are being used in all R-scripts and makes files for tex to use in order to cite every package appropriately
--   tex_check_refs.R - script to check references used in the tex-document
+-   01_tex_check_refs.R - script to check references used in the tex-document
 -   config.json - json of file locations
 
 **Folders**
