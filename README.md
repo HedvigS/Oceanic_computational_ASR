@@ -17,14 +17,11 @@ This project is entirely coded in R. The scripts are set up such that they can b
 -   If you run `code/03_coverage_viz.R` you will generate tree plots and a summary TeX-table of the coverage stats.
 
 # Data input
-This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. The full Git project includes git submodules for the following dataset: grambank-analysed and dplace-data. The git repository for grambank-analysed in turn includes git submodules for glottolog-cldf and grambank. See below for versions and Zenodo and GitHub locations:
+This project includes data from outside sources, namely: grambank, glottolog and D-PLACE. These data-sets can either be fetched from Zenodo or acquired via git submodules. The two approaches fetch exactly the same data, the only difference is how it's acquired.
 
-Zenodo locations:
+The git repository/folder for grambank-analysed in turn includes glottolog-cldf and grambank.
 
-*   Grambank-analysed (v1.0) <https://doi.org/10.5281/zenodo.7740822>
-*   Grambank (v.1.0) <https://doi.org/10.5281/zenodo.7740140>
-*   glottolog-cldf (v4.5) <https://doi.org/10.5281/zenodo.5772642>
-*   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
+## Git submodules 
 
 GitHub locations:
 * Grambank-analysed (v1.0) <https://github.com/grambank/grambank-analysed/tree/v1.0>
@@ -32,7 +29,7 @@ GitHub locations:
     -  glottolog-cldf (v4.5) <https://github.com/glottolog/glottolog-cldf/tree/v4.5>
 * dplace-data (v2.2.1) <https://github.com/D-PLACE/dplace-data/tree/v2.2.1>
 
-It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary  for this particular studdy and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necesary files based on external data.
+It can be difficult to set-up git submodules. Because of this reason, and the above mentioned access-restrictions, I have already prepped all the data necessary  for this particular study and placed in the following directories: `code/output/processed_data` and `code/output/GB_wide`. If you have access to all the relevant git submodules you can create these by running `make get_external` in the directory code. This will execute a rule in the makefile that generates the necessary files based on external data.
 
 The necessary code for updating and initialising the submodules is:
 
@@ -50,9 +47,29 @@ git -C dplace-data checkout v2.2.1
 
 After this, it is advisable to run `git submodule update --init --recursive` again to make sure all is fetched correctly.
 
-In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if the git submodules aren't working.
+## Fetch from Zenoddo
+
+Zenodo locations:
+
+*   Grambank-analysed (v1.0) <https://doi.org/10.5281/zenodo.7740822>
+*   Grambank (v.1.0) <https://doi.org/10.5281/zenodo.7740140>
+*   glottolog-cldf (v4.5) <https://doi.org/10.5281/zenodo.5772642>
+*   dplace-data (v2.2.1) <https://doi.org/10.5281/zenodo.5554395>
+
+
+`02_get_zenodo_dirs.R` will download the data from Zenodo-URLs. 
+
+# Beware
+
+The scripts will install R-packages if they are not already installed (see code/01_requirements.R for exact list).
+
+All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
 
 # General analysis workflow
+
+The basic idea of this project is that all scripts in the folder `code` can recreate everything inside `code/output`, and even some objects in `tex/illustrations/plots_from_R` if the folder `tex` exists. You can wipe out all content in these two folders and run all scripts and get all results files, tables, plots etc. again.
+
+The overall groups of scripts are as follows (descriptions of each script are also below):
 
 1.  packages are installed and file path's defined (code/01_requirements.R)
 
@@ -64,15 +81,15 @@ In addition, `02_get_zenodo_dirs.R` will download the data from Zenodo-URLs if t
 
 5.  the ML analysis is run (code/\*05\_\*)
 
-6.  the ancestral state of the four proto-languages is extracted and the most common result is calculated (code/07\_\*)
+6.  <deleted step, used to include Stochastic Character Mapping ASR (SCM). The SCM results were  so similar to ML that they were removed for simplicity of article.>
 
-7.  the mean values are taken for the posteriors results (code/\*08\_\*)
+7. the ancestral states of the four proto-languages is extracted for each method and tree
 
 8.  comparison to HL predictions, including extra new predictions (code/09\_\*)
 
-9.  D-estimate analysis (code/10\_\*)
+10.  D-estimate analysis (code/10\_\*)
 
-10.  certain supplementary tables are created (code/11\_\*)
+11.  certain supplementary tables are created (code/11\_\*)
 
 # Running the analysis
 
@@ -86,11 +103,81 @@ Description of makefile rules. Because the analysis on the 100 sample of the pos
 -   `all_excl_external_incl_posteriors` runs the Parsimony and ML analysis for the glottolog tree, the MCCT-tree from Gray et al (2009) and the posterior sample. It does not fetch external data. It does including summing up of the analysis with tables and plots.
 -   `all_incl_external` runs all analysis, including featching external data
 
-# Beware
 
-The scripts will install R-packages if they are not already installed (see code/01_requirements.R for exact list).
+# List of content in the folder "code"
 
-All analysis is possible to run on a personal computer, cluster access it not necessary. Running all the analysis, including all the 100 posterior trees, should take less than 30 hours. I advice you to get it going on Friday afternoon and reap the rewards by Monday morning.
+**Makefile**
+
+Makefile - Makefile with rules  for running analysis that can be executed from command line. See section *Running the analysis* above.
+
+**Processing, analysis, visualisation and  results**
+
+-   01_requirements.R - installs and loads packages, creates output dirs if necessary and establishes certain stable variables called on later by other scripts
+-   02_get_zenodo_dirs.R - gets data-sets from Zenodo
+-   02_get_glottolog_language_table.R - creates a table of languiods from glottolog-cldf
+-   02_get_grambank_data.R - creates necessary grambank files, using Grambank-analysed scripts. Sets working directory to inside Grambank-analysed and then sets it back.
+-   02_massage_HL_findings_sheets.R - manipulates the sheets of coding of proto-languages based on classical linguistics
+-   analysis_scripts_gray_all_posterior/03_process_gray_tree_posteriors.R - samples 100 trees from the posterior, checks for non-binary splits, prunes to dataset, change tips to glottocodes etc.
+-   analysis_scripts_gray_mcct/03_get_gray_tree_mcct.R - reads in mcct tree, prunes to dataset, change tips to glottocodes etc.
+-   03_prune_glottolog_tree.R - prunes and manipulates glottolog trees
+-   03_compare_dists.R - compares the patristic distances between trees
+-   03_coverage_viz.R - makes plots to illustrate data coverage
+-   03_densitree.R - makes plot to show densities of posteriors
+-   03_polynesian_viz.R - makes plot to exemplify Polynesian languages for feature GB409
+-   03_tree_heatmap.R - makes plot of tree heat map (Gray et al 2009 MCCT
+  
+-   04_ASR_parsimony_glottolog.R - runs analysis of MP on glottolog tree
+-   05_ASR_ML_glottolog.R - runs analysis of ML on glottolog-tree
+-   07a_get_ancestral_states_parsimony_glottolog.R - fetches the specific ancestral states given MP on the glottolog tree
+-   07b_get_ancestral_states_ML_glottolog.R - - fetches the specific ancestral states given ML on the glottolog tree
+
+-   analysis_scripts_gray_mcct/04_ASR_parsimony_gray_mcct.R - runs analysis of MP on gray et al 2009 MCCT
+-   analysis_scripts_gray_mcct/05_ASR_ML_gray_mcct.R  - runs analysis of ML on gray et al 2009 MCCT
+-   analysis_scripts_gray_mcct/07a_get_ancestral_states_parsimony_mcct.R - fetches the specific ancestral states given MP on the gray et al 2009 MCCT
+-   analysis_scripts_gray_mcct/07b_get_ancestral_states_ML_mcct.R - fetches the specific ancestral states given ML on the gray et al 2009 MCCT
+
+
+-   analysis_scripts_gray_all_posterior/04_ASR_parsimony_gray_posteriors.R - runs analysis of MP on gray et al 2009 posteriors
+-   analysis_scripts_gray_all_posterior/05_ASR_ML_gray_posteriors.R - runs analysis of ML on gray et al 2009 posteriors
+-   analysis_scripts_gray_all_posterior/07a_get_ancestral_states_parsimony_gray_posteriors.R- fetches the specific ancestral states given MP on the gray et al 2009 posteriors
+-   analysis_scripts_gray_all_posterior07b_get_ancestral_states_ML_gray_posteriors.R
+-   analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
+
+-   07d_get_ancestral_states_most_common.R - - fetches the specific ancestral states given MC (disregards trees)
+
+-   08_aggregate_all_reconstructions.R - combines all the ancestral states from all methods and all trees 
+-   09a_compare_to_HL.R - compares the output of 08_aggregate_all_reconstructions.R to the classical HL coding (non-conflicts)
+-   09b_compare_to_HL_conflicts.R - compares the output of 08_aggregate_all_reconstructions.R to the classical HL coding specifically when HLs disagree
+-   09c_distances_between_all_reconstructions.R - compares the Gower-distances between all reoncstructions (including HL)
+-   09d_extra_predictions.R - compiles a table of reconstructions from MP, ML and MC for features that don't have a match to HL
+-   09e_compare_scores_against_props.R - compares the reconstruction agreement to the proportion of values that are in the most common state
+-   10a_phylo_d_investigation.R - script that investigates some perculariies of caper::phylo.d
+-   10b_get_phylo_D_estimate.R - gets phylo-d score for all features and all trees
+-   10c_aggregate_phylo_D_estimate.R - aggregates dat from 10b_get_phylo_D_estimate.R 
+-   10d_phylo_d_estimate_plotting.R - plots from 10c_aggregate_phylo_D_estimate.R 
+-   11_make_supp_tables.R - makes nice latex tables for supplementary material
+
+**Functions**
+
+-   fun_custom_parsimony_results_table.R - functions for making parsimony results table
+-   fun_def_get_zenodo.R - function for downloading Zenodo data
+-   fun_def_h_load.R - function  for checking packages are installed and if not installs them
+-   fun_def_list.functions.R - modified version of NCmisc::list.functions.in.file that reports all functions (doesn't run un ique())
+-   fun_def_plotRECON_tweaked.R - modified version of corHMM::plotRECON with some aesthetics options (e.g. removing margins)
+-   fun_get_ASR_nodes.R - function for fetching ancestral states
+-   fun_keep_as_tip.R - modified function of ape::keep.tip for internal nodes
+
+**misc**
+-   01_check_used_functions.R - checks what functions are being used in all R-scripts and makes files for tex to use in order to cite every package appropriately
+-   01_tex_check_refs.R - script to check references used in the tex-document
+-   config.json - json of file locations
+
+**Folders**
+
+-   output - all output. All contents of this folder can be deleted and then regenerated by running the scripts
+-   data - input data that is not fetched from Zenodo
+-   analysis_scripts_gray_mcct - R-scripts specifically dealing with the Gray et al 2009-MCCT
+-   analysis_scripts_gray_all_posterior - - R-scripts specifically dealing with the Gray et al 2009 posteriors
 
 # Notes on dialect aggregation
 

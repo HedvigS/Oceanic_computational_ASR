@@ -39,7 +39,7 @@ joined <- reconstruction_results_df %>%
   mutate(tree_type = str_replace(tree_type, "_", " - ")) %>% 
   mutate(tree_type = str_replace(tree_type, "gray", "Gray (2009)"))
 
-joined %>% 
+p <- joined %>% 
   filter(!is.na(HL_agreement)) %>% 
   filter(!is.na(min_percent)) %>% 
   filter(!str_detect(tree_type, "common")) %>%
@@ -59,4 +59,4 @@ joined %>%
   xlab ("Percentage of minority state") +
   ylab("Concurrance with HL")
 
-ggsave(filename = paste0(OUTPUTDIR_plots, "min_p_vs_HL_concurrance.png"), width = 7 , height = 9)
+ggsave(plot = p, filename = paste0(OUTPUTDIR_plots, "min_p_vs_HL_concurrance.png"), width = 7 , height = 9)

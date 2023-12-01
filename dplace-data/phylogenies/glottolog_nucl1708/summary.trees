@@ -1,0 +1,4 @@
+#NEXUS
+Begin trees;
+    tree glottolog_nucl1708 = (coas1296:1,nucl1592:1);
+end;

@@ -14,7 +14,7 @@ suppressMessages(
 library("tidyverse", quietly = T, warn.conflicts = F, verbose = F)
 )
 #depdencies for castor
-h_load(c("naturalsort", "RSpectra"))
+h_load(c("naturalsort", "RSpectra"), verbose = F)
 
 h_load(dependencies = T, pkg = c(
   "tidyverse",
@@ -73,7 +73,7 @@ h_load(dependencies = T, pkg = c(
 #  sf",
 #  raster", 
 #  "scales", 
-"janitor")
+"janitor"), verbose = F
 )
 
 #Liam fixed a specific issue with dottree, therefore we want to install a development version of phytools
@@ -81,16 +81,16 @@ h_load(dependencies = T, pkg = c(
 if(!"phytools" %in% rownames(installed.packages())  ){
   remotes::install_github("liamrevell/phytools", ref = "c4c8c72", force = T)
 }
-library("phytools")
+library("phytools", warn.conflicts = F, quietly = T, verbose = F)
 
-h_load("Rmpfr")
+h_load("Rmpfr", verbose = F)
 
 #installing pacakge corHMM from specific website
 if(!"corHMM" %in% rownames(installed.packages())  ){
   install.packages("corHMM", repo = 'https://mac.R-project.org')
 
 }
-library("corHMM")
+library("corHMM", warn.conflicts = F)
 
 
 #quieting down tidyverse
