@@ -87,7 +87,7 @@ if(!is.binary(tree_pruned)){
 polytomies_n <- tree_pruned$edge %>% 
   as.data.frame() %>% 
   group_by(V1) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
   filter(n > 2) %>% nrow()
 
 splits <- tree_pruned$edge[,1] %>% length()
