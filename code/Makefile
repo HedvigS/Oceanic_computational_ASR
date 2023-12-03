@@ -57,6 +57,7 @@ posteriors:
 	Rscript analysis_scripts_gray_all_posterior/08_aggregate_posteriors_reconstructions.R
 	
 compare_HL: 
+	Rscript 08_aggregate_all_reconstructions.R
 	Rscript 09a_compare_to_HL.R
 	Rscript 09b_compare_to_HL_conflicts.R
 	Rscript 09c_distances_between_all_reconstructions.R
