@@ -73,14 +73,14 @@ most_used[1:5,]
 
 most_used$packages <- fct_reorder(most_used$packages, most_used$n)
 
-most_used %>% 
+p <- most_used %>% 
   ggplot() +
   geom_bar(aes(x = packages, y = n, fill = n), stat = "identity") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 70, hjust = 1), 
         legend.position = 0) 
 
-ggsave("output/processed_data/used_packages.png")
+ggsave(plot = p, "output/processed_data/used_packages.png")
 
 script_with_most_functions <-  used_packages %>% 
 #  distinct(scripts, functions) %>% 
