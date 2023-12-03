@@ -103,7 +103,8 @@ all_ML_reconstructions_df_summarised <-  all_ML_reconstructions_df %>%
             gray_ML_prediction_1 = mean(gray_ML_prediction_1, na.rm = T), 
             ntips_ML_gray = mean(ntips_ML_gray, na.rm = T), 
             min_ML_gray = mean(min_ML_gray), 
-            min_percent_ML_gray = mean(min_percent_ML_gray))
+            min_percent_ML_gray = mean(min_percent_ML_gray), 
+            .groups = "drop")
 
 #summarising prediction into present or absent, or half-half
 all_ML_reconstructions_df_summarised$gray_ML_prediction <- if_else(all_ML_reconstructions_df_summarised$gray_ML_prediction_0 > 0.6, "Absent", if_else(all_ML_reconstructions_df_summarised$gray_ML_prediction_1 > 0.6, "Present", "Half")) 
