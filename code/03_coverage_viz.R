@@ -219,7 +219,7 @@ island_groups_table <-   island_groups_table %>%
 
 #xtable making
 
-cap <- "Table showing coverage of Oceanic languages in Grambank per island group."
+cap <- "Table showing coverage of Oceanic languages in Grambank per island group"
 lbl <- "GB_coverage_table_island_group"
 align <- c("p{3cm}", "p{5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
 

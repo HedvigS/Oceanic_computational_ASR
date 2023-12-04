@@ -68,7 +68,7 @@ accuracy_tables %>%
   rename("$$\\textbf{\\cellcolor{spec_color_yellow!50}{\\parbox{1.8cm}{\\raggedright Half}}}$$" = "Half" ) %>% 
 #  rownames_to_column("Method") %>% 
   mutate("Method" = str_replace_all(Method, "_", " ")) %>% 
-  mutate("Method" = str_replace_all(`Method`, "parsi", "Parsi")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "parsimony", "MP")) %>% 
   mutate("Method" = str_replace_all(`Method`, "gray mcct", "Gray et al (2009) - MCCT ")) %>% 
   mutate("Method" = str_replace_all(`Method`, "gray posteriors", "Gray et al (2009) - posteriors ")) %>% 
   mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog")) %>% 

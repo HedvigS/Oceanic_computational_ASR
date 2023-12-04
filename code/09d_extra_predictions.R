@@ -45,7 +45,7 @@ df_agreement_without_common <- df_agreement_without_common %>%
   rename(Feature = Feature_ID) %>% 
   dplyr::select(-prediction)
 
-cap <- "Table showing the four Grambank features that were predicted as present by ML and MP in all three trees, but were not the most common feature in all languages."
+cap <- "Table showing the four Grambank features that were predicted as present by ML and MP in all three trees, but were not the most common feature in all languages"
 lbl <- "table_extra_predictions_four"
 align <- c("r", "p{2cm}","p{4cm}","p{8cm}" ) 
 
