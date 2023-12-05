@@ -159,6 +159,13 @@ output <- list(corHMM_result_direct, results_df)
 }
 
 
+if(any(file.exists(file.path(output_dir, "GB_ML_gray_tree.rds"),
+  file.exists(             file.path(output_dir,"results.csv")))
+               )){
+cat(paste0("Files \n",     file.path(output_dir, "GB_ML_gray_tree.rds"), "\n", file.path(output_dir,"results.csv"), "\nalready exists, not rerunning ML ASR for Gray et al 2009-mcct."))
+  
+}else{
+
 GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                                    content = purrr::map(GB_df_desc$ID,
                                                         fun_GB_ASR_ML ))
@@ -200,3 +207,5 @@ results <- rbind(results, row)
   }
 
 write_csv( results, file = file.path(output_dir,"results.csv"))
+
+}
