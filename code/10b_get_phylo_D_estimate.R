@@ -39,7 +39,7 @@ for(f in 1:length(features)){
   feature <- features[f]
   fn_spec <- paste0(output_dir, "phylo_d_table_", feature)
   
-  cat(paste0("\n***\nI'm on feature ", feature, " which is ", f, " out of ", length(features),". ", as.character(Sys.time()), ".\n***\n"))
+  cat(paste0("\n***\nI'm on feature ", feature, " which is ", f, " out of ", length(features),".\n Time is ", as.character(Sys.time()), ".\n***\n"))
   for(t in tree_fns){
 #    t <- tree_fns[2]
     tree <- read.tree(t)
