@@ -154,11 +154,17 @@ plotRECON_tweaked(tree_pruned, corHMM_result_direct$states, font=1,
     output
   }
 }
+if(file.exists("output/glottolog-tree/ML/GB_ML_glottolog_tree.rds")){
+  cat(paste0("File already exists for Glottolog ML, moving on.\n"))
+}else{
+
 
 GB_ASR_ML_all <- tibble(Feature_ID = GB_df_desc$ID,
                         content = purrr::map(GB_df_desc$ID,
                                              fun_GB_ASR_ML ))
 #beepr::beep(3)
+
+
 
 saveRDS(GB_ASR_ML_all, "output/glottolog-tree/ML/GB_ML_glottolog_tree.rds")
 #GB_ASR_ML_all <- readRDS("output/glottolog-tree/ML/GB_ML_glottolog_tree.rds")
@@ -196,3 +202,5 @@ for(row in GB_ASR_ML_all_split$results_df){
 }
 
 write_csv( results, "output/glottolog-tree/ML/results.csv")
+
+}
