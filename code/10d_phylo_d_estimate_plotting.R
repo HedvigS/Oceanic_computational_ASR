@@ -50,13 +50,15 @@ joined_df <- reconstruction_results_df %>%
 
 
 #plot of percentage of minority state per tree and kind of d-estimate
-joined_df %>%
+p <- joined_df %>%
   filter(!str_detect(tree_type, "common")) %>%
   distinct(Feature_tree, tree_type, summarise_col, min_p) %>% 
   ggplot() +
   geom_point(mapping = aes(x = tree_type, y = min_p)) +
   theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   facet_wrap(~summarise_col)
+
+ggsave(plot = p, filename = paste0(OUTPUTDIR_plots, "phylo_d_vs_min.png"), width = 10, height = 9)
 
 p <- joined_df %>% 
   filter(tree_type != "most_common") %>% 
