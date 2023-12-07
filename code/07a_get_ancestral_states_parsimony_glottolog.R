@@ -10,7 +10,7 @@ HL_findings_sheet_conflicts <- read_csv("data/HL_findings_conflicts.csv") %>%
   rename(Prediction = Value)
 
 HL_findings_sheets <- HL_findings_sheet %>% 
-  full_join(HL_findings_sheet_conflicts)
+  full_join(HL_findings_sheet_conflicts, by = join_by(`Proto-language`, Feature_ID, Prediction))
 
 ##creating dfs which show the number of tips per tree per method, as well as the general distribution at the tips. This makes it possible for us for example to exclude results with too few tips. We'll use this df later to filter with
 
@@ -49,7 +49,7 @@ df$`Parsimony result (Glottolog-tree)` <- if_else(df$glottolog_parsimony_predict
                                                                                 ifelse(df$glottolog_parsimony_prediction == "Half" & !is.na(df$Prediction), "Half", NA)))))
 
 df <- value_count_df %>% 
-  right_join(df) 
+  right_join(df,  by = "Feature_ID") 
 
 ##Marking which results can't be included because they don't have enough languages
 
