@@ -104,7 +104,6 @@ options(readr.show_col_types = FALSE)
 
 ntips_half_gray <- 132/2 #half of gray et al tree tips that can be matched to GB
 ntips_half_glottolog <- 271/2 #half of glottolog tree tips that can be matched to GB
-1
 
 ##setting up folder structure for output
 if (!dir.exists("output")) { dir.create("output") }
