@@ -129,8 +129,8 @@ ACR_plot <- function(ACR_object, fsize = 0.65, cex_tip = 0.13, cex_node = 0.2){
 
   x <-  dev.off()
   
-  cat("I've finished the tree plot for ", feature, ", given glottolog-tree. \n", sep = "")
-  
+  cat(paste0("I've finished the tree plot for ", feature, ", given glottolog-tree. \n"))
+
 }
 
 lapply(X = GB_ASR_Parsimony_all_df$content, ACR_plot)
