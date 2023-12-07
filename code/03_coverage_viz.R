@@ -209,7 +209,7 @@ island_groups_df <-   read_tsv("data/island_groups.tsv") %>%
 island_groups_table <- island_groups_df %>% 
   filter(!is.na(`Island group`)) %>% 
   group_by(`Island group`, tip_value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n(), .group = "drop") %>% 
   reshape2::dcast(`Island group`~ tip_value, value.var = "n") 
 
 island_groups_table[is.na(island_groups_table)] <- 0
