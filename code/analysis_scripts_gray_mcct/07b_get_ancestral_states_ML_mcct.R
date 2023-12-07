@@ -9,7 +9,7 @@ HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>%
   rename(Prediction = Value)
 
 HL_findings_sheets <- HL_findings_sheet %>% 
-  full_join(HL_findings_sheet_conflicts)
+  full_join(HL_findings_sheet_conflicts, by = join_by(`Proto-language`, Feature_ID, Prediction))
 
 ####
 
