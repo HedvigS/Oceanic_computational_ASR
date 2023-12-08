@@ -48,15 +48,16 @@ full_df <- read_tsv("output/all_reconstructions_all_methods_long.tsv") %>%
   filter(!is.na(conflict)) %>% 
   dplyr::select(-variable, -conflict) %>% 
   unite(method, tree_type, col = "method", sep = " ") %>% 
+  mutate("method" = str_replace_all(`method`, "parsimony", "MP")) %>% 
   mutate("method" = str_replace_all(`method`, "gray_mcct", "Gray et al (2009) - MCCT")) %>% 
   mutate("method" = str_replace_all(`method`, "gray_posteriors", "Gray et al (2009) - posteriors")) %>% 
   mutate("method" = str_replace_all(`method`, "glottolog", "Glottolog")) %>% 
   mutate("method" = ifelse(str_detect(method, "common"), "Most common", method)) %>% 
    unite(Feature_ID, "Proto-language", col = "Feature", sep = " ") %>% 
     reshape2::dcast(Feature ~ method, value.var = "value") %>% 
-  dplyr::select(Feature, "parsimony Glottolog",
-                "parsimony Gray et al (2009) - MCCT",       
-                "parsimony Gray et al (2009) - posteriors" , 
+  dplyr::select(Feature, "MP Glottolog",
+                "MP Gray et al (2009) - MCCT",       
+                "MP Gray et al (2009) - posteriors" , 
                 "ML Glottolog", 
                 "ML Gray et al (2009) - MCCT"   ,
                 "ML Gray et al (2009) - posteriors" ,
