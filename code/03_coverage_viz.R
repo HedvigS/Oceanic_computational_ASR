@@ -28,18 +28,18 @@ glottolog_df_tip_values <- GB_df %>%
   dplyr::select(Glottocode = Language_ID, na_prop) %>% 
   mutate(tip_value = if_else(na_prop < 0.5 , "More than half of features covered in GB", "Less than half of features covered in GB")) %>% 
   right_join(glottolog_df, by = "Glottocode") %>% 
-  mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "grammar exists (not in GB, yet)", tip_value)) %>% 
+  mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "Grammatical description exists (not in GB, yet)", tip_value)) %>% 
   mutate(tip_value = if_else(!str_detect(med, "grammar") & is.na(tip_value), "No grammatical description", tip_value)) %>% 
   mutate(tip_color = if_else(tip_value == "More than half of features covered in GB", "#0b8c1f", "NA")) %>% 
  mutate(tip_color = if_else(tip_value == "Less than half of features covered in GB", "#81F093", tip_color)) %>% 
-  mutate(tip_color = if_else(tip_value == "grammar exists (not in GB, yet)", "#7D81F5", tip_color)) %>% 
+  mutate(tip_color = if_else(tip_value == "Grammatical description exists (not in GB, yet)", "#7D81F5", tip_color)) %>% 
   mutate(tip_color = if_else(tip_value == "No grammatical description", "#FFB87A", tip_color)) %>% 
   filter(Glottocode != "poly1242") %>% #remove proto-languages to reduce confusion 
   filter(Glottocode != "east2449") %>% 
   filter(Glottocode != "cent2060") 
 
 color_vector_tree <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
-color_vector_map <- c(colours_binary, "#c9c9c9")
+color_vector_map <-  c("#7D81F5", "#81f093","#0b8c1f", "#FFB87A")
 
 ###COVERAGE PLOT: MAP
 
@@ -79,7 +79,7 @@ basemap +
   geom_jitter(data = filter(glottolog_df_tip_values, !is.na(Longitude)), aes(x = Longitude, y = Latitude, 
                                                   color = tip_value),
               alpha = 0.5, shape = 17, width = 2) +
-  scale_discrete_manual(aesthetics = c("color"), values = color_vector_tree) +
+  scale_discrete_manual(aesthetics = c("color"), values = color_vector_map) +
   labs(color='Coverage') +
   theme(legend.position= c(0.8, 0.3)) 
   
@@ -224,9 +224,9 @@ lbl <- "GB_coverage_table_island_group"
 align <- c("p{3cm}", "p{5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
-  dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "No grammatical description") %>% 
+  dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "Grammatical description exists (not in GB, yet)", "No grammatical description") %>% 
       rename("$\\textbf{\\cellcolor{spec_color_orange!50}{No grammatical description}}$" = "No grammatical description" ) %>% 
-    rename("$\\textbf{\\cellcolor{spec_color_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
+    rename("$\\textbf{\\cellcolor{spec_color_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "Grammatical description exists (not in GB, yet)") %>% 
    rename("$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
     rename("$\\textbf{\\cellcolor{spec_color_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB") %>% 
   rename("$\\textbf{\\parbox{2.7cm}{\\raggedright Island group}}$" = "Island group")
