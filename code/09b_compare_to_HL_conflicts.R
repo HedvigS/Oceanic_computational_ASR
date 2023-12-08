@@ -71,7 +71,7 @@ full_df <- full_df[-1,] %>%
   rownames_to_column("$\\textbf{\\pb{Method}}$")
 
 #write xtable
-cap <- "Table showing the computational results for the features where historical linguists disagree."
+cap <- "Table showing the computational results for the features where historical linguists disagree"
 lbl <- "conflict_results_table"
 align <- c("p{6cm}", "p{5cm}","p{3cm}", "p{3cm}", "p{3cm}") 
 
