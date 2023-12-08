@@ -38,7 +38,7 @@ glottolog_df_tip_values <- GB_df %>%
   filter(Glottocode != "east2449") %>% 
   filter(Glottocode != "cent2060") 
 
-color_vector_tree <- c( "#FFB87A", "#7D81F5", "#81f093","#0b8c1f")
+color_vector_tree <- c("#7D81F5", "#81f093","#0b8c1f", "#FFB87A")
 color_vector_map <-  c("#7D81F5", "#81f093","#0b8c1f", "#FFB87A")
 
 ###COVERAGE PLOT: MAP
