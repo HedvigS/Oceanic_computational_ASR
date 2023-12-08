@@ -129,7 +129,7 @@ table_P_values_summarised_latex_orange <- table_P_values_summarised %>%
 orange_for_summary <- table_P_values_summarised_latex_orange %>% 
   reshape2::melt(id.vars = "tree") %>% 
   group_by(tree) %>% 
-  summarise(`features unfit for D-estimate` = sum(value)) %>% 
+  summarise(`Features_unfit for D-estimate` = sum(value)) %>% 
   rename(tree_type = tree)
 
 cap <- "Table of types of D-estimates per tree, data-points not included."
@@ -181,8 +181,8 @@ phylo_d_summarised_table <- phylo_d_df_full %>%
   full_join(orange_for_summary, by = "tree_type") %>% 
   full_join(  phylo_d_df_missing, by = "tree_type") %>% 
   mutate(`Too few tips altogether` = as.character(round(`Too few tips altogether`, digits = 0))) %>% 
-  mutate(`features unfit for D-estimate` = as.character(round(`features unfit for D-estimate`, digits = 0))) %>% 
-    dplyr::select(tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features not significantly dissimilar to 0`, `features unfit for D-estimate`, `Too few tips altogether`)
+  mutate(`Features_unfit for D-estimate` = as.character(round(`Features_unfit for D-estimate`, digits = 0))) %>% 
+    dplyr::select(Tree  = tree_type, `D-estimate (mean)` = mean_D, `Proportion of features not significantly dissimilar to 0`, `Features_unfit for D-estimate`, `Too few tips altogether`)
 
 phylo_d_summarised_table %>% 
   write_tsv("output/D_estimate_summary.tsv", na = "")
