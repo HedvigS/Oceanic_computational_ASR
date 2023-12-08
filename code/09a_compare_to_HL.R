@@ -55,7 +55,7 @@ if(!dir.exists(OUTPUT_DIR)){
   dir.create(OUTPUT_DIR)}
 
 #outputting xtable of false pos, negative etc values
-cap <- "Table showing the amount of False Negative, False Positive, Half, True Negative and True Positive results."
+cap <- "Table showing the amount of False Negative, False Positive, Half, True Negative and True Positive results"
 lbl <- "True_post_results_table"
 align <- c("r", "p{4cm}","l", "l", "l","l", "l", "l") 
 

@@ -26,7 +26,7 @@ HL_findings_sheet_conflicts <- read_csv(HL_findings_sheet_conflicts_fn) %>%
 colnames(HL_findings_sheet_conflicts) <- paste0("$\\textbf{\\pb{ ", colnames(HL_findings_sheet_conflicts), "}}$")
 
 #write xtable
-cap <- "Table showing the features where historical linguists disagree."
+cap <- "Table showing the features where historical linguists disagree"
 lbl <- "conflict_table"
 align <- c("p{6cm}", "p{4.5cm}","p{2cm}", "p{2cm}", "p{5cm}") 
 
