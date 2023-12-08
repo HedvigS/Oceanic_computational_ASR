@@ -29,11 +29,11 @@ glottolog_df_tip_values <- GB_df %>%
   mutate(tip_value = if_else(na_prop < 0.5 , "More than half of features covered in GB", "Less than half of features covered in GB")) %>% 
   right_join(glottolog_df, by = "Glottocode") %>% 
   mutate(tip_value = if_else(str_detect(med, "grammar") & is.na(tip_value), "grammar exists (not in GB, yet)", tip_value)) %>% 
-  mutate(tip_value = if_else(!str_detect(med, "grammar") & is.na(tip_value), "grammar doesn't exist", tip_value)) %>% 
+  mutate(tip_value = if_else(!str_detect(med, "grammar") & is.na(tip_value), "No grammatical description", tip_value)) %>% 
   mutate(tip_color = if_else(tip_value == "More than half of features covered in GB", "#0b8c1f", "NA")) %>% 
  mutate(tip_color = if_else(tip_value == "Less than half of features covered in GB", "#81F093", tip_color)) %>% 
   mutate(tip_color = if_else(tip_value == "grammar exists (not in GB, yet)", "#7D81F5", tip_color)) %>% 
-  mutate(tip_color = if_else(tip_value == "grammar doesn't exist", "#FFB87A", tip_color)) %>% 
+  mutate(tip_color = if_else(tip_value == "No grammatical description", "#FFB87A", tip_color)) %>% 
   filter(Glottocode != "poly1242") %>% #remove proto-languages to reduce confusion 
   filter(Glottocode != "east2449") %>% 
   filter(Glottocode != "cent2060") 
@@ -224,8 +224,8 @@ lbl <- "GB_coverage_table_island_group"
 align <- c("p{3cm}", "p{5cm}","p{2.5cm}", "p{2.5cm}", "p{2.5cm}","p{2.5cm} ") 
 
 island_groups_table_latex_formatting <- island_groups_table %>%
-  dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "grammar doesn't exist") %>% 
-      rename("$\\textbf{\\cellcolor{spec_color_orange!50}{No grammatical description}}$" = "grammar doesn't exist" ) %>% 
+  dplyr::select("Island group", "More than half of features covered in GB", "Less than half of features covered in GB", "grammar exists (not in GB, yet)", "No grammatical description") %>% 
+      rename("$\\textbf{\\cellcolor{spec_color_orange!50}{No grammatical description}}$" = "No grammatical description" ) %>% 
     rename("$\\textbf{\\cellcolor{spec_color_blue!50}{\\parbox{2.7cm}{\\raggedright Grammar exists, but language not in Grambank (yet)}}}$" =   "grammar exists (not in GB, yet)") %>% 
    rename("$\\textbf{\\cellcolor{spec_color_lightgreen!50}{\\parbox{2.7cm}{\\raggedright Less than half of the features covered in Grambank}}}$" = "Less than half of features covered in GB") %>% 
     rename("$\\textbf{\\cellcolor{spec_color_darkgreen!50}{\\parbox{2.7cm}{\\raggedright More than half of the features covered in Grambank}}}$" = "More than half of features covered in GB") %>% 
