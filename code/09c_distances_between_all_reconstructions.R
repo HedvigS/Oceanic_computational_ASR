@@ -85,8 +85,17 @@ mdat <- df_for_daisy %>%
 
 diff_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(abs((mdat[i,]-mdat[j,])), na.rm = T) }))
 
-colnames(diff_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
-rownames(diff_matrix) <- colnames(df_for_daisy) %>% str_replace_all("_", " ")
+colnames(diff_matrix) <- colnames(df_for_daisy) %>% 
+  str_replace_all("glottolog_parsimony_prediction", "MP Glottolog") %>% 
+  str_replace_all("gray_mcct_parsimony_prediction", "MP Gray et al (2009) - MCCT") %>% 
+  str_replace_all("gray_posteriors_parsimony_prediction", "MP Gray et al (2009) - posteriors") %>% 
+  str_replace_all("glottolog_ML_prediction", "ML Glottolog") %>% 
+  str_replace_all("gray_mcct_ML_prediction", "ML Gray et al (2009) - MCCT") %>% 
+  str_replace_all("gray_posteriors_ML_prediction", "ML Gray et al (2009) - posteriors") %>% 
+  str_replace_all("most_common_prediction", "Most common") %>% 
+  str_replace_all("HL_prediction", "Conventional HL")  
+  
+rownames(diff_matrix) <- colnames(diff_matrix)
 
 count_matrix <- outer(1:nrow(mdat),1:nrow(mdat), FUN = Vectorize(function(i,j) { sum(!is.na(mdat[i,]) & !is.na(mdat[j,]), na.rm = T) }))
 

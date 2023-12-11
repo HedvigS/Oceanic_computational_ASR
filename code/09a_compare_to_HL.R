@@ -55,7 +55,7 @@ if(!dir.exists(OUTPUT_DIR)){
   dir.create(OUTPUT_DIR)}
 
 #outputting xtable of false pos, negative etc values
-cap <- "Table showing the amount of False Negative, False Positive, Half, True Negative and True Positive results"
+cap <- "Table showing the number of False Negative, False Positive, Half, True Negative and True Positive results"
 lbl <- "True_post_results_table"
 align <- c("r", "p{4cm}","l", "l", "l","l", "l", "l") 
 
@@ -83,13 +83,14 @@ accuracy_tables %>%
 
 df_for_bar_plot <- accuracy_tables %>%
   mutate(Method =str_replace_all(Method, "_", " ")) %>% 
-  mutate(Method =str_replace_all(Method, "pars", "Pars")) %>% 
-  mutate(Method =str_replace_all(Method, "gray", "Gray")) %>% 
-  mutate(Method =str_replace_all(Method, "mcct", "(MCCT)")) %>% 
-  mutate(Method =str_replace_all(Method, "posteriors", "(posteriors)")) %>% 
+  mutate(Method =str_replace_all(Method, "parsimony", "MP")) %>% 
+  mutate(Method =str_replace_all(Method, "gray", "Gray et al (2009)")) %>% 
+  mutate(Method =str_replace_all(Method, "mcct", "- MCCT")) %>% 
+  mutate(Method =str_replace_all(Method, "posteriors", "- posteriors")) %>% 
+  mutate("Method" = str_replace_all(`Method`, "glottolog", "Glottolog")) %>% 
   mutate(Method =str_replace_all(Method, "most common most common", "Most Common"))
 
-df_for_bar_plot$Method <- factor(df_for_bar_plot$Method, levels = c("Parsimony glottolog", "Parsimony Gray (MCCT)", "Parsimony Gray (posteriors)", "ML glottolog" , "ML Gray (MCCT)"  , "ML Gray (posteriors)", "Most Common" ))
+df_for_bar_plot$Method <- factor(df_for_bar_plot$Method, levels = c("MP Glottolog", "MP Gray et al (2009) - MCCT", "MP Gray et al (2009) - posteriors", "ML Glottolog" , "ML Gray et al (2009) - MCCT"  , "ML Gray et al (2009) - posteriors", "Most Common" ))
 
 p <- df_for_bar_plot %>% 
       ggplot() +
