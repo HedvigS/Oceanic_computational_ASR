@@ -5,6 +5,8 @@ set.seed(147)
 
 source("fun_def_h_load.R")
 
+h_load("utf8")
+
 #do a binary install of all of tidyverse specifically
 if(!"tidyverse" %in% rownames(installed.packages())  ){
   install.packages("tidyverse", type="binary", dependencies = T)
@@ -17,7 +19,8 @@ library("tidyverse", quietly = T, warn.conflicts = F, verbose = F)
 h_load(c("naturalsort", "RSpectra"), verbose = F)
 
 h_load(dependencies = T, pkg = c(
-  "tidyverse",
+  "prettyunits",
+  "vroom",
   "reshape2",
   "RcppParallel",
   "qs",
