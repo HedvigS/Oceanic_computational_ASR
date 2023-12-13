@@ -98,7 +98,7 @@ output_fn <- "../tex/bib_from_r/used_pkgs.bib"
 
 extra_packages <- c("ggpubr", "cluster", "psych", "bib2df", "knitr", "remotes")
 
-pkgs <- c(unique(as.character(most_used$packages)), extra_packages)
+pkgs <- c(unique(as.character(most_used$packages)), extra_packages) %>% sort()
 
 knitr::write_bib(pkgs, file = output_fn)
 
