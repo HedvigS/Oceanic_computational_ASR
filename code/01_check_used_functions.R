@@ -118,4 +118,5 @@ fPaste <- function(vec) sub(",\\s+([^,]+)$", " and \\1", toString(vec))
 vec <- paste0("\\citet{", bibdf$BIBTEXKEY, "}")
 
 fPaste(vec)   %>% 
+  sort() %>% 
   writeLines(con = "../tex/bib_from_r/citation_keys.txt")
